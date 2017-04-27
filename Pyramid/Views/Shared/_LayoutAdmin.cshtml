@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <link rel="stylesheet" href="/Content/css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="/Content/css/bootstrap/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="/Content/css/jquery.datetimepicker.min.css" />
+    <link rel="stylesheet" href="/Content/css/admin.less" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a class="navbar-brand" href="/"></a>
+                        }
+                    </div>
+                    <div id="navbar" class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li><a href="/">Главная</a></li>
+                                <li><a href="/admin">Панель администратора</a></li>
+                                <li><a href="/users/signout">Выйти</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="/">Главная</a></li>
+                            }
+                        </ul>
+                    </div>
+                    <!--/.nav-collapse -->
+                    <!--<a href="~/Views/Shared/_OperationResult.cshtml">~/Views/Shared/_OperationResult.cshtml</a>-->
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+           
+            @RenderBody()
+        </div>
+    </div>
+
+    <script type="text/javascript" src="/scripts/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/scripts/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/scripts/jquery/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/scripts/jquery/jquery.unobtrusive-ajax.min.js"></script>
+    <script type="text/javascript" src="/scripts/jquery/jquery.validate.unobtrusive.min.js"></script>
+
+    <script type="text/javascript" src="/scripts/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="/scripts/tinymce/options.js"></script>
+    <script type="text/javascript" src="/scripts/admin.js"></script>
+</body>
+</html>

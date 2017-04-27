@@ -1,0 +1,33 @@
+﻿@model Pyramid.Models.EnterModel
+@{
+    ViewBag.Title = "Авторизация на сайте";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="breadCrumbsAdmin">
+    <a href="/" class="blackLink">Главная</a>
+    <p class="paragraphslash">/</p>
+    <a href="/Admin/index">Панель Администратора</a>
+    <p class="paragraphslash">/</p>
+    <p class="redLink">Авторизация на сайте</p>
+</div>
+<fieldset class="admin">
+    @using (Html.BeginForm("signin", "users", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="editor-group">
+            @Html.LabelFor(model => model.Login)
+            @Html.TextBoxFor(model => model.Login, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Login)
+        </div>
+        <div class="editor-group">
+            @Html.LabelFor(model => model.Password)
+            @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+        <br />
+        <input type="submit" value="Войти" class="buttonHeadAdmin centerAdmin" />
+    }
+    <div>
+    </div>
+</fieldset>
