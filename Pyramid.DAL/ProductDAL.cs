@@ -9,7 +9,7 @@ namespace Pyramid.DAL
 {
     public class ProductDAL 
     {
-        private static readonly DataContext dbContext = new DataContext();
+       // private static readonly DataContext dbContext = new DataContext();
 
 
         public static void DeleteEntity(int entityId)
@@ -19,7 +19,7 @@ namespace Pyramid.DAL
 
         public static int AddOrUpdateEntity(Product entity)
         {
-            using (dbContext)
+            using (DataContext dbContext = new DataContext())
             {
 
                 if (entity.Id == 0)

@@ -1,8 +1,7 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{
+    ViewBag.Title = "Admin Page";
+
+    Layout = "";
 }
-
-<h2>Index</h2>
-
+<div id="app">{{ message }}</div>
+@Scripts.Render("~/Scripts/app/admin/bundle.js")
