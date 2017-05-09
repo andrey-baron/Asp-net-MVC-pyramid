@@ -15,7 +15,7 @@ namespace Pyramid.DAL.Entity
         public string Title { get; set; }
         public Image Thumbnail { get; set; }
         public ICollection<Product> Products { get; set; }
-        public virtual ICollection<Filter> Filters { get; set; }
+        public ICollection<Filter> Filters { get; set; }
         public Category()
         {
             Products = new List<Product>();

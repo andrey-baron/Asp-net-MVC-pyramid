@@ -1,0 +1,29 @@
+@import "../variable";
+.breadcrumbs{
+  height: 48px;
+  line-height: 48px;
+  &__list{
+    margin:0 0 0 60px;
+    vertical-align: middle;
+    display: inline-block;
+  }
+  &__list-item{
+    display: inline-block;
+  }
+  &__list-item + &__list-item{
+    :before{
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      width: 6px;
+      height: 6px;
+      background: @greenColor;
+      margin: 0 30px;
+    }
+  }
+  &__home-icon{
+    background: url("../img/home.png")no-repeat;
+    width: 16px;
+    height: 12px;
+  }
+}

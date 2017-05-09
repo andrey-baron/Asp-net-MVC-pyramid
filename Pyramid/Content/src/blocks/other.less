@@ -1,0 +1,92 @@
+p{
+    display:block;   
+}
+
+@font-face {
+  font-family: "ProximaNovaRegular";
+  src: url("/fonts/ProximaNova-Regular.eot");
+  src: url("/fonts/ProximaNova-Regular.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ProximaNovaSemibold";
+  src: url("/fonts/ProximaNova-Semibold.eot");
+  src: url("/fonts/ProximaNova-Semibold.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ProximaNovaExtrabld";
+  src: url("/fonts/ProximaNova-Extrabld.eot");
+  src: url("/fonts/ProximaNova-Extrabld.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ProximaNovaBlack";
+  src: url("/fonts/ProximaNovaBlack.eot");
+  src: url("/fonts/ProximaNovaBlack.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ProximaNovaBold";
+  src: url("/fonts/ProximaNovaBold.eot");
+  src: url("/fonts/ProximaNovaBold.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+.no-gutter {
+  margin: 0;
+}
+
+.no-gutter > [class*='col-'] {
+  padding-right: 0;
+  padding-left: 0;
+}
+html{
+  //margin: 0 auto;
+  //width: 1920px;
+
+}
+body{
+  font-family: "ProximaNovaRegular";
+  color: #333;
+  font-size: 18px;
+  line-height: 1.25;
+}
+p{
+  margin: 0;
+}
+a{
+  color: #333;
+  &:focus, &:hover {
+    color: #333;
+  }
+}
+ol,ul{
+  margin: 0;
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 100%;
+    min-width: 1200px;
+  }
+}
+@media (min-width: 992px)and (max-width: 1199px){
+  .container {
+    width: 970px;
+  }
+}
+@media (min-width: 768px)and (max-width: 991px){
+.container {
+  width: 750px;
+}
+}
+.container_no-pad{
+  padding: 0;
+}
+.row-no-gutter{
+  margin: 0;
+}

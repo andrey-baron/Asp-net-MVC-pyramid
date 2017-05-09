@@ -10,7 +10,7 @@ namespace Pyramid.DAL.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             ContextKey = "Pyramid.DAL.DataContext";
         }
 

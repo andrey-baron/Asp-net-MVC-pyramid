@@ -12,7 +12,7 @@ namespace Pyramid.DAL.Entity
        public int Id { get; set; }
        
         public string Title { get; set; }
-        public int ThumbnailId { get; set; }
+        public Image ThumbnailImg  { get; set; }
         public double Price { get; set; }
         public bool Available { get; set; }
         public Enumerable.TypeProductPrice TypePrice { get; set; }

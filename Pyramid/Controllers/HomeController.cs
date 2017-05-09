@@ -8,16 +8,14 @@ namespace Pyramid.Controllers
 {
     public class HomeController : Controller
     {
+        DAL.UnitOfWork unitOfWork;
+        public HomeController()
+        {
+            unitOfWork = new DAL.UnitOfWork();
+        }
         public ActionResult Index()
         {
-            DAL.ProductDAL.AddOrUpdateEntity(new DAL.Entity.Product
-            {
-                DateCreation = DateTime.Now,
-                Price = 111,
-                Title = "2продукт2",
-                TypePrice = DAL.Entity.Enumerable.TypeProductPrice.SimplePrice,
-                DateChange = DateTime.Now
-            });
+          
             return View();
         }
 
@@ -33,6 +31,11 @@ namespace Pyramid.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+        protected override void Dispose(bool disposing)
+        {
+            unitOfWork.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

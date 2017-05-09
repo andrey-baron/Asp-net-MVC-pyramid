@@ -1,0 +1,51 @@
+@import "../variable";
+@heightItem:236px;
+.rules-order{
+  font-size: 24px;
+  color:#fff;
+  height: 480px;
+  background: url("../img/bg-rules-order.png")no-repeat;
+  &__head-title{
+    font-size: 28px;
+    font-family: ProximaNovaSemibold;
+    text-align: center;
+    padding-top: 60px;
+    text-transform: uppercase;
+  }
+  &__item{
+    height: @heightItem;
+    line-height: @heightItem;
+    text-align: center;
+    position: relative;
+
+  }
+  &__item + &__item{
+    &:before{
+      position: absolute;
+      content: "";
+      display: block;
+      background: url("../img/arrow-right.png") no-repeat;
+      width: 20px;
+      height: 32px;
+      top: 50%;
+      left: 0;
+      margin-left: -10px;
+      margin-top: -16px;
+    }
+  }
+  &__wrap-img{
+
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+  }
+  &__img{
+
+  }
+  &__item-title{
+    text-align: center;
+    line-height: normal;
+    width: 240px;
+    margin: 0 auto;
+  }
+}

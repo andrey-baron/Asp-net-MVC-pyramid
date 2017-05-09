@@ -1,0 +1,114 @@
+@import "../variable.less";
+.season-offer{
+  &__item{
+    height: @seasonItem;
+    padding: 20px;
+    border: 1px solid #eaeaea;
+  }
+  &__item-img{
+    margin: 30px auto;
+    max-width: 100%;
+    display: block;
+  }
+  &__item-title{
+    text-align: center;
+  }
+  &__item-price{
+    height: 128px;
+    position: relative;
+    margin-top: 10px;
+    &:before{
+      content: "";
+      font-size: 14px;
+       text-align: center;
+       text-transform: uppercase;
+       padding-top: 15px;
+       display: block;
+      border-bottom: 1px solid #eaeaea;
+      width: 80%;
+      margin: 0 auto;
+    }
+    .triangle-up {
+      width: 0;
+      height: 0;
+      border-top: 32px solid #fff;
+      border-right: 32px solid transparent;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+    .triangle-down{
+      width: 0;
+      height: 0;
+      border-bottom: 32px solid #fff;
+      border-left: 32px solid transparent;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+  }
+  &__item-price-inner{
+    position: absolute;
+    bottom: 0;
+    left:0;
+    padding-left: 44px;
+    >.big-decimal{
+      font-family: "ProximaNovaExtrabld";
+      font-size: 48px;
+    }
+
+  }
+  &__item-price_limited{
+    background: #333;
+    color: @yellowColor;
+    .triangle-up{
+      border-top: 32px solid @yellowColor;
+    }
+    &:before{
+      content: "предложение ограничено";
+      border-bottom: none;
+      width: inherit;
+    }
+
+  }
+  &__item-price_low{
+    background: @yellowColor;
+    color: @redColor;
+    .triangle-up{
+      border-top: 32px solid @redColor;
+    }
+    &:before{
+      content: "Низкая цена";
+      border-bottom: none;
+      width: inherit;
+    }
+
+  }
+  &__item-price_best{
+    background: @yellowColor;
+    color: @grayColor;
+    .triangle-up{
+      border-top: 32px solid @grayColor;
+    }
+    &:before{
+      content: "Лучшая цена";
+      border-bottom: none;
+      width: inherit;
+    }
+
+  }
+
+  &__item_green-title{
+    background:#67b23b;
+    color: #fff;
+    font-family: ProximaNovaSemibold;
+    font-size: 32px;
+    line-height: @seasonItem;
+  }
+  &__head-text{
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+    padding: 0 60px;
+  }
+}

@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategoryRepository.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="Entity\BannerWithPoints.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
@@ -64,60 +65,18 @@
     <Compile Include="Entity\PointOnImg.cs" />
     <Compile Include="Entity\ProductValue.cs" />
     <Compile Include="Entity\User.cs" />
-    <Compile Include="IEntityDAL.cs" />
-    <Compile Include="Migrations\201704262129363_AddCatThimbFK.cs" />
-    <Compile Include="Migrations\201704262129363_AddCatThimbFK.Designer.cs">
-      <DependentUpon>201704262129363_AddCatThimbFK.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704262151302_AddUser.cs" />
-    <Compile Include="Migrations\201704262151302_AddUser.Designer.cs">
-      <DependentUpon>201704262151302_AddUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704262343066_AddNewUpdate.cs" />
-    <Compile Include="Migrations\201704262343066_AddNewUpdate.Designer.cs">
-      <DependentUpon>201704262343066_AddNewUpdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704270013127_AddUniqueUserIndex.cs" />
-    <Compile Include="Migrations\201704270013127_AddUniqueUserIndex.Designer.cs">
-      <DependentUpon>201704270013127_AddUniqueUserIndex.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704270036276_AddUniqueUserIndex2.cs" />
-    <Compile Include="Migrations\201704270036276_AddUniqueUserIndex2.Designer.cs">
-      <DependentUpon>201704270036276_AddUniqueUserIndex2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704270037274_UpdUniqueUserIndex.cs" />
-    <Compile Include="Migrations\201704270037274_UpdUniqueUserIndex.Designer.cs">
-      <DependentUpon>201704270037274_UpdUniqueUserIndex.cs</DependentUpon>
-    </Compile>
+    <Compile Include="FilterRepository.cs" />
+    <Compile Include="IRepository.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="ProductDAL.cs" />
+    <Compile Include="ProductRepository.cs" />
     <Compile Include="Entity\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitOfWork.cs" />
     <Compile Include="UserDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201704262129363_AddCatThimbFK.resx">
-      <DependentUpon>201704262129363_AddCatThimbFK.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704262151302_AddUser.resx">
-      <DependentUpon>201704262151302_AddUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704262343066_AddNewUpdate.resx">
-      <DependentUpon>201704262343066_AddNewUpdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704270013127_AddUniqueUserIndex.resx">
-      <DependentUpon>201704270013127_AddUniqueUserIndex.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704270036276_AddUniqueUserIndex2.resx">
-      <DependentUpon>201704270036276_AddUniqueUserIndex2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704270037274_UpdUniqueUserIndex.resx">
-      <DependentUpon>201704270037274_UpdUniqueUserIndex.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

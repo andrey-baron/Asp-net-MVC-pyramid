@@ -1,4 +1,4 @@
-﻿/// <binding AfterBuild='build' />
+﻿/// <binding />
 const gulp = require('gulp');
 const gutil = require('gulp-util');
 var babel = require('gulp-babel');
@@ -13,6 +13,16 @@ const fsPath = require('fs-path');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var es2015 = require('babel-preset-es2015');
+
+
+
+
+var less = require('gulp-less');
+var concat = require('gulp-concat');
+var rename = require('gulp-rename');
+var gulpMinifyCss = require('gulp-minify-css');
+var notify= require('gulp-notify');
+var order = require("gulp-order");
 
 function getFolders(dir) {
     return fs.readdirSync(dir)
@@ -94,3 +104,48 @@ gulp.task('default', function () {
     });
 
 });
+
+
+gulp.task('less', function () {
+    return gulp.src('./Content/src/blocks/**/*.less')
+        .pipe(order([
+            "other.less",
+            "*.less"
+        ]))
+        .pipe(less())
+        .on("error", notify.onError(function (err) {
+            return {
+                title: "less-styles",
+                message: err.message
+            }
+        }))
+        .pipe(concat('main.css'))
+        .pipe(gulp.dest('./Content/css'))
+    ;
+   
+});
+
+
+gulp.task('js', function () {
+    return gulp.src('./Content/src/blocks/**/*.js')
+
+        .pipe(concat('main.js'))
+        .pipe(gulp.dest('./Scripts/main/'));
+});
+
+
+gulp.task('watch-js', function () {
+    gulp.watch("./src/blocks/**/*.js", ['js']);
+});
+
+gulp.task('watch-less', function () {
+    gulp.watch("./src/blocks/**/*.less", ['less']);
+
+});
+
+gulp.task('dev-start', [
+    'less',
+    'js',
+    'watch-less',
+    'watch-js'
+]);

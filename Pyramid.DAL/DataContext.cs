@@ -37,23 +37,34 @@
             modelBuilder.Entity<Entity.Product>()
                 .HasMany(p => p.Categories)
                 .WithMany(c => c.Products);
-
+            
             modelBuilder.Entity<Entity.Product>()
                 .HasMany(c => c.ProductValues)
                 .WithRequired(c => c.Product)
                 .HasForeignKey(c=>c.ProductId);
 
            modelBuilder.Entity<Entity.Product>()
-                .HasMany(p => p.Images)
-                .WithOptional();
+                .HasOptional(p => p.Images)
+                .WithOptionalDependent();
+
+            modelBuilder.Entity<Entity.Product>()
+                .HasOptional(p => p.ThumbnailImg)
+                .WithOptionalDependent();
+
+            modelBuilder.Entity<Entity.Category>().HasKey(k => k.Id);
+
+            modelBuilder.Entity<Entity.Category>()
+                .Property(p=>p.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity) ;
+                
 
             modelBuilder.Entity<Entity.Category>()
                 .HasMany(c => c.Filters)
                 .WithRequired(c => c.Category);
 
             modelBuilder.Entity<Entity.Category>()
-               .HasRequired(p => p.Thumbnail)
-                .WithOptional();
+               .HasOptional(p => p.Thumbnail)
+                .WithOptionalDependent();
             ;
 
             modelBuilder.Entity<Entity.Filter>()

@@ -1,0 +1,29 @@
+@import "../variable";
+.category{
+  &__title{
+    font-family: ProximaNovaSemibold;
+    font-size: 32px;
+    padding-left: 60px;
+  }
+  &__sort-list{
+    text-align: right;
+    margin-right: 60px;
+  }
+  &__sort-list-item{
+    display: inline-block;
+
+    &:first-child{
+      color: #cccccc;
+    }
+    a{
+      text-decoration: underline;
+    }
+  }
+  &__sort-list-item +&__sort-list-item{
+    margin-left:20px;
+  }
+  &__sidebar{
+    background:@lightGray;
+    height: 1020px;
+  }
+}

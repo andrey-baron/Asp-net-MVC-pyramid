@@ -1,0 +1,55 @@
+@import "../variable";
+.call-to-action-wrap{
+  background: @homeFormColor;
+}
+.call-to-action{
+  height: @heightElemAction;
+
+  font-family: ProximaNovaSemibold;
+  line-height: 76px;
+  background: @greenColor;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  &__head-title{
+    font-size: 28px;
+    display: inline-block;
+    vertical-align: middle;
+    text-transform: uppercase;
+  }
+  /*modifier*/
+  &_footer{
+    background: @lightGray;
+    color: @grayColor;
+  }
+  /*elements*/
+  &__form-wrap{
+    max-width: 770px;
+    width: 100%;
+    margin: @heightElemAction auto 0;
+    padding-bottom: @heightElemAction + 20px;
+    font-size: 28px;
+    text-align: center;
+    //background: @homeFormColor;
+  }
+  &__form-group{
+    margin: 0;
+  }
+  &__form-group + &__form-group{
+    margin-top: 30px;
+  }
+  &__form-control{
+    height: @heightElemAction;
+    font-size: 28px;
+    padding-left: 55px;
+  }
+  &__btn{
+    background: @greenColor;
+   height: @heightElemAction;
+    padding: 0 70px;
+    border: none;
+    color: #ffffff;
+    margin-top: 44px;
+  }
+}
