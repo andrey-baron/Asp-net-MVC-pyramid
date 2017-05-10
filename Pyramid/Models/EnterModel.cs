@@ -30,7 +30,7 @@ namespace Pyramid.Models
             if (model.Login == "admin")
             {
 
-                var set = DAL.UserDAL.GetByLogin(model.Login.Trim());
+                var set = DBFirstDAL.UserDAL.DALToEntity(DBFirstDAL.UserDAL.GetByLogin(model.Login.Trim()));
                 if (set == null)
                 {
                     message = "Указанного пользователя нет в системе.";

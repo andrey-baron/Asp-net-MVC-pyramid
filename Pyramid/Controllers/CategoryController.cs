@@ -9,26 +9,26 @@ namespace Pyramid.Controllers
 {
     public class CategoryController : Controller
     {
-        DAL.UnitOfWork unitOfWork;
-        public CategoryController()
-        {
-            unitOfWork = new DAL.UnitOfWork();
-        }
+        //DAL.UnitOfWork unitOfWork;
+        //public CategoryController()
+        //{
+        //    unitOfWork = new DAL.UnitOfWork();
+        //}
         public ActionResult Index()
         {
-            var model = unitOfWork.Categories.GetAll();
+            var model = DBFirstDAL.CategoryDAL.GetAll();
             return View(model);
         }
         public ActionResult AddOrUpdate(int id=0)
         {
-            var model = unitOfWork.Categories.Get(id);
+            var model = DBFirstDAL.CategoryDAL.Get(id);
 
             return View(model);
         }
         [HttpPost]
-        public ActionResult AddOrUpdate(Category model)
+        public ActionResult AddOrUpdate(Pyramid.Entity.Category model)
         {
-            unitOfWork.Categories.AddOrUpdateEntity(model);
+            DBFirstDAL.CategoryDAL.AddOrUpdateEntity(model);
 
             return RedirectToAction("index");
         }

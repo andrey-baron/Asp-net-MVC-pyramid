@@ -1,4 +1,4 @@
-﻿@model Pyramid.Entity.Category
+﻿@model Pyramid.Entity.Filter
 
 @{
     ViewBag.Title = "AddOrUpdate";
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Category</h4>
+        <h4>Filter</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)

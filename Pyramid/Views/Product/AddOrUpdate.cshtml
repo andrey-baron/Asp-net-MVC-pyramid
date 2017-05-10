@@ -1,4 +1,4 @@
-﻿@model Pyramid.DAL.Entity.Product
+﻿@model Pyramid.Entity.Product
 
 @{
     ViewBag.Title = "AddOrUpdate";
@@ -16,7 +16,10 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
-        
+        @Html.HiddenFor(model => model.DateCreation)
+
+
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })

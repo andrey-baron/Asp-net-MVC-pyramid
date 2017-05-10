@@ -109,5 +109,21 @@ namespace Pyramid.Tools
                 return null;
             }
         }
+
+        public static Entity.User GetDefaultAdmin()
+        {
+            var pass = "123crf";
+            var sha1 = new SHA512CryptoServiceProvider();
+            var pswBytes = sha1.ComputeHash(Encoding.Unicode.GetBytes(pass));
+            var hash = Convert.ToBase64String(pswBytes);
+            return new Entity.User()
+            {
+                Password = hash,
+                Email = "andrey0731@mail.ru",
+                Login = "admin",
+                UserRole = Entity.Enumerable.UserTypeRole.Admin
+            };
+        }
+
     }
 }

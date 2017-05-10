@@ -174,6 +174,7 @@
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -462,14 +463,17 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.ttf" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
-    <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Product\Index2.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Filter\Index.cshtml" />
+    <Content Include="Views\Filter\AddOrUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\less\" />
     <Folder Include="Views\CRUD\" />
-    <Folder Include="Views\Filter\" />
+    <Folder Include="Views\Page\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -480,9 +484,17 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pyramid.DAL\Pyramid.DAL.csproj">
+    <ProjectReference Include="..\DBFirstDAL\DBFirstDAL.csproj">
+      <Project>{f1726daf-6c4a-4be9-8e06-beae99ee4707}</Project>
+      <Name>DBFirstDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entity\Entity.csproj">
+      <Project>{2b605ef3-8de4-448a-a2cb-6534641b5a6b}</Project>
+      <Name>Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyramid.DAL\Pyramid.CodeFirstDAL.csproj">
       <Project>{7c3d728a-24f1-4776-9604-211f8b394174}</Project>
-      <Name>Pyramid.DAL</Name>
+      <Name>Pyramid.CodeFirstDAL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

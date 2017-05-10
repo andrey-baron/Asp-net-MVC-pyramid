@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Pyramid.Entity.Category>
+﻿@model IEnumerable<Pyramid.Entity.Filter>
 
 @{
     ViewBag.Title = "Index";
@@ -13,9 +13,6 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Thumbnail.PathInFileSystem)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th></th>
@@ -23,9 +20,6 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Thumbnail.PathInFileSystem)
-        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>

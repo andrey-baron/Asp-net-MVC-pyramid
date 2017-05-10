@@ -25,7 +25,7 @@ namespace Pyramid.Controllers
         [HttpPost]
         public ActionResult SignIn(EnterModel model)
         {
-            //prazdnikKNAMprihOdit9415!#
+            
             var message = string.Empty;
             if (EnterModel.VerifyPassword(model, out message))
             {

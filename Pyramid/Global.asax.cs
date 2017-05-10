@@ -16,6 +16,16 @@ namespace Pyramid
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            var admin=DBFirstDAL.UserDAL.GetByLogin("admin");
+            if (admin==null)
+            {
+                DBFirstDAL.UserDAL.AddOrUpdate(
+                    DBFirstDAL.UserDAL.EntityToDAL(
+                        Pyramid.Tools.Cryptography.GetDefaultAdmin()
+                        ));
+            }
         }
+
     }
 }

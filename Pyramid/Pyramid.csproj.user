@@ -9,7 +9,7 @@
     <WebStackScaffolding_LayoutPageFile>~/Views/Shared/_LayoutAdmin.cshtml</WebStackScaffolding_LayoutPageFile>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
-    <WebStackScaffolding_DbContextTypeFullName>Pyramid.DAL.DataContext</WebStackScaffolding_DbContextTypeFullName>
+    <WebStackScaffolding_DbContextTypeFullName>DBFirstDAL.PyramidFinalContext</WebStackScaffolding_DbContextTypeFullName>
     <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
   <ProjectExtensions>
