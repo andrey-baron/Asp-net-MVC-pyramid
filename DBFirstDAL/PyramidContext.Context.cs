@@ -30,6 +30,7 @@ namespace DBFirstDAL
         public virtual DbSet<Filters> Filters { get; set; }
         public virtual DbSet<FilterValues> FilterValues { get; set; }
         public virtual DbSet<Images> Images { get; set; }
+        public virtual DbSet<ImagesToProducts> ImagesToProducts { get; set; }
         public virtual DbSet<Pages> Pages { get; set; }
         public virtual DbSet<PointOnImgs> PointOnImgs { get; set; }
         public virtual DbSet<ProductCategories> ProductCategories { get; set; }

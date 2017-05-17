@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Pyramid.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         // GET: Admin

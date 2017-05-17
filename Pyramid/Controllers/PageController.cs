@@ -11,6 +11,7 @@ namespace Pyramid.Controllers
         // GET: Page
         public ActionResult Index()
         {
+
             return View();
         }
 

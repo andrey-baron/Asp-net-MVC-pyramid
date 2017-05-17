@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DBFirstDAL
 {
-    class BannerWithPointsDAL
+    public class BannerWithPointsDAL
     {
     }
 }

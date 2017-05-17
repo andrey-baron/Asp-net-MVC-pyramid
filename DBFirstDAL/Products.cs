@@ -18,6 +18,7 @@ namespace DBFirstDAL
         public Products()
         {
             this.FilterValues = new HashSet<FilterValues>();
+            this.ImagesToProducts = new HashSet<ImagesToProducts>();
             this.ProductCategories = new HashSet<ProductCategories>();
             this.ProductValues = new HashSet<ProductValues>();
         }
@@ -33,13 +34,15 @@ namespace DBFirstDAL
         public string Alias { get; set; }
         public System.DateTime DateCreation { get; set; }
         public System.DateTime DateChange { get; set; }
-        public Nullable<int> ImagesId { get; set; }
-        public Nullable<int> ThumbnailImgId { get; set; }
         public Nullable<int> PointOnImg_Id { get; set; }
+        public Nullable<bool> InStock { get; set; }
+        public Nullable<int> ThumbnailId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FilterValues> FilterValues { get; set; }
         public virtual Images Images { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ImagesToProducts> ImagesToProducts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductCategories> ProductCategories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

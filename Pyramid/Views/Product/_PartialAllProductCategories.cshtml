@@ -1,0 +1,11 @@
+﻿@model List<Pyramid.Entity.Category>
+@for (int i = 0; i < Model.Count; i++)
+{
+
+<div class="checkbox">
+    @Html.Hidden(String.Format("Categories[{0}].Id", i), Model[i].Id)
+    @Html.CheckBox(String.Format("Categories[{0}].Cheaked", i), Model[i].Cheaked, new { @class = ""})
+    <label>@Model[i].Title</label>
+</div>
+
+}

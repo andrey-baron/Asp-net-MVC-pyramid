@@ -1,9 +1,12 @@
 @import "../variable";
+
 .category{
   &__title{
     font-family: ProximaNovaSemibold;
     font-size: 32px;
     padding-left: 60px;
+    height: 95px;
+    line-height: 95px;
   }
   &__sort-list{
     text-align: right;
@@ -25,5 +28,28 @@
   &__sidebar{
     background:@lightGray;
     height: 1020px;
+    padding:30px;
+  }
+  &__filter-block{
+
+  }
+  &__filter-title{
+      font-size:20px;
+      text-transform:uppercase;
+      padding-bottom:5px;
+      border-bottom:1px solid @border-color ;
+  }
+  &__filter-block-controls{
+      .checkbox label, .radio label{
+          padding-left:35px;
+      }
+  }
+  &__input-chekbox{
+      width: 16px;
+    height: 16px;
+    background: #fff!important;
+    outline: none;
+    margin-left:0!important;
   }
 }
+

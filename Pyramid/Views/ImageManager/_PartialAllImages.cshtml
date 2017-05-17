@@ -1,0 +1,24 @@
+﻿@model ICollection<Pyramid.Entity.Image>
+@foreach (var itemImage in Model)
+{
+<div class="gallery-col">
+    <article class="gallery-item" style="height: 158px;">
+        <img class="gallery-picture" src="@itemImage.ServerPathImg" alt="" height="158">
+        <div class="gallery-hover-layout">
+            <div class="gallery-hover-layout-in">
+                <p class="gallery-item-title">@itemImage.Title</p>
+                @*<p>by Alban Wamigo</p>*@
+                <div class="btn-group">
+                    <button type="button" class="btn btn-ajax-edit" data-ajaxid="@itemImage.Id" data-toggle="modal" data-target="#edit-modal">
+                        <i class="font-icon font-icon-btn_white glyphicon glyphicon-pencil"></i>
+                    </button>
+                    <button type="button" class="btn btn-ajax-delete" data-ajaxid="@itemImage.Id">
+                        <i class="font-icon font-icon-btn_white glyphicon glyphicon-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </article>
+</div>
+}
+

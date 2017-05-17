@@ -18,6 +18,7 @@ namespace DBFirstDAL
         public Images()
         {
             this.Categories = new HashSet<Categories>();
+            this.ImagesToProducts = new HashSet<ImagesToProducts>();
             this.Products = new HashSet<Products>();
         }
     
@@ -25,9 +26,12 @@ namespace DBFirstDAL
         public string PathInFileSystem { get; set; }
         public string ImgAlt { get; set; }
         public string Title { get; set; }
+        public string ServerPathImg { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Categories> Categories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ImagesToProducts> ImagesToProducts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Products> Products { get; set; }
     }

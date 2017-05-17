@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Pyramid.Entity.Category>
+
+@{
+    ViewBag.Title = "Все категории";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+    <div class="subtitle">информация</div>
+</div>
+
+
+<p class="pmargin">
+    @Html.ActionLink("Новая категория", "AddOrUpdate", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th class="table-icon-cell">
+                <i class="font-icon glyphicon glyphicon-file"></i>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="table-photo">
+                    <img src="@(item.Thumbnail!=null?item.Thumbnail.ServerPathImg:"")" alt="" />
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm" style="float: none;">
+                        <a href="@Url.Action("AddOrUpdate", "Category", new { id = item.Id })" class="tabledit-edit-button btn btn-sm btn-default" style="float: none;">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                        <a href="@Url.Action("Delete", "Category", new { id = item.Id })" class="tabledit-delete-button btn btn-sm btn-default" style="float: none;">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </div>
+                    
+                </td>
+            </tr>
+        }
+
+</table>

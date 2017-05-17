@@ -43,6 +43,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,6 +55,7 @@
     <Compile Include="BannerWithPoints.cs">
       <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="BannerWithPointsDAL.cs" />
     <Compile Include="Categories.cs">
       <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
@@ -65,9 +67,14 @@
     <Compile Include="FilterValues.cs">
       <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="ImageDAL.cs" />
     <Compile Include="Images.cs">
       <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="ImagesToProducts.cs">
+      <DependentUpon>PyramidContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PageDAL.cs" />
     <Compile Include="Pages.cs">
       <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
@@ -81,6 +88,7 @@
     <Compile Include="Products.cs">
       <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="ProductValueDAL.cs" />
     <Compile Include="ProductValues.cs">
       <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
@@ -137,6 +145,9 @@
       <Project>{2b605ef3-8de4-448a-a2cb-6534641b5a6b}</Project>
       <Name>Entity</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Intercaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

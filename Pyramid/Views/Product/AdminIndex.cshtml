@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Pyramid.Entity.Product>
+
+@{
+    ViewBag.Title = "Все товары";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+    <div class="subtitle">информация</div>
+</div>
+
+
+<p class="pmargin">
+    @Html.ActionLink("Новый Товар", "AddOrUpdate",null, new { @class = "btn btn-primary" })
+</p>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th class="table-icon-cell">
+                <i class="font-icon glyphicon glyphicon-file"></i>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Available)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypePrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MetaDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MetaTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MetaKeywords)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsSEOReady)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Alias)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateChange)
+            </th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="table-photo">
+                <img src="/Content/img/logoSA.jpg" alt="" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Available)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypePrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MetaDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MetaTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MetaKeywords)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsSEOReady)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Alias)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateChange)
+            </td>
+            <td>
+                <div class="btn-group btn-group-sm" style="float: none;">
+                    <a href="@Url.Action("AddOrUpdate", "Product", new { id = item.Id })" class="tabledit-edit-button btn btn-sm btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                    <a href="@Url.Action("Delete", "Product", new { id = item.Id })" class="tabledit-delete-button btn btn-sm btn-default" style="float: none;">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </div>
+                  
+            </td>
+        </tr>
+    }
+
+</table>

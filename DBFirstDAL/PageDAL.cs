@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DBFirstDAL
 {
-    class PageDAL
+    public class PageDAL
     {
+
     }
 }

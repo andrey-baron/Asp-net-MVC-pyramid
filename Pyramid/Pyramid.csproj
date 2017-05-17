@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -25,6 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -173,6 +175,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImageManagerController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -195,8 +198,14 @@
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\admin.css" />
+    <Content Include="Content\css\fine-uploader-new.css" />
+    <Content Include="Content\css\fine-uploader-new.min.css" />
     <Content Include="Content\css\main.css" />
     <Content Include="Content\css\reset.css" />
+    <Content Include="Content\img-file-uploader\loading.gif" />
+    <Content Include="Content\img-file-uploader\not_available-generic.png" />
+    <Content Include="Content\img-file-uploader\processing.gif" />
+    <Content Include="Content\img-file-uploader\waiting-generic.png" />
     <Content Include="Content\img\arrow-right.png" />
     <Content Include="Content\img\bg-rules-order.png" />
     <Content Include="Content\img\btn-play.png" />
@@ -213,6 +222,7 @@
     <Content Include="Content\img\Layer-slider.png" />
     <Content Include="Content\img\Layer10.png" />
     <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\logoSA.jpg" />
     <Content Include="Content\img\mouse.png" />
     <Content Include="Content\img\Odnoklassniki_icon.png" />
     <Content Include="Content\img\phone.png" />
@@ -234,7 +244,11 @@
     <Content Include="Content\libs\jquery-ui.min.js" />
     <Content Include="Content\libs\jquery.bxslider.min.css" />
     <Content Include="Content\libs\jquery.bxslider.min.js" />
+    <Content Include="Content\src\admin-blocks\admin-product.js" />
+    <Content Include="Content\src\admin-blocks\admin\admin.js" />
+    <Content Include="Content\src\admin-blocks\image-manager\image-manager.js" />
     <Content Include="Content\src\blocks\call-to-action\call-to-action.js" />
+    <Content Include="Content\src\blocks\category\category.js" />
     <Content Include="Content\src\blocks\footer\footer.js" />
     <Content Include="Content\src\blocks\home-slider\home-slider.js" />
     <Content Include="Content\src\blocks\product\product.js" />
@@ -243,6 +257,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="gulpfile.js" />
+    <Content Include="Scripts\admin\admin.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="package.json" />
@@ -265,10 +280,18 @@
     <Content Include="Content\src\blocks\season-offer\season-offer.less" />
     <Content Include="Content\src\blocks\single\single.less" />
     <Content Include="Content\src\blocks\variable.less" />
+    <Content Include="Content\src\admin-blocks\admin\admin.less" />
+    <Content Include="Content\src\admin-blocks\other.less" />
+    <Content Include="Content\src\admin-blocks\admin\sidebar.less" />
+    <Content Include="Content\src\admin-blocks\admin\admin-product.less" />
+    <None Include="Properties\PublishProfiles\Pyramid.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\fine-uploader.js" />
+    <Content Include="Scripts\fine-uploader.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.fine-uploader.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -278,6 +301,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\tinymce\jquery.tinymce.min.js" />
+    <Content Include="Scripts\tinymce\langs\ru.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.min.js" />
@@ -463,16 +487,26 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.ttf" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
-    <Content Include="Views\Category\Index.cshtml" />
-    <Content Include="Views\Product\Index2.cshtml" />
-    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Category\AdminIndex.cshtml" />
+    <Content Include="Views\Product\AdminIndex.cshtml" />
     <Content Include="Views\Filter\Index.cshtml" />
     <Content Include="Views\Filter\AddOrUpdate.cshtml" />
+    <Content Include="Views\ImageManager\Index.cshtml" />
+    <Content Include="Views\ImageManager\_PartialAllImages.cshtml" />
+    <Content Include="Views\ImageManager\_PartialBodyModal.cshtml" />
+    <Content Include="Views\Product\_PartialAllProductValues.cshtml" />
+    <Content Include="Views\Product\_PartialEmptyTemplateProductValue.cshtml" />
+    <Content Include="Views\Product\_PartialAllProductCategories.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutOtherPages.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\ImageManager\_PartialSelectImage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\less\" />
-    <Folder Include="Views\CRUD\" />
+    <Folder Include="Content\libs\images\" />
+    <Folder Include="Content\UserUpload\" />
     <Folder Include="Views\Page\" />
   </ItemGroup>
   <ItemGroup>
@@ -497,11 +531,15 @@
       <Name>Pyramid.CodeFirstDAL</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

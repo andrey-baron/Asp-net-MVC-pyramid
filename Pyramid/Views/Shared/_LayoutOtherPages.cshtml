@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="~/Content/css/reset.css">
+    <link rel="stylesheet" href="~/Content/libs/jquery-ui.css">
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/css/bootstrap-grid10.css">
+    <link rel="stylesheet" href="~/Content/css/bootstrap-grid15.css">
+    <link rel="stylesheet" href="~/Content/css/main.css">
+
+    <link rel="stylesheet" href="~/Content/libs/jquery.bxslider.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="~/Content/libs/jquery.bxslider.min.js"></script>
+    <script src="~/Content/libs/jquery-ui.min.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container-fluid container_no-pad">
+            <div class="header">
+
+                <div class="row no-gutter">
+                    <div class="col-ten-md-1 header__logo-wrap">
+                        <a href="/">
+                            <div class="header__logo header__logo_small"></div>
+                        </a>
+                    </div>
+                    <div class="row no-gutter">
+                        <div class="col-ten-md-2 header__line-one">
+                            <div class="header__consultant header__consultant_green">
+                                <img class="header__consultant-img" src="~/Content/img/consultant.png" alt="">
+                                <p class="header__consultant-text">Онлайн консультант</p>
+
+
+                            </div>
+                        </div>
+                        <div class="col-ten-md-5 header__line-one">
+                            <div class="header__wrap header__wrap_bg-gray">
+
+                                <ul class="header__menu">
+                                    <li class="header__menu-item"><a href="#">Вопрос ответ</a></li>
+                                    <li class="header__menu-item"><a href="#">Доставка</a></li>
+                                    <li class="header__menu-item"><a href="#">Услуги</a></li>
+                                    <li class="header__menu-item"><a href="#">Советы</a></li>
+                                </ul>
+
+                                <!--<div class="header__sign-up">
+                                    <a href="#">Регистрация</a>
+                                    <div class="sign-up-splitter"></div>
+                                    <a class="yellow_in" href="#">Вход</a>
+                                </div>-->
+
+                            </div>
+
+                        </div>
+                        <div class="col-ten-md-2 header__line-one">
+                            <div class="header__wrap header__cart">
+
+                                <div class="header__icon-cart"></div>
+                                <p class="header__title-cart"><a href="#">Корзина</a></p>
+                                <div class="header__count-items">3</div>
+
+                            </div>
+                        </div>
+                        <div class="col-ten-md-2 header__line-one">
+                            <div class="header__catalog-btn">
+                                <p>Каталог товаров</p>
+                            </div>
+                        </div>
+                        <div class="col-ten-md-7 header__line-one">
+                            <div class="header__search">
+                                <input type="text" class="header__search-input" placeholder="Поиск по сайту">
+                                <button class="header__search-button"></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="breadcrumbs">
+                <ul class="breadcrumbs__list">
+                    <li class="breadcrumbs__list-item"><a href=""><div class="breadcrumbs__home-icon"></div></a></li>
+                    <li class="breadcrumbs__list-item"><a href="#">Каталог</a></li>
+                    <li class="breadcrumbs__list-item"><a href="#">Каталог</a></li>
+                </ul>
+            </div>
+
+            @RenderBody()
+        </div>
+    </div>
+    <div class="footer">
+        <div class="container container_no-pad">
+            <div class="call-to-action call-to-action_footer">
+                <p class="call-to-action__head-title">Каталог товаров</p>
+                <p class="footer__switch">Свернуть</p>
+            </div>
+            <div class="footer__catalog-products">
+                <div class="row no-gutter">
+                    <div class="col-md-3">
+                        <div class="footer__catalog-item">
+                            <p class="footer__catalog-item-title">СУХИЕ СМЕСИ</p>
+                            <ul class="footer__catalog-list">
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="footer__catalog-item">
+                            <p class="footer__catalog-item-title">СУХИЕ СМЕСИ</p>
+                            <ul class="footer__catalog-list">
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="footer__catalog-item">
+                            <p class="footer__catalog-item-title">СУХИЕ СМЕСИ</p>
+                            <ul class="footer__catalog-list">
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+
+
+
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="footer__catalog-item">
+                            <p class="footer__catalog-item-title">СУХИЕ СМЕСИ</p>
+                            <ul class="footer__catalog-list">
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+
+
+
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="footer__catalog-item">
+                            <p class="footer__catalog-item-title">СУХИЕ СМЕСИ</p>
+                            <ul class="footer__catalog-list">
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+
+
+
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="footer__catalog-item">
+                            <p class="footer__catalog-item-title">СУХИЕ СМЕСИ</p>
+                            <ul class="footer__catalog-list">
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+                                <li class="footer__catalog-list-item"><a href="#">Гидроизоляция</a></li>
+
+
+
+
+                            </ul>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="footer_bottom">
+                <div class="row no-gutter">
+                    <div class="col-md-4">
+                        <div class="footer__copyright">
+                            <p class="footer__copyright-text">2016 © Пирамида.<span class="footer__copyright-text_yellow">Строй</span></p>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="footer__menu-wrap">
+                            <ul class="footer__menu">
+                                <li class="footer__menu-item"><a class="footer__menu-item-link" href="#">Наша компания</a></li>
+                                <li class="footer__menu-item"><a class="footer__menu-item-link" href="#">Наша компания</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/main/main.js"></script>
+</body>
+</html>

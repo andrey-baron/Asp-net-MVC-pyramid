@@ -1,38 +1,87 @@
 ﻿@model Pyramid.Entity.Category
 
 @{
-    ViewBag.Title = "AddOrUpdate";
+    ViewBag.Title = ((Model != null && Model.Id != 0) ? "Редактирование" : "Добавление") + " Категории";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
-<h2>AddOrUpdate</h2>
-
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+</div>
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Category</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+<div class="row">
+    <div class="col-lg-8 col-md-8">
+       
+            <div class="box-typical box-typical-padding">
+                @Html.AntiForgeryToken()
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ParentId, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.ParentId, new SelectList(ViewBag.CategoriesSelectListItem, "Value", "Text"), "Выбрать", new { @class = "form-control" })
+
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
+        
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+    </div>
+    <div class="col-lg-4 col-md-4">
+        <div class="box-typical box-typical-padding">
+            <div class="proj-page-section admin-product__thumbnail-wrap">
+                <p>Миниатюра категории</p>
+                <div class="admin-product__thumbnail">
+                    @Html.HiddenFor(m => Model.ThumbnailId, new { id = "ThumbnailId" })
+                    <img src="@((Model.Thumbnail!=null)? Model.Thumbnail.ServerPathImg:"#")" alt="" />
+            </div>
+
+            <button type="button" class="btn btn-primary js-btn-thumbnail-edit">Изменить</button>
             </div>
         </div>
     </div>
-}
 
+</div>
+        }
+        
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Вернуться к списку с категориями", "Index", null, new { @class = "btn btn-default btn-lg" })
+</div>
+
+
+<div class="modal fade" id="edit-thumbnail-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Выбор картинки</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                @*<button type="button" class="btn btn-primary js-btn-thumbnail-save">Сохранить изменения</button>*@
+            </div>
+        </div>
+    </div>
 </div>

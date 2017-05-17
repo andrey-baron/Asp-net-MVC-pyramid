@@ -1,0 +1,31 @@
+﻿@model List<Pyramid.Entity.ProductValue>
+@*@Html.Hidden("ProductValues.Count", Model.Count)*@
+@for (int i = 0; i < Model.Count; i++)
+
+{
+    <div class="admin-product__addition-value">
+        <div class="row">
+            @Html.Hidden(String.Format("ProductValues[{0}].Id",i),Model[i].Id)
+            <div class="col-md-4">
+                @Html.Label("Название опции", htmlAttributes: new { @class = "control-label" })
+
+
+                @Html.TextBox(String.Format("ProductValues[{0}].Key", i),Model[i].Key,  new { @class = "form-control" } )
+                @*@Html.ValidationMessageFor(m => model.Key, "", new { @class = "text-danger" })*@
+            </div>
+            <div class="col-md-7">
+                @Html.Label("Значение опции", htmlAttributes: new { @class = "control-label" })
+                @Html.TextBox(String.Format("ProductValues[{0}].Value", i), Model[i].Value, new { @class = "form-control" })
+               
+            </div>
+            <div class="col-md-1">
+                <label class="control-label">удалить</label>
+                <button type="button" class="tabledit-edit-button btn btn-sm btn-default btn-addition-value" style="float: none;" data-ajaxid="@Model[i].Id">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+

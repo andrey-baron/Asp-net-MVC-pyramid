@@ -19,6 +19,7 @@ namespace DBFirstDAL
                 {
                     dbContext.Categories.Add(new Categories() {
                     Title=entity.Title,
+                    ParentId=entity.ParentId
                     });
                 }
                 else
@@ -32,7 +33,15 @@ namespace DBFirstDAL
 
         public static void Delete(int entityId)
         {
-            throw new NotImplementedException();
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                var efCat = dbContext.Categories.Find(entityId);
+                if (efCat!=null)
+                {
+                    dbContext.Categories.Remove(efCat);
+                }
+                
+            }
         }
 
         public static Pyramid.Entity.Category Get(int id)
@@ -48,7 +57,8 @@ namespace DBFirstDAL
                         Thumbnail = category.Images != null ? new Pyramid.Entity.Image()
                         {
                             Id =  category.Images.Id,
-                            PathInFileSystem = category.Images.PathInFileSystem
+                            PathInFileSystem = category.Images.PathInFileSystem,
+                            ServerPathImg=category.Images.ServerPathImg
                         }:null,
                         Products = (dbContext.ProductCategories.Select(i => i.Products).Select(p => new Pyramid.Entity.Product()
                         {
@@ -77,7 +87,22 @@ namespace DBFirstDAL
                 return dbContext.Categories.Select(c => new Pyramid.Entity.Category()
                 {
                     Id=c.Id,
-                    Title=c.Title
+                    Title=c.Title,
+                    Thumbnail=(c.Images!=null)?new Pyramid.Entity.Image() {
+                        Id =c.Images.Id,
+                    ServerPathImg=c.Images.ServerPathImg}:null,
+                    ThumbnailId=c.ThumbnailId
+                }).ToList(); ;
+            }
+        }
+        public static IEnumerable<Pyramid.Entity.Category> GetAllWithoutCategoryId(int catId)
+        {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                return dbContext.Categories.Where(c=>c.Id!=catId).Select(c => new Pyramid.Entity.Category()
+                {
+                    Id = c.Id,
+                    Title = c.Title,
                 }).ToList(); ;
             }
         }
@@ -109,6 +134,7 @@ namespace DBFirstDAL
                     };
             }
         }
+
 
     }
 }

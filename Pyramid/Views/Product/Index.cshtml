@@ -1,94 +1,36 @@
-﻿@model IEnumerable<Pyramid.Entity.Product>
-
+﻿
 @{
-    ViewBag.Title = "View";
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "single";
+    Layout = "~/Views/Shared/_LayoutOtherPages.cshtml";
 }
 
-<h2>View</h2>
 
-<p>
-    @Html.ActionLink("Create New", "AddOrUpdate")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Available)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TypePrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MetaDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MetaTitle)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MetaKeywords)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsSEOReady)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Alias)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateCreation)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateChange)
-        </th>
-        <th></th>
-    </tr>
+<div class="single">
+    <div class="row">
+        <div class="col-md-12">
+            <p class="single__title">Минимойка HUTER W165-AR</p>
+        </div>
+    </div>
+    <div class="row row-no-gutter">
+        <div class="col-md-6 single-col">
+            <div class="single__content">
+                <p>Мощность двигателя, Вт: </p>
+                <p>Максимальное давление, Бар:</p>
+                <p> Производительность подачи воды, л/ч:</p>
+                <p>  Температура воды на входе (max), °С:</p>
+                <p>   Давление воды на входе (max), Бар:</p>
+                <p>  Система намотки сетевого шнура:</p>
+                <p>   Вес (без принадлежностей), кг:</p>
+                <p>   Гарантия, мес.:</p>
+                <p>  Сайт производителя:</p>
+                <p>  Страна производитель:</p>
+            </div>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Available)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TypePrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MetaDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MetaTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MetaKeywords)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsSEOReady)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Alias)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateCreation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateChange)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "AddOrUpdate", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-    }
-
-</table>
+            <div class="single__price-block">
+                <span class="single__price"><span class="single__big-price"></span>руб/шт.</span>
+            </div>
+        </div>
+        <div class="col-md-6 single-col"></div>
+    </div>
+</div>
+   

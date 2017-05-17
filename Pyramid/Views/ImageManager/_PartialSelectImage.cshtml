@@ -1,0 +1,36 @@
+﻿@model ICollection<Pyramid.Entity.Image>
+<div class="box-typical box-typical-padding">
+    <div class="box-typical-header box-typical-header-bordered">
+        <div class="tbl-row">
+            <div class="tbl-cell tbl-cell-title">
+                <h3>Все картинки</h3>
+            </div>
+        </div>
+    </div>
+    <div class="box-typical-body">
+        <div class="gallery-grid">
+            @foreach (var itemImage in Model)
+            {
+                <div class="gallery-col">
+                    <article class="gallery-item" style="height: 158px;">
+                        <img class="gallery-picture" src="@itemImage.ServerPathImg" alt="" height="158">
+                        <div class="gallery-hover-layout">
+                            <div class="gallery-hover-layout-in">
+                                <p class="gallery-item-title">@itemImage.Title</p>
+                                @*<p>by Alban Wamigo</p>*@
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-ajax-edit" data-ajaxid="@itemImage.Id" data-url="@itemImage.ServerPathImg" data-toggle="modal" data-target="#edit-modal">
+                                        <i class="font-icon font-icon-btn_white glyphicon glyphicon-pencil"></i>
+                                        
+                                    </button>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

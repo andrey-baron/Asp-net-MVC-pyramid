@@ -10,6 +10,7 @@ namespace Pyramid.Entity
     {
         public int Id { get; set; }
         public string PathInFileSystem { get; set; }
+        public string ServerPathImg { get; set; }
         public string ImgAlt { get; set; }
         public string Title { get; set; }
     }

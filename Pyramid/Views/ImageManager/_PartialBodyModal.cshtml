@@ -1,0 +1,22 @@
+﻿@model Pyramid.Entity.Image
+@using (Html.BeginForm("AddOrUpdate","ImageManager",FormMethod.Post,new {@class="partial-form-im" }))
+{
+<div class="form-horizontal">
+    @Html.HiddenFor(model => model.Id)
+    <div class="form-group">
+        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ImgAlt, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ImgAlt, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ImgAlt, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+}
+

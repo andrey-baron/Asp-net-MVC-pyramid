@@ -85,6 +85,38 @@ ul {
 .row-no-gutter {
   margin: 0;
 }
+.sliderUI {
+  background: #ccc;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.sliderUI .ui-slider-range {
+  background: #67b23b;
+}
+.sliderUI .ui-slider-handle {
+  background: #fff;
+  width: 16px;
+  height: 30px;
+  margin-top: -5px;
+}
+.category__filter-block-controls .ui-spinner {
+  width: 84px;
+  height: 32px;
+  border: none;
+}
+.category__filter-block-controls .ui-spinner .ui-spinner-input {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding-left: 8px;
+}
+.category__filter-block-controls .ui-spinner .ui-spinner-button {
+  display: none;
+}
+.category__filter-block-controls .label_spinner {
+  color: #ccc;
+  margin-right: 10px;
+}
 
 
 .breadcrumbs {
@@ -171,6 +203,8 @@ ul {
   font-family: ProximaNovaSemibold;
   font-size: 32px;
   padding-left: 60px;
+  height: 95px;
+  line-height: 95px;
 }
 .category__sort-list {
   text-align: right;
@@ -191,6 +225,24 @@ ul {
 .category__sidebar {
   background: #eaeaea;
   height: 1020px;
+  padding: 30px;
+}
+.category__filter-title {
+  font-size: 20px;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #ccc;
+}
+.category__filter-block-controls .checkbox label,
+.category__filter-block-controls .radio label {
+  padding-left: 35px;
+}
+.category__input-chekbox {
+  width: 16px;
+  height: 16px;
+  background: #fff!important;
+  outline: none;
+  margin-left: 0!important;
 }
 
 .base-class,
@@ -633,6 +685,8 @@ ul {
   background: #ccc;
   font-family: ProximaNovaSemibold;
   line-height: 96px;
+  height: 96px;
+  overflow: hidden;
 }
 .header__catalog-btn :before {
   content: '';
@@ -1130,9 +1184,26 @@ ul {
   margin-right: -60px;
 }
 .single-col {
-  padding-left: 60px;
-  padding-right: 60px;
+  /*padding-left: 60px;
+  padding-right: 60px;*/
 }
 .single {
   height: 600px;
+  padding-left: 60px;
+  padding-right: 60px;
+}
+.single__title {
+  font-family: ProximaNovaSemibold;
+  font-size: 32px;
+  height: 96px;
+  line-height: 96px;
+}
+.single__price {
+  font-size: 24px;
+  color: #ccc;
+}
+.single__big-price {
+  font-size: 48px;
+  font-family: ProximaNovaExtrabld;
+  color: #333;
 }

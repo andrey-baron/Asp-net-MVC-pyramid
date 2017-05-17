@@ -1,0 +1,95 @@
+﻿@model ICollection<Pyramid.Entity.Image>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Fine Uploader DOM Element
+   ====================================================================== -->
+<div id="fine-uploader-manual-trigger" class="file-uploader"></div>
+
+
+
+
+
+<div class="box-typical box-typical-padding">
+    <div class="box-typical-header box-typical-header-bordered">
+        <div class="tbl-row">
+            <div class="tbl-cell tbl-cell-title">
+                <h3>Все картинки</h3>
+            </div>
+        </div>
+    </div>
+    <div class="box-typical-body">
+        <div class="gallery-grid">
+@foreach (var itemImage in Model)
+{
+    <div class="gallery-col">
+        <article class="gallery-item" style="height: 158px;">
+            <img class="gallery-picture" src="@itemImage.ServerPathImg" alt="" height="158">
+            <div class="gallery-hover-layout">
+                <div class="gallery-hover-layout-in">
+                    <p class="gallery-item-title">@itemImage.Title</p>
+                    @*<p>by Alban Wamigo</p>*@
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-ajax-edit" data-ajaxid="@itemImage.Id" data-toggle="modal" data-target="#edit-modal">
+                            <i class="font-icon font-icon-btn_white glyphicon glyphicon-pencil"></i>
+                        </button>
+                        <button type="button" class="btn btn-ajax-delete" data-ajaxid="@itemImage.Id">
+                            <i class="font-icon font-icon-btn_white glyphicon glyphicon-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+}        </div>
+    </div>
+</div>
+<!-- Your code to create an instance of Fine Uploader and bind to the DOM/template
+====================================================================== -->
+<script>
+    $('#fine-uploader-manual-trigger').fineUploader({
+        template: 'qq-template-manual-trigger',
+        request: {
+            endpoint: '/ImageManager/Upload'
+        },
+        thumbnails: {
+            placeholders: {
+                waitingPath: '/Content/img-file-uploader/waiting-generic.png',
+                notAvailablePath: '/Content/img-file-uploader/not_available-generic.png'
+            }
+        },
+        autoUpload: false,
+       // multiple: false
+    }).on('complete', function (event, id, name, responseJSON) {
+        var tmp = responseJSON;
+        //reloadData();
+    });;
+
+    $('#trigger-upload').click(function () {
+        $('#fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
+    });
+
+   
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Редактирование картинки</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-primary btn-modal-save">Сохранить изменения</button>
+            </div>
+        </div>
+    </div>
+</div>
+

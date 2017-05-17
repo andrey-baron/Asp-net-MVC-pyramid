@@ -125,6 +125,25 @@ gulp.task('less', function () {
    
 });
 
+gulp.task('less-admin', function () {
+    return gulp.src('./Content/src/admin-blocks/**/*.less')
+        .pipe(order([
+            "other.less",
+            "*.less"
+        ]))
+        .pipe(less())
+        .on("error", notify.onError(function (err) {
+            return {
+                title: "less-admin-styles",
+                message: err.message
+            }
+        }))
+        .pipe(concat('admin.css'))
+        .pipe(gulp.dest('./Content/css'))
+    ;
+
+});
+
 
 gulp.task('js', function () {
     return gulp.src('./Content/src/blocks/**/*.js')
@@ -133,14 +152,27 @@ gulp.task('js', function () {
         .pipe(gulp.dest('./Scripts/main/'));
 });
 
+gulp.task('js-admin', function () {
+    return gulp.src('./Content/src/admin-blocks/**/*.js')
+
+        .pipe(concat('admin.js'))
+        .pipe(gulp.dest('./Scripts/admin/'));
+});
+
 
 gulp.task('watch-js', function () {
-    gulp.watch("./src/blocks/**/*.js", ['js']);
+    gulp.watch("./Content/src/blocks/**/*.js", ['js']);
+});
+gulp.task('watch-js-admin', function () {
+    gulp.watch("./Content/src/admin-blocks/**/*.js", ['js-admin']);
 });
 
 gulp.task('watch-less', function () {
-    gulp.watch("./src/blocks/**/*.less", ['less']);
+    gulp.watch("./Content/src/blocks/**/*.less", ['less']);
+});
 
+gulp.task('watch-less-admin', function () {
+    gulp.watch("./Content/src/admin-blocks/**/*.less", ['less-admin']);
 });
 
 gulp.task('dev-start', [

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Pyramid.Entity
 {
-    public class Page
+    public class Page:BaseEntity
     {
         public int Id { get; set; }
         [Required]

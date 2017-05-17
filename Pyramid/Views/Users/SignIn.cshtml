@@ -3,31 +3,29 @@
     ViewBag.Title = "Авторизация на сайте";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
-<div class="breadCrumbsAdmin">
-    <a href="/" class="blackLink">Главная</a>
-    <p class="paragraphslash">/</p>
-    <a href="/Admin/index">Панель Администратора</a>
-    <p class="paragraphslash">/</p>
-    <p class="redLink">Авторизация на сайте</p>
-</div>
-<fieldset class="admin">
-    @using (Html.BeginForm("signin", "users", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
-        <div class="editor-group">
-            @Html.LabelFor(model => model.Login)
-            @Html.TextBoxFor(model => model.Login, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Login)
+<div class="page-center" style="height: 465px;">
+    <div class="page-center-in">
+        <div class="container-fluid">
+        @using (Html.BeginForm("signin", "users", FormMethod.Post,new { @class= "sign-box" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="sign-avatar">
+                <img src="~/Content/img/logo.png" alt="">
+            </div>
+                <header class="sign-title">Войти в панель администратора</header>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Login)
+                    @Html.TextBoxFor(model => model.Login, new { @class = "form-control", placeholder = "Логин" })
+                    @Html.ValidationMessageFor(model => model.Login)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password)
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Пароль" })
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+                <input type="submit" value="Войти" class="btn btn-rounded" />
+        }
+           
         </div>
-        <div class="editor-group">
-            @Html.LabelFor(model => model.Password)
-            @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Password)
-        </div>
-        <br />
-        <input type="submit" value="Войти" class="buttonHeadAdmin centerAdmin" />
-    }
-    <div>
     </div>
-</fieldset>
+</div>

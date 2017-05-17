@@ -1,0 +1,20 @@
+﻿@model int
+
+<div class="admin-product__addition-value">
+    <div class="row">
+        @Html.Hidden(String.Format("ProductValues[{0}].Id", Model), 0)
+        <div class="col-md-4">
+            @Html.Label("Название опции", htmlAttributes: new { @class = "control-label" })
+
+
+            @Html.TextBox(String.Format("ProductValues[{0}].Key", Model), "", new { @class = "form-control" })
+            @*@Html.ValidationMessageFor(m => model.Key, "", new { @class = "text-danger" })*@
+        </div>
+        <div class="col-md-8">
+            @Html.Label("Значение опции", htmlAttributes: new { @class = "control-label" })
+            @Html.TextBox(String.Format("ProductValues[{0}].Value", Model), "", new { @class = "form-control" })
+
+        </div>
+    </div>
+</div>
+
