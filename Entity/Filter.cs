@@ -14,11 +14,11 @@ namespace Pyramid.Entity
         public string Title { get; set; }
 
        
-        public virtual Category Category { get; set; }
-        public virtual ICollection<FilterValue> FilterValues { get; set; }
+        public virtual ICollection<Category> Categories { get; set; }
+        public virtual ICollection<EnumValue> EnumValues { get; set; }
         public Filter()
         {
-            FilterValues = new List<FilterValue>();
+            EnumValues = new List<EnumValue>();
         }
     }
 }

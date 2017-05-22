@@ -46,6 +46,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -173,6 +177,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\EnumValueController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImageManagerController.cs" />
@@ -184,6 +189,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AllCategoriesViewModel.cs" />
+    <Compile Include="Models\CategoryModels\CategoryEnumValueViewModel.cs" />
+    <Compile Include="Models\CategoryAdminViewModel.cs" />
+    <Compile Include="Models\CategoryModels\CategoryFilterViewModel.cs" />
+    <Compile Include="Models\CategoryModels\CategoryViewModel.cs" />
     <Compile Include="Models\EnterModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -206,14 +216,21 @@
     <Content Include="Content\img-file-uploader\not_available-generic.png" />
     <Content Include="Content\img-file-uploader\processing.gif" />
     <Content Include="Content\img-file-uploader\waiting-generic.png" />
+    <Content Include="Content\img\+.png" />
+    <Content Include="Content\img\-.png" />
+    <Content Include="Content\img\arrow-next.png" />
+    <Content Include="Content\img\arrow-prev.png" />
     <Content Include="Content\img\arrow-right.png" />
     <Content Include="Content\img\bg-rules-order.png" />
     <Content Include="Content\img\btn-play.png" />
+    <Content Include="Content\img\bx_loader.gif" />
     <Content Include="Content\img\cart.png" />
     <Content Include="Content\img\cat-btn.png" />
     <Content Include="Content\img\click-hand.png" />
     <Content Include="Content\img\consultant.png" />
+    <Content Include="Content\img\controls.png" />
     <Content Include="Content\img\done.png" />
+    <Content Include="Content\img\dotted-line-dot.gif" />
     <Content Include="Content\img\FB_icon.png" />
     <Content Include="Content\img\home-shipping.png" />
     <Content Include="Content\img\home-shipping.svg" />
@@ -231,6 +248,8 @@
     <Content Include="Content\img\question.png" />
     <Content Include="Content\img\RectX.png" />
     <Content Include="Content\img\shopping-basket.png" />
+    <Content Include="Content\img\single.png" />
+    <Content Include="Content\img\single2.jpg" />
     <Content Include="Content\img\slider-map.png" />
     <Content Include="Content\img\telephone.png" />
     <Content Include="Content\img\test-offer.png" />
@@ -242,10 +261,13 @@
     <Content Include="Content\libs\jquery-ui.js" />
     <Content Include="Content\libs\jquery-ui.min.css" />
     <Content Include="Content\libs\jquery-ui.min.js" />
+    <Content Include="Content\libs\jquery.bxslider.css" />
     <Content Include="Content\libs\jquery.bxslider.min.css" />
     <Content Include="Content\libs\jquery.bxslider.min.js" />
     <Content Include="Content\src\admin-blocks\admin-product.js" />
     <Content Include="Content\src\admin-blocks\admin\admin.js" />
+    <Content Include="Content\src\admin-blocks\category\admin-category.js" />
+    <Content Include="Content\src\admin-blocks\filter\filter-admin.js" />
     <Content Include="Content\src\admin-blocks\image-manager\image-manager.js" />
     <Content Include="Content\src\blocks\call-to-action\call-to-action.js" />
     <Content Include="Content\src\blocks\category\category.js" />
@@ -284,6 +306,7 @@
     <Content Include="Content\src\admin-blocks\other.less" />
     <Content Include="Content\src\admin-blocks\admin\sidebar.less" />
     <Content Include="Content\src\admin-blocks\admin\admin-product.less" />
+    <Content Include="Content\src\blocks\category\subcategory.less" />
     <None Include="Properties\PublishProfiles\Pyramid.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\fine-uploader.js" />
@@ -501,13 +524,24 @@
     <Content Include="Views\Shared\_LayoutOtherPages.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\ImageManager\_PartialSelectImage.cshtml" />
+    <Content Include="Views\Page\AddOrUpdate.cshtml" />
+    <Content Include="Views\Page\AdminIndex.cshtml" />
+    <Content Include="Views\Category\ViewRootCategories.cshtml" />
+    <Content Include="Views\EnumValue\Index.cshtml" />
+    <Content Include="Views\EnumValue\AddOrUpdate.cshtml" />
+    <Content Include="Views\Filter\_PartialFilterEmptyEnumValue.cshtml" />
+    <Content Include="Views\Filter\_PartialFilterAllEnumValues.cshtml" />
+    <Content Include="Views\Category\_PartialCategoryAllFilters.cshtml" />
+    <Content Include="Views\Category\_PartialCategoryEmptyFilter.cshtml" />
+    <Content Include="Views\Product\_PartialProductAllEnumValues.cshtml" />
+    <Content Include="Views\Product\_PartialProductEmptyEnumValue.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\less\" />
     <Folder Include="Content\libs\images\" />
+    <Folder Include="Content\src\admin-blocks\product\" />
     <Folder Include="Content\UserUpload\" />
-    <Folder Include="Views\Page\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -525,10 +559,6 @@
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{2b605ef3-8de4-448a-a2cb-6534641b5a6b}</Project>
       <Name>Entity</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pyramid.DAL\Pyramid.CodeFirstDAL.csproj">
-      <Project>{7c3d728a-24f1-4776-9604-211f8b394174}</Project>
-      <Name>Pyramid.CodeFirstDAL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -19,4 +19,11 @@
         });
 
     });*/
+
+    $('#single-bxslider').bxSlider({
+        pagerCustom: '#single-bx-pager'
+    });
+    $(".js-single-spinner").spinner({
+        min:1,
+    });
 })($);

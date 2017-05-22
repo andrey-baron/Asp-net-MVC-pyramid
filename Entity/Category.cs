@@ -13,10 +13,11 @@ namespace Pyramid.Entity
         [Required]
         [MaxLength(100)]
         public string Title { get; set; }
-        public int? ThumbnailId { get; set; }
-        public bool Cheaked { get; set; }
+        //public int? ThumbnailId { get; set; }
+        public bool Checked { get; set; }
         [Display(Name ="Родительская категория")]
         public int? ParentId { get; set; }
+        public bool FlagRoot { get; set; }
 
         public Image Thumbnail { get; set; }
         public ICollection<Product> Products { get; set; }

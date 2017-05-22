@@ -41,15 +41,6 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Available, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <div class="checkbox">
-                                @Html.EditorFor(model => model.Available)
-                                @Html.ValidationMessageFor(model => model.Available, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.TypePrice, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -122,13 +113,27 @@
             </div>
             
         </div>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Значение для фильтров</p>
+            </div>
+            <div class="card-block">
+                <div class="admin-product__addition-values js-admin-product-enumvalues">
+                    @Html.Partial("_PartialProductAllEnumValues", Model.EnumValues)
+
+                </div>
+                <button type="button" class="btn btn-primary js-btn-add-product-enumvalue">Добавить</button>
+            </div>
+
+        </div>
+        
     </div>
     <div class="col-lg-4 col-md-4">
         <div class="box-typical box-typical-padding">
             <div class="proj-page-section admin-product__categories-wrap">
                 <p>Категории товара</p>
                 <div class="admin-product__categories">
-                    @Html.Partial("_PartialAllProductCategories", (List<Pyramid.Entity.Category>)ViewBag.AllCategories)
+                    @Html.Partial("_PartialAllProductCategories", (List<Pyramid.Models.CategoryAdminViewModel>)ViewBag.AllCategories)
                     
                 </div>
             </div>
@@ -157,7 +162,7 @@
 
 
 <div>
-    @Html.ActionLink("Вернуться к списку с товарами", "Index", null, new { @class = "btn btn-default btn-lg" })
+    @Html.ActionLink("Вернуться к списку с товарами", "AdminIndex", null, new { @class = "btn btn-default btn-lg" })
 </div>
 
 

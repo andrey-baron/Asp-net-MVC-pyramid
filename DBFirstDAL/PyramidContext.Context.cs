@@ -27,13 +27,12 @@ namespace DBFirstDAL
     
         public virtual DbSet<BannerWithPoints> BannerWithPoints { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<EnumValues> EnumValues { get; set; }
         public virtual DbSet<Filters> Filters { get; set; }
-        public virtual DbSet<FilterValues> FilterValues { get; set; }
         public virtual DbSet<Images> Images { get; set; }
         public virtual DbSet<ImagesToProducts> ImagesToProducts { get; set; }
         public virtual DbSet<Pages> Pages { get; set; }
         public virtual DbSet<PointOnImgs> PointOnImgs { get; set; }
-        public virtual DbSet<ProductCategories> ProductCategories { get; set; }
         public virtual DbSet<Products> Products { get; set; }
         public virtual DbSet<ProductValues> ProductValues { get; set; }
         public virtual DbSet<Users> Users { get; set; }

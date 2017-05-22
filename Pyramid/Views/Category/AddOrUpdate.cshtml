@@ -18,7 +18,7 @@
                 <div class="form-horizontal">
 
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.Id, new { id = "Category_Id" })
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -28,12 +28,25 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        @Html.LabelFor(model => model.FlagRoot, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(model => model.FlagRoot, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FlagRoot, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
                         @Html.LabelFor(model => model.ParentId, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.DropDownListFor(model => model.ParentId, new SelectList(ViewBag.CategoriesSelectListItem, "Value", "Text"), "Выбрать", new { @class = "form-control" })
 
 
                         </div>
+                    </div>
+                    <div class="js-category-filters">
+                        @Html.Partial("_PartialCategoryAllFilters", Model.Filters)
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary js-btn-category-add-filter">Применить новый фильтр</button>
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
@@ -51,8 +64,8 @@
             <div class="proj-page-section admin-product__thumbnail-wrap">
                 <p>Миниатюра категории</p>
                 <div class="admin-product__thumbnail">
-                    @Html.HiddenFor(m => Model.ThumbnailId, new { id = "ThumbnailId" })
-                    <img src="@((Model.Thumbnail!=null)? Model.Thumbnail.ServerPathImg:"#")" alt="" />
+                    @*@Html.HiddenFor(m => Model.ThumbnailId, new { id = "ThumbnailId" })
+                    <img src="@((Model.Thumbnail!=null)? Model.Thumbnail.ServerPathImg:"#")" alt="" />*@
             </div>
 
             <button type="button" class="btn btn-primary js-btn-thumbnail-edit">Изменить</button>
@@ -64,7 +77,7 @@
         }
         
 <div>
-    @Html.ActionLink("Вернуться к списку с категориями", "Index", null, new { @class = "btn btn-default btn-lg" })
+    @Html.ActionLink("Вернуться к списку с категориями", "AdminIndex", null, new { @class = "btn btn-default btn-lg" })
 </div>
 
 

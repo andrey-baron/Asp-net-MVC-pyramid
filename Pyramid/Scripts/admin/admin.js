@@ -13,6 +13,43 @@
                 $(".admin-product__addition-values").html(data);
             });
         });
+    });
+
+
+    $(".js-btn-add-product-enumvalue").on("click", function () {
+
+        $.post("/Product/GetTemplateEnumValue/" + productId, function (data) {
+            $(".js-admin-product-enumvalues").append(data);
+        });
+    });
+    $(".js-admin-product-enumvalue").on("click", ".btn-product-enum-value-delete", function (e) {
+        var id = $(this).data("ajaxid");
+        $.post("/Product/DeleteEnumValue?id=" + productId + "&enumValueId=" + id, function (t) {
+            $.post("/Product/GetAllEnumValues/" + productId, function (data) {
+                $(".js-admin-product-enumvalues").html(data);
+            });
+        });
+    })
+
+    
+
+})();
+; (function () {
+     
+    var categoryId = $("#Category_Id").val();
+    $(".js-btn-category-add-filter").on("click", function () {
+
+        $.post("/Category/GetTemplateFilter/" + categoryId, function (data) {
+            $(".js-category-filters").append(data);
+        });
+    });
+    $(".js-category-filters").on("click", ".js-btn-category-filter-delete", function (e) {
+        var id = $(this).data("ajaxid");
+        $.post("/Category/DeleteFilter?id=" + categoryId + "&filterid=" + id, function (t) {
+            $.post("/Category/GetAllFilter?filterid=" + categoryId, function (data) {
+                $(".js-filter-all-enumvalues").html(data);
+            });
+        });
     })
 
 })();
@@ -93,3 +130,22 @@ function reloadData() {
         $(selectorGaleryGrid).html(data);
     });
 };
+; (function () {
+
+       var filterId = $("#Filter_Id").val();
+    $(".js-btn-filter-add-enumvalue").on("click", function () {
+
+        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId, function (data) {
+            $(".js-filter-all-enumvalues").append(data);
+        });
+    });
+    $(".js-filter-all-enumvalues").on("click", ".btn-filter-enum-value-delete", function (e) {
+        var id = $(this).data("ajaxid");
+        $.post("/Filter/DeleteEnumValue?id=" + filterId + "&enumValueId=" + id, function (t) {
+            $.post("/Filter/GetAllEnumValues?filterid=" + filterId, function (data) {
+                $(".js-filter-all-enumvalues").html(data);
+            });
+        });
+    })
+
+})();

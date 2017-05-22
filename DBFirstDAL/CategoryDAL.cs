@@ -19,7 +19,8 @@ namespace DBFirstDAL
                 {
                     dbContext.Categories.Add(new Categories() {
                     Title=entity.Title,
-                    ParentId=entity.ParentId
+                    ParentId=entity.ParentId,
+                    FlagRoot=entity.FlagRoot
                     });
                 }
                 else
@@ -54,25 +55,26 @@ namespace DBFirstDAL
                     return new Pyramid.Entity.Category()
                     {
                         Title = category.Title,
+                        FlagRoot=category.FlagRoot,
                         Thumbnail = category.Images != null ? new Pyramid.Entity.Image()
                         {
                             Id =  category.Images.Id,
                             PathInFileSystem = category.Images.PathInFileSystem,
                             ServerPathImg=category.Images.ServerPathImg
                         }:null,
-                        Products = (dbContext.ProductCategories.Select(i => i.Products).Select(p => new Pyramid.Entity.Product()
+                        Products = (category.Products.Select(p => new Pyramid.Entity.Product()
                         {
                             Alias = p.Alias,
                             Title = p.Title,
                             Id = p.Id
 
                         }).ToList()),
-                        Filters = dbContext.Filters.Where(w=>w.CategoryId==category.Id).Select(i => new Pyramid.Entity.Filter()
-                        {
-                            Id = i.Id,
-                            Title = i.Title,
+                        //Filters = dbContext.Filters.Where(w=>w.CategoryId==category.Id).Select(i => new Pyramid.Entity.Filter()
+                        //{
+                        //    Id = i.Id,
+                        //    Title = i.Title,
 
-                        }).ToList(),
+                        //}).ToList(),
                     };
                     
                 };
@@ -88,10 +90,12 @@ namespace DBFirstDAL
                 {
                     Id=c.Id,
                     Title=c.Title,
+                    FlagRoot=c.FlagRoot,
                     Thumbnail=(c.Images!=null)?new Pyramid.Entity.Image() {
                         Id =c.Images.Id,
                     ServerPathImg=c.Images.ServerPathImg}:null,
-                    ThumbnailId=c.ThumbnailId
+                    
+                    //ThumbnailId=c.ThumbnailId
                 }).ToList(); ;
             }
         }
@@ -106,34 +110,34 @@ namespace DBFirstDAL
                 }).ToList(); ;
             }
         }
-        public static Pyramid.Entity.Category DALToEntity( Categories category)
-        {
-            using (PyramidFinalContext dbContext = new PyramidFinalContext())
-            {
+        //public static Pyramid.Entity.Category DALToEntity( Categories category)
+        //{
+        //    using (PyramidFinalContext dbContext = new PyramidFinalContext())
+        //    {
 
 
-                return new Pyramid.Entity.Category()
-                {
-                    Id = category.Id,
-                    Products = (dbContext.ProductCategories.Select(i => i.Products).Select(p => new Pyramid.Entity.Product()
-                    {
-                        Alias = p.Alias,
-                        Title = p.Title,
-                        Id = p.Id
+        //        return new Pyramid.Entity.Category()
+        //        {
+        //            Id = category.Id,
+        //            Products = (dbContext.ProductCategories.Select(i => i.Products).Select(p => new Pyramid.Entity.Product()
+        //            {
+        //                Alias = p.Alias,
+        //                Title = p.Title,
+        //                Id = p.Id
 
-                    }).ToList()),
-                    Thumbnail = new Pyramid.Entity.Image()
-                    {
-                        Id = category.Images.Id,
-                        PathInFileSystem = category.Images.PathInFileSystem
-                    },
-                    Title = category.Title,
-                    //Filters = dbContext.Categories.Select(f => f.Filters).Select(i => new Pyramid.Entity.Filter() {
-                    //    Id=
-                    //}).ToList(),
-                    };
-            }
-        }
+        //            }).ToList()),
+        //            Thumbnail = new Pyramid.Entity.Image()
+        //            {
+        //                Id = category.Images.Id,
+        //                PathInFileSystem = category.Images.PathInFileSystem
+        //            },
+        //            Title = category.Title,
+        //            //Filters = dbContext.Categories.Select(f => f.Filters).Select(i => new Pyramid.Entity.Filter() {
+        //            //    Id=
+        //            //}).ToList(),
+        //            };
+        //    }
+        //}
 
 
     }

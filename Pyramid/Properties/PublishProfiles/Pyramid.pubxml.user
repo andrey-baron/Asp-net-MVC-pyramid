@@ -76,7 +76,7 @@
       <publishTime>05/17/2017 09:52:21</publishTime>
     </File>
     <File Include="bin/Pyramid.dll">
-      <publishTime>05/17/2017 09:52:25</publishTime>
+      <publishTime>05/18/2017 16:00:46</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/18/2015 20:19:46</publishTime>
@@ -220,7 +220,7 @@
       <publishTime>05/12/2017 11:31:03</publishTime>
     </File>
     <File Include="Content/css/main.css">
-      <publishTime>05/17/2017 09:52:19</publishTime>
+      <publishTime>05/18/2017 16:24:25</publishTime>
     </File>
     <File Include="Content/css/reset.css">
       <publishTime>05/09/2017 22:34:46</publishTime>
@@ -237,6 +237,18 @@
     <File Include="Content/img-file-uploader/waiting-generic.png">
       <publishTime>05/12/2017 12:09:03</publishTime>
     </File>
+    <File Include="Content/img/+.png">
+      <publishTime>05/18/2017 15:33:25</publishTime>
+    </File>
+    <File Include="Content/img/-.png">
+      <publishTime>05/18/2017 15:33:25</publishTime>
+    </File>
+    <File Include="Content/img/arrow-next.png">
+      <publishTime>05/17/2017 23:00:20</publishTime>
+    </File>
+    <File Include="Content/img/arrow-prev.png">
+      <publishTime>05/17/2017 23:00:20</publishTime>
+    </File>
     <File Include="Content/img/arrow-right.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
     </File>
@@ -245,6 +257,9 @@
     </File>
     <File Include="Content/img/btn-play.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
+    </File>
+    <File Include="Content/img/bx_loader.gif">
+      <publishTime>05/17/2017 23:51:08</publishTime>
     </File>
     <File Include="Content/img/cart.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
@@ -258,8 +273,14 @@
     <File Include="Content/img/consultant.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
     </File>
+    <File Include="Content/img/controls.png">
+      <publishTime>05/17/2017 23:51:08</publishTime>
+    </File>
     <File Include="Content/img/done.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
+    </File>
+    <File Include="Content/img/dotted-line-dot.gif">
+      <publishTime>05/18/2017 01:25:09</publishTime>
     </File>
     <File Include="Content/img/FB_icon.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
@@ -312,6 +333,12 @@
     <File Include="Content/img/shopping-basket.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
     </File>
+    <File Include="Content/img/single.png">
+      <publishTime>05/17/2017 22:52:19</publishTime>
+    </File>
+    <File Include="Content/img/single2.jpg">
+      <publishTime>05/17/2017 22:31:08</publishTime>
+    </File>
     <File Include="Content/img/slider-map.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
     </File>
@@ -344,6 +371,9 @@
     </File>
     <File Include="Content/libs/jquery-ui.min.js">
       <publishTime>05/09/2017 22:35:12</publishTime>
+    </File>
+    <File Include="Content/libs/jquery.bxslider.css">
+      <publishTime>05/17/2017 23:52:59</publishTime>
     </File>
     <File Include="Content/libs/jquery.bxslider.min.css">
       <publishTime>05/09/2017 22:35:12</publishTime>
@@ -388,10 +418,10 @@
       <publishTime>05/16/2017 20:35:19</publishTime>
     </File>
     <File Include="Content/src/blocks/category/category.less">
-      <publishTime>05/16/2017 21:57:14</publishTime>
+      <publishTime>05/18/2017 16:24:25</publishTime>
     </File>
     <File Include="Content/src/blocks/decoration-work/decoration-work.less">
-      <publishTime>05/09/2017 22:29:07</publishTime>
+      <publishTime>05/18/2017 16:23:48</publishTime>
     </File>
     <File Include="Content/src/blocks/footer/footer.js">
       <publishTime>05/09/2017 22:29:07</publishTime>
@@ -400,7 +430,7 @@
       <publishTime>05/09/2017 22:29:07</publishTime>
     </File>
     <File Include="Content/src/blocks/header/header.less">
-      <publishTime>05/16/2017 21:53:22</publishTime>
+      <publishTime>05/18/2017 15:05:41</publishTime>
     </File>
     <File Include="Content/src/blocks/home-feedback/home-feedback.less">
       <publishTime>05/09/2017 22:29:07</publishTime>
@@ -409,25 +439,25 @@
       <publishTime>05/09/2017 22:29:07</publishTime>
     </File>
     <File Include="Content/src/blocks/home-slider/home-slider.less">
-      <publishTime>05/09/2017 22:29:07</publishTime>
+      <publishTime>05/18/2017 14:14:42</publishTime>
     </File>
     <File Include="Content/src/blocks/other.less">
-      <publishTime>05/16/2017 20:47:29</publishTime>
+      <publishTime>05/18/2017 16:18:02</publishTime>
     </File>
     <File Include="Content/src/blocks/product/product.js">
-      <publishTime>05/09/2017 22:29:07</publishTime>
+      <publishTime>05/18/2017 02:08:44</publishTime>
     </File>
     <File Include="Content/src/blocks/product/product.less">
-      <publishTime>05/09/2017 22:29:07</publishTime>
+      <publishTime>05/18/2017 16:20:05</publishTime>
     </File>
     <File Include="Content/src/blocks/rules-order/rules-order.less">
-      <publishTime>05/09/2017 22:29:07</publishTime>
+      <publishTime>05/18/2017 13:11:31</publishTime>
     </File>
     <File Include="Content/src/blocks/season-offer/season-offer.less">
-      <publishTime>05/09/2017 22:29:07</publishTime>
+      <publishTime>05/18/2017 13:37:11</publishTime>
     </File>
     <File Include="Content/src/blocks/single/single.less">
-      <publishTime>05/17/2017 09:52:19</publishTime>
+      <publishTime>05/18/2017 15:59:27</publishTime>
     </File>
     <File Include="Content/src/blocks/variable.less">
       <publishTime>05/16/2017 19:07:19</publishTime>
@@ -514,7 +544,7 @@
       <publishTime>04/24/2017 12:25:52</publishTime>
     </File>
     <File Include="Scripts/main/main.js">
-      <publishTime>05/16/2017 20:35:19</publishTime>
+      <publishTime>05/18/2017 02:08:44</publishTime>
     </File>
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>04/24/2017 12:25:50</publishTime>
@@ -961,7 +991,7 @@
       <publishTime>05/09/2017 16:22:31</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>05/16/2017 19:26:27</publishTime>
+      <publishTime>05/17/2017 23:31:07</publishTime>
     </File>
     <File Include="ViewModels/admin/main.js">
       <publishTime>04/28/2017 01:19:48</publishTime>
@@ -1006,7 +1036,7 @@
       <publishTime>05/11/2017 14:44:53</publishTime>
     </File>
     <File Include="Views/Category/AddOrUpdate.cshtml">
-      <publishTime>05/17/2017 00:59:56</publishTime>
+      <publishTime>05/17/2017 13:08:15</publishTime>
     </File>
     <File Include="Views/Category/AdminIndex.cshtml">
       <publishTime>05/17/2017 01:11:24</publishTime>
@@ -1015,7 +1045,7 @@
       <publishTime>05/01/2017 00:09:36</publishTime>
     </File>
     <File Include="Views/Category/Index.cshtml">
-      <publishTime>05/17/2017 01:59:38</publishTime>
+      <publishTime>05/18/2017 15:08:18</publishTime>
     </File>
     <File Include="Views/Filter/AddOrUpdate.cshtml">
       <publishTime>05/10/2017 16:56:57</publishTime>
@@ -1030,7 +1060,7 @@
       <publishTime>04/24/2017 12:25:34</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>05/09/2017 22:44:11</publishTime>
+      <publishTime>05/18/2017 16:21:57</publishTime>
     </File>
     <File Include="Views/ImageManager/Index.cshtml">
       <publishTime>05/15/2017 10:36:09</publishTime>
@@ -1063,13 +1093,13 @@
       <publishTime>04/24/2017 12:25:56</publishTime>
     </File>
     <File Include="Views/Product/AddOrUpdate.cshtml">
-      <publishTime>05/17/2017 01:23:34</publishTime>
+      <publishTime>05/17/2017 13:08:17</publishTime>
     </File>
     <File Include="Views/Product/AdminIndex.cshtml">
       <publishTime>05/17/2017 01:17:10</publishTime>
     </File>
     <File Include="Views/Product/Index.cshtml">
-      <publishTime>05/17/2017 09:52:19</publishTime>
+      <publishTime>05/18/2017 15:54:29</publishTime>
     </File>
     <File Include="Views/Product/_PartialAllProductCategories.cshtml">
       <publishTime>05/15/2017 17:45:36</publishTime>
@@ -1087,13 +1117,13 @@
       <publishTime>04/24/2017 12:25:56</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>05/17/2017 02:00:36</publishTime>
+      <publishTime>05/18/2017 14:57:55</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutAdmin.cshtml">
       <publishTime>05/16/2017 19:34:58</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutOtherPages.cshtml">
-      <publishTime>05/17/2017 02:00:56</publishTime>
+      <publishTime>05/18/2017 15:11:26</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>04/27/2017 23:51:43</publishTime>

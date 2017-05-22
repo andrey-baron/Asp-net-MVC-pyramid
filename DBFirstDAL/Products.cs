@@ -17,10 +17,10 @@ namespace DBFirstDAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Products()
         {
-            this.FilterValues = new HashSet<FilterValues>();
             this.ImagesToProducts = new HashSet<ImagesToProducts>();
-            this.ProductCategories = new HashSet<ProductCategories>();
             this.ProductValues = new HashSet<ProductValues>();
+            this.Categories = new HashSet<Categories>();
+            this.EnumValues = new HashSet<EnumValues>();
         }
     
         public int Id { get; set; }
@@ -38,14 +38,14 @@ namespace DBFirstDAL
         public Nullable<bool> InStock { get; set; }
         public Nullable<int> ThumbnailId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FilterValues> FilterValues { get; set; }
         public virtual Images Images { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ImagesToProducts> ImagesToProducts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductCategories> ProductCategories { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductValues> ProductValues { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Categories> Categories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EnumValues> EnumValues { get; set; }
     }
 }

@@ -8,10 +8,10 @@ namespace Pyramid.Controllers
 {
     public class HomeController : Controller
     {
-        DAL.UnitOfWork unitOfWork;
+       
         public HomeController()
         {
-            unitOfWork = new DAL.UnitOfWork();
+           
         }
         public ActionResult Index()
         {
@@ -32,10 +32,6 @@ namespace Pyramid.Controllers
 
             return View();
         }
-        protected override void Dispose(bool disposing)
-        {
-            unitOfWork.Dispose();
-            base.Dispose(disposing);
-        }
+       
     }
 }

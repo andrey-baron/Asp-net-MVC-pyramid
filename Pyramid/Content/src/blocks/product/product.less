@@ -7,18 +7,18 @@
 }
 .product{
   @imgHeight: 208px;
-  @minImgHeight: 128px;
+  @minImgHeight: 160px;
   @textHeight: 70px;
   @item__hover_block_height: 96px;
   @transition: all .45s;
-  @itemPadding: 20px;
+  @itemPadding: 16px;
 
   &__item{
     height: @seasonItem;
     padding: @itemPadding;
     border: 1px solid #eaeaea;
     position: relative;
-    text-align: center;
+    //text-align: center;
     transition: @transition;
     overflow: hidden;
   }
@@ -56,9 +56,12 @@
   &__item__hover_block_wrapper__item {
     display: block;
     width:100%;
+    &:hover,&:focus{
+        text-decoration:none;
+    }
   }
   &__item-price{
-    width: calc(~"100% - 40px");
+    width: calc(~"100% - 32px");
     top: @seasonItem - 128px - @itemPadding;
     transition: @transition;
     height: 128px;
@@ -72,7 +75,7 @@
       padding-top: 15px;
       display: block;
       border-bottom: 1px solid #eaeaea;
-      width: 80%;
+      //width: 80%;
       margin: 0 auto;
     }
     .triangle-up {
@@ -95,7 +98,8 @@
     }
   }
   &__item-price-inner{
-    padding-left: 44px;
+    //padding-left: 44px;
+    text-align: center;
     >.big-decimal{
       font-family: "ProximaNovaExtrabld";
       font-size: 48px;
@@ -111,7 +115,7 @@
     &:before{
       content: "предложение ограничено";
       border-bottom: none;
-      width: inherit;
+      width: 100%;
     }
 
   }
@@ -172,6 +176,9 @@
     width: 100%;
     display: none;
     text-align: center;
+    &:focus,&:hover{
+        text-decoration:none;
+    }
     &:after{
       display: inline-block;
       height: 100%;
@@ -223,6 +230,7 @@
     .product__item-title{
       width: 59%;
       top:@itemPadding;
+      padding-left: 10px;
     }
 
     .product__item__hover_block_wrapper {
@@ -237,13 +245,13 @@
 
     }
     .product__item-price{
-      height: 100px;
+      height: 90px;
       margin-top: 0;
       top: @minImgHeight;
       text-align: right;
       padding-right: 5px;
       &:before{
-        width: 50%;
+        //width: 50%;
         margin-right: 10%;
         margin-left: auto;
       }
@@ -252,6 +260,46 @@
       margin-right: 32px;
       left: inherit;
       right: 0;
+      text-align: right;
     }
   }
 }
+
+.single-galery-pager{
+    img{
+        width: 96px;
+        height: 96px;
+        object-fit: contain;
+           border: 1px solid #ccc;
+        margin: 3px;
+        &:hover{
+             border: solid #5280DD 1px;
+        }
+    
+    }
+    .active{
+        img{
+            border: solid #5280DD 1px;
+        }
+    }
+}
+
+@media (min-width: 992px) and (max-width:1400px){
+    .product__item{
+        font-size:16px;
+    }
+     .product__item:hover .product__item-img {
+    width: 70px;
+    }
+    }
+@media (min-width: 992px) and (max-width:1200px){
+    .product__item{
+        font-size:16px;
+    }
+    .product__item-price-inner > .big-decimal{
+        font-size:38px;
+    }
+    .product__item:hover .product__item-img {
+    width: 70px;
+    }
+    }

@@ -1,4 +1,6 @@
-﻿using Pyramid.Entity;
+﻿using AutoMapper;
+using DBFirstDAL.Repositories;
+using Pyramid.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,33 +11,123 @@ namespace Pyramid.Controllers
 {
     public class ProductController : Controller
     {
-        //DAL.UnitOfWork unitOfWork;
-        //public ProductController() {
-        //    unitOfWork = new DAL.UnitOfWork();
-        //}
-        // GET: Product
+        ProductRepository _productRepository;
+        EnumValueRepository _enumRepositopy;
+        CategoryRepository _categoryRepository;
+       public ProductController()
+        {
+            _productRepository = new ProductRepository();
+            _enumRepositopy = new EnumValueRepository();
+            _categoryRepository = new CategoryRepository();
+        }
         public ActionResult Index()
         {
-            var model = DBFirstDAL.ProductDAL.GetAll();
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
+                .ForMember(d => d.EnumValues, o => o.Ignore())
+                .ForMember(d => d.Categories, o => o.Ignore())
+                .ForMember(d => d.ProductValues, o => o.Ignore())
+                .ForMember(d => d.ThumbnailId, o => o.Ignore())
+                .ForMember(d => d.ThumbnailImg, o => o.Ignore()); ;
+
+              
+            });
+            config.AssertConfigurationIsValid();
+
+            var mapper = config.CreateMapper();
+            var model = mapper.Map<IEnumerable<DBFirstDAL.Products>,List<Entity.Product>>(_productRepository.GetAll().ToList());
+           
             return View(model);
         }
         [Authorize]
         public ActionResult AdminIndex()
         {
-            var model = DBFirstDAL.ProductDAL.GetAll();
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
+                .ForMember(d => d.EnumValues, o => o.Ignore())
+                .ForMember(d => d.Categories, o => o.Ignore())
+                .ForMember(d => d.ProductValues, o => o.Ignore())
+                .ForMember(d => d.ThumbnailId, o => o.Ignore())
+                .ForMember(d => d.ThumbnailImg, o => o.Ignore())
+                .ForMember(d => d.Images, o => o.Ignore())
+                ; ;
+
+
+            });
+            config.AssertConfigurationIsValid();
+
+            var mapper = config.CreateMapper();
+            var model = mapper.Map<IEnumerable<DBFirstDAL.Products>, List<Entity.Product>>(_productRepository.GetAll().ToList());
+
             return View(model);
         }
         [Authorize]
         public ActionResult AddOrUpdate(int id = 0)
         {
-            var model = DBFirstDAL.ProductDAL.Get(id);
-
-            var categories = DBFirstDAL.CategoryDAL.GetAll();
-            foreach (var item in model.Categories)
+            var config = new MapperConfiguration(cfg =>
             {
-                categories.FirstOrDefault(i => i.Id == item.Id).Cheaked = true;
+                cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
+                .ForMember(d => d.ThumbnailId, o => o.Ignore())
+                .ForMember(d => d.ThumbnailImg, o => o.Ignore())
+                .ForMember(d => d.Images, o => o.Ignore())
+                //.ForMember(d => d.Categories, o => o.Ignore())
+                ;
+
+                cfg.CreateMap<DBFirstDAL.Categories, Entity.Category>()
+                .ForMember(d => d.Checked, o => o.UseValue(false))
+                .ForMember(d => d.Filters, o => o.Ignore())
+                .ForMember(d => d.Products, o => o.Ignore())
+                .ForMember(d => d.Thumbnail, o => o.Ignore())
+
+                //.ForMember(d => d, o => o.MapFrom(m=>m.Categories1
+                ;
+                cfg.CreateMap<DBFirstDAL.Categories, Pyramid.Models.CategoryAdminViewModel>()
+                .ForMember(d => d.Checked, o => o.UseValue(false));
+
+                cfg.CreateMap<DBFirstDAL.ProductValues, Entity.ProductValue>()
+                .ForMember(d => d.Product, o => o.Ignore())
+                ;
+                cfg.CreateMap<DBFirstDAL.EnumValues, EnumValue>()
+                ;
+
+
+            });
+            config.AssertConfigurationIsValid();
+
+
+            var mapper = config.CreateMapper();
+            var model = mapper.Map<DBFirstDAL.Products, Entity.Product>(_productRepository.FindBy(i=>i.Id==id).SingleOrDefault());
+
+
+           // var categories = mapper.Map<IEnumerable<DBFirstDAL.Categories>, IEnumerable<Entity.Category>>(_categoryRepository.GetAll().ToList());
+
+
+            var categoriesViewModel =
+                mapper.Map<IEnumerable<DBFirstDAL.Categories>, List<Models.CategoryAdminViewModel>>(_categoryRepository.GetAll().ToList());
+
+           
+
+            if (model!=null)
+            {
+                foreach (var item in model.Categories)
+                {
+                    categoriesViewModel.FirstOrDefault(i => i.Id == item.Id).Checked = true;
+                }
             }
-            ViewBag.AllCategories = categories;
+            else
+            {
+                model = new Product();
+            }
+
+            ViewBag.EnumValuesSelectList = _enumRepositopy.GetAll().ToList().Select(item => new SelectListItem
+            {
+                Text = item.Key,
+                Value = item.Id.ToString()
+            });
+
+            ViewBag.AllCategories = categoriesViewModel;
 
             return View(model);
         }
@@ -48,7 +140,41 @@ namespace Pyramid.Controllers
                 model.DateCreation = DateTime.Now;
             }
             model.DateChange = DateTime.Now;
-            DBFirstDAL.ProductDAL.AddOrUpdateEntity(model);
+
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Pyramid.Entity.Product, DBFirstDAL.Products>()
+                .ForMember(d => d.ThumbnailId, o => o.Ignore())
+                .ForMember(d => d.Images, o => o.Ignore())
+                .ForMember(d => d.PointOnImg_Id, o => o.Ignore())
+                .ForMember(d => d.ImagesToProducts, o => o.Ignore()); 
+
+                cfg.CreateMap<Pyramid.Entity.Category, DBFirstDAL.Categories>()
+                .ForMember(d => d.Categories1, o => o.Ignore())
+                .ForMember(d => d.Categories2, o => o.Ignore())
+                .ForMember(d => d.Filters, o => o.Ignore())
+                .ForMember(d => d.Products, o => o.Ignore())
+                .ForMember(d => d.Images, o => o.Ignore())
+
+                ;
+
+                cfg.CreateMap<EnumValue, DBFirstDAL.EnumValues>()
+                .ForMember(d => d.Filters, o => o.Ignore())
+                .ForMember(d => d.Products, o => o.Ignore())
+                ;
+                cfg.CreateMap<ProductValue, DBFirstDAL.ProductValues>()
+                .ForMember(d => d.Products, o => o.Ignore())
+                ;
+
+
+            });
+            config.AssertConfigurationIsValid();
+
+            var mapper = config.CreateMapper();
+            model.Categories= model.Categories.Where(i => i.Checked == true).ToList();
+            var efModel = mapper.Map<DBFirstDAL.Products>(model);
+            _productRepository.AddOrUpdate(efModel);
+            _productRepository.Save();
 
             return RedirectToAction("AdminIndex");
         }
@@ -78,5 +204,35 @@ namespace Pyramid.Controllers
             DBFirstDAL.ProductValueDAL.Delete(id);
             return null;
         }
+
+        public ActionResult GetAllEnumValues(int id)
+        {
+
+            var model = _productRepository.GetAllEnumValues(id);
+            ViewBag.EnumValuesSelectList = _enumRepositopy.GetAll().Select(item => new SelectListItem
+            {
+                Text = item.Key,
+                Value = item.Id.ToString()
+            });
+            return PartialView("_PartialProductAllEnumValues", model);
+        }
+        public ActionResult GetTemplateEnumValue(int id)
+        {
+            ViewBag.EnumValuesSelectList = _enumRepositopy.GetAll().Select(item => new SelectListItem
+            {
+                Text = item.Key,
+                Value = item.Id.ToString()
+            });
+            var model = _productRepository.GetAllEnumValues(id).Count();
+            return PartialView("_PartialProductEmptyEnumValue", model);
+        }
+
+        public ActionResult DeleteEnumValue(int id, int enumValueId)
+        {
+            _productRepository.DeleteEnumValue(id, enumValueId);
+            _productRepository.Save();
+            return null;
+        }
+
     }
 }

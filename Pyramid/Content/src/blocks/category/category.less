@@ -28,7 +28,7 @@
   &__sidebar{
     background:@lightGray;
     height: 1020px;
-    padding:30px;
+    padding:20px;
   }
   &__filter-block{
 
@@ -52,4 +52,11 @@
     margin-left:0!important;
   }
 }
-
+@media (min-width: 992px) and (max-width:1200px){
+    .category__sidebar{
+        padding: 15px;
+    }
+    .category__filter-block-controls .ui-spinner{
+        width: 60px;
+    }
+}

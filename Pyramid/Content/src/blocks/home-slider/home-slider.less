@@ -1,13 +1,17 @@
 @import "../variable";
+@lgHeigth:576px;
+@mdHeight:450px;
 .home-slider-base-height{
-  height: 576px;
+  height: @lgHeigth;
 }
+
+
 .home-slider:extend(.home-slider-base-height){
   background: #666666;
   overflow: hidden;
   &__shipping-wrap:extend(.home-slider-base-height){
     background: @yellowGreenColor;
-    line-height: 576px;
+    line-height: @lgHeigth;
     text-align: center;
   }
   &__shipping{
@@ -84,3 +88,22 @@
     height: 100%;
   }
 }
+
+@media (min-width: 992px) and (max-width:1200px){
+    .home-slider-base-height{
+      height: @mdHeight;
+    }
+    .home-slider__item{
+            padding-left: 175px;
+            padding-top: 150px;
+    }
+    .home-slider__item-title{
+        font-size: 30px;
+    }
+    .home-slider__item-btn{
+        padding: 18px 30px;
+    }
+    .home-slider__shipping-wrap{
+        line-height:@mdHeight;
+    }
+    }

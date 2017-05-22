@@ -17,14 +17,16 @@ namespace DBFirstDAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Filters()
         {
-            this.FilterValues = new HashSet<FilterValues>();
+            this.Categories = new HashSet<Categories>();
+            this.EnumValues = new HashSet<EnumValues>();
         }
     
         public int Id { get; set; }
         public string Title { get; set; }
-        public Nullable<int> CategoryId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FilterValues> FilterValues { get; set; }
+        public virtual ICollection<Categories> Categories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EnumValues> EnumValues { get; set; }
     }
 }

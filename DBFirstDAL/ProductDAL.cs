@@ -32,36 +32,56 @@ namespace DBFirstDAL
                         item.ProductId = entity.Id;
                         ProductValueDAL.AddOrUpdate(entity.Id, item);
                     }
+
+                    foreach (var item in entity.Categories.Where(i=>i.Checked==true))
+                    {
+                        if (item.Checked==true)
+                        {
+                            var efcat = dbContext.Categories.Find(item.Id);
+                            efProduct.Categories.Add(efcat);
+
+                        }
+                        else
+                        {
+                            var efcat = dbContext.Categories.Find(item.Id);
+                            efProduct.Categories.Remove(efcat);
+                        }
+                        
+                    }
                     dbContext.Entry(efProduct).CurrentValues.SetValues(EntityToDAL(entity));
 
                 }
-                if (entity.Categories!=null)
-                {
-                    var catCheak = entity.Categories.Where(i => i.Cheaked == true).ToList();
-                    foreach (var item in catCheak)
-                    {
-                        AddOrUpdateCategoryRelated(entity.Id, item, dbContext);
-                    }
-                   
-                }
+                //if (entity.Categories != null)
+                //{
+                //    var catCheak = entity.Categories.Where(i => i.Checked == true).ToList();
+                //    foreach (var item in catCheak)
+                //    {
+                //        AddOrUpdateCategoryRelated(entity.Id, item, dbContext);
+                //    }
+
+                //}
                 dbContext.SaveChanges();
             }
         }
-        private static void AddOrUpdateCategoryRelated(int productId,Pyramid.Entity.Category category, PyramidFinalContext dbContext )
+        private static void AddOrUpdateCategoryRelated(int productId, Pyramid.Entity.Category category, PyramidFinalContext dbContext)
         {
-            var efProdCat = dbContext.ProductCategories.FirstOrDefault(i => i.ProductId == productId&& i.CategoryId==category.Id);
-            if (efProdCat!=null)
-            {
-                efProdCat.ProductId = productId;
-                efProdCat.CategoryId = category.Id;
-            }
-            else
-            {
-                dbContext.ProductCategories.Add(new ProductCategories() {
-                CategoryId=category.Id,
-                ProductId=productId
-                });
-            }
+
+            
+
+            //var efProdCat = dbContext.Categories.FirstOrDefault(i => i.ProductId == productId && i.CategoryId == category.Id);
+            //if (efProdCat != null)
+            //{
+            //    efProdCat.ProductId = productId;
+            //    efProdCat.CategoryId = category.Id;
+            //}
+            //else
+            //{
+            //    dbContext.ProductCategories.Add(new ProductCategories()
+            //    {
+            //        CategoryId = category.Id,
+            //        ProductId = productId
+            //    });
+            //}
 
         }
 
@@ -97,10 +117,10 @@ namespace DBFirstDAL
                             ProductId = i.ProductId,
                             Value = i.Value
                         }).ToList(),
-                        Categories = product.ProductCategories.Select(c => new Pyramid.Entity.Category() {
-                            Id=c.CategoryId,
-                            Title=c.Categories.Title,
-                            Cheaked=true
+                        Categories = product.Categories.Select(c => new Pyramid.Entity.Category() {
+                            Id=c.Id,
+                            Title=c.Title,
+                            Checked=true
                             
                         }).ToList(),
                         ThumbnailId=product.ThumbnailId,

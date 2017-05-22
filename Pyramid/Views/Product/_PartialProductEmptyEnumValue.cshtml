@@ -1,0 +1,21 @@
+﻿@model int
+
+<div class="admin-product-enumvalue">
+    <div class="row">
+        @*@Html.Hidden(String.Format("EnumValues[{0}].Id", Model) )*@
+        <div class="col-md-4">
+            @Html.Label("Допустимое значение", htmlAttributes: new { @class = "control-label" })
+
+            @Html.DropDownList(String.Format("EnumValues[{0}].Id", Model), new SelectList(ViewBag.EnumValuesSelectList, "Value", "Text"), "Выбрать", new { @class = "form-control" })
+
+
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">удалить</label>
+            <button type="button" class="tabledit-edit-button btn btn-sm btn-default btn-product-enum-value-delete" style="float: none;" data-ajaxid="@Model">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
+        </div>
+    </div>
+</div>
+

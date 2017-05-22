@@ -12,13 +12,21 @@ namespace DBFirstDAL
     using System;
     using System.Collections.Generic;
     
-    public partial class ProductCategories
+    public partial class EnumValues
     {
-        public int Id { get; set; }
-        public int ProductId { get; set; }
-        public int CategoryId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public EnumValues()
+        {
+            this.Filters = new HashSet<Filters>();
+            this.Products = new HashSet<Products>();
+        }
     
-        public virtual Categories Categories { get; set; }
-        public virtual Products Products { get; set; }
+        public int Id { get; set; }
+        public string Key { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Filters> Filters { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Products> Products { get; set; }
     }
 }
