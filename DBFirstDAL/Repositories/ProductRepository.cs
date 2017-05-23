@@ -17,6 +17,7 @@ namespace DBFirstDAL.Repositories
             }
             return new List<EnumValues>();
         }
+
         public void DeleteEnumValue(int id, int enumValueId)
         {
             var filter = FindBy(i => i.Id == id).SingleOrDefault();
@@ -58,11 +59,36 @@ namespace DBFirstDAL.Repositories
                 Context.Entry(efEntity).State = System.Data.Entity.EntityState.Modified;
 
             }
+            if (entity.ProductImages!=null)
+            {
+                var thumbnail = entity.ProductImages.FirstOrDefault(i => i.TypeImage == (int)Pyramid.Entity.Enumerable.TypeImage.Thumbnail);
+                if (thumbnail != null)
+                {
+                   var efThumbnail= Context.ProductImages.FirstOrDefault(i => i.ImageId == thumbnail.ImageId);
+                    if (efThumbnail!=null)
+                    {
+                        Context.ProductImages.Remove(efThumbnail);
+                    }
+                   
+                    Context.ProductImages.Add(new ProductImages() {
+                        ImageId =thumbnail.ImageId,
+                        ProductId=thumbnail.ProductId,
+                        TypeImage=thumbnail.TypeImage
+                    });
+                }
+                
+            }
 
         }
 
-        
+        public Images GetThumbnail(int productId, int typeThumbnail )
+        {
+            return Context.Images.FirstOrDefault(i => i.ProductImages.All(f => f.ProductId == productId && f.TypeImage == typeThumbnail));
+        }
 
-
+        public IEnumerable<Images> GetGalleryImage(int productId, int typeGallery)
+        {
+            return Context.Images.Where(i => i.ProductImages.All(f => f.ProductId == productId && f.TypeImage == typeGallery));
+        }
     }
 }

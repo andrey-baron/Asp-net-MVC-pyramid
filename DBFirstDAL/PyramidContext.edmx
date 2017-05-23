@@ -18,9 +18,17 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="ThumbnailId" Type="int" />
           <Property Name="ParentId" Type="int" />
           <Property Name="FlagRoot" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CategoryImages">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="ImageId" Type="int" Nullable="false" />
+          <Property Name="TypeImage" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EnumValues">
           <Key>
@@ -62,14 +70,6 @@
           <Property Name="Title" Type="nvarchar(max)" />
           <Property Name="ServerPathImg" Type="nvarchar(max)" />
         </EntityType>
-        <EntityType Name="ImagesToProducts">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ProductId" Type="int" Nullable="false" />
-          <Property Name="ImageId" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="Pages">
           <Key>
             <PropertyRef Name="Id" />
@@ -104,6 +104,15 @@
           <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="EnumValueId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="ProductImages">
+          <Key>
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="ImageId" Type="int" Nullable="false" />
+          <Property Name="TypeImage" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Products">
           <Key>
             <PropertyRef Name="Id" />
@@ -121,7 +130,6 @@
           <Property Name="DateChange" Type="datetime" Nullable="false" />
           <Property Name="PointOnImg_Id" Type="int" />
           <Property Name="InStock" Type="bit" />
-          <Property Name="ThumbnailId" Type="int" />
         </EntityType>
         <EntityType Name="ProductValues">
           <Key>
@@ -142,42 +150,6 @@
           <Property Name="UserRole" Type="int" Nullable="false" />
           <Property Name="Password" Type="nvarchar(max)" />
         </EntityType>
-        <Association Name="FK__Categorie__Thumb__173876EA">
-          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
-          <End Role="Categories" Type="Self.Categories" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Images">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Categories">
-              <PropertyRef Name="ThumbnailId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ImagesToP__Image__4BAC3F29">
-          <End Role="Images" Type="Self.Images" Multiplicity="1" />
-          <End Role="ImagesToProducts" Type="Self.ImagesToProducts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Images">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ImagesToProducts">
-              <PropertyRef Name="ImageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ImagesToP__Produ__4AB81AF0">
-          <End Role="Products" Type="Self.Products" Multiplicity="1" />
-          <End Role="ImagesToProducts" Type="Self.ImagesToProducts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ImagesToProducts">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__PointOnIm__Banne__1273C1CD">
           <End Role="BannerWithPoints" Type="Self.BannerWithPoints" Multiplicity="1" />
           <End Role="PointOnImgs" Type="Self.PointOnImgs" Multiplicity="*" />
@@ -187,18 +159,6 @@
             </Principal>
             <Dependent Role="PointOnImgs">
               <PropertyRef Name="BannerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Products__Thumbn__4CA06362">
-          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
-          <End Role="Products" Type="Self.Products" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Images">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Products">
-              <PropertyRef Name="ThumbnailId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -251,6 +211,20 @@
             </Principal>
             <Dependent Role="Categories1">
               <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CategoryImages_ForMTM">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CategoryImages" Type="Self.CategoryImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CategoryImages">
+              <PropertyRef Name="CategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -310,6 +284,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ImageCategories_ForMTM">
+          <End Role="Images" Type="Self.Images" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CategoryImages" Type="Self.CategoryImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CategoryImages">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ImageProducts_ForMTM">
+          <End Role="Images" Type="Self.Images" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductImages">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductImages_ForMTM">
+          <End Role="Products" Type="Self.Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductImages">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Products">
           <End Role="Products" Type="Self.Products" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -341,38 +357,23 @@
         <EntityContainer Name="Хранилище PyramidFinalModelContainer">
           <EntitySet Name="BannerWithPoints" EntityType="Self.BannerWithPoints" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CategoryImages" EntityType="Self.CategoryImages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EnumValues" EntityType="Self.EnumValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FilterCategories" EntityType="Self.FilterCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FilterEnumValues" EntityType="Self.FilterEnumValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Filters" EntityType="Self.Filters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ImagesToProducts" EntityType="Self.ImagesToProducts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pages" EntityType="Self.Pages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PointOnImgs" EntityType="Self.PointOnImgs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategories" EntityType="Self.ProductCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductEnumValues" EntityType="Self.ProductEnumValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductImages" EntityType="Self.ProductImages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductValues" EntityType="Self.ProductValues" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Categorie__Thumb__173876EA" Association="Self.FK__Categorie__Thumb__173876EA">
-            <End Role="Images" EntitySet="Images" />
-            <End Role="Categories" EntitySet="Categories" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ImagesToP__Image__4BAC3F29" Association="Self.FK__ImagesToP__Image__4BAC3F29">
-            <End Role="Images" EntitySet="Images" />
-            <End Role="ImagesToProducts" EntitySet="ImagesToProducts" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ImagesToP__Produ__4AB81AF0" Association="Self.FK__ImagesToP__Produ__4AB81AF0">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="ImagesToProducts" EntitySet="ImagesToProducts" />
-          </AssociationSet>
           <AssociationSet Name="FK__PointOnIm__Banne__1273C1CD" Association="Self.FK__PointOnIm__Banne__1273C1CD">
             <End Role="BannerWithPoints" EntitySet="BannerWithPoints" />
             <End Role="PointOnImgs" EntitySet="PointOnImgs" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Products__Thumbn__4CA06362" Association="Self.FK__Products__Thumbn__4CA06362">
-            <End Role="Images" EntitySet="Images" />
-            <End Role="Products" EntitySet="Products" />
           </AssociationSet>
           <AssociationSet Name="FK__ProductVa__Produ__29572725" Association="Self.FK__ProductVa__Produ__29572725">
             <End Role="Products" EntitySet="Products" />
@@ -390,6 +391,10 @@
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Categories1" EntitySet="Categories" />
           </AssociationSet>
+          <AssociationSet Name="FK_CategoryImages_ForMTM" Association="Self.FK_CategoryImages_ForMTM">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="CategoryImages" EntitySet="CategoryImages" />
+          </AssociationSet>
           <AssociationSet Name="FK_EnumValue_ForMTM" Association="Self.FK_EnumValue_ForMTM">
             <End Role="EnumValues" EntitySet="EnumValues" />
             <End Role="FilterEnumValues" EntitySet="FilterEnumValues" />
@@ -405,6 +410,18 @@
           <AssociationSet Name="FK_Filter_ForMTM" Association="Self.FK_Filter_ForMTM">
             <End Role="Filters" EntitySet="Filters" />
             <End Role="FilterEnumValues" EntitySet="FilterEnumValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ImageCategories_ForMTM" Association="Self.FK_ImageCategories_ForMTM">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="CategoryImages" EntitySet="CategoryImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ImageProducts_ForMTM" Association="Self.FK_ImageProducts_ForMTM">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="ProductImages" EntitySet="ProductImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductImages_ForMTM" Association="Self.FK_ProductImages_ForMTM">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductImages" EntitySet="ProductImages" />
           </AssociationSet>
           <AssociationSet Name="FK_Products" Association="Self.FK_Products">
             <End Role="Products" EntitySet="Products" />
@@ -434,14 +451,24 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ThumbnailId" Type="Int32" />
           <Property Name="ParentId" Type="Int32" />
           <Property Name="FlagRoot" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Images" Relationship="Self.FK__Categorie__Thumb__173876EA" FromRole="Categories" ToRole="Images" />
           <NavigationProperty Name="Categories1" Relationship="Self.FK_Category_Parent" FromRole="Categories" ToRole="Categories1" />
           <NavigationProperty Name="Categories2" Relationship="Self.FK_Category_Parent" FromRole="Categories1" ToRole="Categories" />
+          <NavigationProperty Name="CategoryImages" Relationship="Self.FK_CategoryImages_ForMTM" FromRole="Categories" ToRole="CategoryImages" />
           <NavigationProperty Name="Filters" Relationship="Self.FilterCategories" FromRole="Categories" ToRole="Filters" />
           <NavigationProperty Name="Products" Relationship="Self.ProductCategories" FromRole="Categories" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="CategoryImages">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="ImageId" Type="Int32" Nullable="false" />
+          <Property Name="TypeImage" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_CategoryImages_ForMTM" FromRole="CategoryImages" ToRole="Categories" />
+          <NavigationProperty Name="Images" Relationship="Self.FK_ImageCategories_ForMTM" FromRole="CategoryImages" ToRole="Images" />
         </EntityType>
         <EntityType Name="EnumValues">
           <Key>
@@ -470,19 +497,8 @@
           <Property Name="ImgAlt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ServerPathImg" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Categories" Relationship="Self.FK__Categorie__Thumb__173876EA" FromRole="Images" ToRole="Categories" />
-          <NavigationProperty Name="ImagesToProducts" Relationship="Self.FK__ImagesToP__Image__4BAC3F29" FromRole="Images" ToRole="ImagesToProducts" />
-          <NavigationProperty Name="Products" Relationship="Self.FK__Products__Thumbn__4CA06362" FromRole="Images" ToRole="Products" />
-        </EntityType>
-        <EntityType Name="ImagesToProducts">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="ImageId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Images" Relationship="Self.FK__ImagesToP__Image__4BAC3F29" FromRole="ImagesToProducts" ToRole="Images" />
-          <NavigationProperty Name="Products" Relationship="Self.FK__ImagesToP__Produ__4AB81AF0" FromRole="ImagesToProducts" ToRole="Products" />
+          <NavigationProperty Name="CategoryImages" Relationship="Self.FK_ImageCategories_ForMTM" FromRole="Images" ToRole="CategoryImages" />
+          <NavigationProperty Name="ProductImages" Relationship="Self.FK_ImageProducts_ForMTM" FromRole="Images" ToRole="ProductImages" />
         </EntityType>
         <EntityType Name="Pages">
           <Key>
@@ -503,6 +519,17 @@
           <Property Name="BannerId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="BannerWithPoints" Relationship="Self.FK__PointOnIm__Banne__1273C1CD" FromRole="PointOnImgs" ToRole="BannerWithPoints" />
         </EntityType>
+        <EntityType Name="ProductImages">
+          <Key>
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="ImageId" Type="Int32" Nullable="false" />
+          <Property Name="TypeImage" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Images" Relationship="Self.FK_ImageProducts_ForMTM" FromRole="ProductImages" ToRole="Images" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_ProductImages_ForMTM" FromRole="ProductImages" ToRole="Products" />
+        </EntityType>
         <EntityType Name="Products">
           <Key>
             <PropertyRef Name="Id" />
@@ -520,9 +547,7 @@
           <Property Name="DateChange" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="PointOnImg_Id" Type="Int32" />
           <Property Name="InStock" Type="Boolean" />
-          <Property Name="ThumbnailId" Type="Int32" />
-          <NavigationProperty Name="Images" Relationship="Self.FK__Products__Thumbn__4CA06362" FromRole="Products" ToRole="Images" />
-          <NavigationProperty Name="ImagesToProducts" Relationship="Self.FK__ImagesToP__Produ__4AB81AF0" FromRole="Products" ToRole="ImagesToProducts" />
+          <NavigationProperty Name="ProductImages" Relationship="Self.FK_ProductImages_ForMTM" FromRole="Products" ToRole="ProductImages" />
           <NavigationProperty Name="ProductValues" Relationship="Self.FK__ProductVa__Produ__29572725" FromRole="Products" ToRole="ProductValues" />
           <NavigationProperty Name="Categories" Relationship="Self.ProductCategories" FromRole="Products" ToRole="Categories" />
           <NavigationProperty Name="EnumValues" Relationship="Self.ProductEnumValues" FromRole="Products" ToRole="EnumValues" />
@@ -559,18 +584,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Categorie__Thumb__173876EA">
-          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
-          <End Role="Categories" Type="Self.Categories" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Images">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Categories">
-              <PropertyRef Name="ThumbnailId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Category_Parent">
           <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
           <End Role="Categories1" Type="Self.Categories" Multiplicity="*" />
@@ -583,38 +596,58 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ImagesToP__Image__4BAC3F29">
-          <End Role="Images" Type="Self.Images" Multiplicity="1" />
-          <End Role="ImagesToProducts" Type="Self.ImagesToProducts" Multiplicity="*" />
+        <Association Name="FK_CategoryImages_ForMTM">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CategoryImages" Type="Self.CategoryImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CategoryImages">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ImageCategories_ForMTM">
+          <End Role="Images" Type="Self.Images" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CategoryImages" Type="Self.CategoryImages" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Images">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ImagesToProducts">
+            <Dependent Role="CategoryImages">
               <PropertyRef Name="ImageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Products__Thumbn__4CA06362">
-          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
-          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+        <Association Name="FK_ImageProducts_ForMTM">
+          <End Role="Images" Type="Self.Images" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Images">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Products">
-              <PropertyRef Name="ThumbnailId" />
+            <Dependent Role="ProductImages">
+              <PropertyRef Name="ImageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ImagesToP__Produ__4AB81AF0">
-          <End Role="Products" Type="Self.Products" Multiplicity="1" />
-          <End Role="ImagesToProducts" Type="Self.ImagesToProducts" Multiplicity="*" />
+        <Association Name="FK_ProductImages_ForMTM">
+          <End Role="Products" Type="Self.Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProductImages" Type="Self.ProductImages" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Products">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ImagesToProducts">
+            <Dependent Role="ProductImages">
               <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
@@ -650,12 +683,13 @@
         <EntityContainer Name="PyramidFinalContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="BannerWithPoints" EntityType="Self.BannerWithPoints" />
           <EntitySet Name="Categories" EntityType="Self.Categories" />
+          <EntitySet Name="CategoryImages" EntityType="Self.CategoryImages" />
           <EntitySet Name="EnumValues" EntityType="Self.EnumValues" />
           <EntitySet Name="Filters" EntityType="Self.Filters" />
           <EntitySet Name="Images" EntityType="Self.Images" />
-          <EntitySet Name="ImagesToProducts" EntityType="Self.ImagesToProducts" />
           <EntitySet Name="Pages" EntityType="Self.Pages" />
           <EntitySet Name="PointOnImgs" EntityType="Self.PointOnImgs" />
+          <EntitySet Name="ProductImages" EntityType="Self.ProductImages" />
           <EntitySet Name="Products" EntityType="Self.Products" />
           <EntitySet Name="ProductValues" EntityType="Self.ProductValues" />
           <EntitySet Name="Users" EntityType="Self.Users" />
@@ -663,25 +697,25 @@
             <End Role="BannerWithPoints" EntitySet="BannerWithPoints" />
             <End Role="PointOnImgs" EntitySet="PointOnImgs" />
           </AssociationSet>
-          <AssociationSet Name="FK__Categorie__Thumb__173876EA" Association="Self.FK__Categorie__Thumb__173876EA">
-            <End Role="Images" EntitySet="Images" />
-            <End Role="Categories" EntitySet="Categories" />
-          </AssociationSet>
           <AssociationSet Name="FK_Category_Parent" Association="Self.FK_Category_Parent">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Categories1" EntitySet="Categories" />
           </AssociationSet>
-          <AssociationSet Name="FK__ImagesToP__Image__4BAC3F29" Association="Self.FK__ImagesToP__Image__4BAC3F29">
-            <End Role="Images" EntitySet="Images" />
-            <End Role="ImagesToProducts" EntitySet="ImagesToProducts" />
+          <AssociationSet Name="FK_CategoryImages_ForMTM" Association="Self.FK_CategoryImages_ForMTM">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="CategoryImages" EntitySet="CategoryImages" />
           </AssociationSet>
-          <AssociationSet Name="FK__Products__Thumbn__4CA06362" Association="Self.FK__Products__Thumbn__4CA06362">
+          <AssociationSet Name="FK_ImageCategories_ForMTM" Association="Self.FK_ImageCategories_ForMTM">
             <End Role="Images" EntitySet="Images" />
-            <End Role="Products" EntitySet="Products" />
+            <End Role="CategoryImages" EntitySet="CategoryImages" />
           </AssociationSet>
-          <AssociationSet Name="FK__ImagesToP__Produ__4AB81AF0" Association="Self.FK__ImagesToP__Produ__4AB81AF0">
+          <AssociationSet Name="FK_ImageProducts_ForMTM" Association="Self.FK_ImageProducts_ForMTM">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="ProductImages" EntitySet="ProductImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductImages_ForMTM" Association="Self.FK_ProductImages_ForMTM">
             <End Role="Products" EntitySet="Products" />
-            <End Role="ImagesToProducts" EntitySet="ImagesToProducts" />
+            <End Role="ProductImages" EntitySet="ProductImages" />
           </AssociationSet>
           <AssociationSet Name="FK__ProductVa__Produ__29572725" Association="Self.FK__ProductVa__Produ__29572725">
             <End Role="Products" EntitySet="Products" />
@@ -723,9 +757,17 @@
               <MappingFragment StoreEntitySet="Categories">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="ThumbnailId" ColumnName="ThumbnailId" />
                 <ScalarProperty Name="ParentId" ColumnName="ParentId" />
                 <ScalarProperty Name="FlagRoot" ColumnName="FlagRoot" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoryImages">
+            <EntityTypeMapping TypeName="PyramidFinalModel.CategoryImages">
+              <MappingFragment StoreEntitySet="CategoryImages">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+                <ScalarProperty Name="TypeImage" ColumnName="TypeImage" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -756,15 +798,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ImagesToProducts">
-            <EntityTypeMapping TypeName="PyramidFinalModel.ImagesToProducts">
-              <MappingFragment StoreEntitySet="ImagesToProducts">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
-                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Pages">
             <EntityTypeMapping TypeName="PyramidFinalModel.Pages">
               <MappingFragment StoreEntitySet="Pages">
@@ -785,6 +818,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ProductImages">
+            <EntityTypeMapping TypeName="PyramidFinalModel.ProductImages">
+              <MappingFragment StoreEntitySet="ProductImages">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+                <ScalarProperty Name="TypeImage" ColumnName="TypeImage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="PyramidFinalModel.Products">
               <MappingFragment StoreEntitySet="Products">
@@ -801,7 +843,6 @@
                 <ScalarProperty Name="DateChange" ColumnName="DateChange" />
                 <ScalarProperty Name="PointOnImg_Id" ColumnName="PointOnImg_Id" />
                 <ScalarProperty Name="InStock" ColumnName="InStock" />
-                <ScalarProperty Name="ThumbnailId" ColumnName="ThumbnailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

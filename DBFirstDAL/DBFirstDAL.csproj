@@ -53,48 +53,51 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BannerWithPoints.cs">
-      <DependentUpon>PyramidContext.tt</DependentUpon>
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
     <Compile Include="BannerWithPointsDAL.cs" />
     <Compile Include="Categories.cs">
-      <DependentUpon>PyramidContext.tt</DependentUpon>
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
     <Compile Include="CategoryDAL.cs" />
+    <Compile Include="CategoryImages.cs">
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataModels\RootCategory.cs" />
     <Compile Include="EnumValues.cs">
-      <DependentUpon>PyramidContext.tt</DependentUpon>
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
     <Compile Include="FilterDAL.cs" />
     <Compile Include="Filters.cs">
-      <DependentUpon>PyramidContext.tt</DependentUpon>
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Images.cs">
-      <DependentUpon>PyramidContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ImagesToProducts.cs">
-      <DependentUpon>PyramidContext.tt</DependentUpon>
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Pages.cs">
-      <DependentUpon>PyramidContext.tt</DependentUpon>
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
     <Compile Include="PointOnImgs.cs">
-      <DependentUpon>PyramidContext.tt</DependentUpon>
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductImages.cs">
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Products.cs">
-      <DependentUpon>PyramidContext.tt</DependentUpon>
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductValues.cs">
-      <DependentUpon>PyramidContext.tt</DependentUpon>
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="PyramidContext.Context.cs">
+    <Compile Include="PyramidFinalContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PyramidContext.Context.tt</DependentUpon>
+      <DependentUpon>PyramidFinalContext.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="PyramidContext.cs">
+    <Compile Include="PyramidFinalContext.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PyramidContext.tt</DependentUpon>
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
     <Compile Include="PyramidContext.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -115,19 +118,19 @@
     <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="UserDAL.cs" />
     <Compile Include="Users.cs">
-      <DependentUpon>PyramidContext.tt</DependentUpon>
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="PyramidContext.Context.tt">
+    <Content Include="PyramidFinalContext.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>PyramidContext.edmx</DependentUpon>
-      <LastGenOutput>PyramidContext.Context.cs</LastGenOutput>
+      <LastGenOutput>PyramidFinalContext.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="PyramidContext.tt">
+    <Content Include="PyramidFinalContext.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>PyramidContext.edmx</DependentUpon>
-      <LastGenOutput>PyramidContext.cs</LastGenOutput>
+      <LastGenOutput>PyramidFinalContext.cs</LastGenOutput>
     </Content>
     <Content Include="SQL\scriptPyramid.sql" />
   </ItemGroup>

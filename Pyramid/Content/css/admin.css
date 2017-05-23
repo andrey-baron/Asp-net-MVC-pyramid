@@ -296,15 +296,18 @@ p.pmargin {
 }
 
 .admin-product__thumbnail {
-  width: 250px;
-  height: 150px;
+  max-width: 200px;
+  max-height: 150px;
+  width: 100%;
+  text-align: center;
   margin: 0 auto 10px;
 }
 .admin-product__thumbnail img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: scale-down;
+  max-height: 150px;
 }
 .admin-product__categories {
   padding-left: 20px;

@@ -52,7 +52,7 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.ThumbnailId, o => o.Ignore())
                 .ForMember(d => d.ThumbnailImg, o => o.Ignore())
                 .ForMember(d => d.Images, o => o.Ignore())
-                ; ;
+                ; 
 
 
             });
@@ -72,6 +72,7 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.ThumbnailId, o => o.Ignore())
                 .ForMember(d => d.ThumbnailImg, o => o.Ignore())
                 .ForMember(d => d.Images, o => o.Ignore())
+                
                 //.ForMember(d => d.Categories, o => o.Ignore())
                 ;
 
@@ -81,33 +82,41 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.Products, o => o.Ignore())
                 .ForMember(d => d.Thumbnail, o => o.Ignore())
 
+
                 //.ForMember(d => d, o => o.MapFrom(m=>m.Categories1
                 ;
                 cfg.CreateMap<DBFirstDAL.Categories, Pyramid.Models.CategoryAdminViewModel>()
-                .ForMember(d => d.Checked, o => o.UseValue(false));
+                .ForMember(d => d.Checked, o => o.UseValue(false))
+                ;
 
                 cfg.CreateMap<DBFirstDAL.ProductValues, Entity.ProductValue>()
                 .ForMember(d => d.Product, o => o.Ignore())
                 ;
                 cfg.CreateMap<DBFirstDAL.EnumValues, EnumValue>()
                 ;
-
+                cfg.CreateMap<DBFirstDAL.Images, Image>()
+                ;
 
             });
             config.AssertConfigurationIsValid();
 
 
             var mapper = config.CreateMapper();
-            var model = mapper.Map<DBFirstDAL.Products, Entity.Product>(_productRepository.FindBy(i=>i.Id==id).SingleOrDefault());
+            var efModel = _productRepository.FindBy(i => i.Id == id).SingleOrDefault();
+            var efProductImagesThubnail = efModel.ProductImages
+                .FirstOrDefault(i => i.TypeImage == (int)Entity.Enumerable.TypeImage.Thumbnail);
 
+            var efThumbnail = _productRepository.GetThumbnail(id, (int)Entity.Enumerable.TypeImage.Thumbnail);
+            var efGalery = _productRepository.GetThumbnail(id, (int)Entity.Enumerable.TypeImage.GaleryItem);
 
-           // var categories = mapper.Map<IEnumerable<DBFirstDAL.Categories>, IEnumerable<Entity.Category>>(_categoryRepository.GetAll().ToList());
+            var model = mapper.Map<DBFirstDAL.Products, Entity.Product>(efModel);
+            model.ThumbnailImg = mapper.Map<Image>(efThumbnail);
 
+            model.Images= mapper.Map<List<Image>>(efGalery);
 
             var categoriesViewModel =
                 mapper.Map<IEnumerable<DBFirstDAL.Categories>, List<Models.CategoryAdminViewModel>>(_categoryRepository.GetAll().ToList());
 
-           
 
             if (model!=null)
             {
@@ -144,18 +153,15 @@ namespace Pyramid.Controllers
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Pyramid.Entity.Product, DBFirstDAL.Products>()
-                .ForMember(d => d.ThumbnailId, o => o.Ignore())
-                .ForMember(d => d.Images, o => o.Ignore())
                 .ForMember(d => d.PointOnImg_Id, o => o.Ignore())
-                .ForMember(d => d.ImagesToProducts, o => o.Ignore()); 
+                .ForMember(d => d.ProductImages, o => o.Ignore());
 
                 cfg.CreateMap<Pyramid.Entity.Category, DBFirstDAL.Categories>()
                 .ForMember(d => d.Categories1, o => o.Ignore())
                 .ForMember(d => d.Categories2, o => o.Ignore())
                 .ForMember(d => d.Filters, o => o.Ignore())
                 .ForMember(d => d.Products, o => o.Ignore())
-                .ForMember(d => d.Images, o => o.Ignore())
-
+                .ForMember(d => d.CategoryImages, o => o.Ignore())
                 ;
 
                 cfg.CreateMap<EnumValue, DBFirstDAL.EnumValues>()
@@ -172,7 +178,20 @@ namespace Pyramid.Controllers
 
             var mapper = config.CreateMapper();
             model.Categories= model.Categories.Where(i => i.Checked == true).ToList();
+
             var efModel = mapper.Map<DBFirstDAL.Products>(model);
+            if (model.ThumbnailId!=0)
+            {
+                efModel.ProductImages = new List<DBFirstDAL.ProductImages>();
+                efModel.ProductImages
+                    .Add(new DBFirstDAL.ProductImages()
+                {
+                    ImageId = model.ThumbnailId,
+                    ProductId = model.Id,
+                    TypeImage = (int)Entity.Enumerable.TypeImage.Thumbnail
+                } );
+            }
+            
             _productRepository.AddOrUpdate(efModel);
             _productRepository.Save();
 

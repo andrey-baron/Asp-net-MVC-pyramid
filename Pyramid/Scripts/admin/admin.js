@@ -34,6 +34,26 @@
     
 
 })();
+;(function(){
+    tinymce.init({
+
+
+        // General options
+        elements: "content_editor",
+        language: "ru",
+        plugins: "code,autolink,lists,spellchecker,pagebreak,table,save,,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
+        menu: {
+            file: { title: 'File', items: 'newdocument' },
+            edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall' },
+            insert: { title: 'Insert', items: 'link media | template hr' },
+            view: { title: 'View', items: 'visualaid' },
+            format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat' },
+            tools: { title: 'Tools', items: 'code' }
+        },
+        selector: '.adminTextareaCommon',
+    });
+
+})();
 ; (function () {
      
     var categoryId = $("#Category_Id").val();
@@ -53,24 +73,23 @@
     })
 
 })();
-;(function(){
-    tinymce.init({
+; (function () {
 
+       var filterId = $("#Filter_Id").val();
+    $(".js-btn-filter-add-enumvalue").on("click", function () {
 
-        // General options
-        elements: "content_editor",
-        language: "ru",
-        plugins: "code,autolink,lists,spellchecker,pagebreak,table,save,,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
-        menu: {
-            file: { title: 'File', items: 'newdocument' },
-            edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall' },
-            insert: { title: 'Insert', items: 'link media | template hr' },
-            view: { title: 'View', items: 'visualaid' },
-            format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat' },
-            tools: { title: 'Tools', items: 'code' }
-        },
-        selector: '.adminTextareaCommon',
+        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId, function (data) {
+            $(".js-filter-all-enumvalues").append(data);
+        });
     });
+    $(".js-filter-all-enumvalues").on("click", ".btn-filter-enum-value-delete", function (e) {
+        var id = $(this).data("ajaxid");
+        $.post("/Filter/DeleteEnumValue?id=" + filterId + "&enumValueId=" + id, function (t) {
+            $.post("/Filter/GetAllEnumValues?filterid=" + filterId, function (data) {
+                $(".js-filter-all-enumvalues").html(data);
+            });
+        });
+    })
 
 })();
 ;(function () {
@@ -120,6 +139,8 @@
         $(".admin-product__thumbnail img").attr("src", $(this).data("url"));
         $("#edit-thumbnail-modal").modal('hide');
     })
+    //$(".qq-upload-list-selector")
+    
 
 })();
 
@@ -130,22 +151,3 @@ function reloadData() {
         $(selectorGaleryGrid).html(data);
     });
 };
-; (function () {
-
-       var filterId = $("#Filter_Id").val();
-    $(".js-btn-filter-add-enumvalue").on("click", function () {
-
-        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId, function (data) {
-            $(".js-filter-all-enumvalues").append(data);
-        });
-    });
-    $(".js-filter-all-enumvalues").on("click", ".btn-filter-enum-value-delete", function (e) {
-        var id = $(this).data("ajaxid");
-        $.post("/Filter/DeleteEnumValue?id=" + filterId + "&enumValueId=" + id, function (t) {
-            $.post("/Filter/GetAllEnumValues?filterid=" + filterId, function (data) {
-                $(".js-filter-all-enumvalues").html(data);
-            });
-        });
-    })
-
-})();

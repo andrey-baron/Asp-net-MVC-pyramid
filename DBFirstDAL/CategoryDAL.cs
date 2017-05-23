@@ -56,12 +56,7 @@ namespace DBFirstDAL
                     {
                         Title = category.Title,
                         FlagRoot=category.FlagRoot,
-                        Thumbnail = category.Images != null ? new Pyramid.Entity.Image()
-                        {
-                            Id =  category.Images.Id,
-                            PathInFileSystem = category.Images.PathInFileSystem,
-                            ServerPathImg=category.Images.ServerPathImg
-                        }:null,
+                        
                         Products = (category.Products.Select(p => new Pyramid.Entity.Product()
                         {
                             Alias = p.Alias,
@@ -91,9 +86,7 @@ namespace DBFirstDAL
                     Id=c.Id,
                     Title=c.Title,
                     FlagRoot=c.FlagRoot,
-                    Thumbnail=(c.Images!=null)?new Pyramid.Entity.Image() {
-                        Id =c.Images.Id,
-                    ServerPathImg=c.Images.ServerPathImg}:null,
+                    
                     
                     //ThumbnailId=c.ThumbnailId
                 }).ToList(); ;

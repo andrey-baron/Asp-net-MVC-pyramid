@@ -205,7 +205,7 @@ namespace Pyramid.Controllers
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Pyramid.Entity.Category, DBFirstDAL.Categories>()
-                .ForMember(d => d.Images, o => o.Ignore())
+               
                 .ForMember(d => d.Categories1, o => o.Ignore())
                 .ForMember(d => d.Categories2, o => o.Ignore())
                 ;

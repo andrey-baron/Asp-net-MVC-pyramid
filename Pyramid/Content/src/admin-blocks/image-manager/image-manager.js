@@ -45,6 +45,8 @@
         $(".admin-product__thumbnail img").attr("src", $(this).data("url"));
         $("#edit-thumbnail-modal").modal('hide');
     })
+    //$(".qq-upload-list-selector")
+    
 
 })();
 

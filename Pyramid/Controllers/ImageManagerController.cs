@@ -15,7 +15,7 @@ namespace Pyramid.Controllers
             var model = DBFirstDAL.ImageDAL.GetAll();
             return View(model);
         }
-        public ActionResult Upload(HttpPostedFileBase qqfile)
+        public ActionResult Upload(IEnumerable<HttpPostedFileBase> qqfile)
         {
             var files = this.Request.Files;
             DBFirstDAL.ImageDAL.AddOrUpdate(null, qqfile);

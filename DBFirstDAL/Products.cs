@@ -17,7 +17,7 @@ namespace DBFirstDAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Products()
         {
-            this.ImagesToProducts = new HashSet<ImagesToProducts>();
+            this.ProductImages = new HashSet<ProductImages>();
             this.ProductValues = new HashSet<ProductValues>();
             this.Categories = new HashSet<Categories>();
             this.EnumValues = new HashSet<EnumValues>();
@@ -36,11 +36,9 @@ namespace DBFirstDAL
         public System.DateTime DateChange { get; set; }
         public Nullable<int> PointOnImg_Id { get; set; }
         public Nullable<bool> InStock { get; set; }
-        public Nullable<int> ThumbnailId { get; set; }
     
-        public virtual Images Images { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ImagesToProducts> ImagesToProducts { get; set; }
+        public virtual ICollection<ProductImages> ProductImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductValues> ProductValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

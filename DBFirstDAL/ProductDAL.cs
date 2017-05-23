@@ -123,11 +123,8 @@ namespace DBFirstDAL
                             Checked=true
                             
                         }).ToList(),
-                        ThumbnailId=product.ThumbnailId,
-                        ThumbnailImg=product.Images!=null? new Pyramid.Entity.Image() {
-                            Id= product.Images.Id,
-                            ServerPathImg= product.Images.ServerPathImg
-                        } :null,
+                        
+                       
                         
                     };
                 }
@@ -168,7 +165,6 @@ namespace DBFirstDAL
                 MetaDescription = product.MetaDescription,
                 MetaKeywords = product.MetaKeywords,
                 MetaTitle = product.MetaTitle,
-                ThumbnailId=product.ThumbnailId,
             };
            
             return obj;

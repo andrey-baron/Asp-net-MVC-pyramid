@@ -13,7 +13,7 @@ namespace Pyramid.Entity
         [Display(Name = "Название товара")]
         public string Title { get; set; }
 
-        public int? ThumbnailId { get; set; }
+        public int ThumbnailId { get; set; }
         [Display(Name = "Цена")]
         public double Price { get; set; }
         //public bool Available { get; set; }

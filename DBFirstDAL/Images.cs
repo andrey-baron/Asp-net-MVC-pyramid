@@ -17,9 +17,8 @@ namespace DBFirstDAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Images()
         {
-            this.Categories = new HashSet<Categories>();
-            this.ImagesToProducts = new HashSet<ImagesToProducts>();
-            this.Products = new HashSet<Products>();
+            this.CategoryImages = new HashSet<CategoryImages>();
+            this.ProductImages = new HashSet<ProductImages>();
         }
     
         public int Id { get; set; }
@@ -29,10 +28,8 @@ namespace DBFirstDAL
         public string ServerPathImg { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Categories> Categories { get; set; }
+        public virtual ICollection<CategoryImages> CategoryImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ImagesToProducts> ImagesToProducts { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Products> Products { get; set; }
+        public virtual ICollection<ProductImages> ProductImages { get; set; }
     }
 }

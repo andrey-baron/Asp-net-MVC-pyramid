@@ -45,27 +45,35 @@ namespace DBFirstDAL
                 return null;
             }
         }
-        public static void AddOrUpdate(Pyramid.Entity.Image image=null, HttpPostedFileBase file=null)
+        public static void AddOrUpdate(Pyramid.Entity.Image image=null, IEnumerable<HttpPostedFileBase> files =null)
         {
                 using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                if (files!=null)
                 {
-                    if (image== null && file!=null)
+                    foreach (var item in files)
                     {
-                        Images efImg= SaveFile(file);
-                        dbContext.Images.Add(efImg);
-                    }
-                    else
-                    {
-                    if (image!=null)
-                    {
-                        var efImage = dbContext.Images.Find(image.Id);
-                        if (efImage!=null)
+                        if (image == null && item != null)
                         {
-                            efImage.ImgAlt = image.ImgAlt;
-                            efImage.Title = image.Title;
-                            
+                            Images efImg = SaveFile(item);
+                            dbContext.Images.Add(efImg);
                         }
+                        else
+                        {
+                            if (image != null)
+                            {
+                                var efImage = dbContext.Images.Find(image.Id);
+                                if (efImage != null)
+                                {
+                                    efImage.ImgAlt = image.ImgAlt;
+                                    efImage.Title = image.Title;
+
+                                }
+                            }
+                        }
+
                     }
+                    
                 }
 
                 dbContext.SaveChanges();

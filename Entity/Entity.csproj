@@ -44,6 +44,7 @@
     <Compile Include="BannerWithPoints.cs" />
     <Compile Include="BaseEntity.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="Enumerable\TypeImage.cs" />
     <Compile Include="Enumerable\TypeProductPrice.cs" />
     <Compile Include="Enumerable\UserTypeRole.cs" />
     <Compile Include="EnumValue.cs" />
