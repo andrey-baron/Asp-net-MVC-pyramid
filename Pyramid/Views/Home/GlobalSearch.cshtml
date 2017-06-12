@@ -1,0 +1,46 @@
+﻿@model PagedList.IPagedList<Pyramid.Entity.Product>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Поиск по сайту";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="search-page">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-12">
+                    <div class="search-item">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="search-item__img-block">
+                                    <img src="~/Content/img/test-offer.png" alt="" class="search-item__img" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="search-item__title-block">
+                                    <div class="search-item__title">@item.Title</div>
+                                    <div class="search-item__item-price">@item.Price</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="search-item__actions-block">
+                                    <div class="search-item__product-deteil"><a href="@Url.Action("Index","Product",new { id=item.Id})" class="search-item__link">Подробней</a></div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                       
+                    </div>
+                </div>
+            }
+            
+        </div>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("GlobalSearch",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    </div>
+</div>
+
+

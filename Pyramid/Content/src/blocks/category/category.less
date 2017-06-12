@@ -51,6 +51,36 @@
     outline: none;
     margin-left:0!important;
   }
+  &__catalog-left-menu{
+      background: #fff;
+    width: 100%;
+    margin: 0;
+    padding: 14px 0 14px;
+    position: relative;
+    display: block;
+    >li{
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        display: block;
+        >a{
+            width: 100%;
+            padding: 4px 46px 4px 20px;
+            font-size: 13px;
+            line-height: 22px;
+            position: relative;
+            border-bottom: 1px solid #eee;
+            color: #000;
+            display: block;
+            &:hover{
+                    color: #fff;
+                background: #66c05d;
+                border-bottom: 1px solid #66c05d;
+            }
+        }
+    }
+  }
 }
 @media (min-width: 992px) and (max-width:1200px){
     .category__sidebar{

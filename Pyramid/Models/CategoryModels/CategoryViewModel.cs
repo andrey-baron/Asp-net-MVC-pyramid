@@ -14,6 +14,12 @@ namespace Pyramid.Models.CategoryModels
         public List<Product>  Products { get; set; }
         public List<CategoryFilterViewModel> Filters { get; set; }
 
+        public int MaxPrice { get; set; }
+        public int MinPrice { get; set; }
+
+        public int CurrentMaxPrice { get; set; }
+        public int CurrentMinPrice { get; set; }
+
         public CategoryViewModel()
         {
             Products = new List<Product>();

@@ -1,0 +1,4 @@
+﻿@model int
+<label>Товар</label>
+@Html.DropDownList("BannerWithPoints.PointOnImgs[" + Model.ToString()+ "].Products.Id", new SelectList(ViewBag.ProductsSelectListItem, "Value", "Text"), "Выбрать", new { @class = "form-control point-product" })
+

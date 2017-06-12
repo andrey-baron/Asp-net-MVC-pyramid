@@ -28,18 +28,25 @@
                             @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    <p>Значения фильтра</p>
                     <div class="js-filter-all-enumvalues">
                    
                        @Html.Partial("_PartialFilterAllEnumValues", Model.EnumValues)
 
                     </div>
                     <button type="button" class="btn btn-primary js-btn-filter-add-enumvalue">Добавить</button>
+                    
+                    </div>
+                
+            </div>
+            <div class="card">
+                <div class="card-block">
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Save" class="btn btn-default" />
-                        </div>
+
+                        <input type="submit" value="Сохранить" class="btn btn-default">
+
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
     </div>

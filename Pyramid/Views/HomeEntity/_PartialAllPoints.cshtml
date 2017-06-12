@@ -1,0 +1,22 @@
+﻿@model List<Pyramid.Entity.PointOnImg>
+
+ @for (int i = 0; i < Model.Count; i++)
+                                {
+<div id="point_@i" class="home-entity__point-inputs">
+    <input type="hidden" name="BannerWithPoints.PointOnImgs[@i].Id" value="@Model[i].Id" />
+    <input type="hidden" value="@Model[i].CoordX" class="coordx" name="BannerWithPoints.PointOnImgs[@i].CoordX" />
+    <input type="hidden" value="@Model[i].CoordY" class="coordy" name="BannerWithPoints.PointOnImgs[@i].CoordY" />
+    <div class="row row-point-wrap">
+        <p>Точка @i <button type="button" class="btn btn-sm btn-default js-btn-delete-point" data-ajaxid="@Model[i].Id"><span class="glyphicon glyphicon-trash"></span></button></p>
+        <label>Категория</label>
+        @Html.DropDownList("PointCategory", new SelectList(ViewBag.CategoriesSelectListItem, "Value", "Text"), "Выбрать", new { @class = "form-control point-category", id = "category-point_" + Model, data_ajaxid = Model[i].Id, data_ajaxindex = i })
+
+        <div class="product-point">
+            <label>Товар</label>
+            <input type="hidden" name="BannerWithPoints.PointOnImgs[@i].Products.Id" value="@(Model[i].Products!=null?Model[i].Products.Id:0)" />
+            <label>@(Model[i].Products != null ? Model[i].Products.Title : "не назначен товар")</label>
+        </div>
+    </div>
+
+</div>
+                                }

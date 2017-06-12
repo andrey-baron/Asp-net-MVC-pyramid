@@ -9,9 +9,13 @@ namespace Pyramid.Entity
 {
     public class BannerWithPoints
     {
-        public int Id { get; set; }
-        [MaxLength(1000)]
-        public string PathToImg { get; set; }
-        public virtual PointOnImg Points { get; set; }
+        public int BannerId { get; set; }
+        public Image Images { get; set; }
+        public List< PointOnImg> PointOnImgs { get; set; }
+
+        public BannerWithPoints()
+        {
+            PointOnImgs = new List<PointOnImg>();
+        }
     }
 }

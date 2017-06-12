@@ -9,8 +9,8 @@ namespace Pyramid.Entity
     public class PointOnImg
     {
         public int Id { get; set; }
-        public int CoordX { get; set; }
-        public int CoordY { get; set; }
-        public virtual List<Product> ReferenceProduct { get; set; }
+        public double CoordX { get; set; }
+        public double CoordY { get; set; }
+        public Product  Products { get; set; }
     }
 }

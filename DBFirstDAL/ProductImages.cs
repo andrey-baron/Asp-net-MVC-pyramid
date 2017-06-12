@@ -14,6 +14,7 @@ namespace DBFirstDAL
     
     public partial class ProductImages
     {
+        public int Id { get; set; }
         public int ProductId { get; set; }
         public int ImageId { get; set; }
         public int TypeImage { get; set; }

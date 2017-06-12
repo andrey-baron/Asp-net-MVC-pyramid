@@ -53,58 +53,79 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BannerWithPoints.cs">
-      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+      <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
     <Compile Include="BannerWithPointsDAL.cs" />
     <Compile Include="Categories.cs">
-      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+      <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
     <Compile Include="CategoryDAL.cs" />
     <Compile Include="CategoryImages.cs">
-      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+      <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModels\CategoryWithThumbnail.cs" />
+    <Compile Include="DataModels\HomeModels\BannerWithPointsHomeDataModel.cs" />
+    <Compile Include="DataModels\HomeModels\CategoryHomeModel.cs" />
+    <Compile Include="DataModels\HomeModels\HomeEntityModel.cs" />
+    <Compile Include="DataModels\HomeModels\ManageHomeEntityDataModel.cs" />
+    <Compile Include="DataModels\HomeModels\PointOnImgsDataModel.cs" />
+    <Compile Include="DataModels\HomeModels\ProductHomeModel.cs" />
+    <Compile Include="DataModels\ProductModels\ProductDataModel.cs" />
     <Compile Include="DataModels\RootCategory.cs" />
     <Compile Include="EnumValues.cs">
-      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+      <DependentUpon>PyramidContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Faq.cs">
+      <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
     <Compile Include="FilterDAL.cs" />
     <Compile Include="Filters.cs">
-      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+      <DependentUpon>PyramidContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HomeEntity.cs">
+      <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Images.cs">
-      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+      <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Pages.cs">
-      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+      <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
     <Compile Include="PointOnImgs.cs">
-      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+      <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductImages.cs">
-      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+      <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Products.cs">
-      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+      <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductValues.cs">
-      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+      <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="PyramidFinalContext.Context.cs">
+    <Compile Include="PyramidContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PyramidFinalContext.Context.tt</DependentUpon>
+      <DependentUpon>PyramidContext.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="PyramidFinalContext.cs">
+    <Compile Include="PyramidContext.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+      <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
     <Compile Include="PyramidContext.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PyramidContext.edmx</DependentUpon>
     </Compile>
+    <Compile Include="QuestionAnswer.cs">
+      <DependentUpon>PyramidContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Recommendations.cs">
+      <DependentUpon>PyramidContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\EnumValueRepository.cs" />
+    <Compile Include="Repositories\FaqRepository.cs" />
     <Compile Include="Repositories\FilterRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="ImageDAL.cs" />
@@ -114,23 +135,32 @@
     <Compile Include="ProductValueDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
+    <Compile Include="Repositories\HomeEntityRepository.cs" />
     <Compile Include="Repositories\PageRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
+    <Compile Include="Repositories\QuestionAnswerRepository.cs" />
+    <Compile Include="Repositories\ReviewRepository.cs" />
+    <Compile Include="Review.cs">
+      <DependentUpon>PyramidContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="UserDAL.cs" />
     <Compile Include="Users.cs">
-      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+      <DependentUpon>PyramidContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VideoGuide.cs">
+      <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="PyramidFinalContext.Context.tt">
+    <Content Include="PyramidContext.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>PyramidContext.edmx</DependentUpon>
-      <LastGenOutput>PyramidFinalContext.Context.cs</LastGenOutput>
+      <LastGenOutput>PyramidContext.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="PyramidFinalContext.tt">
+    <Content Include="PyramidContext.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>PyramidContext.edmx</DependentUpon>
-      <LastGenOutput>PyramidFinalContext.cs</LastGenOutput>
+      <LastGenOutput>PyramidContext.cs</LastGenOutput>
     </Content>
     <Content Include="SQL\scriptPyramid.sql" />
   </ItemGroup>

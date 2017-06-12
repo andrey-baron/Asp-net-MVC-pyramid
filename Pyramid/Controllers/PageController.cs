@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Pyramid.Controllers
 {
-    public class PageController : Controller
+    public class PageController : BaseController
     {
         
         GenericRepository<PyramidFinalContext, DBFirstDAL.Pages> _pageRepo;
@@ -45,6 +45,7 @@ namespace Pyramid.Controllers
 
         // POST: Page/Create
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult AddOrUpdate(Entity.Page model)
         {
             Mapper.Initialize(cfg => cfg.CreateMap<Pages, Entity.Page>());

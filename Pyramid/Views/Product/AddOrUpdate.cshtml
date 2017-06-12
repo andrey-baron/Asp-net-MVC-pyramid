@@ -8,8 +8,8 @@
 <div class="section-header">
     <h2>@ViewBag.Title</h2>
 </div>
-@using (Html.BeginForm())
-            {
+@using (Html.BeginForm("AddOrUpdate","Product",FormMethod.Post,new {id="addOrUpdateProductForm" }))
+{
 <div class="row">
     <div class="col-lg-8 col-md-8">
         <div class="box-typical box-typical-padding">
@@ -21,6 +21,11 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.Id,new { id ="Product_Id" })
                     @Html.HiddenFor(model => model.DateCreation)
+                    @Html.HiddenFor(model => model.OneCId)
+
+
+
+
 
 
 
@@ -49,7 +54,20 @@
                             @Html.ValidationMessageFor(model => model.TypePrice, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.InStock, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(model => model.InStock, htmlAttributes: new { })
+                            @Html.ValidationMessageFor(model => model.InStock, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SeasonOffer, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(model => model.SeasonOffer, htmlAttributes: new { })
+                            @Html.ValidationMessageFor(model => model.SeasonOffer, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
@@ -92,11 +110,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Save" class="btn btn-default" />
-                        </div>
-                    </div>
+                    
                 </div>
             
         </div>
@@ -105,7 +119,7 @@
                 <p>Значение дополнительных параметров</p>
             </div>
             <div class="card-block">
-                <div class="admin-product__addition-values">
+                <div class="admin-product__addition-values js-admin-productvalues">
                     @Html.Partial("_PartialAllProductValues",Model.ProductValues)
                     
                 </div>
@@ -148,18 +162,29 @@
         </div>
     </div>
 </div>
-}
+
 
 <div class="card">
     <div class="card-header card-header-lg">
         <p>Редактирование списка картинок галереи</p>
+       
     </div>
     <div class="card-block">
-        <button type="button" class="btn btn-primary">Добавить</button>
+        <div class="box-product-gallery">
+            @Html.Partial("_PartialProductGallery",Model.Images)
+        </div>
+        <button type="button" class="btn btn-primary js-btn-add-product-gallery" data-ajaxid="@Model.Id">Добавить</button>
     </div>
 
 </div>
-
+<div class="card">
+    <div class="card-block"><div class="form-group">
+    
+        <input type="submit" value="Сохранить" class="btn btn-default">
+    
+</div></div>
+</div>
+}
 
 <div>
     @Html.ActionLink("Вернуться к списку с товарами", "AdminIndex", null, new { @class = "btn btn-default btn-lg" })
@@ -167,6 +192,24 @@
 
 
 <div class="modal fade" id="edit-thumbnail-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Выбор картинки</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                @*<button type="button" class="btn btn-primary js-btn-thumbnail-save">Сохранить изменения</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit-gallery-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">

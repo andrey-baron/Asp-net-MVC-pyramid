@@ -1,6 +1,12 @@
 ﻿@model Pyramid.Entity.Image
+
+
+
+
 @using (Html.BeginForm("AddOrUpdate","ImageManager",FormMethod.Post,new {@class="partial-form-im" }))
 {
+
+
 <div class="form-horizontal">
     @Html.HiddenFor(model => model.Id)
     <div class="form-group">

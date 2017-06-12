@@ -294,6 +294,12 @@ p.pmargin {
 .card-header.card-header-lg {
   font-size: 1.125rem;
 }
+.row-question-answer {
+  margin-bottom: 15px;
+}
+.js-filter-all-enumvalues {
+  margin-bottom: 15px;
+}
 
 .admin-product__thumbnail {
   max-width: 200px;
@@ -409,4 +415,28 @@ p.pmargin {
   font-size: 1rem;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
+}
+
+.home-entity__view-points {
+  height: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.home-entity__point {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background: #b6ff00;
+}
+.home-entity__img-wrap {
+  position: relative;
+}
+.home-entity__view-img {
+  height: 500px;
+  width: 100%;
+}
+.row-point-wrap {
+  margin-bottom: 20px;
 }

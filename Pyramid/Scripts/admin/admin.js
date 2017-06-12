@@ -1,28 +1,28 @@
 ; (function () {
     var productId = $("#Product_Id").val();
     $(".btn-add-product-value").on("click", function () {
-        
-        $.post("/Product/GetEmptyTemplateProductValue/" + productId, function (data) {
-            $(".admin-product__addition-values").append(data);
+        var countProductValue = $(".admin-product__addition-value").length;
+        $.post("/Product/GetEmptyTemplateProductValue?id=" + productId+"&count="+countProductValue, function (data) {
+            $(".js-admin-productvalues").append(data);
         });
     });
-    $(".admin-product__addition-values").on("click", ".btn-addition-value", function (e) {
+    $(".js-admin-productvalues").on("click", ".btn-addition-value", function (e) {
         var id = $(this).data("ajaxid");
         $.post("/Product/DeleteProductValue/" + id, function (t) {
             $.post("/Product/GetAllProductValues?productId=" + productId, function (data) {
-                $(".admin-product__addition-values").html(data);
+                $(".js-admin-productvalues").html(data);
             });
         });
     });
 
 
     $(".js-btn-add-product-enumvalue").on("click", function () {
-
-        $.post("/Product/GetTemplateEnumValue/" + productId, function (data) {
+        var countEnumValue = $(".admin-product-enumvalue").length;
+        $.post("/Product/GetTemplateEnumValue?id=" + productId + "&count=" + countEnumValue, function (data) {
             $(".js-admin-product-enumvalues").append(data);
         });
     });
-    $(".js-admin-product-enumvalue").on("click", ".btn-product-enum-value-delete", function (e) {
+    $(".js-admin-product-enumvalues").on("click", ".btn-product-enum-value-delete", function (e) {
         var id = $(this).data("ajaxid");
         $.post("/Product/DeleteEnumValue?id=" + productId + "&enumValueId=" + id, function (t) {
             $.post("/Product/GetAllEnumValues/" + productId, function (data) {
@@ -31,8 +31,32 @@
         });
     })
 
-    
+    $("#addOrUpdateProductForm").submit(function () {
+        var test = 1;
+    });
 
+    $(".js-btn-add-product-gallery").on("click", function () {
+        var id = $(this).data("ajaxid");
+        $.post("/ImageManager/PartialSelectImage/" + id, function (data) {
+            $('#edit-gallery-modal .modal-body').html(data);
+            $('#edit-gallery-modal').modal('show');
+        })
+    });
+    $("#edit-gallery-modal").on("click", ".btn-ajax-edit", function () {
+        var id = $(this).data("ajaxid");
+        $.post("/Product/AddToGallery?id=" + productId + "&imageid=" + id, function (data) {
+            $('.box-product-gallery').html(data);
+            $('#edit-gallery-modal').modal('hide');
+        })
+    })
+
+    $(".js-btn-gallery-ajax-delete").on("click", function () {
+        var id = $(this).data("ajaxid");
+        $.post("/Product/DeleteToGallery?id=" + productId + "&imageid=" + id, function (data) {
+            $('.box-product-gallery').html(data);
+            
+        })
+    });
 })();
 ;(function(){
     tinymce.init({
@@ -58,40 +82,117 @@
      
     var categoryId = $("#Category_Id").val();
     $(".js-btn-category-add-filter").on("click", function () {
-
-        $.post("/Category/GetTemplateFilter/" + categoryId, function (data) {
+        var count = $(".admin-category__filter").length;
+        $.post("/Category/GetTemplateFilter?id=" + categoryId+"&count="+count, function (data) {
             $(".js-category-filters").append(data);
         });
     });
     $(".js-category-filters").on("click", ".js-btn-category-filter-delete", function (e) {
         var id = $(this).data("ajaxid");
         $.post("/Category/DeleteFilter?id=" + categoryId + "&filterid=" + id, function (t) {
-            $.post("/Category/GetAllFilter?filterid=" + categoryId, function (data) {
-                $(".js-filter-all-enumvalues").html(data);
+            $.post("/Category/GetAllFilter/" + categoryId, function (data) {
+                $(".js-category-filters").html(data);
             });
         });
     })
 
 })();
-; (function () {
-
-       var filterId = $("#Filter_Id").val();
-    $(".js-btn-filter-add-enumvalue").on("click", function () {
-
-        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId, function (data) {
-            $(".js-filter-all-enumvalues").append(data);
+;
+(function () {
+    /*question-answer function*/
+    var faqId = $("#Faq_Id").val();
+    $(".js-btn-add-question-answer").on("click", function () {
+        $.post("/Faq/AddNewDefaultAndGetAll/" + faqId, function (data) {
+            $(".faq__question-answer-values").html(data);
+        });
+        
+    });
+    $(".faq__question-answer-values").on("click", ".js-btn-QuestionAnswer-delete", function () {
+        var id = $(this).data("ajaxid");
+        $.post("/Faq/DeleteQuestionAnswer/" + id, function (data) {
+            $.post("/Faq/PartialGetAllQuestionAnswer/" + faqId, function (data) {
+                $(".faq__question-answer-values").html(data);
+            });
+            
         });
     });
-    $(".js-filter-all-enumvalues").on("click", ".btn-filter-enum-value-delete", function (e) {
-        var id = $(this).data("ajaxid");
-        $.post("/Filter/DeleteEnumValue?id=" + filterId + "&enumValueId=" + id, function (t) {
-            $.post("/Filter/GetAllEnumValues?filterid=" + filterId, function (data) {
-                $(".js-filter-all-enumvalues").html(data);
-            });
-        });
-    })
+    
 
 })();
+(function () {
+    /*function home-entity.js*/
+    var id = $("#HomeEntity_Id").val();
+    
+    $("#add-new-point").on("click", function () {
+        var count = $(".home-entity__point-inputs").length;
+        $.post("/HomeEntity/JsonGetNewPoint?id=" + id + "&count=" + count, function (data) {
+            $(".home-entity__point-product-list").append(data.Data);
+            var newpoint = $(' <div class="home-entity__point" data-ajaxid="' + data.Id + '">' + data.Id + 'точ.</div>');
+            $(".home-entity__view-points").append(newpoint);
+            RunDraggable();
+        });
+    });
+
+    $(".js-btn-update-banner").on("click", function () {
+        $.post("/ImageManager/PartialSelectImage", function (data) {
+            $('#banner-edit-modal .modal-body').html(data);
+        })
+        $("#banner-edit-modal").modal('show');
+        
+        $("#banner-edit-modal").on("click", ".btn-ajax-edit", function () {
+            $("#Banner_Id").val($(this).data("ajaxid"));
+            $(".home-entity__view-img").attr("src", $(this).data("url"));
+            $("#banner-edit-modal").modal('hide');
+        })
+    });
+    $(".home-entity__point-product-list").on("change", ".point-category", function () {
+        var thisElem = $(this);
+        var pasteblock = thisElem.next(".product-point");
+        $.post("/Category/GetProductTemplateDropDownListForPointId?id=" + thisElem.val() + "&pointindex=" + thisElem.data("ajaxindex"), function (data) {
+            pasteblock.html(data);
+        })
+    });
+    $(".home-entity__point-product-list").on("click", ".js-btn-delete-point", function () {
+        var pointid = $(this).data("ajaxid");
+        
+        var topasteblockDesc = $(".home-entity__point-product-list");
+        var topasteblockView = $(".home-entity__view-points");
+        $.post("/HomeEntity/DeletePoint/" + pointid, function (t) {
+            $.post("/HomeEntity/PartialAllPoints?id=" + id + "&isview=false", function (data) {
+                topasteblockDesc.html(data);
+            })
+            $.post("/HomeEntity/PartialAllPoints?id=" + id + "&isview=true", function (data) {
+                topasteblockView.html(data);
+            })
+        })
+    });
+    
+    function RunDraggable() {
+        $(".home-entity__point").draggable({
+            containment: "parent",
+            stop: function (event, ui) {
+                var t = this;
+                var parent = $(this).parent();
+                var width = parent.width();
+                var height = parent.height();
+                var id = $(ui.helper.context).data("ajaxid");
+                SetPointInputsById(id,Math.round( ui.position.left * 100 / width), Math.round(ui.position.top * 100 / height))
+                //$("#coordx").val(ui.position.left);
+                //$("#coordy").val(ui.position.top);
+            }
+
+        });
+    }
+    RunDraggable();
+
+    function SetPointInputsById(pointId,coordX,coordY) {
+        var wrap = $("#point_" + pointId);
+        var inputX = wrap.find(".coordx");
+        var inputY = wrap.find(".coordy");
+        inputX.val(coordX);
+        inputY.val(coordY);
+    }
+})()
 ;(function () {
     
 
@@ -151,3 +252,21 @@ function reloadData() {
         $(selectorGaleryGrid).html(data);
     });
 };
+; (function () {
+    /*filter function*/
+       var filterId = $("#Filter_Id").val();
+    $(".js-btn-filter-add-enumvalue").on("click", function () {
+        var count =$(".admin-filter__enum-value").length;
+        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId + "&count=" + count, function (data) {
+            $(".js-filter-all-enumvalues").append(data);
+        });
+    });
+    $(".js-filter-all-enumvalues").on("click", ".btn-filter-enum-value-delete", function (e) {
+        var id = $(this).data("ajaxid");
+        $.post("/Filter/DeleteEnumValue?id=" + filterId + "&enumValueId=" + id, function (t) {
+            $.post("/Filter/GetAllEnumValues?filterid=" + filterId, function (data) {
+                $(".js-filter-all-enumvalues").html(data);
+            });
+        });
+    })
+})();

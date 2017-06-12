@@ -20,10 +20,12 @@ namespace DBFirstDAL
             this.PointOnImgs = new HashSet<PointOnImgs>();
         }
     
-        public int Id { get; set; }
-        public string PathToImg { get; set; }
+        public int BannerId { get; set; }
+        public int ImageId { get; set; }
     
+        public virtual Images Images { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PointOnImgs> PointOnImgs { get; set; }
+        public virtual HomeEntity HomeEntity { get; set; }
     }
 }

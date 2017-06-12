@@ -35,53 +35,13 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control adminTextareaCommon" } })
                             @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextAreaFor(model => model.MetaDescription, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.MetaDescription, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.MetaKeywords, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.MetaKeywords, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.MetaKeywords, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.IsSEOReady, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <div class="checkbox">
-                                @Html.EditorFor(model => model.IsSEOReady)
-                                @Html.ValidationMessageFor(model => model.IsSEOReady, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Alias, htmlAttributes: new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Alias, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Alias, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                    
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
@@ -92,7 +52,7 @@
 
             </div>
         </div>
-        <div class="col-lg-4 col-md-4">
+        @*<div class="col-lg-4 col-md-4">
             <div class="box-typical box-typical-padding">
                 <div class="proj-page-section admin-product__thumbnail-wrap">
                     <p>Миниатюра товара</p>
@@ -103,7 +63,7 @@
                     <button type="button" class="btn btn-primary js-btn-thumbnail-edit">Изменить</button>
                 </div>
             </div>
-        </div>
+        </div>*@
     </div>
 }
 

@@ -1,0 +1,181 @@
+﻿
+<div class="header">
+
+    <div class="row no-gutter">
+        <div class="col-ten-lg-3 col-ten-md-2 header__line-one">
+            <div class="header__wrap header__wrap_text-center">
+                <div class="header__social-links">
+                    <a href="" class="header__social-link">
+                        <img src="~/Content/img/FB_icon.png" alt=""
+                             class="header__social-link-img">
+                    </a><a href="" class="header__social-link">
+                        <img src="~/Content/img/Odnoklassniki_icon.png" alt=""
+                             class="header__social-link-img">
+                    </a><a href="" class="header__social-link">
+                        <img src="~/Content/img/vk_icon.png" alt=""
+                             class="header__social-link-img">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-ten-lg-5 col-ten-md-6 header__line-one">
+            <div class="header__wrap header__wrap_bg-gray">
+
+                <ul class="header__menu">
+                    <li class="header__menu-item"><a href="/faq">Вопрос ответ</a></li>
+                    <li class="header__menu-item"><a href="#">Доставка</a></li>
+                    <li class="header__menu-item"><a href="#">Услуги</a></li>
+                    <li class="header__menu-item"><a href="#">Советы</a></li>
+                </ul>
+
+                <!--<div class="header__sign-up">
+                    <a href="#">Регистрация</a>
+                    <div class="sign-up-splitter"></div>
+                    <a class="yellow_in" href="#">Вход</a>
+                </div>-->
+
+            </div>
+
+        </div>
+        <div class="col-ten-md-2 header__line-one">
+            <div class="header__wrap header__cart">
+
+                <div class="header__icon-cart"></div>
+                <p class="header__title-cart"><a href="#">Корзина</a></p>
+                <div class="header__count-items">3</div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row no-gutter">
+        <div class="col-ten-lg-3 col-ten-md-2 header__line-two">
+            <div class="header__logo"></div>
+            <div class="header__icon-phone"></div>
+            <p class="header__text-phone">(8452) 486-168</p>
+        </div>
+
+        @{
+            var HeaderCategories = (List<Pyramid.Models.CategoryModels.HeaderCategoryViewModel>)ViewBag.HeaderCategories;
+        }
+        @foreach (var item in HeaderCategories)
+        {
+            <a href="@Url.Action("Index","Category",new { id=item.Id})">
+                <div class="col-ten-lg-1 col-ten-md-2 header__cat-item">
+                    <div class="header__cat-item-inner">
+                        <img src="@((item.Thumbnail!=null)? item.Thumbnail.ServerPathImg:"")" alt="">
+                        <p>@item.Title</p>
+                    </div>
+                </div>
+            </a>
+        }
+        @*<div class="col-ten-lg-1 col-ten-md-2 header__cat-item">
+                <div class="header__cat-item-inner">
+                    <img src="~/Content/img/test.png" alt="">
+                    <p>Сухие смеси</p>
+                </div>
+            </div>
+            <div class="col-ten-lg-1 col-ten-md-2 header__cat-item">
+                <div class="header__cat-item-inner">
+                    <img src="~/Content/img/test.png" alt="">
+                    <p>Гипсокартон и комплектующие</p>
+                </div>
+            </div>
+            <div class="col-ten-lg-1 col-ten-md-2 header__cat-item">
+                <div class="header__cat-item-inner">
+                    <img src="~/Content/img/test.png" alt="">
+                    <p>Сухие смеси</p>
+                </div>
+            </div>
+            <div class="col-ten-lg-1 col-ten-md-2 header__cat-item">
+                <div class="header__cat-item-inner">
+                    <img src="~/Content/img/test.png" alt="">
+                    <p>Сухие смеси</p>
+                </div>
+            </div>
+            <div class="col-ten-lg-1 col-ten-md-2 header__cat-item">
+                <div class="header__cat-item-inner">
+                    <img src="~/Content/img/test.png" alt="">
+                    <p>Сухие смеси</p>
+                </div>
+            </div>
+            <div class="col-ten-lg-1 col-ten-md-2 header__cat-item">
+                <div class="header__cat-item-inner">
+                    <img src="~/Content/img/test.png" alt="">
+                    <p>Сухие смеси</p>
+                </div>
+            </div>
+            <div class="col-ten-lg-1 col-ten-md-2 header__cat-item">
+                <div class="header__cat-item-inner">
+                    <img src="~/Content/img/test.png" alt="">
+                    <p>Сухие смеси</p>
+                </div>
+            </div>
+            <div class="col-ten-lg-1 col-ten-md-2 header__cat-item">
+                <div class="header__cat-item-inner">
+                    <img src="~/Content/img/test.png" alt="">
+                    <p>Сухие смеси</p>
+                </div>
+            </div>
+            <div class="col-ten-lg-1 col-ten-md-2 header__cat-item">
+                <div class="header__cat-item-inner">
+                    <img src="~/Content/img/test.png" alt="">
+                    <p>Сухие смеси</p>
+                </div>
+            </div>
+            <div class="col-ten-lg-1 col-ten-md-2 header__cat-item">
+                <div class="header__cat-item-inner">
+                    <img src="~/Content/img/test.png" alt="">
+                    <p>Сухие смеси</p>
+                </div>
+            </div>
+            <div class="col-ten-lg-1 col-ten-md-2 header__cat-item">
+                <div class="header__cat-item-inner">
+                    <img src="~/Content/img/test.png" alt="">
+                    <p>Сухие смеси</p>
+                </div>
+            </div>
+            <div class="col-ten-lg-1 col-ten-md-2 hidden-md header__cat-item">
+                <div class="header__cat-item-inner">
+                    <img src="~/Content/img/test.png" alt="">
+                    <p>Сухие смеси</p>
+                </div>
+            </div>*@
+        <a href="@Url.Action("Index","Category")">
+            <div class="col-ten-lg-1 col-ten-md-2 header__cat-item header__cat-item_view-all">
+                <div class="header__cat-item-inner">
+
+                    <p class="view-all">Смотреть<br>весь каталог</p>
+                </div>
+            </div>
+        </a>
+        <!--<div class="col-ten-md-7 header__line-two">
+            <div class="row no-gutter">
+
+            </div>
+        </div>-->
+
+    </div>
+    <div class="row no-gutter">
+        <div class="col-md-4 header__line-one">
+            <div class="header__consultant">
+                <p class="header__consultant-text">Задать вопрос нашему консультанту</p>
+
+                <img class="header__consultant-img" src="~/Content/img/consultant.png" alt="">
+
+            </div>
+        </div>
+        <div class="col-md-8 header__line-one">
+            <div class="header__search">
+                @using (Html.BeginForm("GlobalSearch", "Home", FormMethod.Get,new {@class= "header__search-form" }))
+                {
+                        @*<input type="text" class="header__search-input" placeholder="Поиск по сайту">*@
+                       @Html.TextBox("SearchString", ViewBag.CurrentFilter as string,new { @class="header__search-input", placeholder="Поиск по сайту"})
+                        <button type="submit" class="header__search-button"></button>
+                }
+                
+                
+            </div>
+        </div>
+    </div>
+
+</div>

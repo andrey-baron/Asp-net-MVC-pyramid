@@ -10,6 +10,8 @@ namespace Pyramid.Entity
     public class Product : BaseEntity
     {
         public int Id { get; set; }
+        public string OneCId { get; set; }
+
         [Display(Name = "Название товара")]
         public string Title { get; set; }
 
@@ -21,6 +23,9 @@ namespace Pyramid.Entity
         public Enumerable.TypeProductPrice TypePrice { get; set; }
         [Display(Name = "В наличии")]
         public bool InStock { get; set; }
+
+        [Display(Name = "Сезонное предложение")]
+        public bool SeasonOffer { get; set; }
 
         public Image ThumbnailImg { get; set; }
         public ICollection<Image> Images { get; set; }

@@ -18,7 +18,9 @@ namespace DBFirstDAL
         public int CoordX { get; set; }
         public int CoordY { get; set; }
         public int BannerId { get; set; }
+        public Nullable<int> ReferenceProductId { get; set; }
     
         public virtual BannerWithPoints BannerWithPoints { get; set; }
+        public virtual Products Products { get; set; }
     }
 }

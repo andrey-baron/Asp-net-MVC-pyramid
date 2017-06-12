@@ -20,10 +20,22 @@
 
     });*/
 
+    var singleProductId = $('#single-productid').val();
+
     $('#single-bxslider').bxSlider({
         pagerCustom: '#single-bx-pager'
     });
     $(".js-single-spinner").spinner({
         min:1,
     });
+
+    $("#save-btn-single-review").on("click", function () {
+        var form = $('#FormAddReview');
+        var serializeData = form.serialize();
+        $.post("/Review/AddReview/", serializeData, function (data) {
+            if (data.Status == "Ok") {
+
+            }
+        });
+    })
 })($);

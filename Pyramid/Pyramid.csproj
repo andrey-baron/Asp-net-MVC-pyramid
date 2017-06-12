@@ -55,6 +55,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -176,30 +184,47 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\EnumValueController.cs" />
+    <Compile Include="Controllers\FAQController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HomeEntityController.cs" />
     <Compile Include="Controllers\ImageManagerController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ReviewController.cs" />
+    <Compile Include="Controllers\Unloading1CController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Global\Config.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AllCategoriesViewModel.cs" />
+    <Compile Include="Models\BreadCrumbViewModel.cs" />
     <Compile Include="Models\CategoryModels\CategoryEnumValueViewModel.cs" />
     <Compile Include="Models\CategoryAdminViewModel.cs" />
     <Compile Include="Models\CategoryModels\CategoryFilterViewModel.cs" />
     <Compile Include="Models\CategoryModels\CategoryViewModel.cs" />
+    <Compile Include="Models\CategoryModels\HeaderCategoryViewModel.cs" />
     <Compile Include="Models\EnterModel.cs" />
+    <Compile Include="Models\Faq\FaqViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\JsonModels\TemplatePointJsonModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Single\SingleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Tools\1CToolModels\AllEntity1CXMLModel.cs" />
+    <Compile Include="Tools\1CToolModels\CategoryXMLModel.cs" />
+    <Compile Include="Tools\1CToolModels\ProductXMLModel.cs" />
+    <Compile Include="Tools\Breadcrumb.cs" />
     <Compile Include="Tools\Cryptography.cs" />
+    <Compile Include="Tools\Load1CDataFromXml.cs" />
+    <Compile Include="Tools\UploadXmlToFileSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\bootstrap-grid10.css" />
@@ -251,6 +276,8 @@
     <Content Include="Content\img\single.png" />
     <Content Include="Content\img\single2.jpg" />
     <Content Include="Content\img\slider-map.png" />
+    <Content Include="Content\img\star-white.svg" />
+    <Content Include="Content\img\star-yellow.svg" />
     <Content Include="Content\img\telephone.png" />
     <Content Include="Content\img\test-offer.png" />
     <Content Include="Content\img\test.png" />
@@ -270,10 +297,13 @@
     <Content Include="Content\libs\jquery.bxslider.css" />
     <Content Include="Content\libs\jquery.bxslider.min.css" />
     <Content Include="Content\libs\jquery.bxslider.min.js" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\src\admin-blocks\admin-product.js" />
     <Content Include="Content\src\admin-blocks\admin\admin.js" />
     <Content Include="Content\src\admin-blocks\category\admin-category.js" />
+    <Content Include="Content\src\admin-blocks\faq\question-answer.js" />
     <Content Include="Content\src\admin-blocks\filter\filter-admin.js" />
+    <Content Include="Content\src\admin-blocks\home-entity\home-entity.js" />
     <Content Include="Content\src\admin-blocks\image-manager\image-manager.js" />
     <Content Include="Content\src\blocks\call-to-action\call-to-action.js" />
     <Content Include="Content\src\blocks\category\category.js" />
@@ -327,6 +357,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="gulpfile.js" />
     <Content Include="Scripts\admin\admin.js" />
+    <Content Include="Scripts\admin\prTest.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="package.json" />
@@ -354,6 +385,8 @@
     <Content Include="Content\src\admin-blocks\admin\sidebar.less" />
     <Content Include="Content\src\admin-blocks\admin\admin-product.less" />
     <Content Include="Content\src\blocks\category\subcategory.less" />
+    <Content Include="Content\src\blocks\faq\faq.less" />
+    <Content Include="Content\src\admin-blocks\home-entity\home-entity.less" />
     <None Include="Properties\PublishProfiles\Pyramid.pubxml" />
     <Content Include="Scripts\fine-uploader.js" />
     <Content Include="Scripts\fine-uploader.min.js" />
@@ -383,6 +416,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\main\main.js" />
+    <Content Include="Scripts\main\single.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -525,6 +559,8 @@
     <Content Include="Scripts\tinymce\tinymce.js" />
     <Content Include="Scripts\tinymce\tinymce.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="star-white.svg" />
+    <Content Include="star-yellow.svg" />
     <Content Include="ViewModels\admin\main.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -598,6 +634,30 @@
     <Content Include="Views\Category\_PartialCategoryEmptyFilter.cshtml" />
     <Content Include="Views\Product\_PartialProductAllEnumValues.cshtml" />
     <Content Include="Views\Product\_PartialProductEmptyEnumValue.cshtml" />
+    <Content Include="Views\Product\_PartialProductGallery.cshtml" />
+    <Content Include="Views\Product\GetProductReview.cshtml" />
+    <Content Include="Views\FAQ\ManageIndex.cshtml" />
+    <Content Include="Views\FAQ\AddOrUpdate.cshtml" />
+    <Content Include="Views\FAQ\_PartialAllQuestionAnswer.cshtml" />
+    <Content Include="Views\FAQ\_PartialTemplateQuestionAnswer.cshtml" />
+    <Content Include="Views\HomeEntity\Index.cshtml" />
+    <Content Include="Views\FAQ\Index.cshtml" />
+    <Content Include="Views\HomeEntity\AddOrUpdate.cshtml" />
+    <Content Include="Views\HomeEntity\_PartialTemplateNewPoint.cshtml" />
+    <Content Include="Views\Category\_PartialGetProductTemplateDropDownList.cshtml" />
+    <Content Include="Views\HomeEntity\_PartialAllPoints.cshtml" />
+    <Content Include="Views\HomeEntity\_PartialAllPointOnImg.cshtml" />
+    <Content Include="Views\Shared\_PartialHeaderHomePage.cshtml" />
+    <Content Include="Views\Shared\_PartialHeaderOtherPages.cshtml" />
+    <Content Include="Views\Unloading1C\Index.cshtml" />
+    <Content Include="Views\Unloading1C\UploadFile.cshtml" />
+    <Content Include="Views\Unloading1C\Start.cshtml" />
+    <Content Include="Views\Home\GlobalSearch.cshtml" />
+    <Content Include="Views\Review\Index.cshtml" />
+    <Content Include="Views\Review\Reviews.cshtml" />
+    <Content Include="Views\Review\Update.cshtml" />
+    <Content Include="Views\Review\_PartialLinkManageReivews.cshtml" />
+    <Content Include="Views\Review\_PartialProductReviews.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -621,6 +681,10 @@
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{2b605ef3-8de4-448a-a2cb-6534641b5a6b}</Project>
       <Name>Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyramid.BLL\Pyramid.BLL.csproj">
+      <Project>{14326c1f-4c18-47ce-a076-3b831a48fe6c}</Project>
+      <Name>Pyramid.BLL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

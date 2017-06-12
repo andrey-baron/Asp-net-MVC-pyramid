@@ -1,0 +1,85 @@
+﻿@model PagedList.IPagedList<Pyramid.Entity.Review>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Отзывы";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+    <div class="subtitle">Администрирование отзывов</div>
+</div>
+<div class="col-lg-8 col-md-8">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+               
+                <th>
+                    Имя
+                </th>
+                <th>
+                    Отзыв
+                 </th>
+                <th>
+                    Рейтинг
+                </th>
+                <th>
+                    Товар
+                </th>
+                <th>
+                    Дата создания
+                </th>
+                
+                <th>Действия</th>
+            </tr>
+        </thead>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content@*.Substring(0,80)*@)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Title )
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreation)
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm" style="float: none;">
+                        <a href="@Url.Action("Update", "Review", new { id = item.Id })" class="tabledit-edit-button btn btn-sm btn-default">
+                          Читать
+                        </a>
+                        @*<a href="@Url.Action("ToNotApproved", "Review", new { id = item.Id })" class="tabledit-delete-button btn btn-sm btn-default" style="float: none;">
+                            <span class="glyphicon glyphicon-ban-circle"></span>
+                        </a>*@
+                    </div>
+
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</div>
+
+<div class="col-lg-4 col-md-4">
+    <div class="card">
+        <div class="card-block">
+            @Html.Partial("_PartialLinkManageReivews")
+        </div>
+    </div>
+</div>

@@ -769,7 +769,7 @@
             hoverClass: "qq-upload-button-hover",
             ios8BrowserCrashWorkaround: false,
             multiple: false,
-            name: "qqfile[]",
+            name: "qqfile",
             onChange: function(input) {},
             title: null
         }, input, buttonId;
@@ -2367,7 +2367,7 @@
                     endpoint: "/server/upload",
                     filenameParam: "qqfilename",
                     forceMultipart: true,
-                    inputName: "qqfile[]",
+                    inputName: "qqfile",
                     method: "POST",
                     params: {},
                     paramsInBody: true,

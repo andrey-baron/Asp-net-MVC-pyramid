@@ -1,0 +1,13 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="section-header">
+    <h2>@ViewBag.ResultUpload</h2>
+
+</div>
+
+<a href="@Url.Action("index", "Unloading1C")" class="btn btn-default">Назад</a>
+
+<a href="@Url.Action("start", "Unloading1C")" class="btn btn-default">Загрузить данные</a>

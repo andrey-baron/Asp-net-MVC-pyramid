@@ -9,12 +9,18 @@
     });
 })();
 ;(function () {
+    var maxVal=$("#MaxPrice").val();
+    var minVal = $("#MinPrice").val();
 
+    var curmaxVal = $("#CurrentMaxPrice").val();
+    var curminVal = $("#CurrentMinPrice").val();
     $(".sliderUI").slider({
-        max: 50,
-        min: 1,
+        
+        max:maxVal ,
+        //min: minVal,
         range: true,
-        //values: [10, 25],
+        values: [curminVal, curmaxVal],
+        step:1,
         start: function (event, ui) {
             var values= $( ".sliderUI" ).slider( "values" );
             $(".spinnerUI1").spinner("value", values[0]);
@@ -29,9 +35,7 @@
      
     $(".spinnerUI1").spinner({
         incremental: true,
-        max: 50,
-        min: 1,
-        
+               
         numberFormat: "n",
         change: function (event, ui) {
            
@@ -40,14 +44,26 @@
     });
     $(".spinnerUI2").spinner({
         incremental: false,
-        max: 50,
-        min: 1,
+        
         
         numberFormat: "n",
         change: function (event, ui) {
             $(".sliderUI").slider("values", 1, this.value);
         }
+    }); 
+})();
+(function () {
+
+    $('.ft-grid').masonry({
+        itemSelector: '.ft-item',
+        columnWidth: '.grid-sizer',
+        percentPosition: true
     });
+
+     //$(".footer__catalog-products").hide();
+     $(".footer__switch").on("click",function () {
+     $(".footer__catalog-products").toggle( 400 );
+     });
 })();
 (function ($) {
 
@@ -85,23 +101,22 @@
 
     });*/
 
+    var singleProductId = $('#single-productid').val();
+
     $('#single-bxslider').bxSlider({
         pagerCustom: '#single-bx-pager'
     });
     $(".js-single-spinner").spinner({
         min:1,
     });
+
+    $("#save-btn-single-review").on("click", function () {
+        var form = $('#FormAddReview');
+        var serializeData = form.serialize();
+        $.post("/Review/AddReview/", serializeData, function (data) {
+            if (data.Status == "Ok") {
+
+            }
+        });
+    })
 })($);
-(function () {
-
-    $('.ft-grid').masonry({
-        itemSelector: '.ft-item',
-        columnWidth: '.grid-sizer',
-        percentPosition: true
-    });
-
-     $(".footer__catalog-products").hide();
-     $(".footer__switch").on("click",function () {
-     $(".footer__catalog-products").toggle( 400 );
-     });
-})();

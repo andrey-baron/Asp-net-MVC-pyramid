@@ -1,5 +1,5 @@
-﻿@model IEnumerable<Pyramid.Entity.Product>
-
+﻿@model PagedList.IPagedList<Pyramid.Entity.Product>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Все товары";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -9,10 +9,16 @@
     <div class="subtitle">информация</div>
 </div>
 
-
 <p class="pmargin">
     @Html.ActionLink("Новый Товар", "AddOrUpdate",null, new { @class = "btn btn-primary" })
 </p>
+@using (Html.BeginForm("AdminIndex", "Product", FormMethod.Get))
+{
+    <p  class="pmargin">
+       Поиск по названию: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Поиск" />
+    </p>
+}
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
@@ -20,22 +26,24 @@
                 <i class="font-icon glyphicon glyphicon-file"></i>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Название
+                @*@Html.DisplayNameFor(model => model.Title)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @*@Html.DisplayNameFor(model => model.Price)*@
             </th>
             
             
             <th>
-                @Html.DisplayNameFor(model => model.Alias)
+                @*@Html.DisplayNameFor(model => model.Alias)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateCreation)
+                @*@Html.DisplayNameFor(model => model.DateCreation)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateChange)
+                @*@Html.DisplayNameFor(model => model.DateChange)*@
             </th>
+            <th>Отзывы на эту позицию</th>
             <th>Действия</th>
         </tr>
     </thead>
@@ -64,6 +72,9 @@
                 @Html.DisplayFor(modelItem => item.DateChange)
             </td>
             <td>
+                @*@Html.ActionLink("Отзывы", "GetProductReview", new { id=item.Id})*@
+            </td>
+            <td>
                 <div class="btn-group btn-group-sm" style="float: none;">
                     <a href="@Url.Action("AddOrUpdate", "Product", new { id = item.Id })" class="tabledit-edit-button btn btn-sm btn-default">
                         <span class="glyphicon glyphicon-pencil"></span>
@@ -78,3 +89,8 @@
     }
 
 </table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Загрузка выгрузки с 1с";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+
+</div>
+
+
+@using (Html.BeginForm("UploadFile", "Unloading1C", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-lg-8 col-md-8">
+
+            <div class="box-typical box-typical-padding">
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <input type="file" name="uploadxml" value="Выбрать файл"/>
+                    </div>
+                </div>
+              
+            </div>
+            <div class="card">
+                <div class="card-block">
+                    <div class="form-group">
+
+                        <input type="submit" value="Сохранить" class="btn btn-default">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

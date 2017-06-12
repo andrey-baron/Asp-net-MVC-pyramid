@@ -15,10 +15,20 @@ namespace Pyramid.Controllers
             var model = DBFirstDAL.ImageDAL.GetAll();
             return View(model);
         }
-        public ActionResult Upload(IEnumerable<HttpPostedFileBase> qqfile)
+
+        public ActionResult Upload(/*HttpPostedFileWrapper qqfile*/)
         {
             var files = this.Request.Files;
-            DBFirstDAL.ImageDAL.AddOrUpdate(null, qqfile);
+            HttpPostedFileBase test = null;
+            foreach (string item in files)
+            {
+                test = files[item];
+            }
+            if (test!=null)
+            {
+                DBFirstDAL.ImageDAL.AddOrUpdate(null, test);
+            }
+            
             return Json(new { result = "ok", success = true });
         }
 
@@ -44,7 +54,13 @@ namespace Pyramid.Controllers
         }
         public ActionResult PartialSelectImage()
         {
-            var model = DBFirstDAL.ImageDAL.GetAll();
+            var model = DBFirstDAL.ImageDAL.GetAll().Select(i=>new Pyramid.Entity.Image() {
+                Id=i.Id,
+                ImgAlt=i.ImgAlt,
+                PathInFileSystem=i.PathInFileSystem,
+                ServerPathImg=i.ServerPathImg,
+                Title=i.Title
+            }).ToList();
             return PartialView("_PartialSelectImage", model);
         }
     }

@@ -2,18 +2,19 @@
 
 <div class="admin-category__filter">
     <div class="form-group">
-        <div class="row">
+        
             @*@Html.Hidden(String.Format("Filters[{0}].Id", Model))*@
-            <div class="col-md-4">
-                @Html.Label("Фильтр", htmlAttributes: new { @class = "control-label" })
-                @Html.DropDownList(String.Format("Filters[{0}].Id", Model), new SelectList(ViewBag.FiltersSelectList, "Value", "Text"), "Выбрать", new { @class = "form-control" })
-            </div>
+            
+                @Html.Label("Фильтр", htmlAttributes: new { @class = "col-md-3 control-label" })
+        <div class="col-md-8">
+            @Html.DropDownList(String.Format("Filters[{0}].Id", Model), new SelectList(ViewBag.FiltersSelectList, "Value", "Text"), "Выбрать", new { @class = "form-control" })
+        </div>
             <div class="col-md-1">
-                <label class="control-label">удалить</label>
+               
                 <button type="button" class="tabledit-edit-button btn btn-sm btn-default js-btn-category-filter-delete" style="float: none;" data-ajaxid="@Model">
                     <span class="glyphicon glyphicon-trash"></span>
                 </button>
             </div>
-        </div>
+        
     </div>
 </div>

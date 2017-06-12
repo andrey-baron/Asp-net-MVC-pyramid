@@ -1,0 +1,182 @@
+﻿@model Pyramid.Entity.HomeEntity
+
+@{
+    ViewBag.Title = ((Model != null && Model.Id != 0) ? "Редактирование" : "Добавление") + " части главной";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+</div>
+@using (Html.BeginForm("AddOrUpdate", "HomeEntity", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-lg-8 col-md-8">
+            <div class="box-typical box-typical-padding">
+
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id, new { id = "HomeEntity_Id" })
+
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+            </div>
+            <div class="card">
+                <div class="card-header card-header-lg">
+                    <p>Выбор категории</p>
+                </div>
+                <div class="card-block">
+
+                    @Html.DropDownListFor(model => model.Category.Id, new SelectList(ViewBag.CategoriesSelectListItem, "Value", "Text"), "Выбрать", new { @class = "form-control" })
+
+
+
+                </div>
+
+            </div>
+            <div class="card">
+                <div class="card-header card-header-lg">
+                    <p>Выбор Темы вопрос ответа</p>
+                </div>
+                <div class="card-block">
+
+                    @Html.DropDownListFor(model => model.Faq.Id, new SelectList(ViewBag.FaqSelectListItem, "Value", "Text"), "Выбрать", new { @class = "form-control" })
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-header card-header-lg">
+            <p>Видео гид</p>
+
+        </div>
+        <div class="card-block">
+        </div>
+
+    </div>
+
+    <div class="card">
+        <div class="card-header card-header-lg">
+            <p>Конфигуратор точек товара</p>
+
+        </div>
+        <div class="card-block">
+            <div class="configuration-img">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="home-entity__img-wrap">
+                            @Html.Hidden("BannerWithPoints.Id", Model.Id)
+                            @Html.Hidden("BannerWithPoints.Images.Id", Model.BannerWithPoints != null&& Model.BannerWithPoints.Images != null ? Model.BannerWithPoints.Images.Id : 0, new { id = "Banner_Id" })
+
+
+                            <img class="home-entity__view-img" src="@(Model.BannerWithPoints!=null&&Model.BannerWithPoints.Images!=null?Model.BannerWithPoints.Images.ServerPathImg:"")" alt="" />
+                            <div class="home-entity__view-points">
+                                @if (Model.BannerWithPoints != null)
+                                {
+
+
+                                    for (int i = 0; i < Model.BannerWithPoints.PointOnImgs.Count(); i++)
+                                    {
+                                        <div class="home-entity__point" data-ajaxid="@i" style="left:@(Model.BannerWithPoints.PointOnImgs[i].CoordX)%;top:@(@Model.BannerWithPoints.PointOnImgs[i].CoordY)%;">@i точ.</div>
+                                    }
+                                }
+                                @*<div class="home-entity__point" data-ajaxid="1" style="left:150px;top:150px;">+</div>
+                                    <div class="home-entity__point" data-ajaxid="2" style="left:0;top:200px;">+</div>*@
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-default btn-primary js-btn-update-banner">Изменить</button>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="home-entity__point-product-list">
+                            @if (Model.BannerWithPoints != null)
+                            {
+
+
+                                for (int i = 0; i < Model.BannerWithPoints.PointOnImgs.Count; i++)
+                                {
+                                    <div id="point_@i" class="home-entity__point-inputs">
+                                        <input type="hidden" name="BannerWithPoints.PointOnImgs[@i].Id" value="@Model.BannerWithPoints.PointOnImgs[i].Id" />
+                                        <input type="hidden" value="@Model.BannerWithPoints.PointOnImgs[i].CoordX" class="coordx" name="BannerWithPoints.PointOnImgs[@i].CoordX" />
+                                        <input type="hidden" value="@Model.BannerWithPoints.PointOnImgs[i].CoordY" class="coordy" name="BannerWithPoints.PointOnImgs[@i].CoordY" />
+                                        <div class="row row-point-wrap">
+                                            <p>Точка @i <button type="button" class="btn btn-sm btn-default js-btn-delete-point" data-ajaxid="@Model.BannerWithPoints.PointOnImgs[i].Id"><span class="glyphicon glyphicon-trash"></span></button></p>
+                                            <label>Категория</label>
+                                            @Html.DropDownList("PointCategory", new SelectList(ViewBag.CategoriesSelectListItem, "Value", "Text"), "Выбрать", new { @class = "form-control point-category", id = "category-point_" + Model, data_ajaxid = Model.BannerWithPoints.PointOnImgs[i].Id, data_ajaxindex = i })
+                                            
+                                            <div class="product-point">
+                                                <label>Товар</label>
+                                                <input type="hidden" name="BannerWithPoints.PointOnImgs[@i].Products.Id" value="@(Model.BannerWithPoints.PointOnImgs[i].Products!=null?Model.BannerWithPoints.PointOnImgs[i].Products.Id:0)" />
+                                                <label>@(Model.BannerWithPoints.PointOnImgs[i].Products != null ? Model.BannerWithPoints.PointOnImgs[i].Products.Title : "не назначен товар")</label>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <button type="button" class="btn btn-default" id="add-new-point">Добавить точку</button>
+                    </div>
+                </div>
+            </div>
+            <script>
+
+            </script>
+        </div>
+
+    </div>
+    <div class="card">
+        <div class="card-block">
+            <div class="form-group">
+
+                <input type="submit" value="Сохранить" class="btn btn-default">
+
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Вернуться", "Index", null, new { @class = "btn btn-default btn-lg" })
+</div>
+
+
+
+<div class="modal fade" id="banner-edit-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Редактирование картинки</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn btn-primary btn-modal-save">Сохранить изменения</button>*@
+            </div>
+        </div>
+    </div>
+</div>

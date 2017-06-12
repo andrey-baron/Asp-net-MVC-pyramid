@@ -4,30 +4,46 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5043d270693a4b29a1bed643c8e12c15" Name="Diagram1" ZoomLevel="74">
-        <EntityTypeShape EntityType="PyramidFinalModel.BannerWithPoints" Width="1.5" PointX="5.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="PyramidFinalModel.Categories" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="PyramidFinalModel.CategoryImages" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="PyramidFinalModel.EnumValues" Width="1.5" PointX="4.125" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="PyramidFinalModel.Filters" Width="1.5" PointX="0.625" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="PyramidFinalModel.Images" Width="1.5" PointX="0.5" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PyramidFinalModel.Pages" Width="1.5" PointX="2.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PyramidFinalModel.PointOnImgs" Width="1.5" PointX="8" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PyramidFinalModel.ProductImages" Width="1.5" PointX="8.25" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="PyramidFinalModel.Products" Width="1.5" PointX="5.75" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="PyramidFinalModel.ProductValues" Width="1.5" PointX="8.25" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="PyramidFinalModel.Users" Width="1.5" PointX="4.75" PointY="9.75" IsExpanded="true" />
-        <AssociationConnector Association="PyramidFinalModel.FK__PointOnIm__Banne__1273C1CD" ManuallyRouted="false" />
+      <Diagram DiagramId="e3573e9333c84a20847b8017e16bf0e8" Name="Diagram1" ZoomLevel="81">
+        <EntityTypeShape EntityType="PyramidFinalModel.BannerWithPoints" Width="1.5" PointX="8.25" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.Categories" Width="1.5" PointX="0.75" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.CategoryImages" Width="1.5" PointX="3" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.EnumValues" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.Faq" Width="1.5" PointX="0.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.Filters" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.HomeEntity" Width="1.5" PointX="3" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.Images" Width="1.5" PointX="3.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.Pages" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.PointOnImgs" Width="1.5" PointX="10.5" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.ProductImages" Width="1.5" PointX="8.25" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.Products" Width="1.5" PointX="6" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.ProductValues" Width="1.5" PointX="8.25" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.QuestionAnswer" Width="1.5" PointX="3" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.Recommendations" Width="1.5" PointX="6" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.Review" Width="1.5" PointX="8.25" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.Users" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PyramidFinalModel.VideoGuide" Width="1.5" PointX="5.25" PointY="17.375" IsExpanded="true" />
+        <AssociationConnector Association="PyramidFinalModel.FK__BannerWit__Image__534D60F1" ManuallyRouted="false" />
+        <AssociationConnector Association="PyramidFinalModel.FK__PointOnIm__Banne__571DF1D5" ManuallyRouted="false" />
+        <AssociationConnector Association="PyramidFinalModel.FK_Banner" ManuallyRouted="false" />
+        <AssociationConnector Association="PyramidFinalModel.FK__Recommend__Categ__3B75D760" ManuallyRouted="false" />
         <AssociationConnector Association="PyramidFinalModel.FK_Category_Parent" ManuallyRouted="false" />
         <AssociationConnector Association="PyramidFinalModel.FK_CategoryImages_ForMTM" ManuallyRouted="false" />
         <AssociationConnector Association="PyramidFinalModel.FK_ImageCategories_ForMTM" ManuallyRouted="false" />
+        <AssociationConnector Association="PyramidFinalModel.FK__QuestionA__FaqId__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="PyramidFinalModel.FK__VideoGuid__HomeE__5070F446" ManuallyRouted="false" />
         <AssociationConnector Association="PyramidFinalModel.FK_ImageProducts_ForMTM" ManuallyRouted="false" />
         <AssociationConnector Association="PyramidFinalModel.FK_ProductImages_ForMTM" ManuallyRouted="false" />
-        <AssociationConnector Association="PyramidFinalModel.FK__ProductVa__Produ__29572725" ManuallyRouted="false" />
+        <AssociationConnector Association="PyramidFinalModel.FK__ProductVa__Produ__1DE57479" ManuallyRouted="false" />
+        <AssociationConnector Association="PyramidFinalModel.FK__Review__ProductI__38996AB5" ManuallyRouted="false" />
         <AssociationConnector Association="PyramidFinalModel.FilterCategories" ManuallyRouted="false" />
         <AssociationConnector Association="PyramidFinalModel.FilterEnumValues" ManuallyRouted="false" />
+        <AssociationConnector Association="PyramidFinalModel.HomeEntityCategories" ManuallyRouted="false" />
+        <AssociationConnector Association="PyramidFinalModel.HomeEntityFaq" ManuallyRouted="false" />
         <AssociationConnector Association="PyramidFinalModel.ProductCategories" ManuallyRouted="false" />
         <AssociationConnector Association="PyramidFinalModel.ProductEnumValues" ManuallyRouted="false" />
+        <AssociationConnector Association="PyramidFinalModel.RecommendationImages" ManuallyRouted="false" />
+        <AssociationConnector Association="PyramidFinalModel.FK__PointOnIm__Refer__6A30C649" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

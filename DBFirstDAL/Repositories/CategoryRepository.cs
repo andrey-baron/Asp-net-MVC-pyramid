@@ -18,12 +18,36 @@ namespace DBFirstDAL.Repositories
             {
                 d.Add(new RootCategory()
                 {
-                    Category = item,
-                    SubCategories = Context.Categories.Where(i => i.ParentId == item.Id)
+                    Category = new CategoryWithThumbnail() {
+                        Id= item.Id,
+                        Thumbnail= item.CategoryImages.FirstOrDefault(f => f.CategoryId == item.Id && f.TypeImage == 1)!=null?
+                        item.CategoryImages.FirstOrDefault(f=>f.CategoryId==item.Id&&f.TypeImage==1).Images:null,
+                        Title=item.Title
+                    } ,
+                    SubCategories = Context.Categories.Where(i => i.ParentId == item.Id).Select(s=> new CategoryWithThumbnail()
+                    {
+                        Id = s.Id,
+                        Thumbnail = s.CategoryImages.FirstOrDefault(f => f.CategoryId == s.Id && f.TypeImage == 1) != null ?
+                        s.CategoryImages.FirstOrDefault(f => f.CategoryId == s.Id && f.TypeImage == 1).Images : null,
+                        Title = s.Title
+                    })
                 });
             }
             return d;
            
+        }
+
+        public IEnumerable<CategoryWithThumbnail> GetRootCategoriesWithThumbnail(int typeThumbnail)
+        {
+            var rootCategories = Context.Categories.Where(i => i.ParentId == null).Select(i=>new CategoryWithThumbnail() {
+
+            Id=i.Id,
+            Thumbnail=i.CategoryImages.FirstOrDefault(s=>s.TypeImage==typeThumbnail).Images,
+            Title=i.Title
+            });
+            
+            return rootCategories;
+
         }
 
         public IEnumerable<Filters> GetFilters(int categoryId)
@@ -31,12 +55,12 @@ namespace DBFirstDAL.Repositories
             var efCategory = FindBy(i => i.Id == categoryId).SingleOrDefault();
             if (efCategory!=null)
             {
-                return efCategory.Filters;
+                return efCategory.Filters.ToList();
             }
-
             return new List<Filters>();
         }
 
+       
         public void DeleteFilter(int categoryId, int filterId)
         {
             var efCategory = FindBy(i => i.Id == categoryId).SingleOrDefault();
@@ -55,7 +79,21 @@ namespace DBFirstDAL.Repositories
             var efEntity = FindBy(i=>i.Id==id).SingleOrDefault();
             if (efEntity == null)
             {
+                var tmp = new List<Filters>(entity.Filters);
+                entity.Filters.Clear();
                 Context.Categories.Add(entity);
+                Context.SaveChanges();
+                foreach (var item in tmp)
+                {
+                    var effilter=Context.Filters.Find(item.Id);
+                    if (effilter!=null)
+                    {
+                        entity.Filters.Add(effilter);
+                    }
+                }
+                Context.SaveChanges();
+                
+                
             }
             else
             {
@@ -97,6 +135,91 @@ namespace DBFirstDAL.Repositories
             }
             return new List<Products>();
            
+        }
+
+        public void SetThumbnail(int categoryId, int imageId, int typeImage)
+        {
+            var efCategory = FindBy(i => i.Id == categoryId).SingleOrDefault();
+            if (efCategory != null)
+            {
+                var efImage = efCategory.CategoryImages.FirstOrDefault(i => i.TypeImage == typeImage);
+                
+                if (efImage!=null)
+                {
+                    if (efImage.ImageId == imageId)
+                    {
+                        return;
+                    }
+                    efCategory.CategoryImages.Remove(efImage);
+                }
+               
+                efCategory.CategoryImages.Add(new CategoryImages()
+                {
+                    CategoryId = categoryId,
+                    ImageId = imageId,
+                    TypeImage = typeImage
+                });
+               
+            }
+
+        }
+
+        public void RemoveImageToCategory(int categoryId, int imageId, int typeImage)
+        {
+            var efCategory = FindBy(i => i.Id == categoryId).SingleOrDefault();
+            if (efCategory != null)
+            {
+                var efImage = efCategory.CategoryImages.FirstOrDefault(i => i.ImageId == imageId && i.TypeImage == typeImage);
+                if (efImage != null)
+                {
+                    efCategory.CategoryImages.Remove(efImage);
+                }
+            }
+
+        }
+
+        public Images GetThumbnail(int categoryId, int typeThumbnail)
+        {
+            return Context.Images.FirstOrDefault(i => i.CategoryImages.Any(f => f.CategoryId == categoryId && f.TypeImage == typeThumbnail));
+        }
+
+        public int GetMaxPriceFromCategory(int categoryId)
+        {
+            var efcat = FindBy(i => i.Id == categoryId).SingleOrDefault();
+            if (efcat!=null)
+            {
+                if (efcat.Products!=null&& efcat.Products.Count>0)
+                {
+                    int max = (int)efcat.Products.Max(i => i.Price);
+                    int min = (int)efcat.Products.Min(i => i.Price);
+                    return max;
+                }
+                
+            }
+            return 0;
+        }
+        public int GetMinPriceFromCategory(int categoryId)
+        {
+            var efcat = FindBy(i => i.Id == categoryId).SingleOrDefault();
+            if (efcat != null)
+            {
+                if (efcat.Products != null && efcat.Products.Count > 0)
+                {
+                    int min = (int)efcat.Products.Min(i => i.Price);
+                return min;
+                }
+            }
+            return 0;
+        }
+
+        public IEnumerable< Products> GetProductsByCategoryId(int id)
+        {
+            var efCat = FindBy(i => i.Id == id).SingleOrDefault();
+            if (efCat!=null)
+            {
+                return efCat.Products.ToList();
+            }
+            return new List<Products>();
         }
     }
 }

@@ -1,10 +1,16 @@
 ﻿;(function () {
+    var maxVal=$("#MaxPrice").val();
+    var minVal = $("#MinPrice").val();
 
+    var curmaxVal = $("#CurrentMaxPrice").val();
+    var curminVal = $("#CurrentMinPrice").val();
     $(".sliderUI").slider({
-        max: 50,
-        min: 1,
+        
+        max:maxVal ,
+        //min: minVal,
         range: true,
-        //values: [10, 25],
+        values: [curminVal, curmaxVal],
+        step:1,
         start: function (event, ui) {
             var values= $( ".sliderUI" ).slider( "values" );
             $(".spinnerUI1").spinner("value", values[0]);
@@ -19,9 +25,7 @@
      
     $(".spinnerUI1").spinner({
         incremental: true,
-        max: 50,
-        min: 1,
-        
+               
         numberFormat: "n",
         change: function (event, ui) {
            
@@ -30,12 +34,11 @@
     });
     $(".spinnerUI2").spinner({
         incremental: false,
-        max: 50,
-        min: 1,
+        
         
         numberFormat: "n",
         change: function (event, ui) {
             $(".sliderUI").slider("values", 1, this.value);
         }
-    });
+    }); 
 })();

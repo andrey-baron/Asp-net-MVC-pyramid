@@ -1,0 +1,72 @@
+﻿@model Pyramid.Entity.FAQ
+
+@{
+    ViewBag.Title = ((Model != null && Model.Id != 0) ? "Редактирование" : "Добавление") + " темы ";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+</div>
+@using (Html.BeginForm("AddOrUpdate", "Faq", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-lg-10 col-md-12">
+            <div class="box-typical box-typical-padding">
+
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id, new { id = "Faq_Id" })
+                  
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                   
+
+                    
+                </div>
+
+            </div>
+            <div class="card">
+                <div class="card-header card-header-lg">
+                    <p>Список вопросов</p>
+                </div>
+                <div class="card-block">
+                    <div class="admin-product__addition-values faq__question-answer-values">
+                        @Html.Partial("_PartialAllQuestionAnswer", Model.QuestionAnswer)
+
+                    </div>
+                    <button type="button" class="btn btn-primary js-btn-add-question-answer">Добавить</button>
+                </div>
+
+            </div>
+            <div class="card">
+                <div class="card-block">
+                    <div class="form-group">
+                        
+                            <input type="submit" value="Сохранить" class="btn btn-default" />
+                        
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+}
+
+
+
+<div>
+    @Html.ActionLink("Вернуться к списку", "ManageIndex", null, new { @class = "btn btn-default btn-lg" })
+</div>
+
+

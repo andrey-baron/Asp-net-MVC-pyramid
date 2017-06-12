@@ -14,7 +14,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/tinymce")
-
+    @*<script src="~/Scripts/fine-uploader.js"></script>*@
 
     
     
@@ -31,6 +31,7 @@
                 <a href="/Admin" class="header-admin__site-logo">
                     <img class="header-admin__logoSA" src="~/Content/img/logoSA.jpg" alt="">
                 </a>
+                <a href="/">Перейти на сайт</a>
             </div>
         </header>
       
@@ -74,6 +75,24 @@
                             <a class="sidebar-menu__link" href="@Url.Action("AdminIndex","Page")">
                                 <i class="font-icon glyphicon glyphicon-list-alt"></i>
                                 <span class="lbl">Страницы</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item sidebar-menu__item_green-icon">
+                            <a class="sidebar-menu__link" href="@Url.Action("ManageIndex","Faq")">
+                                <i class="font-icon glyphicon glyphicon-list-alt"></i>
+                                <span class="lbl">Вопрос-ответ</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item sidebar-menu__item_green-icon">
+                            <a class="sidebar-menu__link" href="@Url.Action("Index","HomeEntity")">
+                                <i class="font-icon glyphicon glyphicon-list-alt"></i>
+                                <span class="lbl">Части главной</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu__item sidebar-menu__item_green-icon">
+                            <a class="sidebar-menu__link" href="@Url.Action("Index","Review")">
+                                <i class="font-icon glyphicon glyphicon-list-alt"></i>
+                                <span class="lbl">Отзывы на товар</span>
                             </a>
                         </li>
                     </ul>

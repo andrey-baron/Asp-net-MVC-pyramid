@@ -6,7 +6,7 @@
         percentPosition: true
     });
 
-     $(".footer__catalog-products").hide();
+     //$(".footer__catalog-products").hide();
      $(".footer__switch").on("click",function () {
      $(".footer__catalog-products").toggle( 400 );
      });

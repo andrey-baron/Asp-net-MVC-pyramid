@@ -69,7 +69,10 @@ namespace Pyramid.Controllers
             var modelFilter =
     mapper.Map<DBFirstDAL.Filters, Pyramid.Entity.Filter>(efmodel);
 
-
+            if (modelFilter==null)
+            {
+                modelFilter = new Entity.Filter();
+            }
             ViewBag.EnumValuesSelectList= _enumRepositopy.GetAll().Select(item => new SelectListItem
             {
                 Text = item.Key,
@@ -105,8 +108,22 @@ namespace Pyramid.Controllers
         }
         [Authorize]
         public ActionResult GetAllEnumValues(int filterid) {
+            var config = new MapperConfiguration(cfg =>
+            {
+                
+                cfg.CreateMap<Entity.EnumValue, DBFirstDAL.EnumValues>()
+                .ForMember(d => d.Filters, o => o.Ignore())
+                .ForMember(d => d.Products, o => o.Ignore())
+                ; ;
+               
+            });
 
-            var model = _filterRepository.GetAllEnumValues(filterid);
+
+            config.AssertConfigurationIsValid();
+
+            var mapper = config.CreateMapper();
+            var efmodel = _filterRepository.GetAllEnumValues(filterid);
+            var model = mapper.Map<IEnumerable<DBFirstDAL.EnumValues>, IEnumerable<Entity.EnumValue>>(efmodel);
             ViewBag.EnumValuesSelectList= _enumRepositopy.GetAll().Select(item => new SelectListItem
             {
                 Text = item.Key,
@@ -114,7 +131,7 @@ namespace Pyramid.Controllers
             });
             return PartialView("_PartialFilterAllEnumValues", model);
         }
-        public ActionResult GetTemplateEnumValue(int filterid)
+        public ActionResult GetTemplateEnumValue(int filterid,int count)
         {
             ViewBag.EnumValuesSelectList= _enumRepositopy.GetAll().Select(item => new SelectListItem
             {
@@ -122,6 +139,10 @@ namespace Pyramid.Controllers
                 Value = item.Id.ToString()
             });
             var model = _filterRepository.GetAllEnumValues(filterid).Count();
+            if (count>model)
+            {
+                model = count;
+            }
             return PartialView("_PartialFilterEmptyEnumValue", model);
         }
 

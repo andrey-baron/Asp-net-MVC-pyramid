@@ -1,0 +1,30 @@
+﻿@model List<Pyramid.Entity.QuestionAnswer>
+
+@for (int i = 0; i < Model.Count; i++)
+
+{
+    <div class="admin-product__addition-value">
+        <div class="row row-question-answer">
+            @Html.Hidden(String.Format("QuestionAnswer[{0}].Id", i), Model[i].Id)
+            <div class="col-md-12">
+                @Html.Label("Вопрос", htmlAttributes: new { @class = "control-label" })
+
+
+                @Html.TextBox(String.Format("QuestionAnswer[{0}].Question", i), Model[i].Question, new { @class = "form-control" })
+                @*@Html.ValidationMessageFor(m => model.Key, "", new { @class = "text-danger" })*@
+            </div>
+            <div class="col-md-11">
+                @Html.Label("Ответ", htmlAttributes: new { @class = "control-label" })
+                @Html.TextBox(String.Format("QuestionAnswer[{0}].Answer", i), Model[i].Answer, new { @class = "form-control" })
+
+            </div>
+            <div class="col-md-1">
+                <label class="control-label">удалить</label>
+                <button type="button" class="tabledit-edit-button btn btn-sm btn-default js-btn-QuestionAnswer-delete" style="float: none;" data-ajaxid="@Model[i].Id">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+}
+

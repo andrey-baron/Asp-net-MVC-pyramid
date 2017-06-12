@@ -1,33 +1,52 @@
 ﻿@model IEnumerable<Pyramid.Entity.Filter>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Фильтры";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Index</h2>
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+    <div class="subtitle">информация</div>
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "AddOrUpdate")
+
+<p class="pmargin">
+    @Html.ActionLink("Новый фильтр", "AddOrUpdate", null, new { @class = "btn btn-primary" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "AddOrUpdate", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>Действия</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm" style="float: none;">
+                        <a href="@Url.Action("AddOrUpdate", "Filter", new { id = item.Id })" class="tabledit-edit-button btn btn-sm btn-default" style="float: none;">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                        <a href="@Url.Action("Delete", "Filter", new { id = item.Id })" class="tabledit-delete-button btn btn-sm btn-default" style="float: none;">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </div>
+
+                </td>
+            </tr>
+        }
 
 </table>
+
+

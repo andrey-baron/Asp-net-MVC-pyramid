@@ -1,9 +1,9 @@
 ﻿; (function () {
-
+    /*filter function*/
        var filterId = $("#Filter_Id").val();
     $(".js-btn-filter-add-enumvalue").on("click", function () {
-
-        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId, function (data) {
+        var count =$(".admin-filter__enum-value").length;
+        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId + "&count=" + count, function (data) {
             $(".js-filter-all-enumvalues").append(data);
         });
     });
@@ -15,5 +15,4 @@
             });
         });
     })
-
 })();

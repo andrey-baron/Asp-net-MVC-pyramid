@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Pyramid.Entity.Image>
+<div class="gallery-grid">
+    @foreach (var itemImage in Model)
+    {
+        <div class="gallery-col">
+            <article class="gallery-item" style="height: 158px;">
+                <img class="gallery-picture" src="@itemImage.ServerPathImg" alt="" height="158">
+                <div class="gallery-hover-layout">
+                    <div class="gallery-hover-layout-in">
+                        <p class="gallery-item-title">@itemImage.Title</p>
+                        <div class="btn-group">
+                            <button type="button" class="btn js-btn-gallery-ajax-delete" data-ajaxid="@itemImage.Id">
+                                <i class="font-icon font-icon-btn_white glyphicon glyphicon-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    }
+</div>

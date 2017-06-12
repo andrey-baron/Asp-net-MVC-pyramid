@@ -1,0 +1,65 @@
+﻿@model Pyramid.Entity.Review
+@{
+    ViewBag.Title = "Одобрение";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+    <div class="subtitle">Администрирование отзывов</div>
+</div>
+<div class="col-lg-8 col-md-8">
+    @using (Html.BeginForm())
+    {
+        <div class="card">
+            <div class="card-block">
+                <div class="row">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+                        <p>@Model.Name</p>
+                    </div>
+
+                    @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+                        <p>@Model.Content</p>
+                    </div>
+                    @Html.Label("Товар", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+                        <p>@Model.Product.Title</p>
+                    </div>
+
+                    @Html.LabelFor(model => model.DateCreation, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+                        <p>@Model.DateCreation.ToUniversalTime()</p>
+                    </div>
+                    @Html.HiddenFor(m => Model.Id)
+                    @Html.LabelFor(model => model.IsApproved, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(model => model.IsApproved, htmlAttributes: new { })
+                        @Html.ValidationMessageFor(model => model.IsApproved, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+               
+                  
+                
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-block">
+
+                <input type="submit" value="Сохранить" class="btn btn-default">
+            </div>
+        </div>
+    }
+</div>
+<div class="col-lg-4 col-md-4">
+    <div class="card">
+        <div class="card-block">
+            @Html.Partial("_PartialLinkManageReivews")
+        </div>
+    </div>
+</div>

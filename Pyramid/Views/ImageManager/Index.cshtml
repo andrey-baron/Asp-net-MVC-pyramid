@@ -169,7 +169,8 @@
         reloadData();
         setTimeout(function () {
             $(".qq-upload-list-selector").html("");
-        }, 3000)
+        }, 3000);
+        event.preventDefault();
     });;
 
     $('#trigger-upload').click(function () {

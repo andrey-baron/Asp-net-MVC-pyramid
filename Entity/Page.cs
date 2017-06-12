@@ -12,8 +12,9 @@ namespace Pyramid.Entity
         public int Id { get; set; }
         [Required]
         [MaxLength(100)]
+        [Display(Name ="Название")]
         public string Title { get; set; }
-        
+        [Display(Name = "Содержимое страницы")]
         public string Content { get; set; }
         public int ImageId { get; set; }
 

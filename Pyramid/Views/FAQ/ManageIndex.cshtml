@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Pyramid.Entity.FAQ>
+
+@{
+    ViewBag.Title = "Темы вопрос-ответов";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+    <div class="subtitle">информация</div>
+</div>
+
+
+<p class="pmargin">
+    @Html.ActionLink("Новая тема", "AddOrUpdate", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm" style="float: none;">
+                        <a href="@Url.Action("AddOrUpdate", "Faq", new { id = item.Id })" class="tabledit-edit-button btn btn-sm btn-default" style="float: none;">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                        <a href="@Url.Action("Delete", "Faq", new { id = item.Id })" class="tabledit-delete-button btn btn-sm btn-default" style="float: none;">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </div>
+
+                </td>
+            </tr>
+        }
+
+</table>
+

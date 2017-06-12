@@ -1,56 +1,50 @@
-﻿
+﻿@model Pyramid.Entity.Product
 @{
     ViewBag.Title = "single";
-    Layout = "~/Views/Shared/_LayoutOtherPages.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 <div class="single">
+    @Html.HiddenFor(m=>Model.Id,new { id="single-productid"})
     <div class="row">
         <div class="col-md-12">
-            <p class="single__title">Минимойка HUTER W165-AR</p>
+            <p class="single__title">@Model.Title</p>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 single-col">
             <div class="single__content">
                 <ul class="single__additional-values">
-                    <li class="single__add-val-item">
-                        <div class="single__dotted-line-left">
-                            <div class="single__dotted-line-title">Мощность двигателя, Вт:</div>
-                        </div>
-                        <div class="single__dotted-line-right">
-                            <div class="single__dotted-line-content">44</div>
-                        </div>
-                    </li>
-                    <li class="single__add-val-item">
-                        <div class="single__dotted-line-left">
-                            <div class="single__dotted-line-title">Максимальное давление, Бар:</div>
-                        </div>
-                        <div class="single__dotted-line-right">
-                            <div class="single__dotted-line-content">2</div>
-                        </div>
-                    </li>
+                    @foreach (var item in Model.ProductValues)
+                    {
+                        <li class="single__add-val-item">
+                            <div class="single__dotted-line-left">
+                                <div class="single__dotted-line-title">@item.Key</div>
+                            </div>
+                            <div class="single__dotted-line-right">
+                                <div class="single__dotted-line-content">@item.Value</div>
+                            </div>
+                        </li>
+
+                    }
 
 
                 </ul>
-                <p> Производительность подачи воды, л/ч:</p>
-                <p>  Температура воды на входе (max), °С:</p>
-                <p>   Давление воды на входе (max), Бар:</p>
-                <p>  Система намотки сетевого шнура:</p>
-                <p>   Вес (без принадлежностей), кг:</p>
-                <p>   Гарантия, мес.:</p>
-                <p>  Сайт производителя:</p>
-                <p>  Страна производитель:</p>
+
                 <div class="single__b-last-additional">
                     <div class="single__dotted-line-left">
                         <div class="single__dotted-line-title">Все характеристики</div>
                     </div>
-                    <div class="single__dotted-line-right">
-                        <div class="single__dotted-line-content">
-                            <div class="single__in-stock">В наличии</div>
+                    @if (Model.InStock)
+                    {
+                        <div class="single__dotted-line-right">
+                            <div class="single__dotted-line-content">
+                                <div class="single__in-stock">В наличии</div>
+                            </div>
                         </div>
-                    </div>
+                    }
+
                 </div>
 
             </div>
@@ -65,17 +59,21 @@
                 <div class="col-md-8">
                     <div class="single-galery-wrap">
                         <ul id="single-bxslider">
-                            <li><img src="~/Content/img/single.png" /></li>
-                            <li><img src="~/Content/img/single2.jpg" /></li>
-                            <li><img src="~/Content/img/single.png" /></li>
+                            @foreach (var item in Model.Images)
+                            {
+                                <li class="single-bxslider__slide"><img src="@item.ServerPathImg" /></li>
+                            }
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div id="single-bx-pager" class="single-galery-pager">
-                        <a data-slide-index="0" href=""><img src="~/Content/img/single.png" /></a>
-                        <a data-slide-index="1" href=""><img src="~/Content/img/single2.jpg" /></a>
-                        <a data-slide-index="2" href=""><img src="~/Content/img/single.png" /></a>
+                        @{int indx = 0; }
+                        @foreach (var item in Model.Images)
+                        {
+                            <a data-slide-index="@indx"><img src="@item.ServerPathImg" /></a>
+                            indx++;
+                        }
                     </div>
                 </div>
             </div>
@@ -99,21 +97,135 @@
                 </a>
             </div>
             <div class="col-ten-lg-6 col-md-6">
-                <ul class="single__bottom-menu">
-                    <li class="single__bottom-menu-item">
-                        <a href="#" class="single__bottom-menu-link">Советы</a>
-                    </li>
-                    <li class="single__bottom-menu-item">
-                        <a href="#" class="single__bottom-menu-link">Советы</a>
-                    </li>
-                    <li class="single__bottom-menu-item">
-                        <a href="#" class="single__bottom-menu-link">Советы</a>
-                    </li>
-                    <li class="single__bottom-menu-item">
-                        <a href="#" class="single__bottom-menu-link">Советы</a>
-                    </li>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        // Отображается 1 вкладка,
+                        // т.к. отсчёт начинается с нуля
+                        $("#myTab2 li:eq(0) a").tab('show');
+                    });
+                </script>
+
+                <ul id="myTab2" class="nav nav-tabs single__bottom-menu">
+                    <li><a data-toggle="tab" href="#panely1">Советы</a></li>
+                    <li><a data-toggle="tab" href="#panely2">Доставка</a></li>
+                    <li><a data-toggle="tab" href="#panely3">Услуги</a></li>
+                    <li><a data-toggle="tab" href="#panely4">Отзывы</a></li>
                 </ul>
+
+
+                @*<ul class="single__bottom-menu">
+                        <li class="single__bottom-menu-item">
+                            <a href="#" class="single__bottom-menu-link">Советы</a>
+                        </li>
+                        <li class="single__bottom-menu-item">
+                            <a href="#" class="single__bottom-menu-link">Советы</a>
+                        </li>
+                        <li class="single__bottom-menu-item">
+                            <a href="#" class="single__bottom-menu-link">Советы</a>
+                        </li>
+                        <li class="single__bottom-menu-item">
+                            <a href="#" class="single__bottom-menu-link">Отзывы</a>
+                        </li>
+                    </ul>*@
+            </div>
+        </div>
+    </div>
+    <div class="tab-content">
+        <div id="panely1" class="tab-pane fade in active">
+            <h3>Советы</h3>
+            <p>Содержимое 1 панели...</p>
+        </div>
+        <div id="panely2" class="tab-pane fade">
+            <h3>Доставка</h3>
+            <p>Содержимое 2 панели...</p>
+        </div>
+        <div id="panely3" class="tab-pane fade">
+            <h3>Услуги</h3>
+            <p>Содержимое 3 панели...</p>
+        </div>
+        <div id="panely4" class="tab-pane fade">
+            <p>Отзывы</p>
+            <div class="single__review-info">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="single__avg-review">
+                            @*<div class="single__review-rating single__review-rating_big">
+                                <div class="star-on"></div>
+                                <div class="star-on"></div>
+                                <div class="star-on"></div>
+                                <div class="star-on"></div>
+                                <div class="star-off"></div>
+                            </div>*@
+                            <button class="btn btn-lg btn-primary" id="btn-single-add-review" data-toggle="modal" data-target="#single-add-review">Оставить отзыв</button>
+                        </div>
+                        <div class="single__review-block">
+
+                            <div class="single__review-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="single__review-rating">
+                                            
+                                            <div class="star-on"></div>
+                                            <div class="star-on"></div>
+                                            <div class="star-on"></div>
+                                            <div class="star-on"></div>
+                                            <div class="star-off"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single__review-date">@DateTime.Now</div>
+                                    </div>
+                                </div>
+                                <div class="single__review-autor">Test</div>
+                                <p class="single__review-content">
+                                    text text text text text text text text text text text text text text text text text
+                                    text text text text text text text text text text text text text text text text text text
+                                    text text text text text text text text text text
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="single-add-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Новый отзыв на товар @Model.Title</h4>
+            </div>
+            @{Pyramid.Entity.Review review = new Pyramid.Entity.Review() { ProductId=Model.Id};}
+            <div class="modal-body">
+                @using (Html.BeginForm("NewReview", "Product", FormMethod.Post, new { id = "FormAddReview" }))
+                {
+                    @Html.Hidden("ProductId",Model.Id,new {@class= "js-single-control" })
+                    <div class="form-group">
+                        <p>Рейтинг</p>
+                        @Html.TextBox("Rating", 5)
+                    </div>
+                    <div class="form-group">
+                        <p>Отзыв</p>
+                        @Html.TextArea("Content", "", new { @class= "single__textarea js-single-control" })
+                    </div>
+                    <div class="form-group">
+                        <p>Имя</p>
+                        @Html.TextBox("Name", "", new { @class = "single__input js-single-control" })
+                    </div>
+                    
+                }
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-primary" id="save-btn-single-review">Отправить</button>
             </div>
         </div>
     </div>
 </div>
+
+@Scripts.Render("/Scripts/main/single.js")

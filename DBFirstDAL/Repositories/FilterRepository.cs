@@ -35,7 +35,20 @@ namespace DBFirstDAL.Repositories
             var efEntity = Context.Filters.Find(id);
             if (efEntity == null)
             {
+                var tmpEnumval = new List<EnumValues>(entity.EnumValues);
+                entity.EnumValues.Clear();
                 Context.Filters.Add(entity);
+
+                Context.SaveChanges();
+                foreach (var item in tmpEnumval)
+                {
+                    var efitem = Context.EnumValues.Find(item.Id);
+                    if (efitem != null)
+                    {
+                        entity.EnumValues.Add(efitem);
+                    }
+                }
+                Context.SaveChanges();
             }
             else
             {

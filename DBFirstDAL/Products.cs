@@ -19,8 +19,10 @@ namespace DBFirstDAL
         {
             this.ProductImages = new HashSet<ProductImages>();
             this.ProductValues = new HashSet<ProductValues>();
+            this.Review = new HashSet<Review>();
             this.Categories = new HashSet<Categories>();
             this.EnumValues = new HashSet<EnumValues>();
+            this.PointOnImgs = new HashSet<PointOnImgs>();
         }
     
         public int Id { get; set; }
@@ -36,14 +38,20 @@ namespace DBFirstDAL
         public System.DateTime DateChange { get; set; }
         public Nullable<int> PointOnImg_Id { get; set; }
         public Nullable<bool> InStock { get; set; }
+        public Nullable<bool> SeasonOffer { get; set; }
+        public string OneCId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductImages> ProductImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductValues> ProductValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Review> Review { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Categories> Categories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EnumValues> EnumValues { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PointOnImgs> PointOnImgs { get; set; }
     }
 }

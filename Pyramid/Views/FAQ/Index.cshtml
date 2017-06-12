@@ -1,0 +1,89 @@
+﻿@model Pyramid.Models.Faq.FaqViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-lg-3">
+            <div class="faq__box">
+                <p class="faq__box-title">Выберите категорию:</p>
+                <ul class="faq__sidebar-menu">
+                    @foreach (var item in Model.AllFaq)
+                    {
+                        <li class="faq__sidebar-menu-item">
+                            <a href="@Url.Action("Get",new {id=item.Id })" class="faq__sidebar-menu-link">@item.Title</a>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-8 col-lg-9">
+            <div class="faq__box faq__box_content">
+                
+                
+                <div id="accordion">
+                    @if (Model.CurrentFaq != null)
+                    {
+                        foreach (var item in Model.CurrentFaq.QuestionAnswer)
+                        {
+                           
+                            <h3 class="faq__accordion-header">@item.Question</h3>
+                            <div>
+                                <p>
+                                    @item.Answer
+                                </p>
+                            </div>
+                        }
+                    }
+                    
+                    @*<h3>Section 2</h3>
+                    <div>
+                        <p>
+                            Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+                            purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+                            velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+                            suscipit faucibus urna.
+                        </p>
+                    </div>
+                    <h3>Section 3</h3>
+                    <div>
+                        <p>
+                            Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+                            Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+                            ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+                            lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+                        </p>
+                        <ul>
+                            <li>List item one</li>
+                            <li>List item two</li>
+                            <li>List item three</li>
+                        </ul>
+                    </div>
+                    <h3>Section 4</h3>
+                    <div>
+                        <p>
+                            Cras dictum. Pellentesque habitant morbi tristique senectus et netus
+                            et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
+                            faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
+                            mauris vel est.
+                        </p>
+                        <p>
+                            Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
+                            Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+                            inceptos himenaeos.
+                        </p>
+                    </div>*@
+                </div>
+                <script>
+                  $( function() {
+                    $( "#accordion" ).accordion();
+                  } );
+                </script>
+            </div>
+        </div>
+    </div>
+</div>

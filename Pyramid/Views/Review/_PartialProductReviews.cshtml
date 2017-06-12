@@ -1,0 +1,64 @@
+﻿@model PagedList.IPagedList<Pyramid.Entity.Review>
+@using PagedList.Mvc;
+<div class="single__reviews-wrap">
+    @foreach (var item in Model)
+    {
+        <div class="single__review-item">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="single__review-rating">
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            if (i < item.Rating)
+                            {
+                                <div class="star-on"></div>
+                            }
+                            else
+                            {
+                                <div class="star-off"></div>
+                            }
+                        }
+
+                        @*<div class="star-on"></div>
+                        <div class="star-on"></div>
+                        <div class="star-on"></div>
+                        <div class="star-off"></div>*@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="single__review-date">@item.DateCreation</div>
+                </div>
+            </div>
+            <div class="single__review-autor">@item.Name</div>
+            <p class="single__review-content">
+              @item.Content
+            </p>
+        </div>
+
+    }
+    <div class="single__review-item">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="single__review-rating">
+
+                    <div class="star-on"></div>
+                    <div class="star-on"></div>
+                    <div class="star-on"></div>
+                    <div class="star-on"></div>
+                    <div class="star-off"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="single__review-date">@DateTime.Now</div>
+            </div>
+        </div>
+        <div class="single__review-autor">Test</div>
+        <p class="single__review-content">
+            text text text text text text text text text text text text text text text text text
+            text text text text text text text text text text text text text text text text text text
+            text text text text text text text text text text
+        </p>
+    </div>
+</div>
+@Html.PagedListPager(Model, page => Url.Action("PartialGetReviewsByProductId",
+    new { page, productid = ViewBag.ProductId }))

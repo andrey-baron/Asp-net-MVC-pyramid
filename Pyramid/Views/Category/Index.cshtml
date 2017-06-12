@@ -1,7 +1,7 @@
 ﻿@model Pyramid.Models.CategoryModels.CategoryViewModel
 @{
     ViewBag.Title = "cat";
-    Layout = "~/Views/Shared/_LayoutOtherPages.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="category">
@@ -50,13 +50,15 @@
 
                     }
                     <div class="category__filter-block">
-                        <p class="category__filter-title">Заголовок2</p>
+                        <p class="category__filter-title">Фильтр по цене</p>
+                        @Html.Hidden("MinPrice",Model.MinPrice,new { id = "MinPrice" })
+                        @Html.Hidden("MaxPrice", Model.MaxPrice, new { id = "MaxPrice" })
                         <div class="category__filter-block-controls">
                             <div class="sliderUI"></div>
                             <label class="label_spinner">от</label>
-                            <input type="text" class="spinnerUI1" value="" />
+                            <input type="text" class="spinnerUI1" name="CurrentMinPrice" id="CurrentMinPrice" value="@Model.CurrentMinPrice" />
                             <label class="label_spinner">до</label>
-                            <input type="text" class="spinnerUI2" value="" />
+                            <input type="text" class="spinnerUI2" name="CurrentMaxPrice" id="CurrentMaxPrice" value="@Model.CurrentMaxPrice" />
 
                         </div>
                     </div>
@@ -66,7 +68,7 @@
                 
             }
         </div>
-        <div class="col-f-lg-3 col-md-3">
+        @*<div class="col-f-lg-3 col-md-3">
             <div class="product__item">
 
                 <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
@@ -96,20 +98,21 @@
                     </a>
                 </div>
             </div>
-        </div>
+        </div>*@
         @foreach (var item in Model.Products)
         {
             <div class="col-f-lg-3  col-md-3">
                 <div class="product__item">
+                    <a href="@Url.Action("Index","Product",new { id=item.Id})">
+                        <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
 
-                    <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
-
-                    <p class="product__item-title">@item.Title</p>
-                    <div class="product__item-price product__item-price_limited">
-                        <div class="triangle-up"></div>
-                        <div class="triangle-down"></div>
-                        <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
-                    </div>
+                        <p class="product__item-title">@item.Title</p>
+                        <div class="product__item-price product__item-price_limited">
+                            <div class="triangle-up"></div>
+                            <div class="triangle-down"></div>
+                            <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
+                        </div>
+                    </a>
                     <div class="product__item__hover_block_wrapper">
                         <div class="product__item__hover_block_wrapper__item product__in-stock">
                             <p>в наличии</p>

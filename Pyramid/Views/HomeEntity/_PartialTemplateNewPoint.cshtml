@@ -1,0 +1,15 @@
+﻿@model int
+
+<div id="point_@Model" class="home-entity__point-inputs">
+    <input type="hidden" name="BannerWithPoints.Points[@Model].Id" value="0" />
+    <input type="hidden" value="" class="coordx" name="BannerWithPoints.PointOnImgs[@Model].CoordX" />
+    <input type="hidden" value="" class="coordy" name="BannerWithPoints.PointOnImgs[@Model].CoordY" />
+    <div class="row row-point-wrap">
+        <p>Точка @Model</p>
+        <label>Категория</label>
+        @Html.DropDownList("PointCategory", new SelectList(ViewBag.CategoriesSelectListItem, "Value", "Text"), "Выбрать", new { @class = "form-control point-category",id="category-point_"+Model,data_ajaxid=Model, data_ajaxindex = Model })
+        
+        <div class="product-point"></div>
+    </div>
+
+</div>

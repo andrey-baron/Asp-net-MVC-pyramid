@@ -45,17 +45,16 @@ namespace DBFirstDAL
                 return null;
             }
         }
-        public static void AddOrUpdate(Pyramid.Entity.Image image=null, IEnumerable<HttpPostedFileBase> files =null)
+        public static void AddOrUpdate(Pyramid.Entity.Image image=null, HttpPostedFileBase files =null)
         {
                 using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
                 if (files!=null)
                 {
-                    foreach (var item in files)
-                    {
-                        if (image == null && item != null)
+                    
+                        if (image == null && files != null)
                         {
-                            Images efImg = SaveFile(item);
+                            Images efImg = SaveFile(files);
                             dbContext.Images.Add(efImg);
                         }
                         else
@@ -72,7 +71,6 @@ namespace DBFirstDAL
                             }
                         }
 
-                    }
                     
                 }
 

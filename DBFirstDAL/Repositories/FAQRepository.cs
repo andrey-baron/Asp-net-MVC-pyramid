@@ -1,0 +1,67 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DBFirstDAL.Repositories
+{
+    public class FaqRepository : GenericRepository<PyramidFinalContext, Faq>
+    {
+        public void AddEmptyQuestionAnswer(int faqId)
+        {
+            var efFaq = FindBy(i => i.Id == faqId).SingleOrDefault();
+            if (efFaq!=null)
+            {
+                efFaq.QuestionAnswer.Add(new QuestionAnswer()
+                {
+                    Answer = "",
+                    Question = ""
+                });
+            }
+            Save();
+        }
+
+        public override void AddOrUpdate(Faq entity)
+        {
+            var prop = entity.GetType().GetProperty("Id");
+            int id = (int)prop.GetValue(entity, null);
+            using (PyramidFinalContext dbContext= new PyramidFinalContext())
+            {
+                var efEntity = dbContext.Faq.Find(id);
+                
+                if (efEntity == null)
+                {
+                    bool flagQA = false;
+                    List<QuestionAnswer> tempQA = new List<QuestionAnswer>();;
+                    if (entity.QuestionAnswer != null)
+                    {
+                        flagQA = true;
+                         tempQA = new List<QuestionAnswer>(entity.QuestionAnswer);
+                        entity.QuestionAnswer.Clear();
+                    }
+                    dbContext.Faq.Add(entity);
+                    dbContext.Entry(entity).State = System.Data.Entity.EntityState.Added;
+                    dbContext.SaveChanges();
+                    if (flagQA)
+                    {
+                        entity.QuestionAnswer = tempQA;
+                    }
+                    dbContext.SaveChanges();
+                }
+                else
+                {
+                    dbContext.Entry(efEntity).CurrentValues.SetValues(entity);
+                    efEntity.QuestionAnswer.Clear();
+                    efEntity.QuestionAnswer = entity.QuestionAnswer;
+
+                    dbContext.SaveChanges();
+
+                }
+            }
+            
+
+        }
+        
+    }
+}

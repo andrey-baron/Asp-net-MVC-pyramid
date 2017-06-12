@@ -10,8 +10,10 @@ namespace Pyramid.Entity
     public class Category
     {
         public int Id { get; set; }
+        public string OneCId { get; set; }
         [Required]
         [MaxLength(100)]
+        [Display(Name = "Название")]
         public string Title { get; set; }
         //public int? ThumbnailId { get; set; }
         public bool Checked { get; set; }
@@ -26,6 +28,7 @@ namespace Pyramid.Entity
         {
             Products = new List<Product>();
             Filters = new List<Filter>();
+            Thumbnail = new Image();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Pyramid.Models.AllCategoriesViewModel>
 @{
     ViewBag.Title = "ViewRootCategories";
-    Layout = "~/Views/Shared/_LayoutOtherPages.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="category">
     <div class="row no-gutter">
@@ -12,38 +12,14 @@
     <div class="row no-gutter">
         <div class="col-ten-lg-2 col-md-3">
             <div class="category__sidebar">
-                <div class="category__filter-block">
-                    <p class="category__filter-title">Заголовок</p>
-                    <div class="category__filter-block-controls">
-                        <div class="checkbox">
-                            @Html.Hidden("test", "test")
-                            @Html.CheckBox("test", new { @class = "category__input-chekbox" })
-                            <label>пункт 1</label>
-                        </div>
-                        <div class="checkbox">
-                            @Html.Hidden("test", "test")
-                            @Html.CheckBox("test", new { @class = "category__input-chekbox" })
-                            <label>пункт 1</label>
-                        </div>
-                        <div class="checkbox">
-                            @Html.Hidden("test", "test")
-                            @Html.CheckBox("test", new { @class = "category__input-chekbox" })
-                            <label>пункт 1</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="category__filter-block">
-                    <p class="category__filter-title">Заголовок2</p>
-                    <div class="category__filter-block-controls">
-                        <div class="sliderUI"></div>
-                        <label class="label_spinner">от</label>
-                        <input type="text" class="spinnerUI1" value="" />
-                        <label class="label_spinner">до</label>
-                        <input type="text" class="spinnerUI2" value="" />
 
-                    </div>
-                </div>
 
+                <ul class="category__catalog-left-menu">
+                    @foreach (var item in Model)
+                    {
+                        <li><a href="@Url.Action("Index","Category",new { id =item.Category.Id})">@item.Category.Title</a></li>
+                    }
+                </ul>
 
             </div>
         </div>
@@ -52,7 +28,7 @@
             <div class="col-f-lg-3 col-md-3">
                 <div class="subcategory">
                     <div class="subcategory__wrap-img">
-                        <img src="~/Content/img/test-offer.png" alt="" />
+                        <img src="@(item.Category.Thumbnail!=null?item.Category.Thumbnail.ServerPathImg:"")" alt="" />
                     </div>
                     <p class="subcategory__parent-title">@item.Category.Title</p>
                     <ul class="subcategory__list">
@@ -61,7 +37,7 @@
                             <li class="subcategory__list-item">
                                 <a href="@Url.Action("","Category",new { id = subCategory.Id })" class="subcategory__list-item-link">
                                     <div class="subcategory__title">@subCategory.Title</div>
-                                    <div class="subcategory__list-item-cnt">@subCategory.Products.Count</div>
+                                    @*<div class="subcategory__list-item-cnt">@subCategory.Products.Count</div>*@
                                 </a>
                             </li>
                         }

@@ -12,6 +12,7 @@ namespace DBFirstDAL.Repositories
     {
 
         private C _entities = new C();
+       
         public C Context
         {
 
@@ -21,11 +22,15 @@ namespace DBFirstDAL.Repositories
 
         public virtual IQueryable<T> GetAll()
         {
-
-            IQueryable<T> query = _entities.Set<T>();
+            // говорим, что не надо создавать динамически генерируемые прокси-классы
+            // (которые System.Data.Entity.DynamicProxies...)
+            _entities.Configuration.ProxyCreationEnabled = false;
+            // отключаем ленивую загрузку
+            //_entities.Configuration.LazyLoadingEnabled = false;
+            IQueryable<T> query = _entities.Set<T>().AsNoTracking();
             return query;
         }
-
+       
         public IQueryable<T> FindBy(System.Linq.Expressions.Expression<Func<T, bool>> predicate)
         {
 
@@ -61,7 +66,6 @@ namespace DBFirstDAL.Repositories
             if (efEntity == null)
             {
                 _entities.Set<T>().Add(entity);
-                _entities.Entry(efEntity).State = System.Data.Entity.EntityState.Added;
             }
             else
             {
