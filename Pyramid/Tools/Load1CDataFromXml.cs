@@ -13,75 +13,94 @@ namespace Pyramid.Tools
         public static string pathDirectoryFiles = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Content\\UserUploadXml\\");
         public static AllEntity1CXMLModel GetXmlModel(out bool flagError)
         {
+            List<string> stoplistTitleCategories = new List<string>(new string[] {
+                "Сайдинг и водосточная система",
+                "Металлоизделия",
+                "Плитка",
+                "Декоративные материалы",
+                "Декоративные покрытия"
+            });
+            List<CategoryXMLModel> stoplistCategories = new List<CategoryXMLModel>();
+
             AllEntity1CXMLModel outModel = new AllEntity1CXMLModel();
             try
             {
                 XmlDocument xDoc = new XmlDocument();
                 var path = GetLastFilePath(pathDirectoryFiles);
                 xDoc.Load(path);
+
                 var XmlElement = xDoc.DocumentElement;
-                XmlNode xProducts = XmlElement.SelectSingleNode("Товары");
-                XmlNode xCategories = XmlElement.SelectSingleNode("Группы");
-                #region products
-
-                List<ProductXMLModel> listProducts = new List<ProductXMLModel>();
-
-                XmlNodeList Products = xProducts.SelectNodes("Товар");
-                foreach (var product in Products)
-                {
-                    XmlNodeList Inners = ((XmlNode)product).SelectNodes("*");
-                    ProductXMLModel prodModel = new ProductXMLModel();
-
-                    foreach (var productItem in Inners)
-                    {
-                        XmlNode innerItem = ((XmlNode)productItem);
-                        switch (innerItem.Name)
-                        {
-
-                            case "Ид":
-                                prodModel.Id = innerItem.InnerText;
-                                break;
-                            case "Наименование":
-                                prodModel.Title = innerItem.InnerText;
-                                break;
-                            case "Группы":
-                                XmlNodeList groups = ((XmlNode)innerItem).SelectNodes("Ид");
-                                foreach (var group in groups)
-                                {
-                                    prodModel.CategoryTextIds.Add(((XmlNode)group).InnerText);
-                                }
-                                break;
-                            case "Бренд":
-                                prodModel.Brand = innerItem.InnerText;
-                                break;
-                            case "Цена":
-                                XmlNode price = ((XmlNode)innerItem).SelectSingleNode("ЦенаЗаЕдиницу");
-
-                                prodModel.Price = price.InnerText;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    listProducts.Add(prodModel);
-
-                }
-                #endregion
+                XmlNode xProducts = XmlElement.SelectSingleNode("ВсеТовары");
+                XmlNode xCategories = XmlElement.SelectSingleNode("ВсеКатегории");
 
                 #region categories
                 XmlNodeList categories = xCategories.SelectNodes("Группа");
                 CategoryXMLModel categoryModel = new CategoryXMLModel();
 
-                List<CategoryXMLModel> outCategoryModels = GetInnerCategories(categories,null);
+                List<CategoryXMLModel> outCategoryModels = GetInnerCategories(categories, null);
 
+                var stoplistRootCategories=outCategoryModels.Where(i => stoplistTitleCategories.Any(a => a == i.Title)).ToList();
 
+                stoplistCategories = GetListCategoriesWithChildCategories(stoplistRootCategories, ref outCategoryModels);
                 #endregion
 
-                outModel.Products = listProducts;
-                outModel.Categories = outCategoryModels;
-                flagError = false;
+                #region products
+
+                List<ProductXMLModel> listProducts = new List<ProductXMLModel>();
+
+                XmlNodeList Products = xProducts.SelectNodes("Товар");
+                int testIndx = 0;
+                foreach (var product in Products)
+                {
+                    bool flagAdd = true;
+                    XmlNodeList Inners = ((XmlNode)product).SelectNodes("*");
+                    ProductXMLModel prodModel = new ProductXMLModel();
+
+                    XmlNode IdNode = ((XmlNode)product).SelectSingleNode("Ид");
+                    prodModel.Id = IdNode.InnerText;
+                    XmlNode TitleNode = ((XmlNode)product).SelectSingleNode("Наименование");
+                    prodModel.Title = TitleNode.InnerText;
+
+                    XmlNode GroupsNode = ((XmlNode)product).SelectSingleNode("Группы");
+                    foreach (var group in GroupsNode)
+                    {
+                        var idgroup = ((XmlNode)group).InnerText;
+                        if (stoplistCategories.Any(a=>a.Id==idgroup))
+                        {
+                            flagAdd = false;
+                        }
+                        prodModel.CategoryTextIds.Add(((XmlNode)group).InnerText);
+                    }
+
+                    XmlNode PriceNode = ((XmlNode)product).SelectSingleNode("Цена");
+                    XmlNode PriceForOneNode = ((XmlNode)PriceNode).SelectSingleNode("ЦенаЗаЕдиницу");
+                    double price = 0;
+
+                    double.TryParse(PriceForOneNode.InnerText, out price);
+
+                    prodModel.Price = price;
+
+                    if (flagAdd)
+                    {
+                        listProducts.Add(prodModel);
+                        //testIndx++;
+                        //if (testIndx>10)
+                        //{
+                        //    break;
+                        //}
+                    }
+
+                }
+                #endregion
 
                 
+                outModel.Products = listProducts;
+                outModel.Categories = outCategoryModels;
+
+                
+                flagError = false;
+
+                //ChangePathFile(path);
                 return outModel;
             }
             catch (Exception)
@@ -100,6 +119,16 @@ namespace Pyramid.Tools
             return Path.Combine(dirName, file);
         }
 
+        private static void ChangePathFile(string pathFile)
+        {
+            if (File.Exists(pathFile))
+            {
+                var filename=Path.GetFileName(pathFile);
+               
+                filename = "done" + filename;
+                File.Move(pathFile, pathDirectoryFiles + filename);
+            }
+        }
         static List<CategoryXMLModel> GetInnerCategories(XmlNodeList groupsNode,string ParentId)
         {
             List<CategoryXMLModel> listModels = new List<CategoryXMLModel>();
@@ -132,6 +161,36 @@ namespace Pyramid.Tools
                 
 
             }
+            return listModels;
+        }
+
+        static List<CategoryXMLModel> GetListCategoriesWithChildCategories(List<CategoryXMLModel> groupsList, ref List<CategoryXMLModel> allstock )
+        {
+            List<CategoryXMLModel> listModels = new List<CategoryXMLModel>();
+            foreach (var group in groupsList)
+            {
+                CategoryXMLModel categoryModel = group;
+
+                listModels.Add(categoryModel);
+                //allstock.Remove(categoryModel);
+                listModels.AddRange(allstock.Where(w => listModels.Any(a=>a.Id==w.ParentId)));
+
+                allstock.RemoveAll(i=>listModels.Any(a=>a.Id==i.Id));
+                //while (categoryModel.ParentId!=null)
+                //{
+                //    categoryModel = allstock.FirstOrDefault(f => f.Id == categoryModel.ParentId);
+                //    if (categoryModel!=null)
+                //    {
+                //        listModels.Add(categoryModel);
+                //        allstock.Remove(categoryModel);
+                //    }
+                //    else
+                //    {
+                //        break;
+                //    }
+                //}
+            }
+
             return listModels;
         }
 

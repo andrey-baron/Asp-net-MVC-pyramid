@@ -21,7 +21,11 @@ namespace DBFirstDAL.Repositories
 
 
                 CategoryHomeModel catModel = new CategoryHomeModel();
+               // IEnumerable<ProductHomeModel> prModel=new List<ProductHomeModel>();
+                if (efHome.Categories!=null)
+                {
 
+                
                 var prModel = efHome.Categories.Products.Select(i => new ProductHomeModel()
                 {
                     Id = i.Id,
@@ -34,9 +38,11 @@ namespace DBFirstDAL.Repositories
                     Title = i.Title,
                     TypePrice = i.TypePrice
                 });
-                catModel.Title = efHome.Categories.Title;
-                catModel.Id = efHome.Categories.Id;
-                catModel.Products = prModel;
+                    catModel.Title = efHome.Categories.Title;
+                    catModel.Id = efHome.Categories.Id;
+                    catModel.Products = prModel;
+                }
+                
 
                 dataModel.Category = catModel;
                 dataModel.Faq = efHome.Faq;

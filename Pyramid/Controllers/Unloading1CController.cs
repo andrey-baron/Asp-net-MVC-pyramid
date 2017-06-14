@@ -1,4 +1,5 @@
-﻿using DBFirstDAL.Repositories;
+﻿using DBFirstDAL.DataModels._1C;
+using DBFirstDAL.Repositories;
 using Pyramid.Tools;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace Pyramid.Controllers
         public ActionResult Start()
         {
             var flagErr = false;
-            //flagErr = Execute();
+            flagErr = Execute();
 
 
             ViewData["resultMapping"] = "success";
@@ -52,75 +53,104 @@ namespace Pyramid.Controllers
             var xmlModel = Load1CDataFromXml.GetXmlModel(out flagErr);
             try
             {
-                foreach (var xCategory in xmlModel.Categories)
+                var efCats = xmlModel.Categories.Select(s => new DBFirstDAL.Categories()
                 {
+                    Title = s.Title,
+                    OneCId = s.Id,
 
-                    var efCategory = _categoryRepository.FindBy(i => i.OneCId == xCategory.Id).SingleOrDefault();
-                    if (efCategory == null)
-                    {
-                        efCategory = new DBFirstDAL.Categories();
-                        efCategory.Title = xCategory.Title;
-                        efCategory.OneCId = xCategory.Id;
-                        if (xCategory.ParentId != null)
-                        {
-                            var efCarParent = _categoryRepository.FindBy(i => i.OneCId == xCategory.ParentId).SingleOrDefault();
-                            if (efCarParent != null)
-                            {
-                                efCategory.ParentId = efCarParent.Id;
-                            }
-                        }
-                        _categoryRepository.AddOrUpdate(efCategory);
-                        _categoryRepository.Save();
-                    }
-                    else
-                    {
-                        efCategory.Title = xCategory.Title;
-                        if (xCategory.ParentId != null)
-                        {
-                            var efCarParent = _categoryRepository.FindBy(i => i.OneCId == xCategory.ParentId).SingleOrDefault();
-                            if (efCarParent != null)
-                            {
-                                efCategory.ParentId = efCarParent.Id;
-                            }
-                        }
-                        _categoryRepository.Save();
-                    }
+                });
+                _categoryRepository.InsertsOrNot(efCats);
 
-                }
+                var efCatWithParent = xmlModel.Categories.Select(s => new Category1CIdWithParent1CId() { Id = s.Id, ParentId = s.ParentId }).ToList();
 
-                foreach (var xProduct in xmlModel.Products)
-                {
-                    var efProduct = _productRepository.FindBy(i => i.OneCId == xProduct.Id).SingleOrDefault();
-                    if (efProduct == null)
-                    {
-                        efProduct = new DBFirstDAL.Products();
-                        efProduct.OneCId = xProduct.Id;
-                        double price = 0;
-                        double.TryParse(xProduct.Price, out price);
-                        efProduct.Title = xProduct.Title;
-                        efProduct.Price = price;
-                        efProduct.TypePrice = (int)Entity.Enumerable.TypeProductPrice.SimplePrice;
-                        efProduct.DateChange = DateTime.Now;
-                        efProduct.DateCreation = DateTime.Now;
-                        foreach (var catProduct in xProduct.CategoryTextIds)
-                        {
-                            var efCategory = _categoryRepository.FindBy(i => i.OneCId == catProduct).SingleOrDefault();
-                            if (efCategory != null)
-                            {
-                                efProduct.Categories.Add(efCategory);
-                            }
-                        }
-                    }
-                    _productRepository.AddOrUpdate(efProduct);
+                _categoryRepository.UpdateParentCategory(efCatWithParent);
+                //foreach (var xCategory in xmlModel.Categories)
+                //{
+
+                //    var efCategory = _categoryRepository.FindBy(i => i.OneCId == xCategory.Id).SingleOrDefault();
+                //    if (efCategory == null)
+                //    {
+                //        efCategory = new DBFirstDAL.Categories();
+                //        efCategory.Title = xCategory.Title;
+                //        efCategory.OneCId = xCategory.Id;
+                //        if (xCategory.ParentId != null)
+                //        {
+                //            var efCarParent = _categoryRepository.FindBy(i => i.OneCId == xCategory.ParentId).SingleOrDefault();
+                //            if (efCarParent != null)
+                //            {
+                //                efCategory.ParentId = efCarParent.Id;
+                //            }
+                //        }
+                //        _categoryRepository.AddOrUpdate(efCategory);
+                //        //_categoryRepository.Save();
+                //    }
+                //    else
+                //    {
+                //        efCategory.Title = xCategory.Title;
+                //        if (xCategory.ParentId != null)
+                //        {
+                //            var efCarParent = _categoryRepository.FindBy(i => i.OneCId == xCategory.ParentId).SingleOrDefault();
+                //            if (efCarParent != null)
+                //            {
+                //                efCategory.ParentId = efCarParent.Id;
+                //            }
+                //        }
+                //       // _categoryRepository.Save();
+                //    }
+
+                //}
+                //_categoryRepository.Save();
+
+               
+                //foreach (var xProduct in xmlModel.Products)
+                //{
+                //    var efProduct = _productRepository.FindBy(i => i.OneCId == xProduct.Id).SingleOrDefault();
+                //    if (efProduct == null)
+                //    {
+                //        efProduct = new DBFirstDAL.Products();
+                //        efProduct.OneCId = xProduct.Id;
+                        
+                //        efProduct.Title = xProduct.Title;
+                //        efProduct.Price = xProduct.Price;
+                //        efProduct.TypePrice = (int)Entity.Enumerable.TypeProductPrice.SimplePrice;
+                //        efProduct.DateChange = DateTime.Now;
+                //        efProduct.DateCreation = DateTime.Now;
+                //        foreach (var catProduct in xProduct.CategoryTextIds)
+                //        {
+                //            var efCategory = _categoryRepository.FindBy(i => i.OneCId == catProduct).SingleOrDefault();
+                //            if (efCategory != null)
+                //            {
+                //                efProduct.Categories.Add(efCategory);
+                //            }
+                //        }
+                //    }
+                //    _productRepository.AddOrUpdate(efProduct);
                    
-                }
-                _productRepository.Save();
+                //}
+                //_productRepository.Save();
             }
             catch (Exception)
             {
 
                 flagErr = true; ;
             }
+            var efProducts = xmlModel.Products.Select(s => new DBFirstDAL.Products()
+            {
+                Title = s.Title,
+                Price = s.Price,
+                DateChange = DateTime.Now,
+                DateCreation = DateTime.Now,
+                OneCId = s.Id,
+                TypePrice = 1,
+                //Categories = (ICollection<DBFirstDAL.Categories>) new List<DBFirstDAL.Categories>() { new DBFirstDAL.Categories() { Id = 166,Title= "Гипсокартон и комплектующие",FlagRoot=false,OneCId= "53183404-6ee7-11df-beca-001485178810" } }
+            });
+            var efProductsWithCategories = xmlModel.Products.Select(s => new Product1cIdWith1cCategoryIds()
+            {
+                OneCId = s.Id,
+                CategoryIds = s.CategoryTextIds
+            });
+            _productRepository.InsertsOrNot(efProducts);
+            _productRepository.UpdateReletedCategoriesFromProducts(efProductsWithCategories);
             return flagErr;
         }
 

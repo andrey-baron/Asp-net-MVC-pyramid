@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using DBFirstDAL.DataModels._1C;
+
 namespace DBFirstDAL.Repositories
 {
     public class ProductRepository: GenericRepository<PyramidFinalContext, Products>
@@ -212,6 +214,63 @@ namespace DBFirstDAL.Repositories
         public IQueryable<Products> GetAllWithThumbnail(int typeThumbnail)
         {
             return Context.Products.Include(i => i.ProductImages.Select(s => s.Images));
+        }
+
+        /// <summary>
+        /// Запись нескольких полей в БД
+        /// </summary>
+        public  void InsertsOrNot(IEnumerable<Products> entities)
+        {
+            // Настройки контекста
+            using (PyramidFinalContext context = new PyramidFinalContext())
+            {
+                // Отключаем отслеживание и проверку изменений для оптимизации вставки множества полей
+                context.Configuration.AutoDetectChangesEnabled = false;
+                context.Configuration.ValidateOnSaveEnabled = false;
+
+                context.Database.Log = (s => System.Diagnostics.Debug.WriteLine(s));
+
+
+                foreach (var entity in entities)
+                {
+                    var efPr = context.Products.FirstOrDefault(f => f.OneCId == entity.OneCId);
+                    if (efPr == null)
+                    {
+                        context.Entry(entity).State = EntityState.Added;
+                    }
+                }
+
+                context.SaveChanges();
+
+                context.Configuration.AutoDetectChangesEnabled = true;
+                context.Configuration.ValidateOnSaveEnabled = true;
+            } 
+
+           
+        }
+
+        public void UpdateReletedCategoriesFromProducts(IEnumerable<Product1cIdWith1cCategoryIds> productsWithCategories)
+        {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                foreach (var item in productsWithCategories)
+                {
+                    var efProduct=dbContext.Products.FirstOrDefault(f => f.OneCId == item.OneCId);
+                    if (efProduct!=null)
+                    {
+                        foreach (var cat in item.CategoryIds)
+                        {
+                            var efCat = dbContext.Categories.FirstOrDefault(f => f.OneCId == cat);
+                            if (efCat!=null)
+                            {
+                                efProduct.Categories.Add(efCat);
+                            }
+                        }
+                    }
+                }
+                dbContext.SaveChanges();
+               
+            }
         }
     }
 }

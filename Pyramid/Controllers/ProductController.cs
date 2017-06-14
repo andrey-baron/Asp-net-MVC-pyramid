@@ -104,7 +104,7 @@ namespace Pyramid.Controllers
             return View(model);
         }
         [Authorize]
-        public ActionResult AdminIndex(string currentFilter, string searchString, int? page)
+        public ActionResult AdminIndex(string currentFilter, string searchString,int? categoryId, int? page)
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -134,7 +134,23 @@ namespace Pyramid.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
-            var efProducts = _productRepository.GetAll();
+            ViewBag.CategoryId = categoryId;
+            ViewBag.CategoriesSelectListItem = _categoryRepository.GetAll().Select(item => new SelectListItem
+            {
+                Text = item.Title,
+                Value = item.Id.ToString()
+            });
+
+            IQueryable<DBFirstDAL.Products> efProducts;
+            if (categoryId!=null)
+            {
+                efProducts=_categoryRepository.GetProductsByCategoryId(categoryId.Value).AsQueryable();
+            }
+            else
+            {
+                efProducts = _productRepository.GetAll();
+            }
+             
 
 
             if (!String.IsNullOrEmpty(searchString))
@@ -144,7 +160,7 @@ namespace Pyramid.Controllers
             var efProductsList = efProducts.ToList();
             int pageNumber = (page ?? 1);
             var modelList = new PagedList<Entity.Product>(
-            efProductsList.Select(u => mapper.Map<DBFirstDAL.Products, Entity.Product>(u)).AsQueryable(),
+            efProductsList.Select(u => mapper.Map<DBFirstDAL.Products, Entity.Product>(u)),
             pageNumber, Config.PageSize);
             //var pagedProducts= efProducts.OrderBy(i=>i.Title).ToPagedList(pageNumber, pageSize);
             //var model = mapper.Map<IEnumerable<DBFirstDAL.Products>, IPagedList<Entity.Product>>(pagedProducts);

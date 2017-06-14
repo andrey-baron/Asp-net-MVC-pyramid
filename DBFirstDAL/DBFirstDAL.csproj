@@ -63,6 +63,8 @@
     <Compile Include="CategoryImages.cs">
       <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataModels\1C\Category1CIdWithParent1CId.cs" />
+    <Compile Include="DataModels\1C\Product1cIdWith1cCategoryIds.cs" />
     <Compile Include="DataModels\CategoryWithThumbnail.cs" />
     <Compile Include="DataModels\HomeModels\BannerWithPointsHomeDataModel.cs" />
     <Compile Include="DataModels\HomeModels\CategoryHomeModel.cs" />

@@ -82,7 +82,7 @@ namespace Pyramid.Controllers
 
             config.AssertConfigurationIsValid();
             var mapper = config.CreateMapper();
-            var efFaqs = _faqRepository.GetAll().ToList();
+            var efFaqs = _faqRepository.GetAllWithQuestionAnswer().ToList();
             var faqlist=mapper.Map<IEnumerable<DBFirstDAL.Faq>, IEnumerable<Pyramid.Entity.FAQ>>(efFaqs);
             var efFaqSingle = _faqRepository.FindBy(i => i.Id == id).SingleOrDefault();
             Models.Faq.FaqViewModel model = new Models.Faq.FaqViewModel();

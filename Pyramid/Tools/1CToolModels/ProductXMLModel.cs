@@ -10,8 +10,9 @@ namespace Pyramid.Tools._1CToolModels
         public string Id { get; set; }
         public string Title { get; set; }
         public string Brand { get; set; }
-        public string Price { get; set; }
+        public double Price { get; set; }
         public bool InStock { get; set; }
+        public string Priority { get; set; }
         public List<string> CategoryTextIds { get; set; }
 
         public ProductXMLModel()

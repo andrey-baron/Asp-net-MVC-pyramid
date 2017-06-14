@@ -192,8 +192,10 @@
                                     <ul class="footer__catalog-list">
                                         @foreach (var subs in item.SubCategories)
                                         {
-                                            <li class="footer__catalog-list-item"><a href="#">@subs.Title</a></li>
+                                            <li class="footer__catalog-list-item"><a href="@Url.Action("Index","Category",new { id=subs.Id})">@subs.Title</a></li>
+
                                         }
+
 
 
                                     </ul>

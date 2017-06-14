@@ -185,6 +185,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\EnumValueController.cs" />
     <Compile Include="Controllers\FAQController.cs" />
@@ -665,6 +666,7 @@
     <Folder Include="Content\libs\images\" />
     <Folder Include="Content\src\admin-blocks\product\" />
     <Folder Include="Content\UserUpload\" />
+    <Folder Include="Views\Cart\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

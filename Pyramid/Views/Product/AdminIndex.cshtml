@@ -13,11 +13,28 @@
     @Html.ActionLink("Новый Товар", "AddOrUpdate",null, new { @class = "btn btn-primary" })
 </p>
 @using (Html.BeginForm("AdminIndex", "Product", FormMethod.Get))
-{
-    <p  class="pmargin">
-       Поиск по названию: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Поиск" />
-    </p>
+    {
+    <div class="row">
+        <div class="col-md-4">
+            <p class="pmargin">
+                Поиск по названию: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                <input type="submit" value="Поиск" />
+
+
+            </p>
+        </div>
+        <div class="col-md-8">
+            <div class="col-md-4">
+                <label>Выбор категории</label>
+            </div>
+            <div class="col-md-8">
+                @Html.DropDownList("categoryId", new SelectList(ViewBag.CategoriesSelectListItem, "Value", "Text"), "Выбрать", new { @class = "form-control", id = "category-point_" + Model, data_ajaxid = Model, data_ajaxindex = Model })
+            </div>
+
+
+        </div>
+    </div>
+   
 }
 <table class="table table-bordered table-hover">
     <thead>
@@ -92,5 +109,5 @@
 
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+@Html.PagedListPager(Model, page => Url.Action("AdminIndex",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, categoryId= ViewBag.CategoryId }))

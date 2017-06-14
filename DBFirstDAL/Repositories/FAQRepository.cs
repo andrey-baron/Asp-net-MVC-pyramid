@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace DBFirstDAL.Repositories
 {
@@ -62,6 +63,14 @@ namespace DBFirstDAL.Repositories
             
 
         }
-        
+
+        public  IEnumerable<Faq> GetAllWithQuestionAnswer()
+        {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                return dbContext.Faq.Include(i => i.QuestionAnswer).AsNoTracking().ToList();
+            }
+           // return base.GetAll();
+        }
     }
 }
