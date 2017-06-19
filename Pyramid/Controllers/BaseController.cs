@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DBFirstDAL.Repositories;
+using Pyramid.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -95,7 +96,21 @@ namespace Pyramid.Controllers
 
             ViewBag.FooterCategories = modelRootCategories;
             base.Initialize(requestContext);
+            Cart cart = GetCart();
+            ViewBag.Cart = cart;
+          
 
+        }
+
+        public Cart GetCart()
+        {
+            Cart cart = (Cart)HttpContext.Session["Cart"];
+            if (cart == null)
+            {
+                cart = new Cart();
+                Session["Cart"] = cart;
+            }
+            return cart;
         }
 
     }

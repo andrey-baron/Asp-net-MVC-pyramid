@@ -12,7 +12,7 @@
             <p class="single__title">@Model.Title</p>
         </div>
     </div>
-    <div class="row">
+    <div class="row single__row-magrin-bottom">
         <div class="col-md-6 single-col">
             <div class="single__content">
                 <ul class="single__additional-values">
@@ -48,9 +48,9 @@
                 </div>
 
             </div>
-            <div class="single__price-block">
-                <span class="single__price"><span class="single__big-price">7475</span>руб/шт.</span>
-                <input class="single__count-input js-single-spinner" value="1" />
+            <div class="price-block">
+                <span class="price-block__price"><span class="price-block__big-price">@Model.Price</span>руб/шт.</span>
+                <input class="price-block__count-input js-single-spinner" value="1" />
                 <span class="single__price-select-text">Выберите<br /> количество</span>
             </div>
         </div>
@@ -87,9 +87,11 @@
     <div class="single__last-menu">
         <div class="row no-gutter">
             <div class="col-ten-lg-2 col-md-3">
-                <a href="#" class="product__buy product__buy_add-to-cart single__buy single__add-to-cart">
+                @*@Ajax.ActionLink("Добавить в корзину", "AddToCart", "Cart", new { productId = Model.Id, quantity = 1 }, new AjaxOptions { OnSuccess= "SoccessAdd" }, new { @class="product__buy product__buy_add-to-cart single__buy single__add-to-cart"})*@
+                @*<a href="@Url.Action("AddToCart","Cart",new {productId=Model.Id, quantity=1 })" class="product__buy product__buy_add-to-cart single__buy single__add-to-cart">
                     <p>Добавить в корзину</p>
-                </a>
+                </a>*@
+                <span class="product__buy product__buy_add-to-cart single__buy single__add-to-cart js-add-to-cart" data-ajaxid="@Model.Id" >Добавить в корзину</span>
             </div>
             <div class="col-ten-lg-2 col-md-3">
                 <a href="#" class="product__buy product__buy_one-click single__buy single__buy-one-click">

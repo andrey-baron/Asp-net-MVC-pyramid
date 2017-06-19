@@ -17,12 +17,13 @@ namespace DBFirstDAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Products()
         {
+            this.PointOnImgs = new HashSet<PointOnImgs>();
             this.ProductImages = new HashSet<ProductImages>();
+            this.ProductOrders = new HashSet<ProductOrders>();
             this.ProductValues = new HashSet<ProductValues>();
             this.Review = new HashSet<Review>();
             this.Categories = new HashSet<Categories>();
             this.EnumValues = new HashSet<EnumValues>();
-            this.PointOnImgs = new HashSet<PointOnImgs>();
         }
     
         public int Id { get; set; }
@@ -42,7 +43,11 @@ namespace DBFirstDAL
         public string OneCId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PointOnImgs> PointOnImgs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductImages> ProductImages { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductOrders> ProductOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductValues> ProductValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -51,7 +56,5 @@ namespace DBFirstDAL
         public virtual ICollection<Categories> Categories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EnumValues> EnumValues { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PointOnImgs> PointOnImgs { get; set; }
     }
 }

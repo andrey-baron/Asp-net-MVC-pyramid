@@ -29,6 +29,18 @@ namespace Pyramid.Tools
                 line.Quantity += quantity;
             }
         }
+        public void SetQuantity(int productId, int quantity)
+        {
+            CartLine line = lineCollection
+                .Where(g => g.Product.Id == productId)
+                .FirstOrDefault();
+
+            if (line != null)
+            {
+                line.Quantity = quantity;
+            }
+            
+        }
 
         public void RemoveLine(int productId)
         {

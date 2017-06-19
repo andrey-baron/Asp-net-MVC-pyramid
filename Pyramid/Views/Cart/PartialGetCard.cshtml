@@ -1,0 +1,51 @@
+﻿@model Pyramid.Tools.Cart
+@if (Model != null && Model.Lines.Count() > 0)
+{
+    foreach (var item in Model.Lines)
+    {
+    <div class="cart__item">
+        <div class="row cart__row cart__row_fixed-height">
+            <div class="col-md-3">
+                <div class="cart__part">
+                    <div class="cart__picture" style="background:url('/Content/img/test-offer.png')no-repeat"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="cart__part cart__part_pad">
+                    <p>@item.Product.Title</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="cart__part">
+                    <div class="price-block">
+                        <span class="price-block__price"><span class="price-block__big-price">@item.Product.Price</span>руб</span>
+                        <input class="price-block__count-input js-cart-spinner" value="@item.Quantity" data-ajaxid="@item.Product.Id" />
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="cart__remove-item" data-ajaxid="@item.Product.Id">✖</div>
+    </div>
+    }
+    <script>
+        $(".js-cart-spinner").spinner({
+            min: 1,
+        });
+    </script>
+    <div class="cart__item cart__item_total">
+        <div class="row cart__row">
+            <div class="col-md-6 col-md-offset-3">
+                <p>Итог на сумму:</p>
+            </div>
+            <div class="col-md-3">
+                <span class="price-block__price"><span class="price-block__big-price">@Model.ComputeTotalValue()</span>руб</span>
+            </div>
+        </div>
+    </div>
+    @Html.ActionLink("Перейти к оформлению", "Checkout", null, new { @class = "btn btn-default" })}
+else
+{
+    <p class="cart__empty">Корзина пуста</p>
+    }

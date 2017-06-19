@@ -1,0 +1,65 @@
+﻿@model Pyramid.Tools.Cart
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container cart__container">
+    <div class="chackout">
+        <table class="display table table-striped table-bordered dataTable">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Количесво</th>
+                    <th>Цена</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Lines)
+                {
+                    <tr>
+                        <td>@item.Product.Title</td>
+                        <td>@item.Quantity</td>
+                        <td>@(item.Product.Price*item.Quantity)</td>
+                    </tr>
+                    
+                }
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Итоговая стоимость</td>
+                    <td>@Model.ComputeTotalValue()</td>
+                </tr>
+                
+            </tfoot>
+        </table>
+        @Html.ActionLink("Вернуться в корзину", "Cart", null, new { @class = "btn btn-default" })
+
+
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Контактные данные</p>
+            </div>
+            <div class="card-block">
+                <div class="call-to-action__form-wrap_checkout">
+                    <form action="#">
+                        <div class="form-group call-to-action__form-group">
+                            <input type="text" class="form-control call-to-action__form-control" placeholder="Имя">
+                        </div>
+                        <div class="form-group call-to-action__form-group">
+                            <input type="text" class="form-control call-to-action__form-control" placeholder="E-mail">
+                        </div>
+                        <div class="form-group call-to-action__form-group">
+                            <input type="text" class="form-control call-to-action__form-control" placeholder="Телефон">
+                        </div>
+                        <div class="form-group call-to-action__form-group">
+                            <input type="text" class="form-control call-to-action__form-control" placeholder="Адрес доставки">
+                        </div>
+                        <button class="call-to-action__btn">Отправить запрос</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

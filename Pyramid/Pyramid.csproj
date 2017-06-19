@@ -206,6 +206,8 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AllCategoriesViewModel.cs" />
     <Compile Include="Models\BreadCrumbViewModel.cs" />
+    <Compile Include="Models\Cart\CheckoutModel.cs" />
+    <Compile Include="Models\Cart\ProductCartModel.cs" />
     <Compile Include="Models\CategoryModels\CategoryEnumValueViewModel.cs" />
     <Compile Include="Models\CategoryAdminViewModel.cs" />
     <Compile Include="Models\CategoryModels\CategoryFilterViewModel.cs" />
@@ -223,8 +225,10 @@
     <Compile Include="Tools\1CToolModels\CategoryXMLModel.cs" />
     <Compile Include="Tools\1CToolModels\ProductXMLModel.cs" />
     <Compile Include="Tools\Breadcrumb.cs" />
+    <Compile Include="Tools\Cart.cs" />
     <Compile Include="Tools\Cryptography.cs" />
     <Compile Include="Tools\Load1CDataFromXml.cs" />
+    <Compile Include="Tools\Mailer.cs" />
     <Compile Include="Tools\UploadXmlToFileSystem.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -307,6 +311,7 @@
     <Content Include="Content\src\admin-blocks\home-entity\home-entity.js" />
     <Content Include="Content\src\admin-blocks\image-manager\image-manager.js" />
     <Content Include="Content\src\blocks\call-to-action\call-to-action.js" />
+    <Content Include="Content\src\blocks\cart\cart.js" />
     <Content Include="Content\src\blocks\category\category.js" />
     <Content Include="Content\src\blocks\footer\footer.js" />
     <Content Include="Content\src\blocks\home-slider\home-slider.js" />
@@ -388,6 +393,9 @@
     <Content Include="Content\src\blocks\category\subcategory.less" />
     <Content Include="Content\src\blocks\faq\faq.less" />
     <Content Include="Content\src\admin-blocks\home-entity\home-entity.less" />
+    <Content Include="Content\src\blocks\cart\cart.less" />
+    <Content Include="Content\src\blocks\price-block\price-block.less" />
+    <Content Include="Content\src\blocks\cart\small-cart.less" />
     <None Include="Properties\PublishProfiles\Pyramid.pubxml" />
     <Content Include="Scripts\fine-uploader.js" />
     <Content Include="Scripts\fine-uploader.min.js" />
@@ -412,6 +420,8 @@
     <Content Include="Scripts\jQuery.FileUpload\jquery.iframe-transport.js" />
     <Content Include="Scripts\jquery.fine-uploader.js" />
     <Content Include="Scripts\jquery.fine-uploader.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -563,7 +573,9 @@
     <Content Include="star-white.svg" />
     <Content Include="star-yellow.svg" />
     <Content Include="ViewModels\admin\main.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -659,6 +671,10 @@
     <Content Include="Views\Review\Update.cshtml" />
     <Content Include="Views\Review\_PartialLinkManageReivews.cshtml" />
     <Content Include="Views\Review\_PartialProductReviews.cshtml" />
+    <Content Include="Views\Cart\ShowCart.cshtml" />
+    <Content Include="Views\Shared\_PartialShortCart.cshtml" />
+    <Content Include="Views\Cart\Checkout.cshtml" />
+    <Content Include="Views\Cart\PartialGetCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -666,7 +682,6 @@
     <Folder Include="Content\libs\images\" />
     <Folder Include="Content\src\admin-blocks\product\" />
     <Folder Include="Content\UserUpload\" />
-    <Folder Include="Views\Cart\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

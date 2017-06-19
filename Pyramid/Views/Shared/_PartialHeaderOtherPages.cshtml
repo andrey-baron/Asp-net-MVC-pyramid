@@ -36,11 +36,19 @@
 
             </div>
             <div class="col-ten-md-2 header__line-one">
-                <div class="header__wrap header__cart">
+                <div class="header__cart">
+                    <a class="header__cart-link" href="@Url.Action("ShowCart","Cart")">
+                        <div class="header__wrap header__cart-wrap">
+                            <div class="header__icon-cart"></div>
+                            <p class="header__title-cart">
+                                Корзина
 
-                    <div class="header__icon-cart"></div>
-                    <p class="header__title-cart"><a href="#">Корзина</a></p>
-                    <div class="header__count-items">3</div>
+                            </p>
+                            @{var cart = (Pyramid.Tools.Cart)ViewBag.Cart; }
+                            <div class="header__count-items">@cart.Lines.Count()</div>
+                        </div>
+                    </a>
+                    @Html.Partial("_PartialShortCart")
 
                 </div>
             </div>

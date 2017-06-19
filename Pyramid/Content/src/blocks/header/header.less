@@ -71,6 +71,15 @@
     background: @yellow;
     width: 100%;
     text-align: center;
+    position:relative;
+    transition:all 300ms linear;
+    height: 100%;
+    &:hover{
+        background:#fff;
+        .cart__container_small{
+            display:block;
+        }
+    }
   }
   &__cart_fix-width {
     width: 288px;
