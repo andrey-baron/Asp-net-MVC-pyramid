@@ -12,48 +12,48 @@ namespace DBFirstDAL.Repositories
     {
 
 
-        public ManageHomeEntityDataModel GetManageModel(int id)
+        public HomeEntity GetManageModel(int id)
         {
             var efHome = FindBy(i => i.Id == id).SingleOrDefault();
-            ManageHomeEntityDataModel dataModel = new DataModels.HomeModels.ManageHomeEntityDataModel();
+            //ManageHomeEntityDataModel dataModel = new DataModels.HomeModels.ManageHomeEntityDataModel();
             if (efHome != null)
             {
 
 
-                CategoryHomeModel catModel = new CategoryHomeModel();
-               // IEnumerable<ProductHomeModel> prModel=new List<ProductHomeModel>();
-                if (efHome.Categories!=null)
-                {
+               // CategoryHomeModel catModel = new CategoryHomeModel();
+               //// IEnumerable<ProductHomeModel> prModel=new List<ProductHomeModel>();
+               // if (efHome.Products!=null)
+               // {
 
                 
-                var prModel = efHome.Categories.Products.Select(i => new ProductHomeModel()
-                {
-                    Id = i.Id,
-                    InStock = (bool)i.InStock,
-                    Price = i.Price,
-                    ThumbnailImg = (i.ProductImages.FirstOrDefault(f => f.ProductId == i.Id)) != null ?
-                     i.ProductImages.FirstOrDefault(f => f.ProductId == i.Id).Images
-                     :
-                     null,
-                    Title = i.Title,
-                    TypePrice = i.TypePrice
-                });
-                    catModel.Title = efHome.Categories.Title;
-                    catModel.Id = efHome.Categories.Id;
-                    catModel.Products = prModel;
-                }
+               // var prModel = efHome.Categories.Products.Select(i => new ProductHomeModel()
+               // {
+               //     Id = i.Id,
+               //     InStock = (bool)i.InStock,
+               //     Price = i.Price,
+               //     ThumbnailImg = (i.ProductImages.FirstOrDefault(f => f.ProductId == i.Id)) != null ?
+               //      i.ProductImages.FirstOrDefault(f => f.ProductId == i.Id).Images
+               //      :
+               //      null,
+               //     Title = i.Title,
+               //     TypePrice = i.TypePrice
+               // });
+               //     catModel.Title = efHome.Categories.Title;
+               //     catModel.Id = efHome.Categories.Id;
+               //     catModel.Products = prModel;
+               // }
                 
 
-                dataModel.Category = catModel;
-                dataModel.Faq = efHome.Faq;
-                dataModel.BannerWithPoints = efHome.BannerWithPoints;
-                dataModel.VideoGuide = efHome.VideoGuide;
-                dataModel.Id = efHome.Id;
-                dataModel.Title = efHome.Title;
+               // dataModel.Category = catModel;
+               // dataModel.Faq = efHome.Faq;
+               // dataModel.BannerWithPoints = efHome.BannerWithPoints;
+               // dataModel.VideoGuide = efHome.VideoGuide;
+               // dataModel.Id = efHome.Id;
+               // dataModel.Title = efHome.Title;
 
-                return dataModel;
+                return efHome;
             }
-            return new ManageHomeEntityDataModel();
+            return new HomeEntity();
 
 
 
@@ -63,97 +63,98 @@ namespace DBFirstDAL.Repositories
 
 
 
-        public HomeEntityModel GetModel(int id)
+        public HomeEntity GetModel(int id)
         {
-            var efHome=FindBy(i => i.Id == id).SingleOrDefault();
+            var efHome = FindBy(i => i.Id == id).SingleOrDefault();
             HomeEntityModel dataModel = new DataModels.HomeModels.HomeEntityModel();
-            if (efHome!=null)
+            if (efHome != null)
             {
-              
 
-                CategoryHomeModel catModel = new CategoryHomeModel();
 
-                var prModel = efHome.Categories.Products.Select(i => new ProductHomeModel()
-                {
-                    Id = i.Id,
-                    InStock = (bool)i.InStock,
-                    Price = i.Price,
-                    ThumbnailImg = (i.ProductImages.FirstOrDefault(f => f.ProductId == i.Id)) != null ?
-                     i.ProductImages.FirstOrDefault(f => f.ProductId == i.Id).Images
-                     :
-                     null,
-                    Title = i.Title,
-                    TypePrice = i.TypePrice
-                });
-                catModel.Title = efHome.Categories.Title;
-                catModel.Id = efHome.Categories.Id;
-                catModel.Products = prModel;
+                //CategoryHomeModel catModel = new CategoryHomeModel();
 
-                dataModel.Category = catModel;
-                dataModel.Faq = efHome.Faq;
-                dataModel.BannerWithPoints = new BannerWithPointsHomeDataModel() {
-                    BannerId=efHome.BannerWithPoints.BannerId,
-                    Images=efHome.BannerWithPoints.Images,
-                    PointOnImgs=efHome.BannerWithPoints.PointOnImgs.Select(i=>new PointOnImgsDataModel() {
-                        BannerId=i.BannerId,
-                        CoordX=i.CoordX,
-                        CoordY=i.CoordY,
-                        Products= ToModelProduct(i.Products),
-                        Id=i.Id
-                    }).ToList()
-                    };
-                dataModel.VideoGuide = efHome.VideoGuide;
-                dataModel.Id = efHome.Id;
-                dataModel.Title = efHome.Title;
+                //var prModel = efHome.Categories.Products.Select(i => new ProductHomeModel()
+                //{
+                //    Id = i.Id,
+                //    InStock = (bool)i.InStock,
+                //    Price = i.Price,
+                //    ThumbnailImg = (i.ProductImages.FirstOrDefault(f => f.ProductId == i.Id)) != null ?
+                //     i.ProductImages.FirstOrDefault(f => f.ProductId == i.Id).Images
+                //     :
+                //     null,
+                //    Title = i.Title,
+                //    TypePrice = i.TypePrice
+                //});
+                //catModel.Title = efHome.Categories.Title;
+                //catModel.Id = efHome.Categories.Id;
+                //catModel.Products = prModel;
 
-                return dataModel;
+                //dataModel.Category = catModel;
+                //dataModel.Faq = efHome.Faq;
+                //dataModel.BannerWithPoints = new BannerWithPointsHomeDataModel()
+                //{
+                //    BannerId = efHome.BannerWithPoints.BannerId,
+                //    Images = efHome.BannerWithPoints.Images,
+                //    PointOnImgs = efHome.BannerWithPoints.PointOnImgs.Select(i => new PointOnImgsDataModel()
+                //    {
+                //        BannerId = i.BannerId,
+                //        CoordX = i.CoordX,
+                //        CoordY = i.CoordY,
+                //        Products = ToModelProduct(i.Products),
+                //        Id = i.Id
+                //    }).ToList()
+                //};
+                //dataModel.VideoGuide = efHome.VideoGuide;
+                //dataModel.Id = efHome.Id;
+                //dataModel.Title = efHome.Title;
+
+                //return dataModel;
+                return efHome;
             }
-            return new HomeEntityModel();
+            return new HomeEntity();
 
-            
-            
+
+
 
         }
 
-        public IEnumerable< HomeEntityModel> GetModels(bool adminManage)
+        public IEnumerable< HomeEntity> GetModels(bool adminManage)
         {
             if (adminManage)
             {
-                return GetAll().Select(i => new HomeEntityModel()
-                {
-                    Id = i.Id,
-                    Title = i.Title
-                });
+                return GetAll()as IEnumerable<HomeEntity>;
             }
             else
             {
-                var efEntity = Context.HomeEntity.Include(b => b.BannerWithPoints)
-                    .Include(b => b.Categories)
+                var efEntity = Context.HomeEntity
+                    .Include(b => b.BannerWithPoints)
                     .Include(b => b.Faq)
                     .Include(b => b.VideoGuide)
+                    .Include(i => i.Products)
+                    .Include(i => i.Categories)
                     .ToList();
-                var t= efEntity.Select(i => new HomeEntityModel()
-                {
-                    Id = i.Id,
-                    Title = i.Title,
-                    Category= ToModelCategory(i.Categories),
-                   Faq=i.Faq,
-                   BannerWithPoints= new BannerWithPointsHomeDataModel()
-                   {
-                       BannerId = i.BannerWithPoints.BannerId,
-                       Images = i.BannerWithPoints.Images,
-                       PointOnImgs = i.BannerWithPoints.PointOnImgs.Select(s => new PointOnImgsDataModel()
-                       {
-                           BannerId = s.BannerId,
-                           CoordX = s.CoordX,
-                           CoordY = s.CoordY,
-                           Products = ToModelProduct(s.Products),
-                           Id = s.Id
-                       }).ToList()
-                   }, 
-                   VideoGuide=i.VideoGuide 
-                });
-                return t.ToList();
+                //var t= efEntity.Select(i => new HomeEntityModel()
+                //{
+                //    Id = i.Id,
+                //    Title = i.Title,
+                //    Category= ToModelCategory(i.Categories),
+                //   Faq=i.Faq,
+                //   BannerWithPoints= new BannerWithPointsHomeDataModel()
+                //   {
+                //       BannerId = i.BannerWithPoints.BannerId,
+                //       Images = i.BannerWithPoints.Images,
+                //       PointOnImgs = i.BannerWithPoints.PointOnImgs.Select(s => new PointOnImgsDataModel()
+                //       {
+                //           BannerId = s.BannerId,
+                //           CoordX = s.CoordX,
+                //           CoordY = s.CoordY,
+                //           Products = ToModelProduct(s.Products),
+                //           Id = s.Id
+                //       }).ToList()
+                //   }, 
+                //   VideoGuide=i.VideoGuide 
+                //});
+                return efEntity.ToList();
             }
            
         }
@@ -180,27 +181,14 @@ namespace DBFirstDAL.Repositories
             CategoryHomeModel catModel = new CategoryHomeModel();
             if (cat!=null)
             {
-                var prModel = cat.Products.Select(i => new ProductHomeModel()
-                {
-                    Id = i.Id,
-                    InStock = (bool)i.InStock.HasValue? i.InStock.HasValue:false,
-                    Price = i.Price,
-                    ThumbnailImg = (i.ProductImages.FirstOrDefault(f => f.ProductId == i.Id)) != null ?
-                 i.ProductImages.FirstOrDefault(f => f.ProductId == i.Id).Images
-                 :
-                 null,
-                    Title = i.Title,
-                    TypePrice = i.TypePrice
-                }).ToList();
                 catModel.Title = cat.Title;
                 catModel.Id = cat.Id;
-                catModel.Products = prModel;
             }
             
             return catModel;
         }
         
-        public void AddOrUpdateModel(ManageHomeEntityDataModel model)
+        public void AddOrUpdateModel(HomeEntity model)
         {
             var efHomeModel = FindBy(i => i.Id == model.Id).SingleOrDefault();
             if (efHomeModel==null)
@@ -208,12 +196,30 @@ namespace DBFirstDAL.Repositories
                 efHomeModel = new HomeEntity();
 
                 efHomeModel.Title = model.Title;
+                if (model.Content!=null)
+                {
+                    efHomeModel.Content = model.Content;
+
+                }
                 Context.HomeEntity.Add(efHomeModel);
                 Save();
-                var efCat = Context.Categories.Find(model.Category.Id);
-                if (efCat!=null)
+                foreach (var item in model.Categories)
                 {
-                    efHomeModel.Categories = efCat;
+                    var efCat = Context.Categories.Find(item.Id);
+                    if (efCat != null)
+                    {
+                        efHomeModel.Categories.Add(efCat);
+                    }
+                    
+                }
+                foreach (var item in model.Products)
+                {
+                    var efPr = Context.Products.Find(item.Id);
+                    if (efPr != null)
+                    {
+                        efHomeModel.Products.Add(efPr);
+                    }
+
                 }
                 var efFaq = Context.Faq.Find(model.Faq.Id);
                 if (efFaq != null)
@@ -242,11 +248,30 @@ namespace DBFirstDAL.Repositories
             else
             {
                 efHomeModel.Title = model.Title;
-
-                var efCat = Context.Categories.Find(model.Category.Id);
-                if (efCat != null)
+                if (model.Content != null)
                 {
-                    efHomeModel.Categories = efCat;
+                    efHomeModel.Content = model.Content;
+                    Save();
+                }
+                efHomeModel.Categories.Clear();
+                foreach (var item in model.Categories)
+                {
+                    var efCat = Context.Categories.Find(item.Id);
+                    if (efCat != null)
+                    {
+                        efHomeModel.Categories.Add(efCat);
+                    }
+
+                }
+                efHomeModel.Products.Clear();
+                foreach (var item in model.Products)
+                {
+                    var efPr = Context.Products.Find(item.Id);
+                    if (efPr != null)
+                    {
+                        efHomeModel.Products.Add(efPr);
+                    }
+
                 }
                 var efFaq = Context.Faq.Find(model.Faq.Id);
                 if (efFaq != null)

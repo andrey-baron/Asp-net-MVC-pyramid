@@ -11,11 +11,11 @@ namespace DBFirstDAL.DataModels.HomeModels
         public int Id { get; set; }
         public string Title { get; set; }
 
-        public IEnumerable<ProductHomeModel> Products { get; set; }
+        //public IEnumerable<ProductHomeModel> Products { get; set; }
 
         public CategoryHomeModel()
         {
-            Products = new List<ProductHomeModel>();
+            //Products = new List<ProductHomeModel>();
         }
     }
 }

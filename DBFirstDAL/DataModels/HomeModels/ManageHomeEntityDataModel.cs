@@ -10,7 +10,8 @@ namespace DBFirstDAL.DataModels.HomeModels
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public CategoryHomeModel Category { get; set; }
+        public Categories Categories { get; set; }
+        public Products Products { get; set; }
         public BannerWithPoints BannerWithPoints { get; set; }
         public Faq Faq { get; set; }
         public ICollection<VideoGuide> VideoGuide { get; set; }

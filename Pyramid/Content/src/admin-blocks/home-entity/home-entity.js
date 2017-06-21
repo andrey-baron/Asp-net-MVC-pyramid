@@ -12,6 +12,27 @@
         });
     });
 
+    $(".js-btn-home-entity-add-category").on("click", function () {
+        var count = $(".home-entity__category").length;
+        $.post("/HomeEntity/GetTemplateCategory?entityId=" + id + "&count=" + count, function (data) {
+            $(".home-entity__categories").append(data);
+        })
+    });
+
+    $(".js-btn-home-entity-add-product").on("click", function () {
+        var count = $(".home-entity__product").length;
+        $.post("/HomeEntity/GetTemplateCategoryFromProduct?entityId=" + id + "&count=" + count, function (data) {
+            $(".home-entity__products").append(data);
+        })
+    });
+
+    $(".home-entity__products").on("change", ".js-category-from-product", function () {
+        var thisElem = $(this);
+        var pasteblock = thisElem.next(".js-product-select");
+        $.post("/HomeEntity/GetProductTemplateDropDownListForCategoryId?id=" + thisElem.val() + "&index=" + thisElem.data("ajaxindex"), function (data) {
+            pasteblock.html(data);
+        })
+    })
     $(".js-btn-update-banner").on("click", function () {
         $.post("/ImageManager/PartialSelectImage", function (data) {
             $('#banner-edit-modal .modal-body').html(data);

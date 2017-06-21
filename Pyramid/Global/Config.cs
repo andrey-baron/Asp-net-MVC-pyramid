@@ -18,5 +18,14 @@ namespace Pyramid.Global
                 return match > 0 ? match : 20;
             }
         }
+
+        public static string PathNotFilledImage {
+            get
+            {
+                string pathImage = ConfigurationManager.AppSettings["PathNotFilledImage"] as string;
+
+                return pathImage!=null? pathImage: "/Content/img/pypamid-no-photo.png";
+            }
+        }
     }
 }

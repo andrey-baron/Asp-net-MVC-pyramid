@@ -19,11 +19,12 @@ namespace DBFirstDAL
         {
             this.PointOnImgs = new HashSet<PointOnImgs>();
             this.ProductImages = new HashSet<ProductImages>();
-            this.ProductOrders = new HashSet<ProductOrders>();
             this.ProductValues = new HashSet<ProductValues>();
             this.Review = new HashSet<Review>();
             this.Categories = new HashSet<Categories>();
             this.EnumValues = new HashSet<EnumValues>();
+            this.ProductOrders = new HashSet<ProductOrders>();
+            this.HomeEntity = new HashSet<HomeEntity>();
         }
     
         public int Id { get; set; }
@@ -47,8 +48,6 @@ namespace DBFirstDAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductImages> ProductImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductOrders> ProductOrders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductValues> ProductValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Review> Review { get; set; }
@@ -56,5 +55,9 @@ namespace DBFirstDAL
         public virtual ICollection<Categories> Categories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EnumValues> EnumValues { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductOrders> ProductOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HomeEntity> HomeEntity { get; set; }
     }
 }

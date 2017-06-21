@@ -25,10 +25,11 @@ namespace Pyramid.Controllers
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.HomeEntityModel, Pyramid.Entity.HomeEntity>()
+                cfg.CreateMap<DBFirstDAL.HomeEntity, Pyramid.Entity.HomeEntity>()
                 .ForMember(d => d.BannerWithPoints, o => o.Ignore())
 
-                .ForMember(d => d.Category, o => o.Ignore())
+                .ForMember(d => d.Categories, o => o.Ignore())
+                .ForMember(d => d.Products, o => o.Ignore())
                 .ForMember(d => d.VideoGuide, o => o.Ignore())
                 .ForMember(d => d.Faq, o => o.Ignore())
 
@@ -40,7 +41,7 @@ namespace Pyramid.Controllers
             config.AssertConfigurationIsValid();
 
             var mapper = config.CreateMapper();
-            var model = mapper.Map<IEnumerable<DBFirstDAL.DataModels.HomeModels.HomeEntityModel>, List<Pyramid.Entity.HomeEntity>>(_homeEntityRepository.GetModels(true).ToList());
+            var model = mapper.Map<IEnumerable<DBFirstDAL.HomeEntity>, List<Pyramid.Entity.HomeEntity>>(_homeEntityRepository.GetModels(true).ToList());
 
             return View(model);
         }
@@ -49,7 +50,9 @@ namespace Pyramid.Controllers
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.ManageHomeEntityDataModel, Pyramid.Entity.HomeEntity>();
+                cfg.CreateMap<DBFirstDAL.HomeEntity, Pyramid.Entity.HomeEntity>()
+            ;
+                //cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.ManageHomeEntityDataModel, Pyramid.Entity.HomeEntity>();
 
                 cfg.CreateMap<DBFirstDAL.BannerWithPoints, Pyramid.Entity.BannerWithPoints>();
 
@@ -66,30 +69,38 @@ namespace Pyramid.Controllers
                         .ForMember(d => d.ThumbnailImg, o => o.Ignore())
                         .ForMember(d => d.OneCId, o => o.Ignore());
 
-                cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.CategoryHomeModel, Entity.Category>()
-                .ForMember(d => d.Checked, o => o.Ignore())
-                .ForMember(d => d.Filters, o => o.Ignore())
-                .ForMember(d => d.Thumbnail, o => o.Ignore())
-                .ForMember(d => d.ParentId, o => o.Ignore())
-                .ForMember(d => d.FlagRoot, o => o.Ignore())
-                .ForMember(d => d.OneCId, o => o.Ignore())
-             ;
+                cfg.CreateMap<DBFirstDAL.Categories, Pyramid.Entity.Category>()
+              .ForMember(d => d.Thumbnail, o => o.Ignore())
+              .ForMember(d => d.Checked, o => o.Ignore())
+              .ForMember(d => d.Filters, o => o.Ignore())
+              .ForMember(d => d.ParentId, o => o.Ignore())
+              .ForMember(d => d.Products, o => o.Ignore())
+              .ForMember(d => d.Thumbnail, o => o.Ignore());
 
-                cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.ProductHomeModel, Entity.Product>()
-                .ForMember(d => d.Categories, o => o.Ignore())
-                .ForMember(d => d.EnumValues, o => o.Ignore())
-                .ForMember(d => d.ProductValues, o => o.Ignore())
-                .ForMember(d => d.ThumbnailId, o => o.Ignore())
-                .ForMember(d => d.MetaDescription, o => o.Ignore())
-                .ForMember(d => d.MetaKeywords, o => o.Ignore())
-                .ForMember(d => d.MetaTitle, o => o.Ignore())
-                .ForMember(d => d.Images, o => o.Ignore())
-                .ForMember(d => d.IsSEOReady, o => o.Ignore())
-                .ForMember(d => d.Alias, o => o.Ignore())
-                .ForMember(d => d.DateCreation, o => o.Ignore())
-                .ForMember(d => d.DateChange, o => o.Ignore())
-                .ForMember(d => d.OneCId, o => o.Ignore())
-                ;
+                //   cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.CategoryHomeModel, Entity.Category>()
+                //   .ForMember(d => d.Checked, o => o.Ignore())
+                //   .ForMember(d => d.Filters, o => o.Ignore())
+                //   .ForMember(d => d.Thumbnail, o => o.Ignore())
+                //   .ForMember(d => d.ParentId, o => o.Ignore())
+                //   .ForMember(d => d.FlagRoot, o => o.Ignore())
+                //   .ForMember(d => d.OneCId, o => o.Ignore())
+                //;
+
+                //cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.ProductHomeModel, Entity.Product>()
+                //.ForMember(d => d.Categories, o => o.Ignore())
+                //.ForMember(d => d.EnumValues, o => o.Ignore())
+                //.ForMember(d => d.ProductValues, o => o.Ignore())
+                //.ForMember(d => d.ThumbnailId, o => o.Ignore())
+                //.ForMember(d => d.MetaDescription, o => o.Ignore())
+                //.ForMember(d => d.MetaKeywords, o => o.Ignore())
+                //.ForMember(d => d.MetaTitle, o => o.Ignore())
+                //.ForMember(d => d.Images, o => o.Ignore())
+                //.ForMember(d => d.IsSEOReady, o => o.Ignore())
+                //.ForMember(d => d.Alias, o => o.Ignore())
+                //.ForMember(d => d.DateCreation, o => o.Ignore())
+                //.ForMember(d => d.DateChange, o => o.Ignore())
+                //.ForMember(d => d.OneCId, o => o.Ignore())
+                //;
                 cfg.CreateMap<DBFirstDAL.Images, Entity.Image>()
               ;
 
@@ -133,11 +144,12 @@ namespace Pyramid.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult AddOrUpdate(Entity.HomeEntity model)
             {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Pyramid.Entity.HomeEntity, DBFirstDAL.DataModels.HomeModels.ManageHomeEntityDataModel>();
+                cfg.CreateMap<Pyramid.Entity.HomeEntity, DBFirstDAL.HomeEntity>();
 
                 cfg.CreateMap<Pyramid.Entity.BannerWithPoints, DBFirstDAL.BannerWithPoints>()
                 .ForMember(d => d.HomeEntity, o => o.Ignore())
@@ -148,11 +160,17 @@ namespace Pyramid.Controllers
                .ForMember(d => d.BannerId, o => o.Ignore())
                .ForMember(d => d.ReferenceProductId, o => o.Ignore()); 
 
-                cfg.CreateMap<Entity.Category, DBFirstDAL.DataModels.HomeModels.CategoryHomeModel>()
+                cfg.CreateMap<Entity.Category, DBFirstDAL.Categories>()
+                .ForMember(d => d.Categories1, o => o.Ignore())
+                .ForMember(d => d.Categories2, o => o.Ignore())
+                .ForMember(d => d.CategoryImages, o => o.Ignore())
+                .ForMember(d => d.HomeEntity, o => o.Ignore())
+                .ForMember(d => d.Recommendations, o => o.Ignore())
+                .ForMember(d => d.Filters, o => o.Ignore())
              ;
 
-                cfg.CreateMap<Entity.Product, DBFirstDAL.DataModels.HomeModels.ProductHomeModel>()
-                ;
+                //cfg.CreateMap<Entity.Product, DBFirstDAL.Products>()
+                //;
 
                 cfg.CreateMap<Entity.Image, DBFirstDAL.Images>()
                 .ForMember(d => d.BannerWithPoints, o => o.Ignore())
@@ -180,6 +198,8 @@ namespace Pyramid.Controllers
                  .ForMember(d => d.PointOnImg_Id, o => o.Ignore())
                  .ForMember(d => d.ProductImages, o => o.Ignore())
                   .ForMember(d => d.ProductValues, o => o.Ignore())
+                  .ForMember(d => d.ProductOrders, o => o.Ignore())
+                  .ForMember(d => d.HomeEntity, o => o.Ignore())
                  ;
             });
 
@@ -187,9 +207,9 @@ namespace Pyramid.Controllers
             config.AssertConfigurationIsValid();
 
             var mapper = config.CreateMapper();
-            var efModel = mapper.Map<DBFirstDAL.DataModels.HomeModels.ManageHomeEntityDataModel>(model);
+            var efModel = mapper.Map<DBFirstDAL.HomeEntity>(model);
             _homeEntityRepository.AddOrUpdateModel(efModel);
-            return RedirectToActionPermanent("Index");
+            return RedirectToAction("Index");
         }
 
         public ActionResult JsonGetNewPoint(int id,int count)
@@ -252,9 +272,15 @@ namespace Pyramid.Controllers
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.HomeEntityModel, Pyramid.Entity.HomeEntity>()
-                 .ForMember(d => d.Category, o => o.Ignore())
+                 .ForMember(d => d.Categories, o => o.Ignore())
                   .ForMember(d => d.Faq, o => o.Ignore())
                   .ForMember(d => d.VideoGuide, o => o.Ignore());
+
+                cfg.CreateMap<DBFirstDAL.HomeEntity, Pyramid.Entity.HomeEntity>()
+                .ForMember(d => d.Categories, o => o.Ignore())
+                 .ForMember(d => d.Faq, o => o.Ignore())
+                 .ForMember(d => d.Products, o => o.Ignore())
+                 .ForMember(d => d.VideoGuide, o => o.Ignore());
 
                 cfg.CreateMap<DBFirstDAL.BannerWithPoints, Pyramid.Entity.BannerWithPoints>();
 
@@ -327,6 +353,71 @@ namespace Pyramid.Controllers
                
             }
             return PartialView("_PartialAllPoints", new List<Pyramid.Entity.PointOnImg>());
+        }
+
+        public ActionResult GetTemplateCategory(int entityId, int count)
+        {
+            var efHomeModel = _homeEntityRepository.FindBy(i => i.Id == entityId).SingleOrDefault();
+            var indx = 0;
+            if (efHomeModel!=null&& efHomeModel.Categories!=null)
+            {
+                indx = efHomeModel.Categories.Count();
+            }
+            if (count > indx)
+            {
+                indx = count;
+            }
+            ViewBag.CategoriesSelectListItem = _categoryRepository.GetAll().Select(item => new SelectListItem
+            {
+                Text = item.Title,
+                Value = item.Id.ToString()
+            });
+            return PartialView("_PartialHomeEntityTemplateCategory", indx);
+        }
+        public ActionResult GetTemplateCategoryFromProduct(int entityId, int count)
+        {
+            var efHomeModel = _homeEntityRepository.FindBy(i => i.Id == entityId).SingleOrDefault();
+            var indx = 0;
+            if (efHomeModel != null && efHomeModel.Products != null)
+            {
+                indx = efHomeModel.Products.Count();
+            }
+            if (count > indx)
+            {
+                indx = count;
+            }
+            ViewBag.CategoriesSelectListItem = _categoryRepository.GetAll().Select(item => new SelectListItem
+            {
+                Text = item.Title,
+                Value = item.Id.ToString()
+            });
+            return PartialView("_PartialHomeEntityTemplateCategoryFromProduct",indx);
+        }
+        //public ActionResult GetTemplateDropDownListProduct(int entityId, int count)
+        //{
+        //    var efHomeModel = _homeEntityRepository.FindBy(i => i.Id == entityId).SingleOrDefault();
+        //    var indx = 0;
+        //    if (efHomeModel != null && efHomeModel.Products != null)
+        //    {
+        //        indx = efHomeModel.Products.Count();
+        //    }
+        //    if (count > indx)
+        //    {
+        //        indx = count;
+        //    }
+
+        //    return PartialView("_PartialHomeEntityTemplateProduct", indx);
+        //}
+
+        [Authorize]
+        public ActionResult GetProductTemplateDropDownListForCategoryId(int id, int index)
+        {
+            ViewBag.ProductsSelectListItem = _categoryRepository.GetProductsByCategoryId(id).Select(item => new SelectListItem
+            {
+                Text = item.Title,
+                Value = item.Id.ToString()
+            });
+            return PartialView("_PartialGetProductTemplateDropDownListForHomeEntity", index);
         }
     }
 }

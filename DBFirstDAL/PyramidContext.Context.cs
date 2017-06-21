@@ -31,7 +31,6 @@ namespace DBFirstDAL
         public virtual DbSet<EnumValues> EnumValues { get; set; }
         public virtual DbSet<Faq> Faq { get; set; }
         public virtual DbSet<Filters> Filters { get; set; }
-        public virtual DbSet<HomeEntity> HomeEntity { get; set; }
         public virtual DbSet<Images> Images { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<Pages> Pages { get; set; }
@@ -45,5 +44,6 @@ namespace DBFirstDAL
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<VideoGuide> VideoGuide { get; set; }
         public virtual DbSet<ProductOrders> ProductOrders { get; set; }
+        public virtual DbSet<HomeEntity> HomeEntity { get; set; }
     }
 }

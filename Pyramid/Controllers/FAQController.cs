@@ -201,20 +201,20 @@ namespace Pyramid.Controllers
             return PartialView("_PartialAllQuestionAnswer", model.QuestionAnswer);
         }
 
-        public ActionResult AddNewDefaultAndGetAll(int id/*,int count*/)
+        public ActionResult AddNewDefault(int id, int count)
         {
-            //var newIndex = 0;
-            //var effaq=_faqRepository.FindBy(i => i.Id == id).SingleOrDefault();
-            //if (effaq!=null)
-            //{
-            //    newIndex=effaq.QuestionAnswer.Count;
-            //}
-            //if (count>newIndex)
-            //{
-            //    newIndex = count;
-            //}
-            _faqRepository.AddEmptyQuestionAnswer(id);
-            return PartialGetAllQuestionAnswer(id);
+            var newIndex = 0;
+            var effaq = _faqRepository.FindBy(i => i.Id == id).SingleOrDefault();
+            if (effaq != null)
+            {
+                newIndex = effaq.QuestionAnswer.Count;
+            }
+            if (count > newIndex)
+            {
+                newIndex = count;
+            }
+           // _faqRepository.AddEmptyQuestionAnswer(id);
+            return PartialView("_PartialTemplateQuestionAnswer", newIndex);
 
         }
 

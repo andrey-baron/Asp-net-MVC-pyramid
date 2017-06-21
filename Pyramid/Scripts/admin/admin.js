@@ -100,10 +100,13 @@
 ;
 (function () {
     /*question-answer function*/
+
     var faqId = $("#Faq_Id").val();
+    
     $(".js-btn-add-question-answer").on("click", function () {
-        $.post("/Faq/AddNewDefaultAndGetAll/" + faqId, function (data) {
-            $(".faq__question-answer-values").html(data);
+    var count = $(".admin-product__addition-value").length;
+        $.post("/Faq/AddNewDefault?id=" + faqId+"&count="+count, function (data) {
+            $(".faq__question-answer-values").append(data);
         });
         
     });
@@ -119,6 +122,24 @@
     
 
 })();
+; (function () {
+    /*filter function*/
+       var filterId = $("#Filter_Id").val();
+    $(".js-btn-filter-add-enumvalue").on("click", function () {
+        var count =$(".admin-filter__enum-value").length;
+        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId + "&count=" + count, function (data) {
+            $(".js-filter-all-enumvalues").append(data);
+        });
+    });
+    $(".js-filter-all-enumvalues").on("click", ".btn-filter-enum-value-delete", function (e) {
+        var id = $(this).data("ajaxid");
+        $.post("/Filter/DeleteEnumValue?id=" + filterId + "&enumValueId=" + id, function (t) {
+            $.post("/Filter/GetAllEnumValues?filterid=" + filterId, function (data) {
+                $(".js-filter-all-enumvalues").html(data);
+            });
+        });
+    })
+})();
 (function () {
     /*function home-entity.js*/
     var id = $("#HomeEntity_Id").val();
@@ -133,6 +154,27 @@
         });
     });
 
+    $(".js-btn-home-entity-add-category").on("click", function () {
+        var count = $(".home-entity__category").length;
+        $.post("/HomeEntity/GetTemplateCategory?entityId=" + id + "&count=" + count, function (data) {
+            $(".home-entity__categories").append(data);
+        })
+    });
+
+    $(".js-btn-home-entity-add-product").on("click", function () {
+        var count = $(".home-entity__product").length;
+        $.post("/HomeEntity/GetTemplateCategoryFromProduct?entityId=" + id + "&count=" + count, function (data) {
+            $(".home-entity__products").append(data);
+        })
+    });
+
+    $(".home-entity__products").on("change", ".js-category-from-product", function () {
+        var thisElem = $(this);
+        var pasteblock = thisElem.next(".js-product-select");
+        $.post("/HomeEntity/GetProductTemplateDropDownListForCategoryId?id=" + thisElem.val() + "&index=" + thisElem.data("ajaxindex"), function (data) {
+            pasteblock.html(data);
+        })
+    })
     $(".js-btn-update-banner").on("click", function () {
         $.post("/ImageManager/PartialSelectImage", function (data) {
             $('#banner-edit-modal .modal-body').html(data);
@@ -252,21 +294,3 @@ function reloadData() {
         $(selectorGaleryGrid).html(data);
     });
 };
-; (function () {
-    /*filter function*/
-       var filterId = $("#Filter_Id").val();
-    $(".js-btn-filter-add-enumvalue").on("click", function () {
-        var count =$(".admin-filter__enum-value").length;
-        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId + "&count=" + count, function (data) {
-            $(".js-filter-all-enumvalues").append(data);
-        });
-    });
-    $(".js-filter-all-enumvalues").on("click", ".btn-filter-enum-value-delete", function (e) {
-        var id = $(this).data("ajaxid");
-        $.post("/Filter/DeleteEnumValue?id=" + filterId + "&enumValueId=" + id, function (t) {
-            $.post("/Filter/GetAllEnumValues?filterid=" + filterId, function (data) {
-                $(".js-filter-all-enumvalues").html(data);
-            });
-        });
-    })
-})();

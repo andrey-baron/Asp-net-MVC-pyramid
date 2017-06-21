@@ -437,6 +437,10 @@ p.pmargin {
   height: 500px;
   width: 100%;
 }
+.home-entity__product,
+.home-entity__category {
+  margin-bottom: 20px;
+}
 .row-point-wrap {
   margin-bottom: 20px;
 }

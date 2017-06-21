@@ -6,6 +6,9 @@
 
 <div class="category">
     @Html.HiddenFor(m=>Model.Id)
+@using (Html.BeginForm())
+            {
+    @Html.Hidden("sortingOrder", (string)ViewBag.SotringOrder)
     <div class="row no-gutter">
         <div class="col-ten-md-4">
             <p class="category__title">@Model.Title</p>
@@ -14,17 +17,16 @@
             <div class="category__sort">
                 <ul class="category__sort-list">
                     <li class="category__sort-list-item">Сортировать по:</li>
-                    <li class="category__sort-list-item"><a href="">цене</a></li>
-                    <li class="category__sort-list-item"><a href="">названию</a></li>
-                    <li class="category__sort-list-item"><a href="">популярности</a></li>
+                    <li class="category__sort-list-item"><a href="@Url.Action("Index","Category",new {id=Model.Id, sortingOrder=(int)Common.TypeSort.Price })">цене</a></li>
+                    <li class="category__sort-list-item"><a href="@Url.Action("Index", "Category", new {id=Model.Id, sortingOrder=(int)Common.TypeSort.Name })">названию</a></li>
+                    <li class="category__sort-list-item"><a href="@Url.Action("Index", "Category", new {id=Model.Id, sortingOrder=(int)Common.TypeSort.Popular })">популярности</a></li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="row no-gutter">
         <div class="col-ten-lg-2 col-md-3">
-            @using (Html.BeginForm())
-            {
+           
                 <div class="category__sidebar">
                     @for (int i = 0; i < Model.Filters.Count; i++)
                     {
@@ -66,48 +68,18 @@
                     <button class="btn btn-default">Применить</button>
                 </div>
                 
-            }
+           
         </div>
-        @*<div class="col-f-lg-3 col-md-3">
-            <div class="product__item">
-
-                <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
-
-                <p class="product__item-title">
-                    Краскопульт SATA Spray Master RP с алюминиевым верхним бачком
-                    0,7 л нагнетательного типа
-                </p>
-                <div class="product__item-price product__item-price_best">
-                    <div class="triangle-up"></div>
-                    <div class="triangle-down"></div>
-                    <p class="product__item-price-inner"><span class="big-decimal">45 675</span> руб.</p>
-                </div>
-                <div class="product__item__hover_block_wrapper">
-                    <div class="product__item__hover_block_wrapper__item product__in-stock">
-                        <p>в наличии</p>
-                    </div>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_one-click">
-                            <p>Купить в один клик</p>
-                        </div>
-                    </a>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_add-to-cart">
-                            <p>Добавить в корзину</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>*@
+        
         @foreach (var item in Model.Products)
         {
             <div class="col-f-lg-3  col-md-3">
                 <div class="product__item">
                     <a href="@Url.Action("Index","Product",new { id=item.Id})">
-                        <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
+                        <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
 
                         <p class="product__item-title">@item.Title</p>
-                        <div class="product__item-price product__item-price_limited">
+                        <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
                             <div class="triangle-up"></div>
                             <div class="triangle-down"></div>
                             <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
@@ -133,385 +105,6 @@
 
         }
 
-        @*<div class="col-f-lg-3  col-md-3">
-            <div class="product__item">
-
-                <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
-
-                <p class="product__item-title">
-                    Краскопульт SATA Spray Master RP с алюминиевым верхним бачком
-                    0,7 л нагнетательного типа
-                </p>
-                <div class="product__item-price product__item-price_low">
-                    <div class="triangle-up"></div>
-                    <div class="triangle-down"></div>
-                    <p class="product__item-price-inner"><span class="big-decimal">45 675</span> руб.</p>
-                </div>
-                <div class="product__item__hover_block_wrapper">
-                    <div class="product__item__hover_block_wrapper__item product__in-stock">
-                        <p>в наличии</p>
-                    </div>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_one-click">
-                            <p>Купить в один клик</p>
-                        </div>
-                    </a>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_add-to-cart">
-                            <p>Добавить в корзину</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-f-lg-3  col-md-3">
-            <div class="product__item">
-
-                <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
-
-                <p class="product__item-title">
-                    Краскопульт SATA Spray Master RP с алюминиевым верхним бачком
-                    0,7 л нагнетательного типа
-                </p>
-                <div class="product__item-price">
-                    <div class="triangle-up"></div>
-                    <div class="triangle-down"></div>
-                    <p class="product__item-price-inner"><span class="big-decimal">45 675</span> руб.</p>
-                </div>
-                <div class="product__item__hover_block_wrapper">
-                    <div class="product__item__hover_block_wrapper__item product__in-stock">
-                        <p>в наличии</p>
-                    </div>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_one-click">
-                            <p>Купить в один клик</p>
-                        </div>
-                    </a>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_add-to-cart">
-                            <p>Добавить в корзину</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-f-lg-3 col-md-3">
-            <div class="product__item">
-
-                <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
-
-                <p class="product__item-title">
-                    Краскопульт SATA Spray Master RP с алюминиевым верхним бачком
-                    0,7 л нагнетательного типа
-                </p>
-                <div class="product__item-price product__item-price_best">
-                    <div class="triangle-up"></div>
-                    <div class="triangle-down"></div>
-                    <p class="product__item-price-inner"><span class="big-decimal">45 675</span> руб.</p>
-                </div>
-                <div class="product__item__hover_block_wrapper">
-                    <div class="product__item__hover_block_wrapper__item product__in-stock">
-                        <p>в наличии</p>
-                    </div>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_one-click">
-                            <p>Купить в один клик</p>
-                        </div>
-                    </a>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_add-to-cart">
-                            <p>Добавить в корзину</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-f-lg-3  col-md-3">
-            <div class="product__item">
-
-                <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
-
-                <p class="product__item-title">
-                    Краскопульт SATA Spray Master RP с алюминиевым верхним бачком
-                    0,7 л нагнетательного типа
-                </p>
-                <div class="product__item-price product__item-price_limited">
-                    <div class="triangle-up"></div>
-                    <div class="triangle-down"></div>
-                    <p class="product__item-price-inner"><span class="big-decimal">45 675</span> руб.</p>
-                </div>
-                <div class="product__item__hover_block_wrapper">
-                    <div class="product__item__hover_block_wrapper__item product__in-stock">
-                        <p>в наличии</p>
-                    </div>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_one-click">
-                            <p>Купить в один клик</p>
-                        </div>
-                    </a>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_add-to-cart">
-                            <p>Добавить в корзину</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-f-lg-3  col-md-3">
-            <div class="product__item">
-
-                <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
-
-                <p class="product__item-title">
-                    Краскопульт SATA Spray Master RP с алюминиевым верхним бачком
-                    0,7 л нагнетательного типа
-                </p>
-                <div class="product__item-price product__item-price_low">
-                    <div class="triangle-up"></div>
-                    <div class="triangle-down"></div>
-                    <p class="product__item-price-inner"><span class="big-decimal">45 675</span> руб.</p>
-                </div>
-                <div class="product__item__hover_block_wrapper">
-                    <div class="product__item__hover_block_wrapper__item product__in-stock">
-                        <p>в наличии</p>
-                    </div>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_one-click">
-                            <p>Купить в один клик</p>
-                        </div>
-                    </a>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_add-to-cart">
-                            <p>Добавить в корзину</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-f-lg-3 col-md-3">
-            <div class="product__item">
-
-                <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
-
-                <p class="product__item-title">
-                    Краскопульт SATA Spray Master RP с алюминиевым верхним бачком
-                    0,7 л нагнетательного типа
-                </p>
-                <div class="product__item-price product__item-price_best">
-                    <div class="triangle-up"></div>
-                    <div class="triangle-down"></div>
-                    <p class="product__item-price-inner"><span class="big-decimal">45 675</span> руб.</p>
-                </div>
-                <div class="product__item__hover_block_wrapper">
-                    <div class="product__item__hover_block_wrapper__item product__in-stock">
-                        <p>в наличии</p>
-                    </div>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_one-click">
-                            <p>Купить в один клик</p>
-                        </div>
-                    </a>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_add-to-cart">
-                            <p>Добавить в корзину</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-f-lg-3  col-md-3">
-            <div class="product__item">
-
-                <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
-
-                <p class="product__item-title">
-                    Краскопульт SATA Spray Master RP с алюминиевым верхним бачком
-                    0,7 л нагнетательного типа
-                </p>
-                <div class="product__item-price product__item-price_limited">
-                    <div class="triangle-up"></div>
-                    <div class="triangle-down"></div>
-                    <p class="product__item-price-inner"><span class="big-decimal">45 675</span> руб.</p>
-                </div>
-                <div class="product__item__hover_block_wrapper">
-                    <div class="product__item__hover_block_wrapper__item product__in-stock">
-                        <p>в наличии</p>
-                    </div>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_one-click">
-                            <p>Купить в один клик</p>
-                        </div>
-                    </a>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_add-to-cart">
-                            <p>Добавить в корзину</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-f-lg-3  col-md-3">
-            <div class="product__item">
-
-                <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
-
-                <p class="product__item-title">
-                    Краскопульт SATA Spray Master RP с алюминиевым верхним бачком
-                    0,7 л нагнетательного типа
-                </p>
-                <div class="product__item-price product__item-price_low">
-                    <div class="triangle-up"></div>
-                    <div class="triangle-down"></div>
-                    <p class="product__item-price-inner"><span class="big-decimal">45 675</span> руб.</p>
-                </div>
-                <div class="product__item__hover_block_wrapper">
-                    <div class="product__item__hover_block_wrapper__item product__in-stock">
-                        <p>в наличии</p>
-                    </div>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_one-click">
-                            <p>Купить в один клик</p>
-                        </div>
-                    </a>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_add-to-cart">
-                            <p>Добавить в корзину</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-f-lg-3  col-md-3">
-            <div class="product__item">
-
-                <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
-
-                <p class="product__item-title">
-                    Краскопульт SATA Spray Master RP с алюминиевым верхним бачком
-                    0,7 л нагнетательного типа
-                </p>
-                <div class="product__item-price">
-                    <div class="triangle-up"></div>
-                    <div class="triangle-down"></div>
-                    <p class="product__item-price-inner"><span class="big-decimal">45 675</span> руб.</p>
-                </div>
-                <div class="product__item__hover_block_wrapper">
-                    <div class="product__item__hover_block_wrapper__item product__in-stock">
-                        <p>в наличии</p>
-                    </div>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_one-click">
-                            <p>Купить в один клик</p>
-                        </div>
-                    </a>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_add-to-cart">
-                            <p>Добавить в корзину</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="col-f-lg-3 col-md-3">
-            <div class="product__item">
-
-                <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
-
-                <p class="product__item-title">
-                    Краскопульт SATA Spray Master RP с алюминиевым верхним бачком
-                    0,7 л нагнетательного типа
-                </p>
-                <div class="product__item-price product__item-price_best">
-                    <div class="triangle-up"></div>
-                    <div class="triangle-down"></div>
-                    <p class="product__item-price-inner"><span class="big-decimal">45 675</span> руб.</p>
-                </div>
-                <div class="product__item__hover_block_wrapper">
-                    <div class="product__item__hover_block_wrapper__item product__in-stock">
-                        <p>в наличии</p>
-                    </div>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_one-click">
-                            <p>Купить в один клик</p>
-                        </div>
-                    </a>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_add-to-cart">
-                            <p>Добавить в корзину</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-f-lg-3  col-md-3">
-            <div class="product__item">
-
-                <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
-
-                <p class="product__item-title">
-                    Краскопульт SATA Spray Master RP с алюминиевым верхним бачком
-                    0,7 л нагнетательного типа
-                </p>
-                <div class="product__item-price product__item-price_limited">
-                    <div class="triangle-up"></div>
-                    <div class="triangle-down"></div>
-                    <p class="product__item-price-inner"><span class="big-decimal">45 675</span> руб.</p>
-                </div>
-                <div class="product__item__hover_block_wrapper">
-                    <div class="product__item__hover_block_wrapper__item product__in-stock">
-                        <p>в наличии</p>
-                    </div>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_one-click">
-                            <p>Купить в один клик</p>
-                        </div>
-                    </a>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_add-to-cart">
-                            <p>Добавить в корзину</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-f-lg-3  col-md-3">
-            <div class="product__item">
-
-                <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
-
-                <p class="product__item-title">
-                    Краскопульт SATA Spray Master RP с алюминиевым верхним бачком
-                    0,7 л нагнетательного типа
-                </p>
-                <div class="product__item-price product__item-price_low">
-                    <div class="triangle-up"></div>
-                    <div class="triangle-down"></div>
-                    <p class="product__item-price-inner"><span class="big-decimal">45 675</span> руб.</p>
-                </div>
-                <div class="product__item__hover_block_wrapper">
-                    <div class="product__item__hover_block_wrapper__item product__in-stock">
-                        <p>в наличии</p>
-                    </div>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_one-click">
-                            <p>Купить в один клик</p>
-                        </div>
-                    </a>
-                    <a class="product__item__hover_block_wrapper__item" href="">
-                        <div class="product__buy product__buy_add-to-cart">
-                            <p>Добавить в корзину</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>*@
-
     </div>
-
+}
 </div>

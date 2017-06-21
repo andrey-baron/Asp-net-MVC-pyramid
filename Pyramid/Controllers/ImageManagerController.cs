@@ -10,13 +10,14 @@ namespace Pyramid.Controllers
     public class ImageManagerController : Controller
     {
         // GET: ImageManager
+        [HttpGet]
         public ActionResult Index()
         {
             var model = DBFirstDAL.ImageDAL.GetAll();
             return View(model);
         }
-
-        public ActionResult Upload(/*HttpPostedFileWrapper qqfile*/)
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileWrapper qqfile)
         {
             var files = this.Request.Files;
             HttpPostedFileBase test = null;
@@ -29,7 +30,7 @@ namespace Pyramid.Controllers
                 DBFirstDAL.ImageDAL.AddOrUpdate(null, test);
             }
             
-            return Json(new { result = "ok", success = true });
+            return Json(new {  success = true });
         }
 
         public ActionResult PartialBodyModal(int id)

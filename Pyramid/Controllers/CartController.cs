@@ -74,7 +74,8 @@ namespace Pyramid.Controllers
 
         public ActionResult Checkout()
         {
-            return View(GetCart());
+            
+            return View(new CheckoutModel());
         }
         [HttpPost]
         public ActionResult Checkout(CheckoutModel model)
@@ -87,11 +88,13 @@ namespace Pyramid.Controllers
                 Phone = model.Phone,
                 TypeProgressOrder = 1,
                 UserName = model.Name,
-                //Products = cart.Lines.Select(i => new DBFirstDAL.Products()
-                //{
-                //    Id = i.Product.Id
-                //}).ToList()
+                ProductOrders = cart.Lines.Select(i => new DBFirstDAL.ProductOrders()
+                {
+                    ProductId = i.Product.Id,
+                    Quantity=i.Quantity
+                }).ToList()
             };
+            _orederRepository.AddOrUpdate(efOrder);
             bool flagErr = false;
             try
             {
@@ -104,7 +107,7 @@ namespace Pyramid.Controllers
             {
                 flagErr = true;
             }
-            ViewBag.IsAddedOrder = flagErr;
+            ViewBag.IsAddedOrder = !flagErr;
 
             return View("ResultCheckout",cart);
         }

@@ -46,6 +46,7 @@
     <Compile Include="Category.cs" />
     <Compile Include="Enumerable\TypeImage.cs" />
     <Compile Include="Enumerable\TypeProductPrice.cs" />
+    <Compile Include="Enumerable\TypeProgressOrder.cs" />
     <Compile Include="Enumerable\UserTypeRole.cs" />
     <Compile Include="EnumValue.cs" />
     <Compile Include="FAQ.cs" />

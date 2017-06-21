@@ -152,7 +152,7 @@ namespace DBFirstDAL.Repositories
 
         public Images GetThumbnail(int productId, int typeThumbnail )
         {
-            return Context.Images.FirstOrDefault(i => i.ProductImages.All(f => f.ProductId == productId && f.TypeImage == typeThumbnail));
+            return Context.Images.FirstOrDefault(i => i.ProductImages.Any(f => f.ProductId == productId && f.TypeImage == typeThumbnail));
         }
 
         public IEnumerable<Images> GetGalleryImage(int productId, int typeGallery)
@@ -272,5 +272,7 @@ namespace DBFirstDAL.Repositories
                
             }
         }
+
+       
     }
 }

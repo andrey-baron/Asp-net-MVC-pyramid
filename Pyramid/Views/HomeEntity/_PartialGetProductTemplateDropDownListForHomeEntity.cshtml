@@ -1,0 +1,5 @@
+﻿
+@model int
+<label>Товар</label>
+@Html.DropDownList(string.Format("Products[{0}].Id",Model), new SelectList(ViewBag.ProductsSelectListItem, "Value", "Text"), "Выбрать", new { @class = "form-control js-home-entity-product" })
+

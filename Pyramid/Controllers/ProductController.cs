@@ -3,6 +3,7 @@ using DBFirstDAL.Repositories;
 using PagedList;
 using Pyramid.Entity;
 using Pyramid.Global;
+using Pyramid.Models.Single;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,53 +27,61 @@ namespace Pyramid.Controllers
         }
         public ActionResult Index(int id)
         {
+            #region config mapper product
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
                 .ForMember(d => d.EnumValues, o => o.Ignore())
                 .ForMember(d => d.Categories, o => o.Ignore())
                 .ForMember(d => d.ThumbnailId, o => o.Ignore())
-                .ForMember(d => d.ThumbnailImg, o => o.Ignore())
-                .ForMember(d => d.Images, o => o.Ignore())
+                .ForMember(d => d.ThumbnailImg, o => o.
+                MapFrom(m =>
+                m.ProductImages.FirstOrDefault(f => f.ProductId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                m.ProductImages.FirstOrDefault(f => f.ProductId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images : new DBFirstDAL.Images()))
+                .ForMember(d => d.Images, o => o.
+                                MapFrom(m =>
+                m.ProductImages.Where(f => f.ProductId == m.Id && f.TypeImage == (int)Common.TypeImage.GalleryItem).Count() > 0 ?
+                m.ProductImages.Where(f => f.ProductId == m.Id && f.TypeImage == (int)Common.TypeImage.GalleryItem).Select(s => s.Images).ToList() : new List<DBFirstDAL.Images>()))
+
                 .ForMember(d => d.OneCId, o => o.Ignore());
 
                 cfg.CreateMap<DBFirstDAL.Categories, Entity.Category>()
                .ForMember(d => d.Checked, o => o.UseValue(false))
                .ForMember(d => d.Filters, o => o.Ignore())
-               .ForMember(d => d.Products, o => o.Ignore())
+               //.ForMember(d => d.Products, o => o.Ignore())
                .ForMember(d => d.Thumbnail, o => o.Ignore());
-
-
-              
 
                 cfg.CreateMap<DBFirstDAL.ProductValues, Entity.ProductValue>()
                 .ForMember(d => d.Product, o => o.Ignore())
                 ;
-               
+
                 cfg.CreateMap<DBFirstDAL.Images, Image>()
                 ;
 
             });
+            #endregion
+
             config.AssertConfigurationIsValid();
 
             var mapper = config.CreateMapper();
-            var efThumbnail = _productRepository.GetThumbnail(id, (int)Entity.Enumerable.TypeImage.Thumbnail);
-            var efGallry =_productRepository.GetGalleryImage(id, (int)Entity.Enumerable.TypeImage.GaleryItem);
+            //var efThumbnail = _productRepository.GetThumbnail(id, (int)Entity.Enumerable.TypeImage.Thumbnail);
+            //var efGallery =_productRepository.GetGalleryImage(id, (int)Entity.Enumerable.TypeImage.GaleryItem);
 
 
             var efModel = _productRepository.FindBy(i => i.Id == id).SingleOrDefault();
-            var model = mapper.Map<DBFirstDAL.Products,Entity.Product>(_productRepository.FindBy(i=>i.Id==id).SingleOrDefault());
+            var EntityProduct = mapper.Map<DBFirstDAL.Products, Entity.Product>(_productRepository.FindBy(i => i.Id == id).SingleOrDefault());
 
             List<Models.BreadCrumbViewModel> breadcrumbs = new List<Models.BreadCrumbViewModel>();
             breadcrumbs.Add(new Models.BreadCrumbViewModel() {
-                Title = model.Title
+                Title = EntityProduct.Title
             , Link = defaulProductLink + id.ToString()
             });
             var flagstop = true;
             var cat = efModel.Categories.FirstOrDefault();
+            var relatedProducts = cat != null ? cat.Products.Where(s=>s.Id!=id) : new List<DBFirstDAL.Products>();
             while (flagstop)
             {
-               
+
                 if (cat != null)
                 {
                     breadcrumbs.Add(new Models.BreadCrumbViewModel()
@@ -98,9 +107,14 @@ namespace Pyramid.Controllers
             breadcrumbs.Reverse();
             ViewBag.BredCrumbs = breadcrumbs;
 
-            model.Images = mapper.Map <IEnumerable<DBFirstDAL.Images>, List<Image>>(efGallry.ToList());
+            //var t = mapper.Map <IEnumerable<DBFirstDAL.Images>, List<Image>>(efGallery.ToList());
 
-            model.ThumbnailImg = mapper.Map<Image>(efThumbnail);
+            //model.ThumbnailImg = mapper.Map<Image>(efThumbnail);
+            var model = new SingleViewModel()
+            {
+                Product = EntityProduct,
+                RelatedProducts = mapper.Map<IEnumerable<DBFirstDAL.Products>, List<Product>>(relatedProducts)
+        };
             return View(model);
         }
         [Authorize]
@@ -264,7 +278,9 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.PointOnImg_Id, o => o.Ignore())
                 .ForMember(d => d.ProductImages, o => o.Ignore())
                  .ForMember(d => d.Review, o => o.Ignore())
-                 .ForMember(d => d.PointOnImgs, o => o.Ignore());
+                 .ForMember(d => d.PointOnImgs, o => o.Ignore())
+                 .ForMember(d => d.HomeEntity, o => o.Ignore())
+                 .ForMember(d => d.ProductOrders, o => o.Ignore());
 
                 cfg.CreateMap<Pyramid.Entity.Category, DBFirstDAL.Categories>()
                 .ForMember(d => d.Categories1, o => o.Ignore())

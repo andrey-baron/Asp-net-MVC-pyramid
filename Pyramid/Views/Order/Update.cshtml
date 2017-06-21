@@ -1,0 +1,122 @@
+﻿@model Pyramid.Models.Order.OrderModel
+@{
+    ViewBag.Title = "Изменить тип заказа";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+</div>
+@using (Html.BeginForm("Update", "Order", FormMethod.Post, new { id = "addOrUpdateProductForm" }))
+{
+    <div class="row">
+        <div class="col-lg-8 col-md-8">
+            <div class="box-typical box-typical-padding">
+
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    @Html.HiddenFor(model => model.Id)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Adress, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DisplayFor(model => model.Adress, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TypeProgressOrder, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EnumDropDownListFor(model => model.TypeProgressOrder, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    </div>
+                    
+
+
+                </div>
+
+            </div>
+            <div class="card">
+                <div class="card-header card-header-lg">
+                    <p>Товары</p>
+                </div>
+                <div class="card-block">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Название
+                                    @*@Html.DisplayNameFor(model => model.Title)*@
+                                </th>
+                                <th>
+                                    Цена
+                                    @*@Html.DisplayNameFor(model => model.Price)*@
+                                </th>
+                                <th>Количество</th>
+                            </tr>
+                        </thead>
+
+                        @foreach (var item in Model.Products)
+                        {
+                            <tr>
+                               
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                
+                            </tr>
+                        }
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-lg-4 col-md-4">
+            <div class="box-typical box-typical-padding">
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-block">
+            <div class="form-group">
+
+                <input type="submit" value="Сохранить" class="btn btn-default">
+
+            </div>
+        </div>
+    </div>
+}
+

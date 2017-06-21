@@ -1,0 +1,49 @@
+﻿@model Pyramid.Tools.Cart
+@{
+    ViewBag.Title = "ResultCheckout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="chackout">
+    @if (ViewBag.IsAddedOrder)
+    {
+        <table class="display table table-striped table-bordered dataTable">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Количесво</th>
+                    <th>Цена</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Lines)
+                {
+                    <tr>
+                        <td>@item.Product.Title</td>
+                        <td>@item.Quantity</td>
+                        <td>@(item.Product.Price * item.Quantity)</td>
+                    </tr>
+
+                }
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Итоговая стоимость</td>
+                    <td>@Model.ComputeTotalValue()</td>
+                </tr>
+
+            </tfoot>
+        </table>
+
+        <p>Ваш заказ, отправлен</p>
+
+    }
+    else
+    {
+        <p>При отправке заказа возникла ошибка, попробуйте позже</p>
+    }
+
+
+</div>

@@ -1,10 +1,13 @@
 ﻿;
 (function () {
     /*question-answer function*/
+
     var faqId = $("#Faq_Id").val();
+    
     $(".js-btn-add-question-answer").on("click", function () {
-        $.post("/Faq/AddNewDefaultAndGetAll/" + faqId, function (data) {
-            $(".faq__question-answer-values").html(data);
+    var count = $(".admin-product__addition-value").length;
+        $.post("/Faq/AddNewDefault?id=" + faqId+"&count="+count, function (data) {
+            $(".faq__question-answer-values").append(data);
         });
         
     });

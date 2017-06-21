@@ -82,10 +82,13 @@ namespace DBFirstDAL.Repositories
             _entities.SaveChanges();
         }
 
-        //protected abstract void UpdateFieldsBeforeSave();
+        protected virtual void UpdateFieldsBeforeSave()
+        {
+            
+        }
 
-        //protected virtual void UpdateFieldsAfterSave()
-        //{
-        //}
+        protected virtual void UpdateFieldsAfterSave()
+        {
+        }
     }
 }

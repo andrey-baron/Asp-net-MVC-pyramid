@@ -46,12 +46,15 @@ namespace Pyramid.Controllers
             
             return View(model);
         }
-        public ActionResult Index(int id=0)
+        public ActionResult Index(int id=0, int sortingOrder=0)
         {
+            ViewBag.SortingOrder = sortingOrder;
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<DBFirstDAL.Categories, Pyramid.Entity.Category>()
-                .ForMember(d => d.Thumbnail, o => o.Ignore())
+                .ForMember(d => d.Thumbnail, o => o.MapFrom(m=>
+                m.CategoryImages.FirstOrDefault(f=>f.CategoryId==m.Id&&f.TypeImage==(int)Common.TypeImage.Thumbnail)!=null?
+                m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images:new DBFirstDAL.Images()))
                 .ForMember(d => d.Checked, o => o.Ignore())
                 ;
 
@@ -60,7 +63,10 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.EnumValues, o => o.Ignore())
                 .ForMember(d => d.Images, o => o.Ignore())
                 .ForMember(d => d.ThumbnailId, o => o.Ignore())
-                .ForMember(d => d.ThumbnailImg, o => o.Ignore())
+                .ForMember(d => d.ThumbnailImg, o => o.
+                MapFrom(m =>
+                m.ProductImages.FirstOrDefault(f => f.ProductId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                m.ProductImages.FirstOrDefault(f => f.ProductId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images : new DBFirstDAL.Images()))
                 .ForMember(d => d.ProductValues, o => o.Ignore());
 
                 cfg.CreateMap<DBFirstDAL.Filters, Pyramid.Entity.Filter>()
@@ -78,9 +84,13 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.MinPrice, o => o.UseValue(false))
                 .ForMember(d => d.MaxPrice, o => o.UseValue(false))
                 .ForMember(d => d.CurrentMinPrice, o => o.UseValue(false))
-                .ForMember(d => d.CurrentMaxPrice, o => o.UseValue(false));
+                .ForMember(d => d.CurrentMaxPrice, o => o.UseValue(false))
+                .ForMember(d => d.Thumbnail, o => o.MapFrom(m =>
+                m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images : new DBFirstDAL.Images()))
+;
 
-                 cfg.CreateMap<DBFirstDAL.DataModels.CategoryWithThumbnail, Pyramid.Entity.Category>()
+                cfg.CreateMap<DBFirstDAL.DataModels.CategoryWithThumbnail, Pyramid.Entity.Category>()
                .ForMember(d => d.Checked, o => o.Ignore())
                .ForMember(d => d.Filters, o => o.Ignore())
                .ForMember(d => d.ParentId, o => o.Ignore())
@@ -154,13 +164,30 @@ namespace Pyramid.Controllers
             breadcrumbs.Reverse();
             ViewBag.BredCrumbs = breadcrumbs;
             CategoryViewModel model = mapper.Map<CategoryViewModel>(EfModel);
+            if (sortingOrder != null)
+            {
+                switch (sortingOrder)
+                {
+                    case (int)Common.TypeSort.Price:
+                        break;
+                    case (int)Common.TypeSort.Name:
+                        model.Products.Sort(new Tools.Compare.ProductCompareByTitle());
+                        break;
+                    case (int)Common.TypeSort.Popular:
+                        break;
+                    default:
+                        break;
+                }
+
+            }
             model.MaxPrice = _categoryRepository.GetMaxPriceFromCategory(id);
             model.MinPrice = _categoryRepository.GetMinPriceFromCategory(id);
             return View(model);
         }
         [HttpPost]
-        public ActionResult Index(CategoryViewModel model)
+        public ActionResult Index(CategoryViewModel model , int sortingOrder=0 )
         {
+            ViewBag.SortingOrder = sortingOrder;
             var max = model.CurrentMaxPrice;
             var min = model.CurrentMinPrice;
             var config = new MapperConfiguration(cfg =>
@@ -214,6 +241,22 @@ namespace Pyramid.Controllers
              var efFilters= mapper.Map<IEnumerable<CategoryFilterViewModel>,List<DBFirstDAL.Filters>>(Filters.ToList());
             var EfModel = _categoryRepository.FindBy(i => i.Id == model.Id).SingleOrDefault();
             model = mapper.Map<CategoryViewModel>(EfModel);
+            if (sortingOrder!=null)
+            {
+                switch (sortingOrder)
+                {
+                    case (int)Common.TypeSort.Price:
+                        break;
+                    case (int)Common.TypeSort.Name:
+                        model.Products.Sort(new Tools.Compare.ProductCompareByTitle());
+                        break;
+                    case (int)Common.TypeSort.Popular:
+                        break;
+                    default:
+                        break;
+                }
+                
+            }
             var efnumValues=efFilters.Select(l => l.EnumValues);
             IEnumerable<DBFirstDAL.EnumValues> unionValues = new List<DBFirstDAL.EnumValues>();
             foreach (var item in efnumValues)
@@ -429,5 +472,7 @@ namespace Pyramid.Controllers
             });
             return PartialView("_PartialGetProductTemplateDropDownList", pointindex);
         }
+
+        
     }
 }

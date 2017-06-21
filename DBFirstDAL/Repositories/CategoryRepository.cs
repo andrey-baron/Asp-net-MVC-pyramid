@@ -287,5 +287,21 @@ namespace DBFirstDAL.Repositories
             }
 
         }
+
+        //public Categories GetCategoryWithProductsAndImages(int id)
+        //{
+        //    using (PyramidFinalContext data =new PyramidFinalContext())
+        //    {
+        //        data.Configuration.LazyLoadingEnabled = false;
+        //        data.Configuration.ProxyCreationEnabled = false;
+
+        //        var efcat = data.Categories
+        //            .Include(i=>i.Products)
+        //            .Include(i=>i.CategoryImages)
+        //            .FirstOrDefault(f => f.Id == id);
+
+               
+        //    }
+        //}
     }
 }

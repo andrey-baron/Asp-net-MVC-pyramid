@@ -1,0 +1,9 @@
+﻿@model int
+<div class="home-entity__product">
+    <p>Категория</p>
+    @Html.DropDownList("carFor", new SelectList(ViewBag.CategoriesSelectListItem, "Value", "Text"), "Выбрать", new { @class = "form-control js-category-from-product" , data_ajaxindex = Model })
+
+    <div class="js-product-select">
+
+    </div>
+</div>

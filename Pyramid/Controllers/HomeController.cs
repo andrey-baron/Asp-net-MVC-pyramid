@@ -33,8 +33,10 @@ namespace Pyramid.Controllers
                 #region home config
                 cfg.CreateMap<DBFirstDAL.DataModels.CategoryWithThumbnail, Models.CategoryModels.HeaderCategoryViewModel>();
 
-                cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.HomeEntityModel, Pyramid.Entity.HomeEntity>()
-               ;
+               // cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.HomeEntityModel, Pyramid.Entity.HomeEntity>()
+               //;
+                cfg.CreateMap<DBFirstDAL.HomeEntity, Pyramid.Entity.HomeEntity>()
+              ;
                 cfg.CreateMap<DBFirstDAL.BannerWithPoints, Pyramid.Entity.BannerWithPoints>();
 
                 cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.BannerWithPointsHomeDataModel, Pyramid.Entity.BannerWithPoints>();
@@ -44,14 +46,14 @@ namespace Pyramid.Controllers
 
                 cfg.CreateMap<DBFirstDAL.PointOnImgs, Pyramid.Entity.PointOnImg>();
 
-                cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.CategoryHomeModel, Entity.Category>()
-                .ForMember(d => d.Checked, o => o.Ignore())
-                .ForMember(d => d.Filters, o => o.Ignore())
-                .ForMember(d => d.Thumbnail, o => o.Ignore())
-                .ForMember(d => d.ParentId, o => o.Ignore())
-                .ForMember(d => d.FlagRoot, o => o.Ignore())
-                 .ForMember(d => d.OneCId, o => o.Ignore())
-             ;
+             //   cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.CategoryHomeModel, Entity.Category>()
+             //   .ForMember(d => d.Checked, o => o.Ignore())
+             //   .ForMember(d => d.Filters, o => o.Ignore())
+             //   .ForMember(d => d.Thumbnail, o => o.Ignore())
+             //   .ForMember(d => d.ParentId, o => o.Ignore())
+             //   .ForMember(d => d.FlagRoot, o => o.Ignore())
+             //    .ForMember(d => d.OneCId, o => o.Ignore())
+             //;
 
                 cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.ProductHomeModel, Entity.Product>()
                 .ForMember(d => d.Categories, o => o.Ignore())
@@ -83,11 +85,23 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.Images, o => o.Ignore())
                  .ForMember(d => d.ProductValues, o => o.Ignore())
                   .ForMember(d => d.ThumbnailId, o => o.Ignore())
-                     .ForMember(d => d.ThumbnailImg, o => o.Ignore())
+                                     .ForMember(d => d.ThumbnailImg, o => o.
+                MapFrom(m =>
+                m.ProductImages.FirstOrDefault(f => f.ProductId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                m.ProductImages.FirstOrDefault(f => f.ProductId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images : new DBFirstDAL.Images()))
+
                      ;
+
+                cfg.CreateMap<DBFirstDAL.Categories, Pyramid.Entity.Category>()
+               .ForMember(d => d.Thumbnail, o => o.Ignore())
+               .ForMember(d => d.Checked, o => o.Ignore())
+               .ForMember(d => d.Filters, o => o.Ignore())
+               .ForMember(d => d.ParentId, o => o.Ignore())
+               .ForMember(d => d.Products, o => o.Ignore())
+               .ForMember(d => d.Thumbnail, o => o.Ignore());
                 #endregion
 
-                
+
             });
             //var configForFooterCategories = new MapperConfiguration(cfg =>
             //{
@@ -120,7 +134,7 @@ namespace Pyramid.Controllers
             var headerCategories = mapper.Map<IEnumerable<DBFirstDAL.DataModels.CategoryWithThumbnail>, List<Models.CategoryModels.HeaderCategoryViewModel>>(efRootCategories);
             ViewBag.HeaderCategories = headerCategories;
             var efHomeModels = _homeEntityRepository.GetModels(false);
-            var homeEntitiesModel = mapper.Map<IEnumerable<DBFirstDAL.DataModels.HomeModels.HomeEntityModel>, List<Entity.HomeEntity>>(efHomeModels.ToList());
+            var homeEntitiesModel = mapper.Map<IEnumerable<DBFirstDAL.HomeEntity>, List<Entity.HomeEntity>>(efHomeModels.ToList());
 
             var efProducts = _productRepository.GetSeasonOffers((int)Entity.Enumerable.TypeImage.Thumbnail);
             ViewBag.SeasonOffers = mapper.Map<IEnumerable<DBFirstDAL.DataModels.HomeModels.ProductHomeModel>, List<Entity.Product>>(efProducts);

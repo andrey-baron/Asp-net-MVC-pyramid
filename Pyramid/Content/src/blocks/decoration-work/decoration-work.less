@@ -91,7 +91,7 @@
   }
   &__product-img{
     display: block;
-    width: 300px;
+    width: 150px;
     margin: 0 auto 20px auto;
     object-fit: contain;
   }
@@ -103,6 +103,7 @@
   &__product-price{
       position: static !important;
     height: 85px!important;
+    margin: 5px auto;
   }
   &__product-add-to-cart{
     display: block !important;
@@ -176,6 +177,24 @@
     left: 50%;
     margin-left: -27px;
     margin-top: -39px;
+  }
+  &__categories{
+      background: #b3d45f;
+    color: #fff;
+    font-family: ProximaNovaSemibold;
+    font-size: 20px;
+    height: 510px;
+    padding:20px;
+  }
+  &__category-link{
+      color: #fff;
+      text-decoration:none;
+      display:block;
+      padding: 5px;
+    transition:all 250ms linear;
+      &:hover,&focus{
+          background:#fff;
+      }
   }
 }
 

@@ -1,22 +1,28 @@
-﻿@model Pyramid.Entity.Product
+﻿@model Pyramid.Models.Single.SingleViewModel
 @{
     ViewBag.Title = "single";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@*5к 
+era
+
+magnetii mare
+3.6*@
+
 
 
 <div class="single">
-    @Html.HiddenFor(m=>Model.Id,new { id="single-productid"})
+    @Html.HiddenFor(m=>Model.Product.Id,new { id="single-productid"})
     <div class="row">
         <div class="col-md-12">
-            <p class="single__title">@Model.Title</p>
+            <p class="single__title">@Model.Product.Title</p>
         </div>
     </div>
     <div class="row single__row-magrin-bottom">
         <div class="col-md-6 single-col">
             <div class="single__content">
                 <ul class="single__additional-values">
-                    @foreach (var item in Model.ProductValues)
+                    @foreach (var item in Model.Product.ProductValues)
                     {
                         <li class="single__add-val-item">
                             <div class="single__dotted-line-left">
@@ -36,7 +42,7 @@
                     <div class="single__dotted-line-left">
                         <div class="single__dotted-line-title">Все характеристики</div>
                     </div>
-                    @if (Model.InStock)
+                    @if (Model.Product.InStock)
                     {
                         <div class="single__dotted-line-right">
                             <div class="single__dotted-line-content">
@@ -49,7 +55,7 @@
 
             </div>
             <div class="price-block">
-                <span class="price-block__price"><span class="price-block__big-price">@Model.Price</span>руб/шт.</span>
+                <span class="price-block__price"><span class="price-block__big-price">@Model.Product.Price</span>руб/шт.</span>
                 <input class="price-block__count-input js-single-spinner" value="1" />
                 <span class="single__price-select-text">Выберите<br /> количество</span>
             </div>
@@ -59,7 +65,7 @@
                 <div class="col-md-8">
                     <div class="single-galery-wrap">
                         <ul id="single-bxslider">
-                            @foreach (var item in Model.Images)
+                            @foreach (var item in Model.Product.Images)
                             {
                                 <li class="single-bxslider__slide"><img src="@item.ServerPathImg" /></li>
                             }
@@ -69,7 +75,7 @@
                 <div class="col-md-4">
                     <div id="single-bx-pager" class="single-galery-pager">
                         @{int indx = 0; }
-                        @foreach (var item in Model.Images)
+                        @foreach (var item in Model.Product.Images)
                         {
                             <a data-slide-index="@indx"><img src="@item.ServerPathImg" /></a>
                             indx++;
@@ -91,7 +97,7 @@
                 @*<a href="@Url.Action("AddToCart","Cart",new {productId=Model.Id, quantity=1 })" class="product__buy product__buy_add-to-cart single__buy single__add-to-cart">
                     <p>Добавить в корзину</p>
                 </a>*@
-                <span class="product__buy product__buy_add-to-cart single__buy single__add-to-cart js-add-to-cart" data-ajaxid="@Model.Id" >Добавить в корзину</span>
+                <span class="product__buy product__buy_add-to-cart single__buy single__add-to-cart js-add-to-cart" data-ajaxid="@Model.Product.Id" >Добавить в корзину</span>
             </div>
             <div class="col-ten-lg-2 col-md-3">
                 <a href="#" class="product__buy product__buy_one-click single__buy single__buy-one-click">
@@ -192,20 +198,77 @@
 
         </div>
     </div>
+
 </div>
+
+<div class="single__related-products">
+    <div class="call-to-action call-to-action_single">
+        <div class="call-to-action__head-title">Сопутствующие товары</div>
+    </div>
+    <div class="single__bxslider">
+        @foreach (var item in Model.RelatedProducts)
+            {
+                <div class="single__bxslider-item">
+                    <div class="product__item">
+                        <a href="@Url.Action("Index","Product",new { id=item.Id})">
+                            <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
+
+                            <p class="product__item-title">@item.Title</p>
+                            <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
+                                <div class="triangle-up"></div>
+                                <div class="triangle-down"></div>
+                                <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
+                            </div>
+                        </a>
+                        <div class="product__item__hover_block_wrapper">
+                            <div class="product__item__hover_block_wrapper__item product__in-stock">
+                                <p>в наличии</p>
+                            </div>
+                            <a class="product__item__hover_block_wrapper__item" href="">
+                                <div class="product__buy product__buy_one-click">
+                                    <p>Купить в один клик</p>
+                                </div>
+                            </a>
+                            
+                                <div class="product__buy product__buy_add-to-cart js-add-to-cart"  data-ajaxid="@item.Id">
+                                    <p>Добавить в корзину</p>
+                                </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+
+            }
+
+    </div>
+
+    <script>
+            $(document).ready(function () {
+                $('.single__bxslider').bxSlider({
+                    slideWidth: 300,
+                    minSlides: 2,
+                    maxSlides: 5,
+                    moveSlides: 1,
+                    slideMargin: 0
+                });
+            });
+    </script>
+</div>
+
 
 <div class="modal fade" id="single-add-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Новый отзыв на товар @Model.Title</h4>
+                <h4 class="modal-title" id="myModalLabel">Новый отзыв на товар @Model.Product.Title</h4>
             </div>
-            @{Pyramid.Entity.Review review = new Pyramid.Entity.Review() { ProductId=Model.Id};}
+            @{Pyramid.Entity.Review review = new Pyramid.Entity.Review() { ProductId=Model.Product.Id};}
             <div class="modal-body">
                 @using (Html.BeginForm("NewReview", "Product", FormMethod.Post, new { id = "FormAddReview" }))
                 {
-                    @Html.Hidden("ProductId",Model.Id,new {@class= "js-single-control" })
+                    @Html.Hidden("ProductId",Model.Product.Id,new {@class= "js-single-control" })
                     <div class="form-group">
                         <p>Рейтинг</p>
                         @Html.TextBox("Rating", 5)

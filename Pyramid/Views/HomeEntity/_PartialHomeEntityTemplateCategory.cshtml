@@ -1,0 +1,6 @@
+﻿@model int
+<div class="home-entity__category">
+    @Html.DropDownList(string.Format("Categories[{0}].Id", Model), new SelectList(ViewBag.CategoriesSelectListItem, "Value", "Text"), "Выбрать", new { @class = "form-control" })
+
+
+</div>

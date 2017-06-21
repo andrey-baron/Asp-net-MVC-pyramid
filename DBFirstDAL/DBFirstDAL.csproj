@@ -188,6 +188,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{ae169d4c-c0ed-482f-87f5-1684a65b8823}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{2b605ef3-8de4-448a-a2cb-6534641b5a6b}</Project>
       <Name>Entity</Name>

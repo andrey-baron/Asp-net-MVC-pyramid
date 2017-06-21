@@ -194,6 +194,7 @@
     <Compile Include="Controllers\HomeEntityController.cs" />
     <Compile Include="Controllers\ImageManagerController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
@@ -218,6 +219,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\JsonModels\TemplatePointJsonModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Order\OrderModel.cs" />
+    <Compile Include="Models\Order\ProductOrderModel.cs" />
     <Compile Include="Models\Single\SingleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -226,9 +229,11 @@
     <Compile Include="Tools\1CToolModels\ProductXMLModel.cs" />
     <Compile Include="Tools\Breadcrumb.cs" />
     <Compile Include="Tools\Cart.cs" />
+    <Compile Include="Tools\Compare\ProductCompareByTitle.cs" />
     <Compile Include="Tools\Cryptography.cs" />
     <Compile Include="Tools\Load1CDataFromXml.cs" />
     <Compile Include="Tools\Mailer.cs" />
+    <Compile Include="Tools\ProductTool.cs" />
     <Compile Include="Tools\UploadXmlToFileSystem.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -275,6 +280,7 @@
     <Content Include="Content\img\phone.png" />
     <Content Include="Content\img\placeholder.png" />
     <Content Include="Content\img\plus.png" />
+    <Content Include="Content\img\pypamid-no-photo.png" />
     <Content Include="Content\img\question.png" />
     <Content Include="Content\img\RectX.png" />
     <Content Include="Content\img\shopping-basket.png" />
@@ -675,6 +681,13 @@
     <Content Include="Views\Shared\_PartialShortCart.cshtml" />
     <Content Include="Views\Cart\Checkout.cshtml" />
     <Content Include="Views\Cart\PartialGetCard.cshtml" />
+    <Content Include="Views\Cart\ResultCheckout.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Order\Update.cshtml" />
+    <Content Include="Views\HomeEntity\_PartialHomeEntityTemplateCategory.cshtml" />
+    <Content Include="Views\HomeEntity\_PartialHomeEntityTemplateCategoryFromProduct.cshtml" />
+    <Content Include="Views\HomeEntity\_PartialHomeEntityTemplateProduct.cshtml" />
+    <Content Include="Views\HomeEntity\_PartialGetProductTemplateDropDownListForHomeEntity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -691,6 +704,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{ae169d4c-c0ed-482f-87f5-1684a65b8823}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DBFirstDAL\DBFirstDAL.csproj">
       <Project>{f1726daf-6c4a-4be9-8e06-beae99ee4707}</Project>
       <Name>DBFirstDAL</Name>
