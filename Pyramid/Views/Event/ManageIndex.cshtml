@@ -1,0 +1,68 @@
+﻿@model PagedList.IPagedList<Pyramid.Entity.Event>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Акции";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+    <div class="subtitle">информация</div>
+</div>
+
+<p class="pmargin">
+    @Html.ActionLink("Новая акция", "AddOrUpdate", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                Название
+                @*@Html.DisplayNameFor(model => model.Title)*@
+            </th>
+            <th>
+                Время начала
+            </th>
+
+            <th>
+                Время окончания
+                @*@Html.DisplayNameFor(model => model.Alias)*@
+            </th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+           <td>
+                @Html.DisplayFor(modelItem => item.DateEventStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateEventEnd)
+            </td>
+           
+            <td>
+                <div class="btn-group btn-group-sm" style="float: none;">
+                    <a href="@Url.Action("AddOrUpdate", "Event", new { id = item.Id })" class="tabledit-edit-button btn btn-sm btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                    <a href="@Url.Action("Delete", "Event", new { id = item.Id })" class="tabledit-delete-button btn btn-sm btn-default" style="float: none;">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </div>
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("AdminIndex",
+    new { page}))

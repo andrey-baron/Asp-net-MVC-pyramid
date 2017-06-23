@@ -45,5 +45,7 @@ namespace DBFirstDAL
         public virtual DbSet<VideoGuide> VideoGuide { get; set; }
         public virtual DbSet<ProductOrders> ProductOrders { get; set; }
         public virtual DbSet<HomeEntity> HomeEntity { get; set; }
+        public virtual DbSet<EventImages> EventImages { get; set; }
+        public virtual DbSet<Events> Events { get; set; }
     }
 }

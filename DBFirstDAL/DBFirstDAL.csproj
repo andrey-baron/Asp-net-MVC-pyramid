@@ -77,6 +77,12 @@
     <Compile Include="EnumValues.cs">
       <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="EventImages.cs">
+      <DependentUpon>PyramidContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Events.cs">
+      <DependentUpon>PyramidContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Faq.cs">
       <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
@@ -133,6 +139,7 @@
       <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositories\EnumValueRepository.cs" />
+    <Compile Include="Repositories\EventRepository.cs" />
     <Compile Include="Repositories\FaqRepository.cs" />
     <Compile Include="Repositories\FilterRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />

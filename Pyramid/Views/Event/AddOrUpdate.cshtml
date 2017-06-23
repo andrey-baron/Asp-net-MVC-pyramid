@@ -1,0 +1,143 @@
+﻿@model Pyramid.Entity.Event
+@{
+    ViewBag.Title = ((Model != null && Model.Id != 0) ? "Редактирование" : "Добавление") + " акции";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+</div>
+
+@using (Html.BeginForm("AddOrUpdate", "Event", FormMethod.Post, new { id = "addOrUpdateEventForm" }))
+{
+    <div class="row">
+        <div class="col-lg-8 col-md-8">
+            <div class="box-typical box-typical-padding">
+
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => Model.Id,new {id="Event_Id" })
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ShortContent, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ShortContent, new { htmlAttributes = new { @class = "form-control adminTextareaCommon" } })
+                            @Html.ValidationMessageFor(model => model.ShortContent, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control adminTextareaCommon" } })
+                            @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DateEventStart, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.DateEventStart, new { htmlAttributes = new { @class = "form-control datepickerCommon" } })
+                            @Html.ValidationMessageFor(model => model.DateEventStart, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DateEventEnd, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.DateEventEnd, new { htmlAttributes = new { @class = "form-control datepickerCommon" } })
+                            @Html.ValidationMessageFor(model => model.DateEventEnd, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.isActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(model => model.isActive, htmlAttributes: new { })
+                            @Html.ValidationMessageFor(model => model.isActive, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header card-header-lg">
+                    <p>Баннер</p>
+                </div>
+                <div class="card-block">
+                    <div class="event__img-wrap">
+                        @Html.Hidden("Image.Id", Model!=null&& Model.Image != null ? Model.Image.Id : 0, new { id = "EventImage_Id" })
+
+
+                        <img class="event__view-img" src="@(Model!=null&&Model.Image!=null?Model.Image.ServerPathImg:"")" alt="" />
+
+                    </div>
+                    <button type="button" class="btn btn-primary btn-update-event-image">Изменить</button>
+                </div>
+
+            </div>
+            <div class="card">
+                <div class="card-header card-header-lg">
+                    <p>Товары</p>
+                </div>
+                <div class="card-block">
+                    <div class="event__products">
+                        @if (Model!=null&& Model.Products!=null)
+                        {
+                            var indx=0;
+                            foreach (var item in Model.Products)
+                            {
+                                <div class="event__product">
+                                    @Html.Hidden(string.Format("Products[{0}].Id", indx), item.Id)
+                                    <label>@item.Title</label>
+                                    <a class="btn-remove-event-product" data-actionurl="@Url.Action("DeleteProduct","Event",new { id=Model.Id,productId=item.Id})">Убрать</a>
+                                </div>
+                                indx++;
+                            }
+                        }
+                        
+                    </div>
+                    <button type="button" class="btn btn-primary btn-add-event-product">Добавить</button>
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-block">
+            <div class="form-group">
+
+                <input type="submit" value="Сохранить" class="btn btn-default">
+
+            </div>
+        </div>
+    </div>
+
+}
+
+
+<div class="modal fade" id="edit-event-image-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Выбор картинки</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                @*<button type="button" class="btn btn-primary js-btn-thumbnail-save">Сохранить изменения</button>*@
+            </div>
+        </div>
+    </div>
+</div>

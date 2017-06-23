@@ -49,6 +49,11 @@
         <AssociationConnector Association="PyramidModel.HomeEntityCategories" />
         <AssociationConnector Association="PyramidModel.HomeEntityFaq" />
         <AssociationConnector Association="PyramidModel.HomeEntityWithProducts" />
+        <EntityTypeShape EntityType="PyramidModel.EventImages" Width="1.5" PointX="13.625" PointY="8.625" />
+        <AssociationConnector Association="PyramidModel.FK__EventImag__Image__1CBC4616" />
+        <EntityTypeShape EntityType="PyramidModel.Events" Width="1.5" PointX="10.375" PointY="12" />
+        <AssociationConnector Association="PyramidModel.FK__EventImag__Event__2EDAF651" />
+        <AssociationConnector Association="PyramidModel.EventProducts" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

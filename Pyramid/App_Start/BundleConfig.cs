@@ -37,8 +37,11 @@ namespace Pyramid
 
             bundles.Add(new StyleBundle("~/Content/bootstrap").Include(
                       "~/Content/css/bootstrap.min.css"));
-            
-                 bundles.Add(new StyleBundle("~/Content/cssreset").Include(
+
+            bundles.Add(new StyleBundle("~/bundles/jquery-ui").Include(
+                      "~/Content/libs/jquery-ui.css"));
+
+            bundles.Add(new StyleBundle("~/Content/cssreset").Include(
                      "~/Content/css/reset.css"));
 
             bundles.Add(new StyleBundle("~/Content/admincss").Include(

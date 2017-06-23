@@ -17,4 +17,9 @@
         selector: '.adminTextareaCommon',
     });
 
+    $(".datepickerCommon").datepicker({
+        gotoCurrent: true,
+        dateFormat: "dd.mm.yy"
+    });
+
 })();

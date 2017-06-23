@@ -188,6 +188,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\EnumValueController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\FAQController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -266,6 +267,7 @@
     <Content Include="Content\img\controls.png" />
     <Content Include="Content\img\done.png" />
     <Content Include="Content\img\dotted-line-dot.gif" />
+    <Content Include="Content\img\eventbanner.png" />
     <Content Include="Content\img\FB_icon.png" />
     <Content Include="Content\img\home-shipping.png" />
     <Content Include="Content\img\home-shipping.svg" />
@@ -292,6 +294,7 @@
     <Content Include="Content\img\telephone.png" />
     <Content Include="Content\img\test-offer.png" />
     <Content Include="Content\img\test.png" />
+    <Content Include="Content\img\testslide.png" />
     <Content Include="Content\img\trolley.png" />
     <Content Include="Content\img\v-baner.png" />
     <Content Include="Content\img\vk_icon.png" />
@@ -312,6 +315,7 @@
     <Content Include="Content\src\admin-blocks\admin-product.js" />
     <Content Include="Content\src\admin-blocks\admin\admin.js" />
     <Content Include="Content\src\admin-blocks\category\admin-category.js" />
+    <Content Include="Content\src\admin-blocks\event\admin-event.js" />
     <Content Include="Content\src\admin-blocks\faq\question-answer.js" />
     <Content Include="Content\src\admin-blocks\filter\filter-admin.js" />
     <Content Include="Content\src\admin-blocks\home-entity\home-entity.js" />
@@ -402,6 +406,9 @@
     <Content Include="Content\src\blocks\cart\cart.less" />
     <Content Include="Content\src\blocks\price-block\price-block.less" />
     <Content Include="Content\src\blocks\cart\small-cart.less" />
+    <Content Include="Content\src\admin-blocks\event\StyleSheet1.less" />
+    <Content Include="Content\src\admin-blocks\event\admin-event.less" />
+    <Content Include="Content\src\blocks\page\page.less" />
     <None Include="Properties\PublishProfiles\Pyramid.pubxml" />
     <Content Include="Scripts\fine-uploader.js" />
     <Content Include="Scripts\fine-uploader.min.js" />
@@ -688,6 +695,13 @@
     <Content Include="Views\HomeEntity\_PartialHomeEntityTemplateCategoryFromProduct.cshtml" />
     <Content Include="Views\HomeEntity\_PartialHomeEntityTemplateProduct.cshtml" />
     <Content Include="Views\HomeEntity\_PartialGetProductTemplateDropDownListForHomeEntity.cshtml" />
+    <Content Include="Views\Event\Index.cshtml" />
+    <Content Include="Views\Event\Get.cshtml" />
+    <Content Include="Views\Event\ManageIndex.cshtml" />
+    <Content Include="Views\Event\AddOrUpdate.cshtml" />
+    <Content Include="Views\Event\TemplateCategoryFromEventProduct.cshtml" />
+    <Content Include="Views\Event\TemplateEventProductFromCategoryId.cshtml" />
+    <Content Include="Views\Event\PartialSliderBanner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

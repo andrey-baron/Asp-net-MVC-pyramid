@@ -49,6 +49,7 @@
     <Compile Include="Enumerable\TypeProgressOrder.cs" />
     <Compile Include="Enumerable\UserTypeRole.cs" />
     <Compile Include="EnumValue.cs" />
+    <Compile Include="Event.cs" />
     <Compile Include="FAQ.cs" />
     <Compile Include="Filter.cs" />
     <Compile Include="FilterValue.cs" />

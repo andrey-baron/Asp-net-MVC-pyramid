@@ -25,6 +25,7 @@ namespace DBFirstDAL
             this.EnumValues = new HashSet<EnumValues>();
             this.ProductOrders = new HashSet<ProductOrders>();
             this.HomeEntity = new HashSet<HomeEntity>();
+            this.Events = new HashSet<Events>();
         }
     
         public int Id { get; set; }
@@ -59,5 +60,7 @@ namespace DBFirstDAL
         public virtual ICollection<ProductOrders> ProductOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HomeEntity> HomeEntity { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Events> Events { get; set; }
     }
 }

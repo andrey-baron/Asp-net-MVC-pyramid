@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Pyramid.Entity.Event>
+@{
+    ViewBag.Title = "Акции";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page">
+    <div class="page__title">Акции</div>
+    <div class="row no-gutter">
+        <div class="col-f-lg-3">
+            @Html.Partial("PartialSliderBanner")
+            
+        </div>
+
+        <div class="col-f-lg-12">
+            <div class="row no-gutter">
+                @foreach (var item in Model)
+                {
+                    <div class="col-lg-12">
+                        <div class="page__event-item">
+                            <div class="page__content-wrap">
+                                <div class="page__event-period">
+                                    Сроки проведения: @item.DateEventStart.ToString("d") - @item.DateEventEnd.ToString("d")
+                                </div>
+                                <div class="page__content page__content_for-list">@MvcHtmlString.Create(item.ShortContent)</div>
+
+                                <a href="@Url.Action("Get","Event",new { id=item.Id})" class="page__link-event page__link-event_for-list">Подробней</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

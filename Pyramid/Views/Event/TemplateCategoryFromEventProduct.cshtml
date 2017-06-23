@@ -1,0 +1,12 @@
+﻿@model int
+
+<div class="event__product">
+    <p>Категория</p>
+    @Html.DropDownList("catFor", new SelectList(ViewBag.CategoriesSelectListItem, "Value", "Text"), "Выбрать", new { @class = "form-control js-category-from-event-product", data_ajaxindex = Model })
+
+    <div class="js-product-select">
+
+    </div>
+</div>
+
+

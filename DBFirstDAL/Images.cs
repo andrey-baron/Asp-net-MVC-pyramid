@@ -21,6 +21,7 @@ namespace DBFirstDAL
             this.CategoryImages = new HashSet<CategoryImages>();
             this.ProductImages = new HashSet<ProductImages>();
             this.Recommendations = new HashSet<Recommendations>();
+            this.EventImages = new HashSet<EventImages>();
         }
     
         public int Id { get; set; }
@@ -37,5 +38,7 @@ namespace DBFirstDAL
         public virtual ICollection<ProductImages> ProductImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Recommendations> Recommendations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EventImages> EventImages { get; set; }
     }
 }

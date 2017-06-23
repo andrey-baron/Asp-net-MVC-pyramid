@@ -38,6 +38,33 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Key" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="EventImages">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="ImageId" Type="int" />
+        </EntityType>
+        <EntityType Name="EventProducts">
+          <Key>
+            <PropertyRef Name="EventId" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Events">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" />
+          <Property Name="ShortContent" Type="nvarchar(max)" />
+          <Property Name="DateEventStart" Type="datetime" Nullable="false" />
+          <Property Name="DateEventEnd" Type="datetime" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Faq">
           <Key>
             <PropertyRef Name="Id" />
@@ -269,6 +296,58 @@
             </Principal>
             <Dependent Role="BannerWithPoints">
               <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EventImag__Event__2EDAF651">
+          <End Role="Events" Type="Self.Events" Multiplicity="1" />
+          <End Role="EventImages" Type="Self.EventImages" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventImages">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EventImag__Image__2FCF1A8A">
+          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
+          <End Role="EventImages" Type="Self.EventImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventImages">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EventProd__Event__2B0A656D">
+          <End Role="Events" Type="Self.Events" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventProducts" Type="Self.EventProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventProducts">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EventProd__Produ__2BFE89A6">
+          <End Role="Products" Type="Self.Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="EventProducts" Type="Self.EventProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventProducts">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -695,6 +774,9 @@
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryImages" EntityType="Self.CategoryImages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EnumValues" EntityType="Self.EnumValues" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventImages" EntityType="Self.EventImages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventProducts" EntityType="Self.EventProducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Faq" EntityType="Self.Faq" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FilterCategories" EntityType="Self.FilterCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FilterEnumValues" EntityType="Self.FilterEnumValues" Schema="dbo" store:Type="Tables" />
@@ -722,6 +804,22 @@
           <AssociationSet Name="FK__BannerWit__Image__534D60F1" Association="Self.FK__BannerWit__Image__534D60F1">
             <End Role="Images" EntitySet="Images" />
             <End Role="BannerWithPoints" EntitySet="BannerWithPoints" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EventImag__Event__2EDAF651" Association="Self.FK__EventImag__Event__2EDAF651">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="EventImages" EntitySet="EventImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EventImag__Image__2FCF1A8A" Association="Self.FK__EventImag__Image__2FCF1A8A">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="EventImages" EntitySet="EventImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EventProd__Event__2B0A656D" Association="Self.FK__EventProd__Event__2B0A656D">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="EventProducts" EntitySet="EventProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EventProd__Produ__2BFE89A6" Association="Self.FK__EventProd__Produ__2BFE89A6">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="EventProducts" EntitySet="EventProducts" />
           </AssociationSet>
           <AssociationSet Name="FK__HomeEntit__HomeE__7D439ABD" Association="Self.FK__HomeEntit__HomeE__7D439ABD">
             <End Role="HomeEntity" EntitySet="HomeEntity" />
@@ -930,6 +1028,7 @@
           <NavigationProperty Name="CategoryImages" Relationship="Self.FK_ImageCategories_ForMTM" FromRole="Images" ToRole="CategoryImages" />
           <NavigationProperty Name="ProductImages" Relationship="Self.FK_ImageProducts_ForMTM" FromRole="Images" ToRole="ProductImages" />
           <NavigationProperty Name="Recommendations" Relationship="Self.RecommendationImages" FromRole="Images" ToRole="Recommendations" />
+          <NavigationProperty Name="EventImages" Relationship="PyramidModel.FK__EventImag__Image__1CBC4616" FromRole="Images" ToRole="EventImages" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -1002,6 +1101,7 @@
           <NavigationProperty Name="EnumValues" Relationship="Self.ProductEnumValues" FromRole="Products" ToRole="EnumValues" />
           <NavigationProperty Name="ProductOrders" Relationship="PyramidModel.FK__ProductOr__Produ__74AE54BC" FromRole="Products" ToRole="ProductOrders" />
           <NavigationProperty Name="HomeEntity" Relationship="PyramidModel.HomeEntityWithProducts" FromRole="Products" ToRole="HomeEntity" />
+          <NavigationProperty Name="Events" Relationship="PyramidModel.EventProducts" FromRole="Products" ToRole="Events" />
         </EntityType>
         <EntityType Name="ProductValues">
           <Key>
@@ -1363,6 +1463,20 @@
             <End Role="HomeEntity" EntitySet="HomeEntity" />
             <End Role="Products" EntitySet="Products" />
           </AssociationSet>
+          <EntitySet Name="EventImages" EntityType="PyramidModel.EventImages" />
+          <AssociationSet Name="FK__EventImag__Image__1CBC4616" Association="PyramidModel.FK__EventImag__Image__1CBC4616">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="EventImages" EntitySet="EventImages" />
+          </AssociationSet>
+          <EntitySet Name="Events" EntityType="PyramidModel.Events" />
+          <AssociationSet Name="FK__EventImag__Event__2EDAF651" Association="PyramidModel.FK__EventImag__Event__2EDAF651">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="EventImages" EntitySet="EventImages" />
+          </AssociationSet>
+          <AssociationSet Name="EventProducts" Association="PyramidModel.EventProducts">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="ProductOrders">
           <Key>
@@ -1446,6 +1560,57 @@
         </Association>
         <Association Name="HomeEntityWithProducts">
           <End Type="PyramidModel.HomeEntity" Role="HomeEntity" Multiplicity="*" />
+          <End Type="PyramidModel.Products" Role="Products" Multiplicity="*" />
+        </Association>
+        <EntityType Name="EventImages">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="ImageId" Type="Int32" />
+          <NavigationProperty Name="Images" Relationship="PyramidModel.FK__EventImag__Image__1CBC4616" FromRole="EventImages" ToRole="Images" />
+          <NavigationProperty Name="Events" Relationship="PyramidModel.FK__EventImag__Event__2EDAF651" FromRole="EventImages" ToRole="Events" />
+        </EntityType>
+        <Association Name="FK__EventImag__Image__1CBC4616">
+          <End Type="PyramidModel.Images" Role="Images" Multiplicity="0..1" />
+          <End Type="PyramidModel.EventImages" Role="EventImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventImages">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Events">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ShortContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateEventStart" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateEventEnd" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="EventImages" Relationship="PyramidModel.FK__EventImag__Event__2EDAF651" FromRole="Events" ToRole="EventImages" />
+          <NavigationProperty Name="Products" Relationship="PyramidModel.EventProducts" FromRole="Events" ToRole="Products" />
+        </EntityType>
+        <Association Name="FK__EventImag__Event__2EDAF651">
+          <End Type="PyramidModel.Events" Role="Events" Multiplicity="1" />
+          <End Type="PyramidModel.EventImages" Role="EventImages" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventImages">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EventProducts">
+          <End Type="PyramidModel.Events" Role="Events" Multiplicity="*" />
           <End Type="PyramidModel.Products" Role="Products" Multiplicity="*" />
         </Association>
         </Schema>
@@ -1727,6 +1892,35 @@
             </EndProperty>
             <EndProperty Name="HomeEntity">
               <ScalarProperty Name="Id" ColumnName="HomeEntityId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="EventImages">
+            <EntityTypeMapping TypeName="PyramidModel.EventImages">
+              <MappingFragment StoreEntitySet="EventImages">
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="PyramidModel.Events">
+              <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="DateEventEnd" ColumnName="DateEventEnd" />
+                <ScalarProperty Name="DateEventStart" ColumnName="DateEventStart" />
+                <ScalarProperty Name="ShortContent" ColumnName="ShortContent" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="EventProducts" TypeName="PyramidModel.EventProducts" StoreEntitySet="EventProducts">
+            <EndProperty Name="Products">
+              <ScalarProperty Name="Id" ColumnName="ProductId" />
+            </EndProperty>
+            <EndProperty Name="Events">
+              <ScalarProperty Name="Id" ColumnName="EventId" />
             </EndProperty>
           </AssociationSetMapping>
           </EntityContainerMapping>
