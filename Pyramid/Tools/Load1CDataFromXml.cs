@@ -54,6 +54,13 @@ namespace Pyramid.Tools
                 {
                     bool flagAdd = true;
                     XmlNodeList Inners = ((XmlNode)product).SelectNodes("*");
+
+                    var notDisplayed = ((XmlNode)product).SelectSingleNode("НеОтображатьНаСайте");
+                    if (notDisplayed.InnerText=="Нет")
+                    {
+                        continue;
+                    }
+
                     ProductXMLModel prodModel = new ProductXMLModel();
 
                     XmlNode IdNode = ((XmlNode)product).SelectSingleNode("Ид");
@@ -79,7 +86,7 @@ namespace Pyramid.Tools
                     double.TryParse(PriceForOneNode.InnerText, out price);
 
                     prodModel.Price = price;
-
+                    prodModel.TypePrice = Common.TypeProductPrice.SimplePrice;
                     if (flagAdd)
                     {
                         listProducts.Add(prodModel);

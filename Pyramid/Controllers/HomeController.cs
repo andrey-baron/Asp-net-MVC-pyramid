@@ -69,6 +69,7 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.DateCreation, o => o.Ignore())
                 .ForMember(d => d.DateChange, o => o.Ignore())
                  .ForMember(d => d.OneCId, o => o.Ignore())
+                  .ForMember(d => d.PopularCount, o => o.Ignore())
                 ;
                 cfg.CreateMap<DBFirstDAL.Images, Entity.Image>();
 
@@ -161,7 +162,7 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.ThumbnailId, o => o.Ignore())
                 .ForMember(d => d.ThumbnailImg, o => o.MapFrom(p=>
                 (p.ProductImages.FirstOrDefault(h=>h.ProductId==p.Id&&h.TypeImage==(int)Entity.Enumerable.TypeImage.Thumbnail)) != null ?
-                p.ProductImages.FirstOrDefault(h => h.ProductId == p.Id && h.TypeImage == (int)Entity.Enumerable.TypeImage.Thumbnail).Images:null))
+                p.ProductImages.FirstOrDefault(h => h.ProductId == p.Id && h.TypeImage == (int)Entity.Enumerable.TypeImage.Thumbnail).Images: new DBFirstDAL.Images()))
                 .ForMember(d => d.Images, o => o.Ignore())
                 ;
                 //cfg.CreateMap<IPagedList<DBFirstDAL.Products>, IPagedList<Entity.Product>>()

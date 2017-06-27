@@ -43,7 +43,7 @@ namespace Pyramid.Controllers
 
             var mapper = config.CreateMapper();
             var model = mapper.Map<IEnumerable<DBFirstDAL.Categories>, List<Pyramid.Entity.Category>>(_categoryRepository.GetAll().ToList());
-            
+            model.Reverse();
             return View(model);
         }
         public ActionResult Index(int id=0, int sortingOrder=0)
@@ -88,7 +88,13 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.Thumbnail, o => o.MapFrom(m =>
                 m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
                 m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images : new DBFirstDAL.Images()))
+                .ForMember(d => d.NestedCategories, o => o.MapFrom(m=>m.Categories1))
 ;
+                cfg.CreateMap<DBFirstDAL.Categories, CategoryShortViewModel>()
+                .ForMember(d => d.Thumbnail, o => o.MapFrom(m =>
+                m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images : new DBFirstDAL.Images()));
+
 
                 cfg.CreateMap<DBFirstDAL.DataModels.CategoryWithThumbnail, Pyramid.Entity.Category>()
                .ForMember(d => d.Checked, o => o.Ignore())
@@ -119,14 +125,30 @@ namespace Pyramid.Controllers
             }
 
             var EfModel= _categoryRepository.FindBy(i => i.Id == id).SingleOrDefault();
-            if (EfModel.ParentId==null)
-            {
-                var rootCategories = _categoryRepository.GetRootCategoriesWithSubs();
+            //ViewBag.Title = EfModel.Title;
+            //var IsNestedCategory = _categoryRepository.IsCategoryNested(EfModel.Id);
+            //if (IsNestedCategory&& EfModel.ParentId != null)
+            //{
 
-                var modelRootCategories =
-                    mapper.Map<IEnumerable<DBFirstDAL.DataModels.RootCategory>, IEnumerable<Models.AllCategoriesViewModel>>(rootCategories);
-                return View("ViewRootCategories", modelRootCategories);
-            }
+            //    var rootCategory = _categoryRepository.GetRootCategoryWithSubs(id);
+            //    var modelRootCategory =
+            //    mapper.Map<DBFirstDAL.DataModels.RootCategory, Models.AllCategoriesViewModel>(rootCategory);
+
+            //    return View("ViewNestedCategories", modelRootCategory);
+
+            //}
+
+
+            //if (EfModel.ParentId==null)
+            //{
+            //    var rootCategories = _categoryRepository.GetRootCategoriesWithSubs();
+
+            //    var modelRootCategories =
+            //        mapper.Map<IEnumerable<DBFirstDAL.DataModels.RootCategory>, IEnumerable<Models.AllCategoriesViewModel>>(rootCategories);
+               
+            //    return View("ViewRootCategories", modelRootCategories);
+            //}
+           
             List<Models.BreadCrumbViewModel> breadcrumbs = new List<Models.BreadCrumbViewModel>();
             breadcrumbs.Add(new Models.BreadCrumbViewModel()
             {
@@ -164,16 +186,18 @@ namespace Pyramid.Controllers
             breadcrumbs.Reverse();
             ViewBag.BredCrumbs = breadcrumbs;
             CategoryViewModel model = mapper.Map<CategoryViewModel>(EfModel);
-            if (sortingOrder != null)
+            if (sortingOrder != 0)
             {
                 switch (sortingOrder)
                 {
                     case (int)Common.TypeSort.Price:
+                        model.Products.Sort(new Tools.Compare.ProductCompareByPrice());
                         break;
                     case (int)Common.TypeSort.Name:
                         model.Products.Sort(new Tools.Compare.ProductCompareByTitle());
                         break;
                     case (int)Common.TypeSort.Popular:
+                        model.Products.Sort(new Tools.Compare.ProductCompareByPopular());
                         break;
                     default:
                         break;
@@ -193,41 +217,64 @@ namespace Pyramid.Controllers
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<DBFirstDAL.Categories, Pyramid.Entity.Category>()
-                .ForMember(d => d.Thumbnail, o => o.Ignore())
-                .ForMember(d => d.Checked, o => o.Ignore())
-                ;
+               .ForMember(d => d.Thumbnail, o => o.MapFrom(m =>
+               m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+               m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images : new DBFirstDAL.Images()))
+               .ForMember(d => d.Checked, o => o.Ignore())
+               ;
 
                 cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
                 .ForMember(d => d.Categories, o => o.Ignore())
                 .ForMember(d => d.EnumValues, o => o.Ignore())
                 .ForMember(d => d.Images, o => o.Ignore())
                 .ForMember(d => d.ThumbnailId, o => o.Ignore())
-                .ForMember(d => d.ThumbnailImg, o => o.Ignore())
+                .ForMember(d => d.ThumbnailImg, o => o.
+                MapFrom(m =>
+                m.ProductImages.FirstOrDefault(f => f.ProductId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                m.ProductImages.FirstOrDefault(f => f.ProductId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images : new DBFirstDAL.Images()))
                 .ForMember(d => d.ProductValues, o => o.Ignore());
+
+                cfg.CreateMap<DBFirstDAL.Filters, Pyramid.Entity.Filter>()
+                .ForMember(d => d.Categories, o => o.Ignore());
+
+                cfg.CreateMap<DBFirstDAL.EnumValues, Entity.EnumValue>();
 
                 cfg.CreateMap<DBFirstDAL.EnumValues, CategoryEnumValueViewModel>()
                 .ForMember(d => d.Checked, o => o.UseValue(false));
 
                 cfg.CreateMap<DBFirstDAL.Filters, CategoryFilterViewModel>()
                 ;
-                cfg.CreateMap<DBFirstDAL.Filters, Pyramid.Entity.Filter>()
-                .ForMember(d => d.Categories, o => o.Ignore());
-
-                cfg.CreateMap<DBFirstDAL.EnumValues, Entity.EnumValue>();
-
-                cfg.CreateMap<CategoryFilterViewModel,DBFirstDAL.Filters >()
-                .ForMember(d => d.Categories, o => o.Ignore());
-
-                cfg.CreateMap<CategoryEnumValueViewModel,DBFirstDAL.EnumValues>()
-               .ForMember(d => d.Filters, o => o.Ignore())
-               .ForMember(d => d.Products, o => o.Ignore());
-
+                cfg.CreateMap< CategoryFilterViewModel, DBFirstDAL.Filters>()
+                .ForMember(d => d.Categories, o => o.Ignore())
+                .ForMember(d => d.EnumValues, o => o.Ignore())
+               ;
                 cfg.CreateMap<DBFirstDAL.Categories, CategoryViewModel>()
                 .ForMember(d => d.MinPrice, o => o.UseValue(false))
                 .ForMember(d => d.MaxPrice, o => o.UseValue(false))
                 .ForMember(d => d.CurrentMinPrice, o => o.UseValue(false))
-                .ForMember(d => d.CurrentMaxPrice, o => o.UseValue(false)); ;
+                .ForMember(d => d.CurrentMaxPrice, o => o.UseValue(false))
+                .ForMember(d => d.Thumbnail, o => o.MapFrom(m =>
+                m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images : new DBFirstDAL.Images()))
+                .ForMember(d => d.NestedCategories, o => o.MapFrom(m => m.Categories1))
+;
+                cfg.CreateMap<DBFirstDAL.Categories, CategoryShortViewModel>()
+                .ForMember(d => d.Thumbnail, o => o.MapFrom(m =>
+                m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images : new DBFirstDAL.Images()));
 
+
+                cfg.CreateMap<DBFirstDAL.DataModels.CategoryWithThumbnail, Pyramid.Entity.Category>()
+               .ForMember(d => d.Checked, o => o.Ignore())
+               .ForMember(d => d.Filters, o => o.Ignore())
+               .ForMember(d => d.ParentId, o => o.Ignore())
+               .ForMember(d => d.FlagRoot, o => o.Ignore())
+               .ForMember(d => d.Products, o => o.Ignore())
+                .ForMember(d => d.OneCId, o => o.Ignore());
+
+                cfg.CreateMap<DBFirstDAL.DataModels.RootCategory, Models.AllCategoriesViewModel>()
+                ;
+                cfg.CreateMap<DBFirstDAL.Images, Entity.Image>();
 
             });
 
@@ -439,7 +486,7 @@ namespace Pyramid.Controllers
             _categoryRepository.Save();
             return null;
         }
-
+        [Authorize]
         public ActionResult Delete(int id)
         {
             var efmodel = _categoryRepository.FindBy(i => i.Id == id).SingleOrDefault();
@@ -450,7 +497,7 @@ namespace Pyramid.Controllers
             _categoryRepository.Save();
             return RedirectToAction("AdminIndex");
         }
-
+        [Authorize]
         public ActionResult DeleteCategory(int id)
         {
             var efmodel = _categoryRepository.FindBy(i => i.Id == id).SingleOrDefault();

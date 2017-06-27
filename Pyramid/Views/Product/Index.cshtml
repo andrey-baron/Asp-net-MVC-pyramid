@@ -69,7 +69,10 @@ magnetii mare
                             {
                                 <li class="single-bxslider__slide"><img src="@item.ServerPathImg" /></li>
                             }
-                        </ul>
+                            @if (Model.Product.Images == null || Model.Product.Images.Count == 0)
+                            {
+                                <li class="single-bxslider__slide"><img src="@Pyramid.Global.Config.PathNotFilledImage" /></li>       }
+                            </ul>
                     </div>
                 </div>
                 <div class="col-md-4">

@@ -216,6 +216,19 @@ namespace DBFirstDAL.Repositories
             return Context.Products.Include(i => i.ProductImages.Select(s => s.Images));
         }
 
+        public void EnhancementPopularField(int productId)
+        {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                var efProduct=dbContext.Products.Find(productId);
+                if (efProduct!= null)
+                {
+                    efProduct.PopularCount = efProduct.PopularCount.HasValue ? efProduct.PopularCount + 1 : 1;
+                    dbContext.SaveChanges();
+                }
+            }
+        }
+
         /// <summary>
         /// Запись нескольких полей в БД
         /// </summary>

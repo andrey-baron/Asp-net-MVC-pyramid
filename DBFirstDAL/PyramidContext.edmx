@@ -219,6 +219,7 @@
           <Property Name="InStock" Type="bit" />
           <Property Name="SeasonOffer" Type="bit" />
           <Property Name="OneCId" Type="nvarchar" MaxLength="100" />
+          <Property Name="PopularCount" Type="int" />
         </EntityType>
         <EntityType Name="ProductValues">
           <Key>
@@ -1102,6 +1103,7 @@
           <NavigationProperty Name="ProductOrders" Relationship="PyramidModel.FK__ProductOr__Produ__74AE54BC" FromRole="Products" ToRole="ProductOrders" />
           <NavigationProperty Name="HomeEntity" Relationship="PyramidModel.HomeEntityWithProducts" FromRole="Products" ToRole="HomeEntity" />
           <NavigationProperty Name="Events" Relationship="PyramidModel.EventProducts" FromRole="Products" ToRole="Events" />
+          <Property Name="PopularCount" Type="Int32" />
         </EntityType>
         <EntityType Name="ProductValues">
           <Key>
@@ -1728,6 +1730,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="PyramidModel.Products">
               <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="PopularCount" ColumnName="PopularCount" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Price" ColumnName="Price" />

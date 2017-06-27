@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Pyramid.Controllers
 {
+    [Authorize]
     public class Unloading1CController : Controller
     {
         ProductRepository _productRepository;
@@ -20,6 +21,7 @@ namespace Pyramid.Controllers
             _categoryRepository = new CategoryRepository();
             _productRepository = new ProductRepository();
         }
+
         public ActionResult Index()
         {
 
@@ -141,7 +143,7 @@ namespace Pyramid.Controllers
                 DateChange = DateTime.Now,
                 DateCreation = DateTime.Now,
                 OneCId = s.Id,
-                TypePrice = 1,
+                TypePrice = (int)s.TypePrice,
                 //Categories = (ICollection<DBFirstDAL.Categories>) new List<DBFirstDAL.Categories>() { new DBFirstDAL.Categories() { Id = 166,Title= "Гипсокартон и комплектующие",FlagRoot=false,OneCId= "53183404-6ee7-11df-beca-001485178810" } }
             });
             var efProductsWithCategories = xmlModel.Products.Select(s => new Product1cIdWith1cCategoryIds()

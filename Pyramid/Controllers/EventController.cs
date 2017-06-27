@@ -46,6 +46,13 @@ namespace Pyramid.Controllers
             });
 
 
+            List<Models.BreadCrumbViewModel> breadcrumbs = new List<Models.BreadCrumbViewModel>();
+            breadcrumbs.Add(new Models.BreadCrumbViewModel()
+            {
+                Title = "Акции"
+            });
+            ViewBag.BredCrumbs = breadcrumbs;
+
             config.AssertConfigurationIsValid();
 
             var mapper = config.CreateMapper();
@@ -86,20 +93,24 @@ namespace Pyramid.Controllers
 
             var mapper = config.CreateMapper();
             var efEvent = _eventRepository.FindBy(f => f.Id == id).SingleOrDefault();
-
             var model = mapper.Map<Event>(efEvent);
-
-            List<Models.BreadCrumbViewModel> breadcrumbs = new List<Models.BreadCrumbViewModel>();
-            breadcrumbs.Add(new Models.BreadCrumbViewModel()
+            if (efEvent!=null)
             {
-                Link = "/Event/Index",
-                Title = "Акции"
-            });
-            breadcrumbs.Add(new Models.BreadCrumbViewModel() {
-                Title=model.Title
-            });
-            breadcrumbs.Reverse();
-            ViewBag.BredCrumbs = breadcrumbs;
+                List<Models.BreadCrumbViewModel> breadcrumbs = new List<Models.BreadCrumbViewModel>();
+                breadcrumbs.Add(new Models.BreadCrumbViewModel()
+                {
+                    Link = "/Event/Index",
+                    Title = "Акции"
+                });
+                breadcrumbs.Add(new Models.BreadCrumbViewModel()
+                {
+                    Title = model.Title
+                });
+                ViewBag.BredCrumbs = breadcrumbs;
+            }
+           
+
+           
 
             return View(model);
         }

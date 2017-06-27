@@ -43,6 +43,7 @@ namespace DBFirstDAL
         public Nullable<bool> InStock { get; set; }
         public Nullable<bool> SeasonOffer { get; set; }
         public string OneCId { get; set; }
+        public Nullable<int> PopularCount { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PointOnImgs> PointOnImgs { get; set; }

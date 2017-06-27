@@ -115,6 +115,7 @@ namespace Pyramid.Controllers
                 Product = EntityProduct,
                 RelatedProducts = mapper.Map<IEnumerable<DBFirstDAL.Products>, List<Product>>(relatedProducts)
         };
+            _productRepository.EnhancementPopularField(id);
             return View(model);
         }
         [Authorize]
@@ -172,6 +173,7 @@ namespace Pyramid.Controllers
                 efProducts = efProducts.Where(s => s.Title.Contains(searchString));
             }
             var efProductsList = efProducts.ToList();
+            efProductsList.Reverse();
             int pageNumber = (page ?? 1);
             var modelList = new PagedList<Entity.Product>(
             efProductsList.Select(u => mapper.Map<DBFirstDAL.Products, Entity.Product>(u)),
@@ -280,6 +282,7 @@ namespace Pyramid.Controllers
                  .ForMember(d => d.Review, o => o.Ignore())
                  .ForMember(d => d.PointOnImgs, o => o.Ignore())
                  .ForMember(d => d.HomeEntity, o => o.Ignore())
+                 .ForMember(d => d.Events, o => o.Ignore())
                  .ForMember(d => d.ProductOrders, o => o.Ignore());
 
                 cfg.CreateMap<Pyramid.Entity.Category, DBFirstDAL.Categories>()
@@ -414,7 +417,7 @@ namespace Pyramid.Controllers
             var model = mapper.Map<IEnumerable<Image>>(efGalery);
             return PartialView("_PartialProductGallery", model);
         }
-
+        [Authorize]
         public ActionResult AddToGallery(int id,int imageid)
         {
             _productRepository.AddToGallry(id, imageid, (int)Entity.Enumerable.TypeImage.GaleryItem);
@@ -445,7 +448,7 @@ namespace Pyramid.Controllers
             var model = mapper.Map<Review>(efModel);
             return View(model);
         }
-
+        [Authorize]
         public ActionResult Delete(int id)
         {
             var product=_productRepository.FindBy(i => i.Id == id).SingleOrDefault();

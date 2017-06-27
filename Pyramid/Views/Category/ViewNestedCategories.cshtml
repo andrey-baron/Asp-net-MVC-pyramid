@@ -1,0 +1,47 @@
+﻿@model Pyramid.Models.AllCategoriesViewModel
+@{
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="category">
+    <div class="row no-gutter">
+        <div class="col-ten-md-4">
+            <p class="category__title">Каталог</p>
+        </div>
+    </div>
+    <div class="row no-gutter">
+        <div class="col-ten-lg-2 col-md-3">
+            <div class="category__sidebar">
+
+
+                <ul class="category__catalog-left-menu">
+                    @foreach (var item in (IEnumerable< Pyramid.Models.AllCategoriesViewModel>)ViewBag.FooterCategories)
+                    {
+                        <li><a href="@Url.Action("Index","Category",new { id =item.Category.Id})">@item.Category.Title</a></li>
+                    }
+                </ul>
+
+            </div>
+        </div>
+        @foreach (var item in Model.SubCategories)
+        {
+            <div class="col-f-lg-3 col-md-3">
+                <div class="subcategory subcategory_nested">
+                    <a href="@Url.Action("Index","Category",new { id=item.Id})">
+                        <div class="subcategory__wrap-img">
+                            <img src="@(item.Thumbnail!=null?item.Thumbnail.ServerPathImg:"")" alt="" />
+                        </div>
+                        <p class="subcategory__parent-title">@item.Title</p>
+                    </a>
+                </div>
+            </div>
+
+        }
+
+
+    </div>
+
+</div>
+
+
+

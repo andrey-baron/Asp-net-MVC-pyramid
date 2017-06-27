@@ -38,8 +38,8 @@ var reloadUrlPartial =  "/Cart/PartialShortCart";
         var ajaxid = $(this).data("ajaxid");
         var singleQuantity = $(".js-single-spinner");
         var quantity = 1;
-        if (singleQuantity!="undefind") {
-            quantity = singleQuantity.val();
+        if (singleQuantity.length!=0) {
+            quantity = $(singleQuantity[0]).val();
         }
         $.post("/Cart/AddToCart?productId="+ajaxid+"&quantity="+quantity, function (data) {
             SoccessAdd(data);

@@ -39,7 +39,7 @@
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TypeProgressOrder)
+                @((int)item.TypeProgressOrder==1?"Подтвержден":"Новый")
             </td>
 
 

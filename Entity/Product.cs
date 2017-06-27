@@ -34,6 +34,7 @@ namespace Pyramid.Entity
 
         public ICollection<EnumValue> EnumValues { get; set; }
 
+        public int PopularCount { get; set; }
 
         public Product()
         {

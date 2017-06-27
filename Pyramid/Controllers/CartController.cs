@@ -86,7 +86,7 @@ namespace Pyramid.Controllers
                 Adress = model.Adress,
                 Email = model.Email,
                 Phone = model.Phone,
-                TypeProgressOrder = 1,
+                TypeProgressOrder = (int)Entity.Enumerable.TypeProgressOrder.SimplePrice,
                 UserName = model.Name,
                 ProductOrders = cart.Lines.Select(i => new DBFirstDAL.ProductOrders()
                 {

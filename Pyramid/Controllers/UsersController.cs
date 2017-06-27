@@ -31,7 +31,9 @@ namespace Pyramid.Controllers
             {
                 FormsAuthentication.RedirectFromLoginPage(model.Login, false);
                 TempData["Success"] = message;
-                return RedirectToAction("index", "admin");
+                //var u = FormsAuthentication.GetRedirectUrl(model.Login, false);
+                
+                return RedirectToAction("Index","admin");
 
             }
             TempData["Error"] = message;

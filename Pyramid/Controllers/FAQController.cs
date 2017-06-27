@@ -28,8 +28,14 @@ namespace Pyramid.Controllers
                 cfg.CreateMap<DBFirstDAL.QuestionAnswer, Pyramid.Entity.QuestionAnswer>()
                 ;
             });
+            
+                 List<Models.BreadCrumbViewModel> breadcrumbs = new List<Models.BreadCrumbViewModel>();
 
-
+            breadcrumbs.Add(new Models.BreadCrumbViewModel()
+            {
+                Title = "Актуальные вопросы"
+            });
+            ViewBag.BredCrumbs = breadcrumbs;
             config.AssertConfigurationIsValid();
             var mapper = config.CreateMapper();
 
@@ -96,7 +102,18 @@ namespace Pyramid.Controllers
             {
                 model.CurrentFaq = new Entity.FAQ();
             }
-            
+            List<Models.BreadCrumbViewModel> breadcrumbs = new List<Models.BreadCrumbViewModel>();
+
+            breadcrumbs.Add(new Models.BreadCrumbViewModel()
+            {
+                Title = "Актуальные вопросы"
+            });
+            breadcrumbs.Add(new Models.BreadCrumbViewModel()
+            {
+                Title = model.CurrentFaq.Title
+            });
+            ViewBag.BredCrumbs = breadcrumbs;
+
             return View("Index",model);
         }
         [Authorize]

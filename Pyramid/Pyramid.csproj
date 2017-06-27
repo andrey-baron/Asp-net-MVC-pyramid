@@ -213,6 +213,7 @@
     <Compile Include="Models\CategoryModels\CategoryEnumValueViewModel.cs" />
     <Compile Include="Models\CategoryAdminViewModel.cs" />
     <Compile Include="Models\CategoryModels\CategoryFilterViewModel.cs" />
+    <Compile Include="Models\CategoryModels\CategoryShortViewModel.cs" />
     <Compile Include="Models\CategoryModels\CategoryViewModel.cs" />
     <Compile Include="Models\CategoryModels\HeaderCategoryViewModel.cs" />
     <Compile Include="Models\EnterModel.cs" />
@@ -230,6 +231,8 @@
     <Compile Include="Tools\1CToolModels\ProductXMLModel.cs" />
     <Compile Include="Tools\Breadcrumb.cs" />
     <Compile Include="Tools\Cart.cs" />
+    <Compile Include="Tools\Compare\ProductCompareByPopular.cs" />
+    <Compile Include="Tools\Compare\ProductCompareByPrice.cs" />
     <Compile Include="Tools\Compare\ProductCompareByTitle.cs" />
     <Compile Include="Tools\Cryptography.cs" />
     <Compile Include="Tools\Load1CDataFromXml.cs" />
@@ -409,6 +412,7 @@
     <Content Include="Content\src\admin-blocks\event\StyleSheet1.less" />
     <Content Include="Content\src\admin-blocks\event\admin-event.less" />
     <Content Include="Content\src\blocks\page\page.less" />
+    <Content Include="Content\src\blocks\search\search.less" />
     <None Include="Properties\PublishProfiles\Pyramid.pubxml" />
     <Content Include="Scripts\fine-uploader.js" />
     <Content Include="Scripts\fine-uploader.min.js" />
@@ -702,6 +706,10 @@
     <Content Include="Views\Event\TemplateCategoryFromEventProduct.cshtml" />
     <Content Include="Views\Event\TemplateEventProductFromCategoryId.cshtml" />
     <Content Include="Views\Event\PartialSliderBanner.cshtml" />
+    <Content Include="Views\Category\ViewNestedCategories.cshtml" />
+    <Content Include="Views\Shared\_PartialHeaderMenu.cshtml" />
+    <Content Include="Views\Page\Index.cshtml" />
+    <Content Include="Views\Shared\_PartialSliderOnPages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

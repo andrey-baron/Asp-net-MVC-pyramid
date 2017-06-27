@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Pyramid.Entity
 {
-    public class Page:BaseEntity
+    public class Page
     {
         public int Id { get; set; }
         [Required]
@@ -16,8 +16,5 @@ namespace Pyramid.Entity
         public string Title { get; set; }
         [Display(Name = "Содержимое страницы")]
         public string Content { get; set; }
-        public int ImageId { get; set; }
-
-        public virtual Image Image { get; set; }
     }
 }

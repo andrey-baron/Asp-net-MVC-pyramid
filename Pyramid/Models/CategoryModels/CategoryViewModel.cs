@@ -15,6 +15,8 @@ namespace Pyramid.Models.CategoryModels
         public List<Product>  Products { get; set; }
         public List<CategoryFilterViewModel> Filters { get; set; }
 
+        public List<CategoryShortViewModel> NestedCategories { get; set; }
+
         public int MaxPrice { get; set; }
         public int MinPrice { get; set; }
 
@@ -25,6 +27,7 @@ namespace Pyramid.Models.CategoryModels
         {
             Products = new List<Product>();
             Filters = new List<CategoryFilterViewModel>();
+            NestedCategories = new List<CategoryShortViewModel>();
         }
 
     }

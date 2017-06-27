@@ -74,6 +74,7 @@
     <Compile Include="DataModels\HomeModels\ProductHomeModel.cs" />
     <Compile Include="DataModels\ProductModels\ProductDataModel.cs" />
     <Compile Include="DataModels\RootCategory.cs" />
+    <Compile Include="DataModels\CategoryWithThumbnailAndProducts.cs" />
     <Compile Include="EnumValues.cs">
       <DependentUpon>PyramidContext.tt</DependentUpon>
     </Compile>

@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace DBFirstDAL.DataModels
 {
-    public class CategoryWithThumbnail
+    public class CategoryWithThumbnailAndProducts
     {
         public int Id { get; set; }
         public string Title { get; set; }
 
         public Images Thumbnail { get; set; }
-        //public ICollection< Products> Products { get; set; }
-        //public CategoryWithThumbnail()
-        //{
-        //    Products = new List<Products>();
-        //}
+        public ICollection<Products> Products { get; set; }
+        public CategoryWithThumbnailAndProducts()
+        {
+            Products = new List<Products>();
+        }
     }
 }

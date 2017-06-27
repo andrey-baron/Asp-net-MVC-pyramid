@@ -9,10 +9,11 @@ using System.Web.Mvc;
 
 namespace Pyramid.Controllers
 {
+    [Authorize]
     public class PageController : BaseController
     {
         
-        GenericRepository<PyramidFinalContext, DBFirstDAL.Pages> _pageRepo;
+        PageRepository _pageRepo;
 
         public PageController()
         {
@@ -75,48 +76,50 @@ namespace Pyramid.Controllers
             }
         }
 
-        // GET: Page/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Page/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+      
 
         // GET: Page/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var efPage = _pageRepo.FindBy(i => i.Id == id).SingleOrDefault();
+            if (efPage != null)
+            {
+                _pageRepo.Delete(efPage);
+                _pageRepo.Save();
+            }
+           
+            return RedirectToAction("AdminIndex");
         }
-
-        // POST: Page/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [AllowAnonymous]
+        public ActionResult Index(int id)
         {
-            try
+            var config = new MapperConfiguration(cfg =>
             {
-                // TODO: Add delete logic here
+                #region root config
 
-                return RedirectToAction("Index");
-            }
-            catch
+                cfg.CreateMap<DBFirstDAL.Pages, Pyramid.Entity.Page>(); 
+
+               
+                #endregion
+            });
+            config.AssertConfigurationIsValid();
+            var mapper = config.CreateMapper();
+
+            var efPage = _pageRepo.FindBy(i => i.Id == id).SingleOrDefault();
+            if (efPage!=null)
             {
-                return View();
+                List<Models.BreadCrumbViewModel> breadcrumbs = new List<Models.BreadCrumbViewModel>();
+                
+                breadcrumbs.Add(new Models.BreadCrumbViewModel()
+                {
+                    Title = efPage.Title
+                });
+                ViewBag.BredCrumbs = breadcrumbs;
             }
+            var modelPage = mapper.Map<Pyramid.Entity.Page>(efPage);
+            return View(modelPage);
         }
+
+
     }
 }

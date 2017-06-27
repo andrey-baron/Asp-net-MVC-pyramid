@@ -1,5 +1,5 @@
 ﻿
-
+ 
 .subcategory{
     padding: 0 20px;
     &__list-item-link{
@@ -11,6 +11,9 @@
     border-bottom: 1px dashed #eee;
     color: #000;
     display: block;
+    }
+    &__list-item_hide{
+        display:none;
     }
     &__title{ 
         line-height: 22px;
@@ -42,5 +45,18 @@
             object-fit:contain;
             height: 100%;
         }
+    }
+    &__list-item-link_open{
+        color: #67b23b;
+        cursor: pointer;
+        &:focus,&:hover{
+            color: #67b23b;
+        }
+    }
+    &_nested{
+        margin-bottom:20px;
+    }
+    &_fixed-height{
+        height:230px;
     }
 }

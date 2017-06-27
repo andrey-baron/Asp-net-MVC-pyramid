@@ -177,6 +177,7 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.CategoryImages, o => o.Ignore())
                 .ForMember(d => d.ProductImages, o => o.Ignore())
                 .ForMember(d => d.Recommendations, o => o.Ignore())
+                .ForMember(d => d.EventImages, o => o.Ignore())
 
               ;
 
@@ -200,6 +201,7 @@ namespace Pyramid.Controllers
                   .ForMember(d => d.ProductValues, o => o.Ignore())
                   .ForMember(d => d.ProductOrders, o => o.Ignore())
                   .ForMember(d => d.HomeEntity, o => o.Ignore())
+                   .ForMember(d => d.Events, o => o.Ignore())
                  ;
             });
 

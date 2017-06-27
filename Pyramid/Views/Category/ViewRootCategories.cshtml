@@ -10,43 +10,72 @@
         </div>
     </div>
     <div class="row no-gutter">
-        <div class="col-ten-lg-2 col-md-3">
+        <div class="col-f-lg-3 col-md-3">
             <div class="category__sidebar">
 
 
                 <ul class="category__catalog-left-menu">
                     @foreach (var item in Model)
                     {
-                        <li><a href="@Url.Action("Index","Category",new { id =item.Category.Id})">@item.Category.Title</a></li>
+                        <li><a href="@Url.Action("Index", "Category", new { id = item.Category.Id })">@item.Category.Title</a></li>
                     }
                 </ul>
 
             </div>
         </div>
-        @foreach (var item in Model)
-        {
-            <div class="col-f-lg-3 col-md-3">
-                <div class="subcategory">
-                    <div class="subcategory__wrap-img">
-                        <img src="@(item.Category.Thumbnail!=null?item.Category.Thumbnail.ServerPathImg:"")" alt="" />
-                    </div>
-                    <p class="subcategory__parent-title">@item.Category.Title</p>
-                    <ul class="subcategory__list">
-                        @foreach (var subCategory in item.SubCategories)
-                        {
-                            <li class="subcategory__list-item">
-                                <a href="@Url.Action("","Category",new { id = subCategory.Id })" class="subcategory__list-item-link">
-                                    <div class="subcategory__title">@subCategory.Title</div>
-                                    @*<div class="subcategory__list-item-cnt">@subCategory.Products.Count</div>*@
-                                </a>
-                            </li>
-                        }
-                        
-                    </ul>
-                </div>
-            </div>
 
-        }
+        <div class="col-f-lg-12 col-md-9">
+            
+                @{ var rowIndx = 0;}
+                @for (int i = 0; i < Model.Count(); i = i + 3)
+                        {
+                            var partModel = Model.Skip(i).Take(3);
+                        <div class="row no-gutter category__row-subcategory">
+                            @foreach (var item in partModel)
+                {
+
+                                <div class="col-lg-3 col-md-3">
+                                    <div class="subcategory">
+                                        <div class="subcategory__wrap-img">
+                                            <img src="@(item.Category.Thumbnail!=null?item.Category.Thumbnail.ServerPathImg:"")" alt="" />
+                                        </div>
+                                        <a href="@Url.Action("Index","Category",new { id = item.Category.Id })"><p class="subcategory__parent-title">@item.Category.Title</p></a>
+                                        <ul class="subcategory__list">
+                                            @{ var countSubCat = 0;}
+                                            @foreach (var subCategory in item.SubCategories)
+                                            {
+                                                <li class="subcategory__list-item @(countSubCat>4?"subcategory__list-item_additional subcategory__list-item_hide":"")">
+                                                    <a href="@Url.Action("","Category",new { id = subCategory.Id })" class="subcategory__list-item-link">
+                                                        <div class="subcategory__title">@subCategory.Title</div>
+                                                        @*<div class="subcategory__list-item-cnt">@subCategory.Products.Count</div>*@
+                                                    </a>
+                                                </li>
+                                                countSubCat++;
+
+                                            }
+                                            @if (countSubCat > 5)
+                                            {
+                                                <li class="subcategory__list-item">
+                                                    <a class="subcategory__list-item-link subcategory__list-item-link_open">
+                                                        <div class="subcategory__title"><span class="subcategory__sign">+</span> @(countSubCat - 5) категорий </div>
+                                                    </a>
+                                                </li>
+                                            }
+
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+
+
+                                                }
+                        </div>
+                }
+                
+               
+            
+        </div>
 
 
     </div>

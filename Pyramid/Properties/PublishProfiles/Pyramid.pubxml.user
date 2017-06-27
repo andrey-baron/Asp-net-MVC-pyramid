@@ -15,26 +15,29 @@
     <File Include="bin/AutoMapper.dll">
       <publishTime>03/22/2017 07:11:18</publishTime>
     </File>
+    <File Include="bin/Common.dll">
+      <publishTime>06/27/2017 20:08:31</publishTime>
+    </File>
     <File Include="bin/DBFirstDAL.dll">
-      <publishTime>06/07/2017 13:12:35</publishTime>
+      <publishTime>06/27/2017 20:08:32</publishTime>
     </File>
     <File Include="bin/Entity.dll">
-      <publishTime>06/07/2017 13:11:07</publishTime>
+      <publishTime>06/27/2017 20:08:31</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
-      <publishTime>02/03/2015 09:32:26</publishTime>
+      <publishTime>03/02/2015 09:32:26</publishTime>
     </File>
     <File Include="bin/EntityFramework.SqlServer.dll">
-      <publishTime>02/03/2015 09:32:26</publishTime>
+      <publishTime>03/02/2015 09:32:26</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
-      <publishTime>03/04/2015 17:07:22</publishTime>
+      <publishTime>04/03/2015 17:07:22</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.EntityFramework.dll">
-      <publishTime>03/04/2015 17:07:22</publishTime>
+      <publishTime>04/03/2015 17:07:22</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Owin.dll">
-      <publishTime>03/04/2015 17:07:22</publishTime>
+      <publishTime>04/03/2015 17:07:22</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>06/15/2015 02:06:24</publishTime>
@@ -70,19 +73,25 @@
       <publishTime>04/23/2012 16:23:58</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
-      <publishTime>03/08/2014 21:33:56</publishTime>
+      <publishTime>08/03/2014 21:33:56</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>11/27/2012 14:00:52</publishTime>
     </File>
+    <File Include="bin/PagedList.dll">
+      <publishTime>09/30/2013 17:36:38</publishTime>
+    </File>
+    <File Include="bin/PagedList.Mvc.dll">
+      <publishTime>09/30/2013 18:15:20</publishTime>
+    </File>
     <File Include="bin/Pyramid.BLL.dll">
-      <publishTime>06/07/2017 13:12:35</publishTime>
+      <publishTime>06/27/2017 20:08:32</publishTime>
     </File>
     <File Include="bin/Pyramid.CodeFirstDAL.dll">
       <publishTime>05/17/2017 09:52:21</publishTime>
     </File>
     <File Include="bin/Pyramid.dll">
-      <publishTime>06/07/2017 13:12:39</publishTime>
+      <publishTime>06/27/2017 20:08:36</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/18/2015 20:19:46</publishTime>
@@ -121,19 +130,19 @@
       <publishTime>06/18/2015 20:19:46</publishTime>
     </File>
     <File Include="bin/ru/EntityFramework.resources.dll">
-      <publishTime>02/03/2015 09:32:38</publishTime>
+      <publishTime>03/02/2015 09:32:38</publishTime>
     </File>
     <File Include="bin/ru/EntityFramework.SqlServer.resources.dll">
-      <publishTime>02/03/2015 09:32:38</publishTime>
+      <publishTime>03/02/2015 09:32:38</publishTime>
     </File>
     <File Include="bin/ru/Microsoft.AspNet.Identity.Core.resources.dll">
-      <publishTime>03/04/2015 17:09:50</publishTime>
+      <publishTime>04/03/2015 17:09:50</publishTime>
     </File>
     <File Include="bin/ru/Microsoft.AspNet.Identity.EntityFramework.resources.dll">
-      <publishTime>03/04/2015 17:09:52</publishTime>
+      <publishTime>04/03/2015 17:09:52</publishTime>
     </File>
     <File Include="bin/ru/Microsoft.AspNet.Identity.Owin.resources.dll">
-      <publishTime>03/04/2015 17:09:52</publishTime>
+      <publishTime>04/03/2015 17:09:52</publishTime>
     </File>
     <File Include="bin/ru/Microsoft.Owin.Host.SystemWeb.resources.dll">
       <publishTime>02/13/2015 13:24:52</publishTime>
@@ -163,7 +172,7 @@
       <publishTime>01/28/2015 04:02:30</publishTime>
     </File>
     <File Include="bin/ru/System.Web.Optimization.resources.dll">
-      <publishTime>11/02/2014 15:28:42</publishTime>
+      <publishTime>02/11/2014 15:28:42</publishTime>
     </File>
     <File Include="bin/ru/System.Web.Razor.resources.dll">
       <publishTime>01/28/2015 04:02:40</publishTime>
@@ -184,7 +193,7 @@
       <publishTime>01/28/2015 04:02:18</publishTime>
     </File>
     <File Include="bin/System.Web.Optimization.dll">
-      <publishTime>11/02/2014 16:26:04</publishTime>
+      <publishTime>02/11/2014 16:26:04</publishTime>
     </File>
     <File Include="bin/System.Web.Razor.dll">
       <publishTime>01/28/2015 04:02:32</publishTime>
@@ -199,10 +208,10 @@
       <publishTime>01/28/2015 04:04:30</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
-      <publishTime>10/09/2013 18:28:38</publishTime>
+      <publishTime>09/10/2013 18:28:38</publishTime>
     </File>
     <File Include="Content/css/admin.css">
-      <publishTime>06/06/2017 11:18:59</publishTime>
+      <publishTime>06/23/2017 16:19:58</publishTime>
     </File>
     <File Include="Content/css/bootstrap-grid10.css">
       <publishTime>05/09/2017 22:34:46</publishTime>
@@ -226,7 +235,7 @@
       <publishTime>05/12/2017 11:31:03</publishTime>
     </File>
     <File Include="Content/css/main.css">
-      <publishTime>06/06/2017 18:06:09</publishTime>
+      <publishTime>06/27/2017 18:54:38</publishTime>
     </File>
     <File Include="Content/css/reset.css">
       <publishTime>05/09/2017 22:34:46</publishTime>
@@ -288,6 +297,9 @@
     <File Include="Content/img/dotted-line-dot.gif">
       <publishTime>05/18/2017 01:25:09</publishTime>
     </File>
+    <File Include="Content/img/eventbanner.png">
+      <publishTime>06/23/2017 18:17:39</publishTime>
+    </File>
     <File Include="Content/img/FB_icon.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
     </File>
@@ -330,6 +342,9 @@
     <File Include="Content/img/plus.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
     </File>
+    <File Include="Content/img/pypamid-no-photo.png">
+      <publishTime>06/20/2017 21:10:10</publishTime>
+    </File>
     <File Include="Content/img/question.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
     </File>
@@ -348,6 +363,12 @@
     <File Include="Content/img/slider-map.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
     </File>
+    <File Include="Content/img/star-white.svg">
+      <publishTime>06/12/2017 17:02:10</publishTime>
+    </File>
+    <File Include="Content/img/star-yellow.svg">
+      <publishTime>06/12/2017 13:03:13</publishTime>
+    </File>
     <File Include="Content/img/telephone.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
     </File>
@@ -356,6 +377,9 @@
     </File>
     <File Include="Content/img/test.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
+    </File>
+    <File Include="Content/img/testslide.png">
+      <publishTime>06/23/2017 17:38:38</publishTime>
     </File>
     <File Include="Content/img/trolley.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
@@ -405,6 +429,9 @@
     <File Include="Content/libs/jquery.bxslider.min.js">
       <publishTime>05/09/2017 22:35:12</publishTime>
     </File>
+    <File Include="Content/PagedList.css">
+      <publishTime>06/09/2017 13:06:29</publishTime>
+    </File>
     <File Include="Content/Site.css">
       <publishTime>04/24/2017 12:25:34</publishTime>
     </File>
@@ -415,7 +442,7 @@
       <publishTime>05/23/2017 18:55:41</publishTime>
     </File>
     <File Include="Content/src/admin-blocks/admin/admin.js">
-      <publishTime>05/12/2017 17:03:15</publishTime>
+      <publishTime>06/23/2017 15:58:43</publishTime>
     </File>
     <File Include="Content/src/admin-blocks/admin/admin.less">
       <publishTime>05/11/2017 15:56:42</publishTime>
@@ -424,16 +451,25 @@
       <publishTime>05/12/2017 14:35:22</publishTime>
     </File>
     <File Include="Content/src/admin-blocks/category/admin-category.js">
-      <publishTime>05/06/2017 14:58:36</publishTime>
+      <publishTime>06/05/2017 14:58:36</publishTime>
+    </File>
+    <File Include="Content/src/admin-blocks/event/admin-event.js">
+      <publishTime>06/23/2017 17:06:46</publishTime>
+    </File>
+    <File Include="Content/src/admin-blocks/event/admin-event.less">
+      <publishTime>06/23/2017 16:19:58</publishTime>
+    </File>
+    <File Include="Content/src/admin-blocks/event/StyleSheet1.less">
+      <publishTime>06/23/2017 16:15:05</publishTime>
     </File>
     <File Include="Content/src/admin-blocks/faq/question-answer.js">
-      <publishTime>05/28/2017 20:26:22</publishTime>
+      <publishTime>06/21/2017 03:41:43</publishTime>
     </File>
     <File Include="Content/src/admin-blocks/filter/filter-admin.js">
       <publishTime>05/29/2017 12:58:40</publishTime>
     </File>
     <File Include="Content/src/admin-blocks/home-entity/home-entity.js">
-      <publishTime>06/06/2017 13:23:02</publishTime>
+      <publishTime>06/21/2017 14:13:13</publishTime>
     </File>
     <File Include="Content/src/admin-blocks/home-entity/home-entity.less">
       <publishTime>06/06/2017 11:18:59</publishTime>
@@ -451,19 +487,28 @@
       <publishTime>05/09/2017 22:29:07</publishTime>
     </File>
     <File Include="Content/src/blocks/call-to-action/call-to-action.less">
-      <publishTime>05/09/2017 22:29:07</publishTime>
+      <publishTime>06/21/2017 01:38:11</publishTime>
+    </File>
+    <File Include="Content/src/blocks/cart/cart.js">
+      <publishTime>06/27/2017 17:18:34</publishTime>
+    </File>
+    <File Include="Content/src/blocks/cart/cart.less">
+      <publishTime>06/19/2017 15:09:41</publishTime>
+    </File>
+    <File Include="Content/src/blocks/cart/small-cart.less">
+      <publishTime>06/16/2017 17:00:08</publishTime>
     </File>
     <File Include="Content/src/blocks/category/category.js">
-      <publishTime>06/06/2017 10:11:55</publishTime>
+      <publishTime>06/27/2017 16:53:30</publishTime>
     </File>
     <File Include="Content/src/blocks/category/category.less">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/27/2017 14:29:06</publishTime>
     </File>
     <File Include="Content/src/blocks/category/subcategory.less">
-      <publishTime>05/19/2017 18:13:58</publishTime>
+      <publishTime>06/27/2017 15:44:23</publishTime>
     </File>
     <File Include="Content/src/blocks/decoration-work/decoration-work.less">
-      <publishTime>06/06/2017 12:18:24</publishTime>
+      <publishTime>06/21/2017 16:42:30</publishTime>
     </File>
     <File Include="Content/src/blocks/faq/faq.less">
       <publishTime>05/29/2017 14:33:01</publishTime>
@@ -472,10 +517,10 @@
       <publishTime>06/07/2017 12:56:11</publishTime>
     </File>
     <File Include="Content/src/blocks/footer/footer.less">
-      <publishTime>06/06/2017 18:06:08</publishTime>
+      <publishTime>06/27/2017 18:54:37</publishTime>
     </File>
     <File Include="Content/src/blocks/header/header.less">
-      <publishTime>05/29/2017 02:33:28</publishTime>
+      <publishTime>06/27/2017 18:00:28</publishTime>
     </File>
     <File Include="Content/src/blocks/home-feedback/home-feedback.less">
       <publishTime>05/09/2017 22:29:07</publishTime>
@@ -487,22 +532,31 @@
       <publishTime>05/18/2017 14:14:42</publishTime>
     </File>
     <File Include="Content/src/blocks/other.less">
-      <publishTime>05/18/2017 16:18:02</publishTime>
+      <publishTime>06/27/2017 17:55:19</publishTime>
+    </File>
+    <File Include="Content/src/blocks/page/page.less">
+      <publishTime>06/27/2017 18:31:58</publishTime>
+    </File>
+    <File Include="Content/src/blocks/price-block/price-block.less">
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Content/src/blocks/product/product.js">
-      <publishTime>05/18/2017 02:08:44</publishTime>
+      <publishTime>06/12/2017 15:37:02</publishTime>
     </File>
     <File Include="Content/src/blocks/product/product.less">
-      <publishTime>05/18/2017 16:20:05</publishTime>
+      <publishTime>06/21/2017 17:40:20</publishTime>
     </File>
     <File Include="Content/src/blocks/rules-order/rules-order.less">
       <publishTime>05/18/2017 13:11:31</publishTime>
+    </File>
+    <File Include="Content/src/blocks/search/search.less">
+      <publishTime>06/27/2017 17:07:03</publishTime>
     </File>
     <File Include="Content/src/blocks/season-offer/season-offer.less">
       <publishTime>06/06/2017 16:40:58</publishTime>
     </File>
     <File Include="Content/src/blocks/single/single.less">
-      <publishTime>05/25/2017 14:12:26</publishTime>
+      <publishTime>06/19/2017 14:12:04</publishTime>
     </File>
     <File Include="Content/src/blocks/variable.less">
       <publishTime>05/16/2017 19:07:19</publishTime>
@@ -670,10 +724,10 @@
       <publishTime>05/09/2017 22:54:23</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>05/23/2017 14:36:16</publishTime>
+      <publishTime>06/19/2017 12:38:01</publishTime>
     </File>
     <File Include="Scripts/admin/admin.js">
-      <publishTime>06/06/2017 13:23:03</publishTime>
+      <publishTime>06/23/2017 17:06:46</publishTime>
     </File>
     <File Include="Scripts/admin/prTest.js">
       <publishTime>05/25/2017 12:05:59</publishTime>
@@ -756,6 +810,12 @@
     <File Include="Scripts/jquery.fine-uploader.min.js">
       <publishTime>05/12/2017 11:39:47</publishTime>
     </File>
+    <File Include="Scripts/jquery.unobtrusive-ajax.js">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Scripts/jquery.unobtrusive-ajax.min.js">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
     <File Include="Scripts/jquery.validate.js">
       <publishTime>04/24/2017 12:25:51</publishTime>
     </File>
@@ -769,7 +829,10 @@
       <publishTime>04/24/2017 12:25:52</publishTime>
     </File>
     <File Include="Scripts/main/main.js">
-      <publishTime>06/07/2017 12:56:11</publishTime>
+      <publishTime>06/27/2017 17:18:34</publishTime>
+    </File>
+    <File Include="Scripts/main/single.js">
+      <publishTime>06/12/2017 18:10:55</publishTime>
     </File>
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>04/24/2017 12:25:50</publishTime>
@@ -1216,7 +1279,13 @@
       <publishTime>05/09/2017 16:22:31</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>05/30/2017 16:52:38</publishTime>
+      <publishTime>06/22/2017 17:20:57</publishTime>
+    </File>
+    <File Include="star-white.svg">
+      <publishTime>06/12/2017 13:03:15</publishTime>
+    </File>
+    <File Include="star-yellow.svg">
+      <publishTime>06/12/2017 13:03:15</publishTime>
     </File>
     <File Include="ViewModels/admin/main.js">
       <publishTime>04/28/2017 01:19:48</publishTime>
@@ -1260,20 +1329,35 @@
     <File Include="Views/Admin/Index.cshtml">
       <publishTime>05/11/2017 14:44:53</publishTime>
     </File>
+    <File Include="Views/Cart/Checkout.cshtml">
+      <publishTime>06/20/2017 13:47:04</publishTime>
+    </File>
+    <File Include="Views/Cart/PartialGetCard.cshtml">
+      <publishTime>06/19/2017 17:01:44</publishTime>
+    </File>
+    <File Include="Views/Cart/ResultCheckout.cshtml">
+      <publishTime>06/20/2017 13:34:11</publishTime>
+    </File>
+    <File Include="Views/Cart/ShowCart.cshtml">
+      <publishTime>06/19/2017 17:36:35</publishTime>
+    </File>
     <File Include="Views/Category/AddOrUpdate.cshtml">
-      <publishTime>05/28/2017 22:31:07</publishTime>
+      <publishTime>06/08/2017 18:04:15</publishTime>
     </File>
     <File Include="Views/Category/AdminIndex.cshtml">
-      <publishTime>05/06/2017 14:31:28</publishTime>
+      <publishTime>06/05/2017 14:31:28</publishTime>
     </File>
     <File Include="Views/Category/CategoryController.cshtml">
-      <publishTime>01/05/2017 00:09:36</publishTime>
+      <publishTime>05/01/2017 00:09:36</publishTime>
     </File>
     <File Include="Views/Category/Index.cshtml">
-      <publishTime>06/07/2017 13:08:42</publishTime>
+      <publishTime>06/27/2017 20:59:45</publishTime>
+    </File>
+    <File Include="Views/Category/ViewNestedCategories.cshtml">
+      <publishTime>06/27/2017 14:55:01</publishTime>
     </File>
     <File Include="Views/Category/ViewRootCategories.cshtml">
-      <publishTime>05/29/2017 14:47:33</publishTime>
+      <publishTime>06/27/2017 14:29:23</publishTime>
     </File>
     <File Include="Views/Category/_PartialCategoryAllFilters.cshtml">
       <publishTime>05/29/2017 03:37:58</publishTime>
@@ -1290,11 +1374,32 @@
     <File Include="Views/EnumValue/Index.cshtml">
       <publishTime>05/29/2017 12:45:56</publishTime>
     </File>
+    <File Include="Views/Event/AddOrUpdate.cshtml">
+      <publishTime>06/23/2017 16:56:54</publishTime>
+    </File>
+    <File Include="Views/Event/Get.cshtml">
+      <publishTime>06/23/2017 20:10:59</publishTime>
+    </File>
+    <File Include="Views/Event/Index.cshtml">
+      <publishTime>06/23/2017 20:17:51</publishTime>
+    </File>
+    <File Include="Views/Event/ManageIndex.cshtml">
+      <publishTime>06/22/2017 16:51:13</publishTime>
+    </File>
+    <File Include="Views/Event/PartialSliderBanner.cshtml">
+      <publishTime>06/23/2017 20:03:58</publishTime>
+    </File>
+    <File Include="Views/Event/TemplateCategoryFromEventProduct.cshtml">
+      <publishTime>06/23/2017 12:06:28</publishTime>
+    </File>
+    <File Include="Views/Event/TemplateEventProductFromCategoryId.cshtml">
+      <publishTime>06/23/2017 13:07:58</publishTime>
+    </File>
     <File Include="Views/FAQ/AddOrUpdate.cshtml">
       <publishTime>05/28/2017 21:21:48</publishTime>
     </File>
     <File Include="Views/FAQ/Index.cshtml">
-      <publishTime>05/29/2017 14:33:15</publishTime>
+      <publishTime>06/07/2017 15:40:31</publishTime>
     </File>
     <File Include="Views/FAQ/ManageIndex.cshtml">
       <publishTime>05/28/2017 18:49:27</publishTime>
@@ -1303,7 +1408,7 @@
       <publishTime>05/28/2017 21:22:09</publishTime>
     </File>
     <File Include="Views/FAQ/_PartialTemplateQuestionAnswer.cshtml">
-      <publishTime>06/07/2017 12:47:26</publishTime>
+      <publishTime>06/21/2017 03:36:01</publishTime>
     </File>
     <File Include="Views/Filter/AddOrUpdate.cshtml">
       <publishTime>05/29/2017 13:09:23</publishTime>
@@ -1323,11 +1428,14 @@
     <File Include="Views/Home/Contact.cshtml">
       <publishTime>04/24/2017 12:25:34</publishTime>
     </File>
+    <File Include="Views/Home/GlobalSearch.cshtml">
+      <publishTime>06/27/2017 17:04:21</publishTime>
+    </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>06/06/2017 17:20:15</publishTime>
+      <publishTime>06/27/2017 21:03:47</publishTime>
     </File>
     <File Include="Views/HomeEntity/AddOrUpdate.cshtml">
-      <publishTime>06/06/2017 17:33:28</publishTime>
+      <publishTime>06/21/2017 16:19:09</publishTime>
     </File>
     <File Include="Views/HomeEntity/Index.cshtml">
       <publishTime>06/06/2017 13:06:37</publishTime>
@@ -1338,11 +1446,23 @@
     <File Include="Views/HomeEntity/_PartialAllPoints.cshtml">
       <publishTime>06/06/2017 12:48:15</publishTime>
     </File>
+    <File Include="Views/HomeEntity/_PartialGetProductTemplateDropDownListForHomeEntity.cshtml">
+      <publishTime>06/21/2017 13:45:20</publishTime>
+    </File>
+    <File Include="Views/HomeEntity/_PartialHomeEntityTemplateCategory.cshtml">
+      <publishTime>06/21/2017 12:56:14</publishTime>
+    </File>
+    <File Include="Views/HomeEntity/_PartialHomeEntityTemplateCategoryFromProduct.cshtml">
+      <publishTime>06/21/2017 14:16:39</publishTime>
+    </File>
+    <File Include="Views/HomeEntity/_PartialHomeEntityTemplateProduct.cshtml">
+      <publishTime>06/21/2017 13:15:52</publishTime>
+    </File>
     <File Include="Views/HomeEntity/_PartialTemplateNewPoint.cshtml">
       <publishTime>06/06/2017 11:44:28</publishTime>
     </File>
     <File Include="Views/ImageManager/Index.cshtml">
-      <publishTime>05/25/2017 12:15:20</publishTime>
+      <publishTime>06/21/2017 02:37:59</publishTime>
     </File>
     <File Include="Views/ImageManager/_PartialAllImages.cshtml">
       <publishTime>05/12/2017 18:03:18</publishTime>
@@ -1371,23 +1491,32 @@
     <File Include="Views/Manage/VerifyPhoneNumber.cshtml">
       <publishTime>04/24/2017 12:25:56</publishTime>
     </File>
+    <File Include="Views/Order/Index.cshtml">
+      <publishTime>06/27/2017 17:37:42</publishTime>
+    </File>
+    <File Include="Views/Order/Update.cshtml">
+      <publishTime>06/20/2017 17:07:29</publishTime>
+    </File>
     <File Include="Views/Page/AddOrUpdate.cshtml">
-      <publishTime>05/28/2017 22:48:54</publishTime>
+      <publishTime>06/27/2017 18:39:21</publishTime>
     </File>
     <File Include="Views/Page/AdminIndex.cshtml">
       <publishTime>05/28/2017 22:40:13</publishTime>
     </File>
+    <File Include="Views/Page/Index.cshtml">
+      <publishTime>06/27/2017 18:32:12</publishTime>
+    </File>
     <File Include="Views/Product/AddOrUpdate.cshtml">
-      <publishTime>06/06/2017 15:25:35</publishTime>
+      <publishTime>06/08/2017 18:03:57</publishTime>
     </File>
     <File Include="Views/Product/AdminIndex.cshtml">
-      <publishTime>05/29/2017 12:04:42</publishTime>
+      <publishTime>06/14/2017 17:30:32</publishTime>
     </File>
     <File Include="Views/Product/GetProductReview.cshtml">
       <publishTime>05/25/2017 18:31:04</publishTime>
     </File>
     <File Include="Views/Product/Index.cshtml">
-      <publishTime>05/25/2017 14:15:12</publishTime>
+      <publishTime>06/27/2017 17:11:34</publishTime>
     </File>
     <File Include="Views/Product/_PartialAllProductCategories.cshtml">
       <publishTime>05/22/2017 12:03:17</publishTime>
@@ -1407,6 +1536,21 @@
     <File Include="Views/Product/_PartialProductGallery.cshtml">
       <publishTime>05/25/2017 13:29:22</publishTime>
     </File>
+    <File Include="Views/Review/Index.cshtml">
+      <publishTime>06/12/2017 16:09:01</publishTime>
+    </File>
+    <File Include="Views/Review/Reviews.cshtml">
+      <publishTime>06/12/2017 16:39:15</publishTime>
+    </File>
+    <File Include="Views/Review/Update.cshtml">
+      <publishTime>06/12/2017 16:41:15</publishTime>
+    </File>
+    <File Include="Views/Review/_PartialLinkManageReivews.cshtml">
+      <publishTime>06/12/2017 16:07:31</publishTime>
+    </File>
+    <File Include="Views/Review/_PartialProductReviews.cshtml">
+      <publishTime>06/12/2017 17:45:02</publishTime>
+    </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>04/24/2017 12:25:55</publishTime>
     </File>
@@ -1414,16 +1558,40 @@
       <publishTime>04/24/2017 12:25:56</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>06/07/2017 13:02:13</publishTime>
+      <publishTime>06/27/2017 18:47:55</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutAdmin.cshtml">
-      <publishTime>05/30/2017 15:24:34</publishTime>
+      <publishTime>06/27/2017 19:39:08</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutOtherPages.cshtml">
       <publishTime>05/29/2017 14:33:57</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>04/27/2017 23:51:43</publishTime>
+    </File>
+    <File Include="Views/Shared/_PartialHeaderHomePage.cshtml">
+      <publishTime>06/27/2017 18:18:09</publishTime>
+    </File>
+    <File Include="Views/Shared/_PartialHeaderMenu.cshtml">
+      <publishTime>06/27/2017 18:36:27</publishTime>
+    </File>
+    <File Include="Views/Shared/_PartialHeaderOtherPages.cshtml">
+      <publishTime>06/27/2017 18:18:10</publishTime>
+    </File>
+    <File Include="Views/Shared/_PartialShortCart.cshtml">
+      <publishTime>06/19/2017 17:38:22</publishTime>
+    </File>
+    <File Include="Views/Shared/_PartialSliderOnPages.cshtml">
+      <publishTime>06/27/2017 18:29:58</publishTime>
+    </File>
+    <File Include="Views/Unloading1C/Index.cshtml">
+      <publishTime>06/08/2017 17:47:54</publishTime>
+    </File>
+    <File Include="Views/Unloading1C/Start.cshtml">
+      <publishTime>06/08/2017 19:41:06</publishTime>
+    </File>
+    <File Include="Views/Unloading1C/UploadFile.cshtml">
+      <publishTime>06/08/2017 17:44:28</publishTime>
     </File>
     <File Include="Views/Users/SignIn.cshtml">
       <publishTime>05/15/2017 11:00:02</publishTime>
@@ -1435,7 +1603,7 @@
       <publishTime>04/24/2017 12:25:34</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/07/2017 13:11:12</publishTime>
+      <publishTime>06/27/2017 20:35:04</publishTime>
     </File>
   </ItemGroup>
 </Project>

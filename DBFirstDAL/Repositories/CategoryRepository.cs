@@ -14,7 +14,7 @@ namespace DBFirstDAL.Repositories
     {
         public IEnumerable<RootCategory> GetRootCategoriesWithSubs()
         {
-            var rootCategories = Context.Categories.Where(i => i.ParentId == null);
+            var rootCategories = Context.Categories.Where(i => i.ParentId == null &&(i.Products.Count>0|| i.Categories1.Count>0));
             var d =new List<RootCategory>();
             foreach (var item in rootCategories)
             {
@@ -24,14 +24,14 @@ namespace DBFirstDAL.Repositories
                         Id= item.Id,
                         Thumbnail= item.CategoryImages.FirstOrDefault(f => f.CategoryId == item.Id && f.TypeImage == 1)!=null?
                         item.CategoryImages.FirstOrDefault(f=>f.CategoryId==item.Id&&f.TypeImage==1).Images:null,
-                        Title=item.Title
+                        Title=item.Title,
                     } ,
                     SubCategories = Context.Categories.Where(i => i.ParentId == item.Id).Select(s=> new CategoryWithThumbnail()
                     {
                         Id = s.Id,
                         Thumbnail = s.CategoryImages.FirstOrDefault(f => f.CategoryId == s.Id && f.TypeImage == 1) != null ?
                         s.CategoryImages.FirstOrDefault(f => f.CategoryId == s.Id && f.TypeImage == 1).Images : null,
-                        Title = s.Title
+                        Title = s.Title,
                     })
                 });
             }
@@ -39,9 +39,41 @@ namespace DBFirstDAL.Repositories
            
         }
 
+        public RootCategory GetRootCategoryWithSubs(int id)
+        {
+            var efCat = Context.Categories.FirstOrDefault(i => i.Id == id);
+            if (efCat != null)
+            {
+                var rootCategory = new RootCategory()
+                {
+                    Category = new CategoryWithThumbnail()
+                    {
+                        Id = efCat.Id,
+                        Thumbnail = efCat.CategoryImages.FirstOrDefault(f => f.CategoryId == efCat.Id && f.TypeImage == 1) != null ?
+                            efCat.CategoryImages.FirstOrDefault(f => f.CategoryId == efCat.Id && f.TypeImage == 1).Images : null,
+                        Title = efCat.Title,
+                        //Products = efCat.Products
+                    },
+                    SubCategories = Context.Categories.Where(i => i.ParentId == efCat.Id).Select(s => new CategoryWithThumbnail()
+                    {
+                        Id = s.Id,
+                        Thumbnail = s.CategoryImages.FirstOrDefault(f => f.CategoryId == s.Id && f.TypeImage == 1) != null ?
+                        s.CategoryImages.FirstOrDefault(f => f.CategoryId == s.Id && f.TypeImage == 1).Images : null,
+                        Title = s.Title,
+                       // Products = s.Products
+                    })
+
+                };
+                return rootCategory;
+            }
+            return new RootCategory();
+
+        }
+
+
         public IEnumerable<CategoryWithThumbnail> GetRootCategoriesWithThumbnail(int typeThumbnail)
         {
-            var rootCategories = Context.Categories.Where(i => i.ParentId == null).Select(i=>new CategoryWithThumbnail() {
+            var rootCategories = Context.Categories.Where(i => i.ParentId == null && (i.Products.Count > 0 || i.Categories1.Count > 0)).Select(i=>new CategoryWithThumbnail() {
 
             Id=i.Id,
             Thumbnail=i.CategoryImages.FirstOrDefault(s=>s.TypeImage==typeThumbnail).Images,
@@ -288,6 +320,15 @@ namespace DBFirstDAL.Repositories
 
         }
 
+        public bool IsCategoryNested(int id)
+        {
+            using (PyramidFinalContext dbContext= new PyramidFinalContext())
+            {
+                var t = dbContext.Categories.Where(w => w.ParentId == id).ToList();
+                return t != null&&t.Count>0;
+            }
+        }
+
         //public Categories GetCategoryWithProductsAndImages(int id)
         //{
         //    using (PyramidFinalContext data =new PyramidFinalContext())
@@ -300,7 +341,7 @@ namespace DBFirstDAL.Repositories
         //            .Include(i=>i.CategoryImages)
         //            .FirstOrDefault(f => f.Id == id);
 
-               
+
         //    }
         //}
     }
