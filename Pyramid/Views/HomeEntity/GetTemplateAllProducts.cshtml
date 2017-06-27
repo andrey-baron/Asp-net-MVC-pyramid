@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Pyramid.Entity.Product>
+@{ var productIndex = 0;}
+@foreach (var product in Model)
+{
+
+
+    <div class="home-entity__product">
+        <div class="row">
+            <div class="col-md-9">
+                @product.Title
+                @Html.Hidden(string.Format("Products[{0}].Id", productIndex), product.Id)
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-sm btn-default js-btn-home-entity-delete-product" data-ajaxid="@product.Id"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    productIndex++;
+}

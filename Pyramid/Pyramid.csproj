@@ -710,6 +710,8 @@
     <Content Include="Views\Shared\_PartialHeaderMenu.cshtml" />
     <Content Include="Views\Page\Index.cshtml" />
     <Content Include="Views\Shared\_PartialSliderOnPages.cshtml" />
+    <Content Include="Views\HomeEntity\GetTemplateAllCategories.cshtml" />
+    <Content Include="Views\HomeEntity\GetTemplateAllProducts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

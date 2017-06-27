@@ -421,5 +421,69 @@ namespace Pyramid.Controllers
             });
             return PartialView("_PartialGetProductTemplateDropDownListForHomeEntity", index);
         }
+
+        public ActionResult GetTemplateAllCategories(int id)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<DBFirstDAL.Categories, Pyramid.Entity.Category>()
+            .ForMember(d => d.Checked, o => o.Ignore())
+            .ForMember(d => d.Filters, o => o.Ignore())
+            .ForMember(d => d.ParentId, o => o.Ignore())
+            .ForMember(d => d.Products, o => o.Ignore())
+            .ForMember(d => d.Thumbnail, o => o.Ignore());
+            });
+            var mapper = config.CreateMapper();
+            ViewBag.CategoriesSelectListItem = _categoryRepository.GetAll().Select(item => new SelectListItem
+            {
+                Text = item.Title,
+                Value = item.Id.ToString()
+            });
+            var efEntity = _homeEntityRepository.FindBy(i => i.Id == id).SingleOrDefault();
+            if (efEntity!=null)
+            {
+                var cat = mapper.Map<IEnumerable< Entity.Category>>(efEntity.Categories);
+                return PartialView("GetTemplateAllCategories", cat);
+            }
+            return PartialView("GetTemplateAllCategories", new List<Entity.Category>());
+        }
+        public ActionResult DeleteCategory(int id,int categoryId)
+        {
+            _homeEntityRepository.DeleteCategory(id, categoryId);
+            return GetTemplateAllCategories(id);
+        }
+        public ActionResult GetTemplateAllProducts(int id)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
+                   .ForMember(d => d.EnumValues, o => o.Ignore())
+                    .ForMember(d => d.Categories, o => o.Ignore())
+                     .ForMember(d => d.Images, o => o.Ignore())
+                      .ForMember(d => d.ProductValues, o => o.Ignore())
+                       .ForMember(d => d.ThumbnailId, o => o.Ignore())
+                          .ForMember(d => d.ThumbnailImg, o => o.Ignore())
+                          .ForMember(d => d.OneCId, o => o.Ignore());
+
+            });
+            var mapper = config.CreateMapper();
+            var efEntity = _homeEntityRepository.FindBy(i => i.Id == id).SingleOrDefault();
+            if (efEntity!=null)
+            {
+                var products = mapper.Map<IEnumerable<Entity.Product>>(efEntity.Products);
+                return PartialView("GetTemplateAllProducts", products);
+
+            }
+            return PartialView("GetTemplateAllProducts", new List<Entity.Product>());
+
+        }
+        public ActionResult DeleteProduct(int id,int productId)
+        {
+            _homeEntityRepository.DeleteProduct(id, productId);
+
+            return GetTemplateAllProducts(id);
+
+
+        }
     }
 }

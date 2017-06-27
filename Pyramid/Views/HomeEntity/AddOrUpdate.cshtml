@@ -51,11 +51,18 @@
                 </div>
                 <div class="card-block">
                     <div class="home-entity__categories">
-                        
+
                         @for (int i = 0; i < Model.Categories.Count; i++)
                         {
                             <div class="home-entity__category">
-                                @Html.DropDownList(string.Format("Categories[{0}].Id", i), new SelectList(ViewBag.CategoriesSelectListItem, "Value", "Text"), new { @class = "form-control" })
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        @Html.DropDownList(string.Format("Categories[{0}].Id", i), new SelectList(ViewBag.CategoriesSelectListItem, "Value", "Text", Model.Categories.ElementAt(i).Id), new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-sm btn-default js-btn-home-entity-delete-category" data-ajaxid="@Model.Categories.ElementAt(i).Id"><span class="glyphicon glyphicon-trash"></span></button>
+                                    </div>
+                                </div>
 
 
                             </div>
@@ -77,21 +84,31 @@
                 </div>
                 <div class="card-block">
                     <div class="home-entity__products">
-                        @{ var productIndex=0;}
+                        @{ var productIndex = 0;}
                         @foreach (var product in Model.Products)
                         {
 
-                        
+
                             <div class="home-entity__product">
-                                @product.Title
-                                @Html.Hidden(string.Format("Products[{0}].Id", productIndex),product.Id)
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        @product.Title
+                                        @Html.Hidden(string.Format("Products[{0}].Id", productIndex), product.Id)
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-sm btn-default js-btn-home-entity-delete-product" data-ajaxid="@product.Id"><span class="glyphicon glyphicon-trash"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                               
                             </div>
                             productIndex++;
                         }
 
                     </div>
 
-                    <button type="button" class="btn btn-primary js-btn-home-entity-add-product">Добавить категорию</button>
+                    <button type="button" class="btn btn-primary js-btn-home-entity-add-product">Добавить  товар</button>
 
 
 
@@ -138,7 +155,7 @@
                     <div class="col-md-8">
                         <div class="home-entity__img-wrap">
                             @Html.Hidden("BannerWithPoints.Id", Model.Id)
-                            @Html.Hidden("BannerWithPoints.Images.Id", Model.BannerWithPoints != null&& Model.BannerWithPoints.Images != null ? Model.BannerWithPoints.Images.Id : 0, new { id = "Banner_Id" })
+                            @Html.Hidden("BannerWithPoints.Images.Id", Model.BannerWithPoints != null && Model.BannerWithPoints.Images != null ? Model.BannerWithPoints.Images.Id : 0, new { id = "Banner_Id" })
 
 
                             <img class="home-entity__view-img" src="@(Model.BannerWithPoints!=null&&Model.BannerWithPoints.Images!=null?Model.BannerWithPoints.Images.ServerPathImg:"")" alt="" />
@@ -149,7 +166,7 @@
 
                                     for (int i = 0; i < Model.BannerWithPoints.PointOnImgs.Count(); i++)
                                     {
-                                <div class="home-entity__point" data-ajaxid="@i" style="left:@(Model.BannerWithPoints.PointOnImgs[i].CoordX)%;top:@(@Model.BannerWithPoints.PointOnImgs[i].CoordY)%;">@i точ.</div>
+                                        <div class="home-entity__point" data-ajaxid="@i" style="left:@(Model.BannerWithPoints.PointOnImgs[i].CoordX)%;top:@(@Model.BannerWithPoints.PointOnImgs[i].CoordY)%;">@i точ.</div>
                                     }
                                 }
                                 @*<div class="home-entity__point" data-ajaxid="1" style="left:150px;top:150px;">+</div>
@@ -166,23 +183,23 @@
 
                                 for (int i = 0; i < Model.BannerWithPoints.PointOnImgs.Count; i++)
                                 {
-                            <div id="point_@i" class="home-entity__point-inputs">
-                                <input type="hidden" name="BannerWithPoints.PointOnImgs[@i].Id" value="@Model.BannerWithPoints.PointOnImgs[i].Id" />
-                                <input type="hidden" value="@Model.BannerWithPoints.PointOnImgs[i].CoordX" class="coordx" name="BannerWithPoints.PointOnImgs[@i].CoordX" />
-                                <input type="hidden" value="@Model.BannerWithPoints.PointOnImgs[i].CoordY" class="coordy" name="BannerWithPoints.PointOnImgs[@i].CoordY" />
-                                <div class="row row-point-wrap">
-                                    <p>Точка @i <button type="button" class="btn btn-sm btn-default js-btn-delete-point" data-ajaxid="@Model.BannerWithPoints.PointOnImgs[i].Id"><span class="glyphicon glyphicon-trash"></span></button></p>
-                                    <label>Категория</label>
-                                    @Html.DropDownList("PointCategory", new SelectList(ViewBag.CategoriesSelectListItem, "Value", "Text"), "Выбрать", new { @class = "form-control point-category", id = "category-point_" + Model, data_ajaxid = Model.BannerWithPoints.PointOnImgs[i].Id, data_ajaxindex = i })
+                                    <div id="point_@i" class="home-entity__point-inputs">
+                                        <input type="hidden" name="BannerWithPoints.PointOnImgs[@i].Id" value="@Model.BannerWithPoints.PointOnImgs[i].Id" />
+                                        <input type="hidden" value="@Model.BannerWithPoints.PointOnImgs[i].CoordX" class="coordx" name="BannerWithPoints.PointOnImgs[@i].CoordX" />
+                                        <input type="hidden" value="@Model.BannerWithPoints.PointOnImgs[i].CoordY" class="coordy" name="BannerWithPoints.PointOnImgs[@i].CoordY" />
+                                        <div class="row row-point-wrap">
+                                            <p>Точка @i <button type="button" class="btn btn-sm btn-default js-btn-delete-point" data-ajaxid="@Model.BannerWithPoints.PointOnImgs[i].Id"><span class="glyphicon glyphicon-trash"></span></button></p>
+                                            <label>Категория</label>
+                                            @Html.DropDownList("PointCategory", new SelectList(ViewBag.CategoriesSelectListItem, "Value", "Text"), "Выбрать", new { @class = "form-control point-category", id = "category-point_" + Model, data_ajaxid = Model.BannerWithPoints.PointOnImgs[i].Id, data_ajaxindex = i })
 
-                                    <div class="product-point">
-                                        <label>Товар</label>
-                                        <input type="hidden" name="BannerWithPoints.PointOnImgs[@i].Products.Id" value="@(Model.BannerWithPoints.PointOnImgs[i].Products!=null?Model.BannerWithPoints.PointOnImgs[i].Products.Id:0)" />
-                                        <label>@(Model.BannerWithPoints.PointOnImgs[i].Products != null ? Model.BannerWithPoints.PointOnImgs[i].Products.Title : "не назначен товар")</label>
+                                            <div class="product-point">
+                                                <label>Товар</label>
+                                                <input type="hidden" name="BannerWithPoints.PointOnImgs[@i].Products.Id" value="@(Model.BannerWithPoints.PointOnImgs[i].Products!=null?Model.BannerWithPoints.PointOnImgs[i].Products.Id:0)" />
+                                                <label>@(Model.BannerWithPoints.PointOnImgs[i].Products != null ? Model.BannerWithPoints.PointOnImgs[i].Products.Title : "не назначен товар")</label>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                </div>
-
-                            </div>
                                 }
                             }
                         </div>
@@ -205,7 +222,7 @@
             </div>
         </div>
     </div>
-}
+                            }
 
 <div>
     @Html.ActionLink("Вернуться", "Index", null, new { @class = "btn btn-default btn-lg" })

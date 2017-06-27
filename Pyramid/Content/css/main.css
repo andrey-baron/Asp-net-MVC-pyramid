@@ -326,7 +326,7 @@ ul {
 
 .category__title {
   font-family: ProximaNovaSemibold;
-  font-size: 32px;
+  font-size: 28px;
   padding-left: 60px;
   height: 95px;
   line-height: 95px;
@@ -409,6 +409,12 @@ ul {
   .category__filter-block-controls .ui-spinner {
     width: 60px;
   }
+  .category__sort-list {
+    margin-right: 30px;
+  }
+  .category__title {
+    padding-left: 30px;
+  }
 }
 
 .subcategory {
@@ -472,6 +478,12 @@ ul {
 .subcategory_fixed-height {
   height: 230px;
 }
+@media (min-width: 992px) and (max-width: 1200px) {
+  .subcategory__wrap-img {
+    width: 180px;
+    height: 150px;
+  }
+}
 
 .base-class,
 .decoration-work__scope-points,
@@ -482,7 +494,8 @@ ul {
 .decoration-work__scope-points {
   background: url("../img/Layer10.png") no-repeat;
   position: relative;
-  background-size: cover;
+  background-size: contain!important;
+  background-position: center center!important;
 }
 .decoration-work__description {
   width: 100%;
@@ -778,7 +791,7 @@ ul {
   height: 22px;
   width: 1px;
   background: #fff;
-  margin: 0 25px;
+  margin: 0 10px;
 }
 @media (min-width: 992px) and (max-width: 1172px) {
   .footer__catalog-item {
@@ -913,6 +926,7 @@ ul {
 .header__logo_small {
   height: 192px;
   width: 145px;
+  max-width: 90%;
   background-size: contain;
 }
 .header__icon-phone {
@@ -1036,10 +1050,10 @@ ul {
   content: '';
   display: inline-block;
   background: url("../img/cat-btn.png") no-repeat;
-  width: 32px;
+  width: 25px;
   height: 18px;
-  margin-left: 40px;
-  margin-right: 40px;
+  margin-left: 30px;
+  margin-right: 25px;
   vertical-align: middle;
 }
 .header a {
@@ -1053,14 +1067,14 @@ ul {
   top: 100%;
   left: 0;
   clear: both;
-  width: 273px;
+  /*width: 273px;*/
   z-index: 1000;
   display: none;
   min-width: 100%;
 }
 .header__catalog-list {
   float: left;
-  width: 265px;
+  /*width: 265px;*/
   margin: 0;
   padding: 10px 0;
   line-height: 1;

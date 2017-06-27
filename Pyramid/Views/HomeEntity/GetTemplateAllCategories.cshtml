@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Pyramid.Entity.Category>
+@for (int i = 0; i < Model.Count(); i++)
+{
+    <div class="home-entity__category">
+        <div class="row">
+            <div class="col-md-9">
+                @Html.DropDownList(string.Format("Categories[{0}].Id", i), new SelectList(ViewBag.CategoriesSelectListItem, "Value", "Text", Model.ElementAt(i).Id), new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-sm btn-default js-btn-home-entity-delete-category" data-ajaxid="@Model.ElementAt(i).Id"><span class="glyphicon glyphicon-trash"></span></button>
+            </div>
+        </div>
+
+
+    </div>
+}

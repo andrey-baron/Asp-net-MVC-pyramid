@@ -66,7 +66,20 @@
             })
         })
     });
-    
+    $(".home-entity__products").on("click", ".js-btn-home-entity-delete-product", function () {
+
+        var ajaxId = $(this).data("ajaxid");
+        $.post("/HomeEntity/DeleteProduct?id=" + id + "&productId=" + ajaxId, function (data) {
+            $(".home-entity__products").html(data);
+        });
+    });
+    $(".home-entity__categories").on("click", ".js-btn-home-entity-delete-category", function () {
+
+        var ajaxId = $(this).data("ajaxid");
+        $.post("/HomeEntity/DeleteCategory?id=" + id + "&categoryId=" + ajaxId, function (data) {
+            $(".home-entity__categories").html(data); 
+        });
+    });
     function RunDraggable() {
         $(".home-entity__point").draggable({
             containment: "parent",

@@ -285,6 +285,11 @@ namespace DBFirstDAL.Repositories
                         ImageId=model.BannerWithPoints.Images.Id
                     };
                 }
+                else
+                {
+                    
+                    efHomeModel.BannerWithPoints.ImageId = model.BannerWithPoints.Images.Id;
+                }
                 //efHomeModel.BannerWithPoints.PointOnImgs.Clear();
 
                 
@@ -345,6 +350,27 @@ namespace DBFirstDAL.Repositories
                 Context.PointOnImgs.Remove(efPoint);
                 Context.SaveChanges();
             }
+        }
+
+        public void DeleteProduct(int homeEntityId,int productId)
+        {
+            var efEntity = FindBy(i => i.Id == homeEntityId).SingleOrDefault();
+            var efProd = Context.Products.Find(productId);
+            if (efProd!=null)
+            {
+                efEntity.Products.Remove(efProd);
+            }
+            Save();
+        }
+        public void DeleteCategory(int homeEntityId, int categoryId )
+        {
+            var efEntity = FindBy(i => i.Id == homeEntityId).SingleOrDefault();
+            var cat = Context.Categories.Find(categoryId);
+            if (cat != null)
+            {
+                efEntity.Categories.Remove(cat);
+            }
+            Save();
         }
     }
 }
