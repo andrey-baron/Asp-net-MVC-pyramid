@@ -240,6 +240,9 @@
     <Compile Include="Tools\Mailer.cs" />
     <Compile Include="Tools\ProductTool.cs" />
     <Compile Include="Tools\UploadXmlToFileSystem.cs" />
+    <Compile Include="Models\JsonModels\CategoryFiltersJsonModel.cs" />
+    <Compile Include="Models\JsonModels\EnumValueJsonModel.cs" />
+    <Compile Include="Models\JsonModels\FilterJsonModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\bootstrap-grid10.css" />

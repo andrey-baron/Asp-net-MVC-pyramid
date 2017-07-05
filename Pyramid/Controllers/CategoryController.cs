@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using DBFirstDAL.Repositories;
 using Entity;
+using Newtonsoft.Json;
 using Pyramid.Models;
 using Pyramid.Models.CategoryModels;
+using Pyramid.Models.JsonModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -193,7 +195,42 @@ namespace Pyramid.Controllers
             }
             breadcrumbs.Reverse();
             ViewBag.BredCrumbs = breadcrumbs;
+
             CategoryViewModel model = mapper.Map<CategoryViewModel>(EfModel);
+
+            var curCookieName = this.HttpContext.Request.Cookies.AllKeys.FirstOrDefault(i => i == "category_" + id.ToString());
+
+            var curCookie =this.HttpContext.Request.Cookies.Get(curCookieName);
+
+            if (curCookie!=null)
+            {
+                var jsonObj = JsonConvert.DeserializeObject<CategoryFiltersJsonModel>(curCookie.Value);
+                var checkedEnumValueIds = new List<int>();
+                foreach (var item in jsonObj.Filters)
+                {
+                    checkedEnumValueIds.AddRange(item.EnumValues.Select(s => s.Id));
+                }
+                var efoutProduct = _categoryRepository.GetWithCheckedEnumValues(EfModel.Id, checkedEnumValueIds);
+                efoutProduct = efoutProduct.Where(i => i.Price >= jsonObj.MinPrice && i.Price <= jsonObj.MaxPrice).ToList();
+                model.Products = mapper.Map<List<Pyramid.Entity.Product>>(efoutProduct);
+
+                model.CurrentMaxPrice = (int)jsonObj.MaxPrice;
+                model.CurrentMinPrice = (int)jsonObj.MinPrice;
+
+                foreach (var item in model.Filters)
+                {
+                    foreach (var enumVal in item.EnumValues)
+                    {
+                        if (checkedEnumValueIds.Contains(enumVal.Id))
+                        {
+                            enumVal.Checked = true;
+                        }
+                    }
+                }
+            }
+
+
+
             if (sortingOrder != 0)
             {
                 switch (sortingOrder)
@@ -221,6 +258,18 @@ namespace Pyramid.Controllers
         [HttpPost]
         public ActionResult Index(CategoryViewModel model , int sortingOrder=0 )
         {
+
+
+            CategoryFiltersJsonModel cookieModel = CategoryFiltersJsonModel.ConvertToJsonModel(model);
+
+            var jsonObj=JsonConvert.SerializeObject(cookieModel);
+
+            HttpCookie cookie = new HttpCookie("category_" + cookieModel.CategoryId, jsonObj);
+            cookie.Expires = DateTime.Now.AddDays(10);
+
+            this.HttpContext.Response.Cookies.Add(cookie);
+            //var obj = JsonConvert.DeserializeObject<CategoryViewModel>(cookie.Value);
+
             ViewBag.SortingOrder = sortingOrder;
             var max = model.CurrentMaxPrice;
             var min = model.CurrentMinPrice;
@@ -322,11 +371,13 @@ namespace Pyramid.Controllers
                 switch (sortingOrder)
                 {
                     case (int)Common.TypeSort.Price:
+                        model.Products.Sort(new Tools.Compare.ProductCompareByPrice());
                         break;
                     case (int)Common.TypeSort.Name:
                         model.Products.Sort(new Tools.Compare.ProductCompareByTitle());
                         break;
                     case (int)Common.TypeSort.Popular:
+                        model.Products.Sort(new Tools.Compare.ProductCompareByPopular());
                         break;
                     default:
                         break;
