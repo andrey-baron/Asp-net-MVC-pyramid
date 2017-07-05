@@ -11,10 +11,9 @@ namespace Pyramid.Entity.Enumerable
     {
         [Display(Name = "Простая цена")]
         SimplePrice =0,
-        [Display(Name = "Лучшая цена")]
-        BestPrice = 1,
-        [Display(Name = "Низкая цена")]
-        LowPricr =2,
+        [Display(Name = "Новинка")]
+        NewPrice = 1,
+        
         [Display(Name = "Специальное предложение")]
         SpecialOffer =3,
     }

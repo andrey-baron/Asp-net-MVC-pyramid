@@ -61,75 +61,17 @@ namespace Pyramid.Controllers
                     OneCId = s.Id,
 
                 });
-                _categoryRepository.InsertsOrNot(efCats);
+                foreach (var item in efCats)
+                {
+                    _categoryRepository.AddOrUpdateFromOneC(item);
+                }
+                
 
                 var efCatWithParent = xmlModel.Categories.Select(s => new Category1CIdWithParent1CId() { Id = s.Id, ParentId = s.ParentId }).ToList();
 
+           
                 _categoryRepository.UpdateParentCategory(efCatWithParent);
-                //foreach (var xCategory in xmlModel.Categories)
-                //{
 
-                //    var efCategory = _categoryRepository.FindBy(i => i.OneCId == xCategory.Id).SingleOrDefault();
-                //    if (efCategory == null)
-                //    {
-                //        efCategory = new DBFirstDAL.Categories();
-                //        efCategory.Title = xCategory.Title;
-                //        efCategory.OneCId = xCategory.Id;
-                //        if (xCategory.ParentId != null)
-                //        {
-                //            var efCarParent = _categoryRepository.FindBy(i => i.OneCId == xCategory.ParentId).SingleOrDefault();
-                //            if (efCarParent != null)
-                //            {
-                //                efCategory.ParentId = efCarParent.Id;
-                //            }
-                //        }
-                //        _categoryRepository.AddOrUpdate(efCategory);
-                //        //_categoryRepository.Save();
-                //    }
-                //    else
-                //    {
-                //        efCategory.Title = xCategory.Title;
-                //        if (xCategory.ParentId != null)
-                //        {
-                //            var efCarParent = _categoryRepository.FindBy(i => i.OneCId == xCategory.ParentId).SingleOrDefault();
-                //            if (efCarParent != null)
-                //            {
-                //                efCategory.ParentId = efCarParent.Id;
-                //            }
-                //        }
-                //       // _categoryRepository.Save();
-                //    }
-
-                //}
-                //_categoryRepository.Save();
-
-               
-                //foreach (var xProduct in xmlModel.Products)
-                //{
-                //    var efProduct = _productRepository.FindBy(i => i.OneCId == xProduct.Id).SingleOrDefault();
-                //    if (efProduct == null)
-                //    {
-                //        efProduct = new DBFirstDAL.Products();
-                //        efProduct.OneCId = xProduct.Id;
-                        
-                //        efProduct.Title = xProduct.Title;
-                //        efProduct.Price = xProduct.Price;
-                //        efProduct.TypePrice = (int)Entity.Enumerable.TypeProductPrice.SimplePrice;
-                //        efProduct.DateChange = DateTime.Now;
-                //        efProduct.DateCreation = DateTime.Now;
-                //        foreach (var catProduct in xProduct.CategoryTextIds)
-                //        {
-                //            var efCategory = _categoryRepository.FindBy(i => i.OneCId == catProduct).SingleOrDefault();
-                //            if (efCategory != null)
-                //            {
-                //                efProduct.Categories.Add(efCategory);
-                //            }
-                //        }
-                //    }
-                //    _productRepository.AddOrUpdate(efProduct);
-                   
-                //}
-                //_productRepository.Save();
             }
             catch (Exception)
             {
@@ -144,15 +86,27 @@ namespace Pyramid.Controllers
                 DateCreation = DateTime.Now,
                 OneCId = s.Id,
                 TypePrice = (int)s.TypePrice,
-                //Categories = (ICollection<DBFirstDAL.Categories>) new List<DBFirstDAL.Categories>() { new DBFirstDAL.Categories() { Id = 166,Title= "Гипсокартон и комплектующие",FlagRoot=false,OneCId= "53183404-6ee7-11df-beca-001485178810" } }
+                IsPriority=s.Priority,
+                IsFilled=false,
+                EnumValues=new List<DBFirstDAL.EnumValues>(new DBFirstDAL.EnumValues[]{ new DBFirstDAL.EnumValues() {
+                    Key =s.Brand,
+                    TypeValue =(int)Common.TypeFromEnumValue.Brand} }) ,
+                
+                Categories = s.CategoryTextIds.Select(i=>new DBFirstDAL.Categories() { OneCId=i}).ToList()
             });
-            var efProductsWithCategories = xmlModel.Products.Select(s => new Product1cIdWith1cCategoryIds()
+            //var efProductsWithCategories = xmlModel.Products.Select(s => new Product1cIdWith1cCategoryIds()
+            //{
+            //    OneCId = s.Id,
+            //    CategoryIds = s.CategoryTextIds
+            //});
+            foreach (var item in efProducts)
             {
-                OneCId = s.Id,
-                CategoryIds = s.CategoryTextIds
-            });
-            _productRepository.InsertsOrNot(efProducts);
-            _productRepository.UpdateReletedCategoriesFromProducts(efProductsWithCategories);
+                _productRepository.AddOrUpdateFromOneC(item);
+            }
+
+            _categoryRepository.AddOrUpdateFilterBrand();
+            //_productRepository.InsertsOrNot(efProducts);
+            //_productRepository.UpdateReletedCategoriesFromProducts(efProductsWithCategories);
             return flagErr;
         }
 

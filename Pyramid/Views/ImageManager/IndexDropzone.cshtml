@@ -1,0 +1,120 @@
+﻿@model ICollection<Pyramid.Entity.Image>
+
+@{
+    ViewBag.Title = "Менеджер изображений";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@Styles.Render("~/Content/dropzonescss")
+
+<div class="jumbotron">
+    @using (Ajax.BeginForm("SaveUploadedFile", null, new AjaxOptions { UpdateTargetId = "test", HttpMethod = "post" }, new { enctype = "multipart/form-data", @class = "dropzone", id = "dropzoneForm" }))
+    {
+        <div class="fallback">
+            <input name="file" type="file" multiple />
+            <input type="submit" value="Upload" />
+        </div>
+    }
+    @*<form action="~/Home/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm" style="width: 50px; background: none; border: none;">
+            <div class="fallback">
+                <input name="file" type="file" multiple />
+                <input type="submit" value="Upload" />
+            </div>
+        </form>*@
+    <div>
+        @*<div class="dropzone needsclick dz-clickable" id="dropzoneForm">
+            <div class="dz-message needsclick">
+                Drop files here or click to upload.<br>
+                <span class="note needsclick">
+
+                </span>
+            </div>
+            <div class="fallback">
+                      
+            </div>
+        </div>*@    
+    </div>
+</div>
+
+
+<div class="box-typical box-typical-padding" id="test">
+    <div class="box-typical-header box-typical-header-bordered">
+        <div class="tbl-row">
+            <div class="tbl-cell tbl-cell-title">
+                <h3>Все картинки</h3>
+            </div>
+        </div>
+    </div>
+    <div class="box-typical-body">
+        <div class="gallery-grid">
+            @foreach (var itemImage in Model)
+            {
+                <div class="gallery-col">
+                    <article class="gallery-item" style="height: 158px;">
+                        <img class="gallery-picture" src="@itemImage.ServerPathImg" alt="" height="158">
+                        <div class="gallery-hover-layout">
+                            <div class="gallery-hover-layout-in">
+                                <p class="gallery-item-title">@itemImage.Title</p>
+                                @*<p>by Alban Wamigo</p>*@
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-ajax-edit" data-ajaxid="@itemImage.Id" data-toggle="modal" data-target="#edit-modal">
+                                        <i class="font-icon font-icon-btn_white glyphicon glyphicon-pencil"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-ajax-delete" data-ajaxid="@itemImage.Id">
+                                        <i class="font-icon font-icon-btn_white glyphicon glyphicon-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Редактирование картинки</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-primary btn-modal-save">Сохранить изменения</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@Scripts.Render("~/bundles/dropzonescripts")
+
+<script>
+
+    //File Upload response from the server
+    Dropzone.options.dropzoneForm = {
+        url: "/ImageManager/SaveUploadedFile",
+        autoDiscover: false,
+        autoProcessQueue: true,
+        addRemoveLinks: false,
+        paramName:"file",
+        method: "post",
+        init: function () {
+            this.on("complete", function (data) {
+                //var res = eval('(' + data.xhr.responseText + ')');
+                //var res = JSON.parse(data.xhr.responseText);
+            });
+        },
+        accept: function(file, done) {
+            done();
+        },
+        sending: function(file) {
+            //alert("send");
+        }
+    };
+</script>

@@ -142,26 +142,32 @@ namespace DBFirstDAL.Repositories
                 }
                 Context.Entry(efEntity).CurrentValues.SetValues(entity);
                 Context.Entry(efEntity).State = System.Data.Entity.EntityState.Modified;
-                
+
+                if(efEntity.Seo == null){
+                    efEntity.Seo = entity.Seo;
+                }
+                else
+                {
+                    efEntity.Seo.MetaDescription = entity.Seo.MetaDescription;
+                    efEntity.Seo.MetaKeywords = entity.Seo.MetaKeywords;
+                    efEntity.Seo.MetaTitle = efEntity.Seo.MetaTitle;
+                    efEntity.Seo.Alias = efEntity.Seo.Alias;
+                }
             }
 
         }
 
-        public IEnumerable<Products> GetWithCheckedEnumValues(int categoryId,IEnumerable<EnumValues> enumValues)
+        public IEnumerable<Products> GetWithCheckedEnumValues(int categoryId,IEnumerable<int> enumValueIds)
         {
             var efCategory = FindBy(i => i.Id == categoryId).SingleOrDefault();
             if (efCategory != null)
             {
-                if (enumValues.Count() > 0)
+                if (enumValueIds.Count() > 0)
                 {
-
-
-                    var idValues = enumValues.Select(s => s.Id).ToList();
-
-
+                    
                     var efEnumValuetemp = Context.EnumValues.ToList();
-                    var tttest = efCategory.Products.Where(i => i.EnumValues.All(p => idValues.Contains(p.Id))).ToList();
-                    var te = efEnumValuetemp.Where(i => idValues.Contains(i.Id)).ToList();
+                    var tttest = efCategory.Products.Where(i => i.EnumValues.Any(p => enumValueIds.Contains(p.Id))).ToList();
+                    var te = efEnumValuetemp.Where(i => enumValueIds.Contains(i.Id)).ToList();
                     return tttest;
                 }
                 
@@ -275,6 +281,7 @@ namespace DBFirstDAL.Repositories
                     if (efCat == null)
                     {
                         context.Entry(entity).State = EntityState.Added;
+                        
                     }
                 }
 
@@ -329,6 +336,117 @@ namespace DBFirstDAL.Repositories
             }
         }
 
+        public void AddOrUpdateFromOneC(Categories category)
+        {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                var dbCategory = dbContext.Categories.FirstOrDefault(i => i.OneCId == category.OneCId);
+                var exist = dbCategory != null;
+                if (!exist)
+                {
+                    dbCategory = new Categories();
+                }
+                UpdateBeforeSavingOceC(dbContext, dbCategory, category, exist);
+                dbContext.SaveChanges();
+
+                UpdateAfterSavingOneC(dbContext, dbCategory, category, exist);
+                dbContext.SaveChanges();
+            }
+
+        }
+
+        public void UpdateBeforeSavingOceC(PyramidFinalContext dbContext, Categories dbObjext, Categories model, bool exist)
+        {
+            dbObjext.Title = model.Title;
+            dbObjext.FlagRoot = false;
+            dbObjext.OneCId = model.OneCId;
+            if (!exist)
+            {
+                dbContext.Categories.Add(dbObjext);
+            }
+           
+        }
+
+        public void UpdateAfterSavingOneC(PyramidFinalContext dbContext, Categories dbObjext, Categories model, bool exist)
+        {
+            if (dbObjext.Seo==null)
+            {
+                var seo= new Seo()
+                {
+                    MetaTitle = dbObjext.Title,
+                };
+                dbContext.Seo.Add(seo);
+                dbContext.SaveChanges();
+                dbObjext.Seo = seo;
+            }
+        }
+
+        public void AddOrUpdateFilterBrand()
+        {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                
+                foreach (var category in dbContext.Categories)
+                {
+                    var dbFilterBrand = category.Filters.FirstOrDefault(i => i.Title == "Бренд");
+                    if (dbFilterBrand == null)
+                    {
+                        dbFilterBrand = new Filters()
+                        {
+                            Title = "Бренд",
+
+                        };
+                        var listEnumValuesBrand = new List<EnumValues>();
+                        foreach (var item in category.Products)
+                        {
+                            var valueBrand = item.EnumValues.Where(w => w.TypeValue == (int)Common.TypeFromEnumValue.Brand);
+                            if (valueBrand != null && valueBrand.Count() > 0)
+                            {
+                                foreach (var value in valueBrand)
+                                {
+                                    listEnumValuesBrand.Add(value);
+                                }
+                            }
+                        }
+                        
+                        if (listEnumValuesBrand.Count>0)
+                        {
+                            dbFilterBrand.EnumValues = listEnumValuesBrand.Distinct().ToList();
+                            dbContext.Filters.Add(dbFilterBrand);
+                            category.Filters.Add(dbFilterBrand);
+                        }
+                       
+                    }
+                    else
+                    {
+                        var listEnumValuesBrand = new List<EnumValues>();
+                        foreach (var item in category.Products)
+                        {
+                            var valueBrand = item.EnumValues.Where(w => w.TypeValue == (int)Common.TypeFromEnumValue.Brand);
+                            if (valueBrand != null && valueBrand.Count() > 0)
+                            {
+                                foreach (var value in valueBrand)
+                                {
+                                    listEnumValuesBrand.Add(value);
+                                }
+                            }
+                        }
+                      var enumvalues= listEnumValuesBrand.Distinct().ToList();
+                        foreach (var item in enumvalues )
+                        {
+                            if (!dbFilterBrand.EnumValues.Contains(item))
+                            {
+                                dbFilterBrand.EnumValues.Add(item);
+                            }
+                        }
+                        //dbFilterBrand.EnumValues = 
+                    }
+                    
+                }
+                dbContext.SaveChanges();
+            }
+        }
+
         //public Categories GetCategoryWithProductsAndImages(int id)
         //{
         //    using (PyramidFinalContext data =new PyramidFinalContext())
@@ -344,5 +462,7 @@ namespace DBFirstDAL.Repositories
 
         //    }
         //}
+
+
     }
 }

@@ -10,5 +10,6 @@ namespace Pyramid.Entity
     {
         public int Id { get; set; }
         public string Key { get; set; }
+        public Common.TypeFromEnumValue TypeValue { get; set; }
     }
 }

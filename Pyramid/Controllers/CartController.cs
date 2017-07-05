@@ -69,12 +69,13 @@ namespace Pyramid.Controllers
         }
         public ActionResult ShowCart()
         {
+            ViewBag.MetaTitle = "Корзина";
             return View(GetCart());
         }
 
         public ActionResult Checkout()
         {
-            
+            ViewBag.MetaTitle = "Подтверждение заказа";
             return View(new CheckoutModel());
         }
         [HttpPost]
@@ -98,9 +99,9 @@ namespace Pyramid.Controllers
             bool flagErr = false;
             try
             {
-                _orederRepository.Add(efOrder);
-
-                GetCart().Clear();
+                //_orederRepository.Add(efOrder);
+                //_orederRepository.Save();
+                //GetCart().Clear();
 
             }
             catch (Exception)
@@ -109,6 +110,7 @@ namespace Pyramid.Controllers
             }
             ViewBag.IsAddedOrder = !flagErr;
 
+            ViewBag.MetaTitle = "Подтверждение заказа";
             return View("ResultCheckout",cart);
         }
         public ActionResult RemoveItem(int id)

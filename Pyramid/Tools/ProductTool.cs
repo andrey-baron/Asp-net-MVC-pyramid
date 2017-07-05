@@ -15,12 +15,10 @@ namespace Pyramid.Tools
                 case (int)Common.TypeProductPrice.SimplePrice:
                     
                     break;
-                case (int)Common.TypeProductPrice.BestPrice:
-                    response = "product__item-price_best";
+                case (int)Common.TypeProductPrice.NewPrice:
+                    response = "product__item-price_new";
                     break;
-                case (int)Common.TypeProductPrice.LowPricr:
-                    response = "product__item-price_low";
-                    break;
+                
                 case (int)Common.TypeProductPrice.SpecialOffer:
                     response = "product__item-price_limited"; 
                     break;

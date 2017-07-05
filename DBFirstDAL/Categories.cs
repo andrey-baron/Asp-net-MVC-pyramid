@@ -21,16 +21,18 @@ namespace DBFirstDAL
             this.Categories1 = new HashSet<Categories>();
             this.CategoryImages = new HashSet<CategoryImages>();
             this.Filters = new HashSet<Filters>();
-            this.Products = new HashSet<Products>();
             this.HomeEntity = new HashSet<HomeEntity>();
+            this.Products = new HashSet<Products>();
         }
     
         public int Id { get; set; }
         public string Title { get; set; }
+        public Nullable<int> SeoId { get; set; }
         public Nullable<int> ParentId { get; set; }
         public bool FlagRoot { get; set; }
         public string OneCId { get; set; }
     
+        public virtual Seo Seo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Recommendations> Recommendations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -41,8 +43,8 @@ namespace DBFirstDAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Filters> Filters { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Products> Products { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HomeEntity> HomeEntity { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Products> Products { get; set; }
     }
 }

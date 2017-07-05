@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FeedBack.cs" />
+    <Compile Include="TypeFromEnumValue.cs" />
     <Compile Include="TypeImage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeProductPrice.cs" />

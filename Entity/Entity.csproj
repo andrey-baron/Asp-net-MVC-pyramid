@@ -51,6 +51,7 @@
     <Compile Include="EnumValue.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="FAQ.cs" />
+    <Compile Include="FeedBack.cs" />
     <Compile Include="Filter.cs" />
     <Compile Include="FilterValue.cs" />
     <Compile Include="HomeEntity.cs" />
@@ -63,8 +64,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuestionAnswer.cs" />
     <Compile Include="Review.cs" />
+    <Compile Include="Seo.cs" />
     <Compile Include="User.cs" />
     <Compile Include="VideoGuide.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{ae169d4c-c0ed-482f-87f5-1684a65b8823}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

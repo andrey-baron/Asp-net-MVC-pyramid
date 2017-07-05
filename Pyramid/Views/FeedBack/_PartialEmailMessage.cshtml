@@ -1,0 +1,8 @@
+﻿@model Common.FeedBack
+
+<p>Имя : @Model.Name</p>
+<p>Телефон: @Model.Phone</p>
+@if (Model.Email!=null)
+{
+    <p>Электронная почта: @Model.Email</p>
+}

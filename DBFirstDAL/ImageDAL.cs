@@ -17,13 +17,16 @@ namespace DBFirstDAL
         {
             using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
-                return dbContext.Images.Select(image => new Pyramid.Entity.Image() {
+                 
+                    var t=dbContext.Images.Select(image => new Pyramid.Entity.Image() {
                 Id=image.Id,
                 ImgAlt=image.ImgAlt,
                 PathInFileSystem=image.PathInFileSystem,
                 ServerPathImg=image.ServerPathImg,
                 Title=image.Title
                 }).ToList();
+                t.Reverse();
+                return t;
             }
         }
         public static Pyramid.Entity.Image Get(int id)
@@ -80,20 +83,23 @@ namespace DBFirstDAL
         }
         static Images SaveFile(HttpPostedFileBase file)
         {
-            var pathInFileSystem = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, pathDirectoryFilesImage, file.FileName);
-            var serverPath = Path.Combine(pathServerImg, file.FileName);
+            var filename = DateTime.Now.ToString("d") + Path.GetFileName(file.FileName);
+            var title = Path.GetFileNameWithoutExtension(file.FileName);
+            var pathInFileSystem = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, pathDirectoryFilesImage,filename);
+            var serverPath = Path.Combine(pathServerImg, filename);
             file.SaveAs(pathInFileSystem);
             return new Images()
             {
                 PathInFileSystem = pathInFileSystem,
                 ServerPathImg= serverPath,
-                Title = file.FileName
+                Title = title
             };
         }
         static void DeleteFile(string path)
         {
-            if (path!=null)
+            if (path!=null&& File.Exists(path))
             {
+                
                 File.Delete(path);
             }
            

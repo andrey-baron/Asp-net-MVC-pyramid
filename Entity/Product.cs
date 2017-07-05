@@ -26,6 +26,10 @@ namespace Pyramid.Entity
 
         [Display(Name = "Сезонное предложение")]
         public bool SeasonOffer { get; set; }
+        [Display(Name = "Приоритетный")]
+        public bool IsPriority { get; set; }
+        [Display(Name = "Заполнен")]
+        public bool IsFilled { get; set; }
 
         public Image ThumbnailImg { get; set; }
         public ICollection<Image> Images { get; set; }

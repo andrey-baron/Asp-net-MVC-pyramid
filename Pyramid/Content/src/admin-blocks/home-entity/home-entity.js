@@ -45,6 +45,18 @@
             $("#banner-edit-modal").modal('hide');
         })
     });
+    $(".js-btn-update-videoguide-img").on("click", function () {
+        $.post("/ImageManager/PartialSelectImage", function (data) {
+            $('#videoguide-edit-modal .modal-body').html(data);
+        })
+        $("#videoguide-edit-modal").modal('show');
+
+        $("#videoguide-edit-modal").on("click", ".btn-ajax-edit", function () {
+            $("#VideoGuide_Image_Id").val($(this).data("ajaxid"));
+            $("#img-videoguide").attr("src", $(this).data("url"));
+            $("#videoguide-edit-modal").modal('hide');
+        });
+    });
     $(".home-entity__point-product-list").on("change", ".point-category", function () {
         var thisElem = $(this);
         var pasteblock = thisElem.next(".product-point");

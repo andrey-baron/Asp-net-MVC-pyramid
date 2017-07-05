@@ -37,6 +37,7 @@ namespace Pyramid.Tools
             {
                 var info = obj as MailerMessage;
                 var client = new SmtpClient();
+
                 var fromAddress = client.Credentials.GetCredential("", 0, "").UserName;
                 var mailMessage = new MailMessage(fromAddress, string.Join(",", info.To), info.Subject, info.Body);
                 mailMessage.IsBodyHtml = true;

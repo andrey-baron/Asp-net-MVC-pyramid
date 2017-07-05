@@ -13,10 +13,5 @@ namespace DBFirstDAL.DataModels.HomeModels
         public CategoryHomeModel Category { get; set; }
         public BannerWithPointsHomeDataModel BannerWithPoints { get; set; }
         public Faq Faq { get; set; }
-        public ICollection<VideoGuide> VideoGuide { get; set; }
-        public HomeEntityModel()
-        {
-            VideoGuide = new List<VideoGuide>();
-        }
     }
 }

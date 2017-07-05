@@ -18,6 +18,13 @@ namespace Pyramid.Entity
         public ICollection<Product> Products { get; set; }
         public BannerWithPoints BannerWithPoints { get; set; }
         public FAQ Faq { get; set; }
-        public ICollection<VideoGuide> VideoGuide { get; set; }
+        [Display(Name = "Название видео-гида")]
+        public string TitleVideoGuide { get; set; }
+        [Display(Name = "Ссылка на YouTobe")]
+        public string LinkYouTobe { get; set; }
+        [Display(Name = "Призыв к действию")]
+        public string CallToAction { get; set; }
+        public Nullable<int> ThumbnailId { get; set; }
+        public Image Images { get; set; }
     }
 }

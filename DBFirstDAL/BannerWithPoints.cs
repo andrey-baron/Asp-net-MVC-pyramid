@@ -21,7 +21,7 @@ namespace DBFirstDAL
         }
     
         public int BannerId { get; set; }
-        public int ImageId { get; set; }
+        public Nullable<int> ImageId { get; set; }
     
         public virtual Images Images { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

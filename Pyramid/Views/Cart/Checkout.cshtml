@@ -43,7 +43,7 @@
             </div>
             <div class="card-block">
                 <div class="call-to-action__form-wrap_checkout">
-                    @using (Html.BeginForm("Checkout","Cart",FormMethod.Post))
+                    @using (Html.BeginForm("Checkout","Cart",FormMethod.Post,new { @class="checkout-form"}))
                     {
                         <div class="form-group call-to-action__form-group">
                             @Html.TextBoxFor(m => Model.Name, new {@class="form-control call-to-action__form-control", placeholder="Имя" })

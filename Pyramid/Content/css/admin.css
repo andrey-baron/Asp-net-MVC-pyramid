@@ -452,6 +452,13 @@ p.pmargin {
 .home-entity__category {
   margin-bottom: 20px;
 }
+.home-entity__wrap-videoguide-img {
+  max-width: 100%;
+  width: 800px;
+}
+.home-entity__wrap-videoguide-img img {
+  max-width: 100%;
+}
 .row-point-wrap {
   margin-bottom: 20px;
 }

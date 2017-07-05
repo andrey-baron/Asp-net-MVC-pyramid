@@ -60,6 +60,7 @@ namespace Pyramid.Controllers
 
             var model = mapper.Map <IEnumerable<DBFirstDAL.Events>, IEnumerable<Event>>(efEvents);
 
+            ViewBag.MetaTitle = "Акции";
             return View(model);
         }
         [AllowAnonymous]
@@ -108,9 +109,9 @@ namespace Pyramid.Controllers
                 });
                 ViewBag.BredCrumbs = breadcrumbs;
             }
-           
 
-           
+
+            ViewBag.MetaTitle = model.Title;
 
             return View(model);
         }

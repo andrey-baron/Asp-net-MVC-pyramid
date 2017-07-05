@@ -14,10 +14,8 @@ namespace DBFirstDAL.DataModels.HomeModels
         public Products Products { get; set; }
         public BannerWithPoints BannerWithPoints { get; set; }
         public Faq Faq { get; set; }
-        public ICollection<VideoGuide> VideoGuide { get; set; }
         public ManageHomeEntityDataModel()
         {
-            VideoGuide = new List<VideoGuide>();
         }
     }
 }

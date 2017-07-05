@@ -61,6 +61,7 @@ namespace Pyramid.Controllers
                 model.CurrentFaq = new Entity.FAQ();
             }
 
+            ViewBag.MetaTitle = "Актуальные вопросы";
             return View(model);
         }
         public ActionResult Get(int id)
@@ -114,6 +115,7 @@ namespace Pyramid.Controllers
             });
             ViewBag.BredCrumbs = breadcrumbs;
 
+            ViewBag.MetaTitle = model.CurrentFaq.Title;
             return View("Index",model);
         }
         [Authorize]

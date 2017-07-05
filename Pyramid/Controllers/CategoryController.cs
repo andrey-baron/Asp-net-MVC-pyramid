@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DBFirstDAL.Repositories;
+using Entity;
 using Pyramid.Models;
 using Pyramid.Models.CategoryModels;
 using System;
@@ -32,6 +33,7 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.Checked, o => o.Ignore())
                 .ForMember(d => d.Filters, o => o.Ignore())
                 .ForMember(d => d.Products, o => o.Ignore())
+                .ForMember(d => d.Seo, o => o.Ignore())
                 ;
 
                 //cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
@@ -102,12 +104,16 @@ namespace Pyramid.Controllers
                .ForMember(d => d.ParentId, o => o.Ignore())
                .ForMember(d => d.FlagRoot, o => o.Ignore())
                .ForMember(d => d.Products, o => o.Ignore())
-                .ForMember(d => d.OneCId, o => o.Ignore());
+                .ForMember(d => d.OneCId, o => o.Ignore())
+                .ForMember(d => d.Seo, o => o.Ignore())
+                .ForMember(d => d.SeoId, o => o.Ignore());
 
                 cfg.CreateMap<DBFirstDAL.DataModels.RootCategory, Models.AllCategoriesViewModel>()
                 ;
                 cfg.CreateMap<DBFirstDAL.Images, Entity.Image>();
-             
+
+                cfg.CreateMap<DBFirstDAL.Seo, Seo>();
+
             });
 
 
@@ -121,6 +127,8 @@ namespace Pyramid.Controllers
                
                 var modelRootCategories =
                     mapper.Map<IEnumerable<DBFirstDAL.DataModels.RootCategory>, IEnumerable< Models.AllCategoriesViewModel>>(rootCategories );
+
+                ViewBag.MetaTitle = "Категории";
                 return View("ViewRootCategories", modelRootCategories);
             }
 
@@ -206,6 +214,8 @@ namespace Pyramid.Controllers
             }
             model.MaxPrice = _categoryRepository.GetMaxPriceFromCategory(id);
             model.MinPrice = _categoryRepository.GetMinPriceFromCategory(id);
+
+            ViewBag.MetaTitle = model.Seo.MetaTitle;
             return View(model);
         }
         [HttpPost]
@@ -221,6 +231,8 @@ namespace Pyramid.Controllers
                m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
                m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images : new DBFirstDAL.Images()))
                .ForMember(d => d.Checked, o => o.Ignore())
+               .ForMember(d => d.SeoId, o => o.Ignore())
+               
                ;
 
                 cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
@@ -246,8 +258,13 @@ namespace Pyramid.Controllers
                 ;
                 cfg.CreateMap< CategoryFilterViewModel, DBFirstDAL.Filters>()
                 .ForMember(d => d.Categories, o => o.Ignore())
-                .ForMember(d => d.EnumValues, o => o.Ignore())
+                //.ForMember(d => d.EnumValues, o => o.Ignore())
                ;
+                cfg.CreateMap<CategoryEnumValueViewModel, DBFirstDAL.EnumValues>()
+                .ForMember(d => d.Filters, o => o.Ignore())
+                .ForMember(d => d.Products, o => o.Ignore())
+                .ForMember(d => d.TypeValue, o => o.Ignore());
+
                 cfg.CreateMap<DBFirstDAL.Categories, CategoryViewModel>()
                 .ForMember(d => d.MinPrice, o => o.UseValue(false))
                 .ForMember(d => d.MaxPrice, o => o.UseValue(false))
@@ -257,6 +274,7 @@ namespace Pyramid.Controllers
                 m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
                 m.CategoryImages.FirstOrDefault(f => f.CategoryId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images : new DBFirstDAL.Images()))
                 .ForMember(d => d.NestedCategories, o => o.MapFrom(m => m.Categories1))
+                .ForMember(d => d.Seo, o => o.MapFrom(m=>m.Seo))
 ;
                 cfg.CreateMap<DBFirstDAL.Categories, CategoryShortViewModel>()
                 .ForMember(d => d.Thumbnail, o => o.MapFrom(m =>
@@ -270,12 +288,16 @@ namespace Pyramid.Controllers
                .ForMember(d => d.ParentId, o => o.Ignore())
                .ForMember(d => d.FlagRoot, o => o.Ignore())
                .ForMember(d => d.Products, o => o.Ignore())
-                .ForMember(d => d.OneCId, o => o.Ignore());
+                .ForMember(d => d.OneCId, o => o.Ignore())
+                 .ForMember(d => d.SeoId, o => o.Ignore())
+                 .ForMember(d => d.Seo, o => o.Ignore())
+                 ;
 
                 cfg.CreateMap<DBFirstDAL.DataModels.RootCategory, Models.AllCategoriesViewModel>()
                 ;
                 cfg.CreateMap<DBFirstDAL.Images, Entity.Image>();
 
+                cfg.CreateMap<DBFirstDAL.Seo, Seo>();
             });
 
 
@@ -284,8 +306,15 @@ namespace Pyramid.Controllers
             var mapper = config.CreateMapper();
 
 
-            var Filters= model.Filters.Where(i=>i.EnumValues.All(t => t.Checked==true)&& i.EnumValues.Count>0).ToList();
-             var efFilters= mapper.Map<IEnumerable<CategoryFilterViewModel>,List<DBFirstDAL.Filters>>(Filters.ToList());
+            var Filters= model.Filters.Where(i=>i.EnumValues.Any(t => t.Checked==true)&& i.EnumValues.Count>0).ToList();
+            var checkedEnumValueIds = new List<int>();
+            foreach (var item in Filters)
+            {
+                checkedEnumValueIds.AddRange(item.EnumValues.Where(t => t.Checked == true).Select(s => s.Id));
+            }
+
+
+             //var efFilters= mapper.Map<IEnumerable<CategoryFilterViewModel>,List<DBFirstDAL.Filters>>(Filters.ToList());
             var EfModel = _categoryRepository.FindBy(i => i.Id == model.Id).SingleOrDefault();
             model = mapper.Map<CategoryViewModel>(EfModel);
             if (sortingOrder!=null)
@@ -304,12 +333,12 @@ namespace Pyramid.Controllers
                 }
                 
             }
-            var efnumValues=efFilters.Select(l => l.EnumValues);
-            IEnumerable<DBFirstDAL.EnumValues> unionValues = new List<DBFirstDAL.EnumValues>();
-            foreach (var item in efnumValues)
-            {
-                unionValues = unionValues.Union(item);
-            }
+            //var efnumValues=efFilters.Select(l => l.EnumValues);
+            //IEnumerable<DBFirstDAL.EnumValues> unionValues = new List<DBFirstDAL.EnumValues>();
+            //foreach (var item in efnumValues)
+            //{
+            //    unionValues = unionValues.Union(item);
+            //}
             List<Models.BreadCrumbViewModel> breadcrumbs = new List<Models.BreadCrumbViewModel>();
             breadcrumbs.Add(new Models.BreadCrumbViewModel()
             {
@@ -347,13 +376,15 @@ namespace Pyramid.Controllers
             breadcrumbs.Reverse();
             ViewBag.BredCrumbs = breadcrumbs;
 
-            var efoutProduct =_categoryRepository.GetWithCheckedEnumValues(model.Id, unionValues);
+            var efoutProduct =_categoryRepository.GetWithCheckedEnumValues(model.Id, checkedEnumValueIds);
             efoutProduct=efoutProduct.Where(i => i.Price >= min && i.Price <= max).ToList();
             model.Products = mapper.Map<List<Pyramid.Entity.Product>>(efoutProduct);
             model.MaxPrice = _categoryRepository.GetMaxPriceFromCategory(model.Id);
             model.MinPrice = _categoryRepository.GetMinPriceFromCategory(model.Id);
             model.CurrentMinPrice = min;
             model.CurrentMaxPrice = max;
+
+            ViewBag.MetaTitle = EfModel.Seo.MetaTitle;
             return View(model);
         }
         [Authorize]
@@ -373,6 +404,9 @@ namespace Pyramid.Controllers
                  .ForMember(d => d.Categories, o => o.Ignore());
 
                 cfg.CreateMap<DBFirstDAL.Images, Pyramid.Entity.Image>()
+                ;
+
+                cfg.CreateMap<DBFirstDAL.Seo, Seo>()
                 ;
             });
 
@@ -423,7 +457,11 @@ namespace Pyramid.Controllers
 
                 cfg.CreateMap< Pyramid.Entity.Filter, DBFirstDAL.Filters>()
                  .ForMember(d => d.EnumValues, o => o.Ignore());
-               
+
+                cfg.CreateMap< Seo, DBFirstDAL.Seo>()
+                .ForMember(d => d.Categories, o => o.Ignore());
+                ;
+
             });
 
 

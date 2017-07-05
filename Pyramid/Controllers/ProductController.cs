@@ -49,7 +49,8 @@ namespace Pyramid.Controllers
                .ForMember(d => d.Checked, o => o.UseValue(false))
                .ForMember(d => d.Filters, o => o.Ignore())
                //.ForMember(d => d.Products, o => o.Ignore())
-               .ForMember(d => d.Thumbnail, o => o.Ignore());
+               .ForMember(d => d.Thumbnail, o => o.Ignore())
+               .ForAllMembers(o => o.Ignore());
 
                 cfg.CreateMap<DBFirstDAL.ProductValues, Entity.ProductValue>()
                 .ForMember(d => d.Product, o => o.Ignore())
@@ -119,7 +120,7 @@ namespace Pyramid.Controllers
             return View(model);
         }
         [Authorize]
-        public ActionResult AdminIndex(string currentFilter, string searchString,int? categoryId, int? page)
+        public ActionResult AdminIndex(string currentFilter, string searchString,int? categoryId, int? page, bool priority=false )
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -150,6 +151,7 @@ namespace Pyramid.Controllers
 
             ViewBag.CurrentFilter = searchString;
             ViewBag.CategoryId = categoryId;
+            ViewBag.Priority = priority;
             ViewBag.CategoriesSelectListItem = _categoryRepository.GetAll().Select(item => new SelectListItem
             {
                 Text = item.Title,
@@ -166,12 +168,19 @@ namespace Pyramid.Controllers
                 efProducts = _productRepository.GetAll();
             }
              
+            
 
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 efProducts = efProducts.Where(s => s.Title.Contains(searchString));
             }
+            if (priority)
+            {
+                efProducts = efProducts.Where(s => s.IsPriority == true);
+
+            }
+
             var efProductsList = efProducts.ToList();
             efProductsList.Reverse();
             int pageNumber = (page ?? 1);
@@ -201,11 +210,13 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.Products, o => o.Ignore())
                 .ForMember(d => d.Thumbnail, o => o.Ignore())
 
-
-                //.ForMember(d => d, o => o.MapFrom(m=>m.Categories1
+                 .ForMember(d => d.Seo, o => o.Ignore())
+                  .ForMember(d => d.SeoId, o => o.Ignore())
+                  
                 ;
                 cfg.CreateMap<DBFirstDAL.Categories, Pyramid.Models.CategoryAdminViewModel>()
                 .ForMember(d => d.Checked, o => o.UseValue(false))
+                 
                 ;
 
                 cfg.CreateMap<DBFirstDAL.ProductValues, Entity.ProductValue>()
@@ -242,7 +253,7 @@ namespace Pyramid.Controllers
                 mapper.Map<IEnumerable<DBFirstDAL.Categories>, List<Models.CategoryAdminViewModel>>(_categoryRepository.GetAll().ToList());
 
 
-            if (model!=null)
+            if (model!=null&& model.Categories!=null)
             {
                 foreach (var item in model.Categories)
                 {
@@ -293,6 +304,9 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.CategoryImages, o => o.Ignore())
                 .ForMember(d => d.Recommendations, o => o.Ignore())
                 .ForMember(d => d.HomeEntity, o => o.Ignore())
+                .ForMember(d => d.Seo, o => o.Ignore())
+                .ForMember(d => d.SeoId, o => o.Ignore())
+                
                 ;
 
                 cfg.CreateMap<EnumValue, DBFirstDAL.EnumValues>()
@@ -460,6 +474,7 @@ namespace Pyramid.Controllers
             return RedirectToAction("AdminIndex");
         }
 
+       
        
     }
 }

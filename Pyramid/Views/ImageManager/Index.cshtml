@@ -162,22 +162,22 @@
                 notAvailablePath: '/Content/img-file-uploader/not_available-generic.png'
             }
         },
-        autoUpload: true,
+        //autoUpload: true,
         interceptSubmit: false,
         allowXdr:true,
        // multiple: false
-    })/*.on('complete', function (event, id, name, responseJSON) {
+    }).on('complete', function (event, id, name, responseJSON) {
         var tmp = responseJSON;
         reloadData();
         setTimeout(function () {
             $(".qq-upload-list-selector").html("");
         }, 3000);
         event.preventDefault();
-    });*/;
+    });;
 
-    //$('#trigger-upload').click(function () {
-    //    $('#fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
-    //});
+    $('#trigger-upload').click(function () {
+        $('#fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
+    });
 
    
 </script>

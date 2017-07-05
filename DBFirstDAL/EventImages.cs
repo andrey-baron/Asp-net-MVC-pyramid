@@ -17,7 +17,7 @@ namespace DBFirstDAL
         public int EventId { get; set; }
         public Nullable<int> ImageId { get; set; }
     
-        public virtual Images Images { get; set; }
         public virtual Events Events { get; set; }
+        public virtual Images Images { get; set; }
     }
 }

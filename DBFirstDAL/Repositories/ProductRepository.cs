@@ -262,6 +262,97 @@ namespace DBFirstDAL.Repositories
            
         }
 
+        public void AddOrUpdateFromOneC(Products product)
+        {
+            using (PyramidFinalContext dbContext=new PyramidFinalContext())
+            {
+                var dbProduct = dbContext.Products.FirstOrDefault(i => i.OneCId == product.OneCId);
+                var exist = dbProduct != null;
+                if (!exist)
+                {
+                    dbProduct = new Products();
+                }
+                UpdateBeforeSavingOceC(dbContext, dbProduct, product, exist);
+                dbContext.SaveChanges();
+
+                UpdateAfterSavingOneC(dbContext, dbProduct, product, exist);
+                dbContext.SaveChanges();
+            }
+
+        }
+
+        public void UpdateBeforeSavingOceC(PyramidFinalContext dbContext,Products dbObjext, Products model,bool exist)
+        {
+            dbObjext.DateChange = DateTime.Now;
+            dbObjext.DateCreation = DateTime.Now;
+            dbObjext.InStock = model.InStock;
+            dbObjext.IsFilled = model.IsFilled;
+            dbObjext.IsPriority = model.IsPriority;
+            dbObjext.Title = model.Title;
+            dbObjext.TypePrice = model.TypePrice;
+            dbObjext.OneCId = model.OneCId;
+            dbObjext.Price = model.Price;
+            if (!exist)
+            {
+                dbContext.Products.Add(dbObjext);
+            }
+           
+        }
+        public void UpdateAfterSavingOneC(PyramidFinalContext dbContext, Products dbObjext, Products model, bool exist)
+        {
+            if (model.Categories != null)
+            {
+                foreach (var item in model.Categories)
+                {
+                    var efCat = dbContext.Categories.FirstOrDefault(f => f.OneCId == item.OneCId);
+                    if (efCat != null)
+                    {
+                        if (!dbObjext.Categories.Contains(efCat))
+                        {
+                            dbObjext.Categories.Add(efCat);
+                        }
+
+                    }
+
+                }
+            }
+
+            if (model.EnumValues != null)
+            {
+                var firstEnumValue = model.EnumValues.FirstOrDefault();
+                if (firstEnumValue != null&& firstEnumValue.Key!=null)
+                {
+                    var enumValueFromProduct = dbObjext.EnumValues.FirstOrDefault(f => f.Key == firstEnumValue.Key);
+                    if (enumValueFromProduct == null)
+                    {
+                        var dbEnumValue = dbContext.EnumValues.Where(i => i.Key == firstEnumValue.Key).Distinct().SingleOrDefault();
+                        if (dbEnumValue != null)
+                        {
+                            dbObjext.EnumValues.Add(dbEnumValue);
+                            dbContext.SaveChanges();
+                        }
+                        else
+                        {
+                            var newEnumValue = new EnumValues() {
+                                Key = firstEnumValue.Key,
+                                TypeValue =(int)Common.TypeFromEnumValue.Brand
+                            };
+                            dbContext.EnumValues.Add(newEnumValue);
+                            dbContext.SaveChanges();
+                            dbObjext.EnumValues.Add(newEnumValue);
+                        }
+                    }
+                    
+                }
+            }
+
+
+
+
+        }
+
+        
+
         public void UpdateReletedCategoriesFromProducts(IEnumerable<Product1cIdWith1cCategoryIds> productsWithCategories)
         {
             using (PyramidFinalContext dbContext = new PyramidFinalContext())

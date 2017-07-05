@@ -117,6 +117,8 @@ namespace Pyramid.Controllers
                 ViewBag.BredCrumbs = breadcrumbs;
             }
             var modelPage = mapper.Map<Pyramid.Entity.Page>(efPage);
+
+            ViewBag.MetaTitle = modelPage.Title;
             return View(modelPage);
         }
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 
 namespace DBFirstDAL.Repositories
 {
@@ -20,36 +21,36 @@ namespace DBFirstDAL.Repositories
             {
 
 
-               // CategoryHomeModel catModel = new CategoryHomeModel();
-               //// IEnumerable<ProductHomeModel> prModel=new List<ProductHomeModel>();
-               // if (efHome.Products!=null)
-               // {
+                // CategoryHomeModel catModel = new CategoryHomeModel();
+                //// IEnumerable<ProductHomeModel> prModel=new List<ProductHomeModel>();
+                // if (efHome.Products!=null)
+                // {
 
-                
-               // var prModel = efHome.Categories.Products.Select(i => new ProductHomeModel()
-               // {
-               //     Id = i.Id,
-               //     InStock = (bool)i.InStock,
-               //     Price = i.Price,
-               //     ThumbnailImg = (i.ProductImages.FirstOrDefault(f => f.ProductId == i.Id)) != null ?
-               //      i.ProductImages.FirstOrDefault(f => f.ProductId == i.Id).Images
-               //      :
-               //      null,
-               //     Title = i.Title,
-               //     TypePrice = i.TypePrice
-               // });
-               //     catModel.Title = efHome.Categories.Title;
-               //     catModel.Id = efHome.Categories.Id;
-               //     catModel.Products = prModel;
-               // }
-                
 
-               // dataModel.Category = catModel;
-               // dataModel.Faq = efHome.Faq;
-               // dataModel.BannerWithPoints = efHome.BannerWithPoints;
-               // dataModel.VideoGuide = efHome.VideoGuide;
-               // dataModel.Id = efHome.Id;
-               // dataModel.Title = efHome.Title;
+                // var prModel = efHome.Categories.Products.Select(i => new ProductHomeModel()
+                // {
+                //     Id = i.Id,
+                //     InStock = (bool)i.InStock,
+                //     Price = i.Price,
+                //     ThumbnailImg = (i.ProductImages.FirstOrDefault(f => f.ProductId == i.Id)) != null ?
+                //      i.ProductImages.FirstOrDefault(f => f.ProductId == i.Id).Images
+                //      :
+                //      null,
+                //     Title = i.Title,
+                //     TypePrice = i.TypePrice
+                // });
+                //     catModel.Title = efHome.Categories.Title;
+                //     catModel.Id = efHome.Categories.Id;
+                //     catModel.Products = prModel;
+                // }
+
+
+                // dataModel.Category = catModel;
+                // dataModel.Faq = efHome.Faq;
+                // dataModel.BannerWithPoints = efHome.BannerWithPoints;
+                // dataModel.VideoGuide = efHome.VideoGuide;
+                // dataModel.Id = efHome.Id;
+                // dataModel.Title = efHome.Title;
 
                 return efHome;
             }
@@ -118,18 +119,17 @@ namespace DBFirstDAL.Repositories
 
         }
 
-        public IEnumerable< HomeEntity> GetModels(bool adminManage)
+        public IEnumerable<HomeEntity> GetModels(bool adminManage)
         {
             if (adminManage)
             {
-                return GetAll()as IEnumerable<HomeEntity>;
+                return GetAll() as IEnumerable<HomeEntity>;
             }
             else
             {
                 var efEntity = Context.HomeEntity
                     .Include(b => b.BannerWithPoints)
                     .Include(b => b.Faq)
-                    .Include(b => b.VideoGuide)
                     .Include(i => i.Products)
                     .Include(i => i.Categories)
                     .ToList();
@@ -156,22 +156,22 @@ namespace DBFirstDAL.Repositories
                 //});
                 return efEntity.ToList();
             }
-           
+
         }
 
         private ProductHomeModel ToModelProduct(Products product)
         {
             var model = new ProductHomeModel();
-            if (product!=null)
+            if (product != null)
             {
                 model.Id = product.Id;
-                model.InStock = product.InStock.HasValue ? product.InStock.Value:false ;
+                model.InStock = product.InStock.HasValue ? product.InStock.Value : false;
                 model.Price = product.Price;
-                model.SeasonOffer = product.SeasonOffer.HasValue? product.SeasonOffer.Value:false;
+                model.SeasonOffer = product.SeasonOffer.HasValue ? product.SeasonOffer.Value : false;
                 model.ThumbnailImg = product.ProductImages.FirstOrDefault(i => i.TypeImage == 1 && i.ProductId == product.Id) != null ? product.ProductImages.FirstOrDefault(i => i.TypeImage == 1 && i.ProductId == product.Id).Images : null;
                 model.Title = product.Title;
                 model.TypePrice = product.TypePrice;
-                
+
             }
             return model;
         }
@@ -179,28 +179,35 @@ namespace DBFirstDAL.Repositories
         private CategoryHomeModel ToModelCategory(Categories cat)
         {
             CategoryHomeModel catModel = new CategoryHomeModel();
-            if (cat!=null)
+            if (cat != null)
             {
                 catModel.Title = cat.Title;
                 catModel.Id = cat.Id;
             }
-            
+
             return catModel;
         }
-        
+
         public void AddOrUpdateModel(HomeEntity model)
         {
             var efHomeModel = FindBy(i => i.Id == model.Id).SingleOrDefault();
-            if (efHomeModel==null)
+            if (efHomeModel == null)
             {
                 efHomeModel = new HomeEntity();
 
                 efHomeModel.Title = model.Title;
-                if (model.Content!=null)
+                if (model.Content != null)
                 {
                     efHomeModel.Content = model.Content;
+                }
+                efHomeModel.LinkYouTobe = model.LinkYouTobe;
+                if (model.ThumbnailId!=0)
+                {
+                    efHomeModel.ThumbnailId = model.ThumbnailId;
 
                 }
+                
+                efHomeModel.CallToAction = model.CallToAction;
                 Context.HomeEntity.Add(efHomeModel);
                 Save();
                 foreach (var item in model.Categories)
@@ -210,7 +217,7 @@ namespace DBFirstDAL.Repositories
                     {
                         efHomeModel.Categories.Add(efCat);
                     }
-                    
+
                 }
                 foreach (var item in model.Products)
                 {
@@ -229,8 +236,8 @@ namespace DBFirstDAL.Repositories
                 Save();
                 efHomeModel.BannerWithPoints = new BannerWithPoints()
                 {
-                    BannerId = model.Id,
-                    ImageId = model.BannerWithPoints.Images.Id
+                    BannerId = efHomeModel.Id,
+                    ImageId = model.BannerWithPoints.Images.Id != 0 ? (int?)model.BannerWithPoints.Images.Id : null
                 };
                 foreach (var item in model.BannerWithPoints.PointOnImgs)
                 {
@@ -244,6 +251,8 @@ namespace DBFirstDAL.Repositories
                     });
                 }
                 Save();
+
+
             }
             else
             {
@@ -253,6 +262,34 @@ namespace DBFirstDAL.Repositories
                     efHomeModel.Content = model.Content;
                     Save();
                 }
+                efHomeModel.LinkYouTobe = model.LinkYouTobe;
+                efHomeModel.TitleVideoGuide = model.TitleVideoGuide;
+                if (model.ThumbnailId!=0)
+                {
+                    efHomeModel.ThumbnailId = model.ThumbnailId;
+
+                }
+                
+                efHomeModel.CallToAction = model.CallToAction;
+
+
+                try
+                {
+                    Save();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    StringBuilder s = new StringBuilder();
+                    foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationError in entityValidationErrors.ValidationErrors)
+                        {
+                            s.AppendLine("Property: "+ validationError.PropertyName + " Error: "+ validationError.ErrorMessage);
+                        }
+                    }
+
+                }
+
                 efHomeModel.Categories.Clear();
                 foreach (var item in model.Categories)
                 {
@@ -263,7 +300,9 @@ namespace DBFirstDAL.Repositories
                     }
 
                 }
+
                 efHomeModel.Products.Clear();
+                Save();
                 foreach (var item in model.Products)
                 {
                     var efPr = Context.Products.Find(item.Id);
@@ -278,33 +317,35 @@ namespace DBFirstDAL.Repositories
                 {
                     efHomeModel.Faq = efFaq;
                 }
+                Save();
                 if (efHomeModel.BannerWithPoints == null)
                 {
-                    efHomeModel.BannerWithPoints = new BannerWithPoints() {
-                        BannerId =model.Id,
-                        ImageId=model.BannerWithPoints.Images.Id
+                    efHomeModel.BannerWithPoints = new BannerWithPoints()
+                    {
+                        BannerId = model.Id,
+                        ImageId = model.BannerWithPoints.Images.Id != 0 ? (int?)model.BannerWithPoints.Images.Id : null
                     };
                 }
                 else
                 {
-                    
-                    efHomeModel.BannerWithPoints.ImageId = model.BannerWithPoints.Images.Id;
+
+                    efHomeModel.BannerWithPoints.ImageId = model.BannerWithPoints.Images.Id != 0 ? (int?)model.BannerWithPoints.Images.Id : null;
                 }
                 //efHomeModel.BannerWithPoints.PointOnImgs.Clear();
 
-                
+                Save();
 
-                if (efHomeModel.BannerWithPoints.PointOnImgs!=null&& efHomeModel.BannerWithPoints.PointOnImgs.Count>0)
+                if (efHomeModel.BannerWithPoints.PointOnImgs != null && efHomeModel.BannerWithPoints.PointOnImgs.Count > 0)
                 {
                     List<PointOnImgs> oldImgs = new List<PointOnImgs>(efHomeModel.BannerWithPoints.PointOnImgs);
 
                     foreach (var item in oldImgs)
                     {
                         var efpoint = efHomeModel.BannerWithPoints.PointOnImgs.FirstOrDefault(i => i.Id == item.Id);
-                        if (efpoint!=null)
+                        if (efpoint != null)
                         {
                             //efHomeModel.BannerWithPoints.PointOnImgs.Remove(efpoint);
-                             Context.PointOnImgs.Remove(efpoint);
+                            Context.PointOnImgs.Remove(efpoint);
                         }
 
                     }
@@ -318,13 +359,34 @@ namespace DBFirstDAL.Repositories
                         CoordX = item.CoordX,
                         CoordY = item.CoordY,
                         Id = item.Id,
-                        ReferenceProductId = item.Products!=null? item.Products.Id: (int?) null
+                        ReferenceProductId = item.Products != null ? item.Products.Id : (int?)null
                     });
                 }
                 Save();
-               
+
+                //var efVideo = Context.VideoGuide.Find(efHomeModel.Id);
+                //if(efVideo!=null)
+                //{
+                //    efVideo.LinkYouTobe = model.VideoGuide.LinkYouTobe;
+                //    efVideo.ThumbnailId = model.VideoGuide.Images.Id;
+                //}
+                //else
+                //{
+                //    efVideo = new VideoGuide()
+                //    {
+                //        HomeEntityId = model.Id,
+                //        LinkYouTobe = model.VideoGuide.LinkYouTobe,
+                //        ThumbnailId = model.VideoGuide.Images.Id,
+                //        HomeEntity=efHomeModel
+                //    };
+                //    Context.VideoGuide.Add(efVideo);
+
+                //}
+
+                //Save();
             }
         }
+ 
 
         //public IQueryable<HomeEntity> GetAllWithNavigation()
         //{

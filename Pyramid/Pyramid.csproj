@@ -190,6 +190,7 @@
     <Compile Include="Controllers\EnumValueController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\FAQController.cs" />
+    <Compile Include="Controllers\FeedBackController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeEntityController.cs" />
@@ -261,6 +262,7 @@
     <Content Include="Content\img\arrow-prev.png" />
     <Content Include="Content\img\arrow-right.png" />
     <Content Include="Content\img\bg-rules-order.png" />
+    <Content Include="Content\img\btn-play-video.svg" />
     <Content Include="Content\img\btn-play.png" />
     <Content Include="Content\img\bx_loader.gif" />
     <Content Include="Content\img\cart.png" />
@@ -301,6 +303,7 @@
     <Content Include="Content\img\trolley.png" />
     <Content Include="Content\img\v-baner.png" />
     <Content Include="Content\img\vk_icon.png" />
+    <Content Include="Content\img\декорацца.jpg" />
     <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-noscript.css" />
     <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-ui-noscript.css" />
     <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-ui.css" />
@@ -314,6 +317,8 @@
     <Content Include="Content\libs\jquery.bxslider.css" />
     <Content Include="Content\libs\jquery.bxslider.min.css" />
     <Content Include="Content\libs\jquery.bxslider.min.js" />
+    <Content Include="Content\libs\magnificPopup.js" />
+    <Content Include="Content\libs\mfp.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\src\admin-blocks\admin-product.js" />
     <Content Include="Content\src\admin-blocks\admin\admin.js" />
@@ -328,6 +333,7 @@
     <Content Include="Content\src\blocks\category\category.js" />
     <Content Include="Content\src\blocks\footer\footer.js" />
     <Content Include="Content\src\blocks\home-slider\home-slider.js" />
+    <Content Include="Content\src\blocks\other.js" />
     <Content Include="Content\src\blocks\product\product.js" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -414,6 +420,14 @@
     <Content Include="Content\src\blocks\page\page.less" />
     <Content Include="Content\src\blocks\search\search.less" />
     <None Include="Properties\PublishProfiles\Pyramid.pubxml" />
+    <Content Include="Scripts\dropzone\basic.css" />
+    <Content Include="Scripts\dropzone\basic.min.css" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.js" />
+    <Content Include="Scripts\dropzone\dropzone-amd-module.min.js" />
+    <Content Include="Scripts\dropzone\dropzone.css" />
+    <Content Include="Scripts\dropzone\dropzone.js" />
+    <Content Include="Scripts\dropzone\dropzone.min.css" />
+    <Content Include="Scripts\dropzone\dropzone.min.js" />
     <Content Include="Scripts\fine-uploader.js" />
     <Content Include="Scripts\fine-uploader.min.js" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
@@ -444,6 +458,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\main\main.js" />
+    <Content Include="Scripts\main\Mymfp-script.js" />
     <Content Include="Scripts\main\single.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
@@ -712,6 +727,10 @@
     <Content Include="Views\Shared\_PartialSliderOnPages.cshtml" />
     <Content Include="Views\HomeEntity\GetTemplateAllCategories.cshtml" />
     <Content Include="Views\HomeEntity\GetTemplateAllProducts.cshtml" />
+    <Content Include="Views\ImageManager\IndexDropzone.cshtml" />
+    <Content Include="Views\FeedBack\_PartialEmailMessage.cshtml" />
+    <Content Include="Views\FeedBack\Index.cshtml" />
+    <Content Include="Views\FeedBack\AddOrUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

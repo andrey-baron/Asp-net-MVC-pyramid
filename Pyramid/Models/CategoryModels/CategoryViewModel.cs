@@ -1,4 +1,5 @@
 ﻿
+using Entity;
 using Pyramid.Entity;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace Pyramid.Models.CategoryModels
 
         public int CurrentMaxPrice { get; set; }
         public int CurrentMinPrice { get; set; }
+
+        public Seo Seo { get; set; }
 
         public CategoryViewModel()
         {

@@ -14,7 +14,9 @@ namespace Pyramid
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
 "~/Scripts/jquery-ui-{version}.js"));
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                        "~/Scripts/jquery.validate*",
+                        "~/Scripts/jquery.unobtrusive-ajax.js"
+                        ));
 
             // Используйте версию Modernizr для разработчиков, чтобы учиться работать. Когда вы будете готовы перейти к работе,
             // используйте средство сборки на сайте http://modernizr.com, чтобы выбрать только нужные тесты.
@@ -28,8 +30,17 @@ namespace Pyramid
             bundles.Add(new ScriptBundle("~/bundles/adminscript").Include(
                      "~/Scripts/admin/admin.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/magnificPopup").Include(
+                    "~/Content/libs/magnificPopup.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/magnificPopup-manage").Include(
+                    "~/Scripts/main/Mymfp-script.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/tinymce").Include(
                      "~/Scripts/tinymce/tinymce.min.js"));
+
+            bundles.Add(new StyleBundle("~/Content/magnificPopupcss").Include(
+                    "~/Content/libs/mfp.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/ajax").Include(
                      "~/Scripts/jquery.unobtrusive-ajax.min.js"
@@ -83,6 +94,12 @@ namespace Pyramid
 
 
 ));
+
+            bundles.Add(new ScriptBundle("~/bundles/dropzonescripts").Include(
+                     "~/Scripts/dropzone/dropzone.js"));
+            bundles.Add(new StyleBundle("~/Content/dropzonescss").Include(
+                     "~/Scripts/dropzone/basic.css",
+                     "~/Scripts/dropzone/dropzone.css"));
         }
     }
 }

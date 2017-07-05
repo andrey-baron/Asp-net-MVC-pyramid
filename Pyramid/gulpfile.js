@@ -1,4 +1,4 @@
-﻿/// <binding />
+/// <binding />
 const gulp = require('gulp');
 const gutil = require('gulp-util');
 var babel = require('gulp-babel');

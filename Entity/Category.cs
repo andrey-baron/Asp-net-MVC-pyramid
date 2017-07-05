@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,6 +21,10 @@ namespace Pyramid.Entity
         [Display(Name ="Родительская категория")]
         public int? ParentId { get; set; }
         public bool FlagRoot { get; set; }
+
+        public Nullable<int> SeoId { get; set; }
+
+        public  Seo Seo { get; set; }
 
         public Image Thumbnail { get; set; }
         public ICollection<Product> Products { get; set; }

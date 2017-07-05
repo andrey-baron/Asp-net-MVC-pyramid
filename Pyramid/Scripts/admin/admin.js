@@ -58,6 +58,25 @@
         })
     });
 })();
+; (function () {
+     
+    var categoryId = $("#Category_Id").val();
+    $(".js-btn-category-add-filter").on("click", function () {
+        var count = $(".admin-category__filter").length;
+        $.post("/Category/GetTemplateFilter?id=" + categoryId+"&count="+count, function (data) {
+            $(".js-category-filters").append(data);
+        });
+    });
+    $(".js-category-filters").on("click", ".js-btn-category-filter-delete", function (e) {
+        var id = $(this).data("ajaxid");
+        $.post("/Category/DeleteFilter?id=" + categoryId + "&filterid=" + id, function (t) {
+            $.post("/Category/GetAllFilter/" + categoryId, function (data) {
+                $(".js-category-filters").html(data);
+            });
+        });
+    })
+
+})();
 ;(function(){
     tinymce.init({
 
@@ -81,25 +100,6 @@
         gotoCurrent: true,
         dateFormat: "dd.mm.yy"
     });
-
-})();
-; (function () {
-     
-    var categoryId = $("#Category_Id").val();
-    $(".js-btn-category-add-filter").on("click", function () {
-        var count = $(".admin-category__filter").length;
-        $.post("/Category/GetTemplateFilter?id=" + categoryId+"&count="+count, function (data) {
-            $(".js-category-filters").append(data);
-        });
-    });
-    $(".js-category-filters").on("click", ".js-btn-category-filter-delete", function (e) {
-        var id = $(this).data("ajaxid");
-        $.post("/Category/DeleteFilter?id=" + categoryId + "&filterid=" + id, function (t) {
-            $.post("/Category/GetAllFilter/" + categoryId, function (data) {
-                $(".js-category-filters").html(data);
-            });
-        });
-    })
 
 })();
 
@@ -166,24 +166,6 @@
     
 
 })();
-; (function () {
-    /*filter function*/
-       var filterId = $("#Filter_Id").val();
-    $(".js-btn-filter-add-enumvalue").on("click", function () {
-        var count =$(".admin-filter__enum-value").length;
-        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId + "&count=" + count, function (data) {
-            $(".js-filter-all-enumvalues").append(data);
-        });
-    });
-    $(".js-filter-all-enumvalues").on("click", ".btn-filter-enum-value-delete", function (e) {
-        var id = $(this).data("ajaxid");
-        $.post("/Filter/DeleteEnumValue?id=" + filterId + "&enumValueId=" + id, function (t) {
-            $.post("/Filter/GetAllEnumValues?filterid=" + filterId, function (data) {
-                $(".js-filter-all-enumvalues").html(data);
-            });
-        });
-    })
-})();
 (function () {
     /*function home-entity.js*/
     var id = $("#HomeEntity_Id").val();
@@ -230,6 +212,18 @@
             $(".home-entity__view-img").attr("src", $(this).data("url"));
             $("#banner-edit-modal").modal('hide');
         })
+    });
+    $(".js-btn-update-videoguide-img").on("click", function () {
+        $.post("/ImageManager/PartialSelectImage", function (data) {
+            $('#videoguide-edit-modal .modal-body').html(data);
+        })
+        $("#videoguide-edit-modal").modal('show');
+
+        $("#videoguide-edit-modal").on("click", ".btn-ajax-edit", function () {
+            $("#VideoGuide_Image_Id").val($(this).data("ajaxid"));
+            $("#img-videoguide").attr("src", $(this).data("url"));
+            $("#videoguide-edit-modal").modal('hide');
+        });
     });
     $(".home-entity__point-product-list").on("change", ".point-category", function () {
         var thisElem = $(this);
@@ -292,6 +286,24 @@
         inputY.val(coordY);
     }
 })()
+; (function () {
+    /*filter function*/
+       var filterId = $("#Filter_Id").val();
+    $(".js-btn-filter-add-enumvalue").on("click", function () {
+        var count =$(".admin-filter__enum-value").length;
+        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId + "&count=" + count, function (data) {
+            $(".js-filter-all-enumvalues").append(data);
+        });
+    });
+    $(".js-filter-all-enumvalues").on("click", ".btn-filter-enum-value-delete", function (e) {
+        var id = $(this).data("ajaxid");
+        $.post("/Filter/DeleteEnumValue?id=" + filterId + "&enumValueId=" + id, function (t) {
+            $.post("/Filter/GetAllEnumValues?filterid=" + filterId, function (data) {
+                $(".js-filter-all-enumvalues").html(data);
+            });
+        });
+    })
+})();
 ;(function () {
     
 

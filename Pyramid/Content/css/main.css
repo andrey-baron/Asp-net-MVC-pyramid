@@ -117,6 +117,14 @@ ul {
   color: #ccc;
   margin-right: 10px;
 }
+#notifies {
+  position: fixed;
+  width: auto;
+  height: auto;
+  top: 0;
+  right: 0;
+  z-index: 101;
+}
 
 
 .breadcrumbs {
@@ -633,7 +641,7 @@ ul {
   text-decoration: underline;
 }
 .decoration-work__video {
-  max-width: 100%;
+  max-width: 90%;
   display: block;
   margin: 0 auto;
   text-align: center;
@@ -934,6 +942,7 @@ ul {
   width: 32px;
   height: 32px;
   margin: 0 auto;
+  margin-top: 40px;
   margin-bottom: 20px;
   /*&:before{
         display:inline-block;
@@ -1130,9 +1139,17 @@ ul {
 .header__wrap-catalog-dropdown:hover .header__catalog-dropdown {
   display: block;
 }
+.header__banner {
+  background-position: center center!important;
+  background-size: cover!important;
+  height: 100%;
+}
 @media (min-width: 992px) and (max-width: 1200px) {
   .header__logo {
-    width: 200px;
+    width: 165px;
+  }
+  .header__icon-phone {
+    margin-top: 0;
   }
   .header__consultant-text {
     font-size: 14px;
@@ -1377,6 +1394,21 @@ page__event-item + page__event-item {
 .product__item:hover .product__buy {
   display: block;
 }
+.product {
+  /*&__item-price_low{
+    background: @yellowColor;
+    color: @redColor;
+    .triangle-up{
+      border-top: 32px solid @redColor;
+    }
+    &:before{
+      content: "Низкая цена";
+      border-bottom: none;
+      width: inherit;
+    }
+
+  }*/
+}
 .product__item {
   height: 510px;
   padding: 16px;
@@ -1471,31 +1503,19 @@ page__event-item + page__event-item {
   border-top: 32px solid #ffe025;
 }
 .product__item-price_limited:before {
-  content: "предложение ограничено";
+  content: "Предложение ограничено";
   border-bottom: none;
   width: 100%;
 }
-.product__item-price_low {
-  background: #ffe025;
-  color: #ff0000;
-}
-.product__item-price_low .triangle-up {
-  border-top: 32px solid #ff0000;
-}
-.product__item-price_low:before {
-  content: "Низкая цена";
-  border-bottom: none;
-  width: inherit;
-}
-.product__item-price_best {
+.product__item-price_new {
   background: #ffe025;
   color: #333;
 }
-.product__item-price_best .triangle-up {
+.product__item-price_new .triangle-up {
   border-top: 32px solid #333;
 }
-.product__item-price_best:before {
-  content: "Лучшая цена";
+.product__item-price_new:before {
+  content: "Новинка";
   border-bottom: none;
   width: inherit;
 }

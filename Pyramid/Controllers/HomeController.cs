@@ -36,7 +36,7 @@ namespace Pyramid.Controllers
                // cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.HomeEntityModel, Pyramid.Entity.HomeEntity>()
                //;
                 cfg.CreateMap<DBFirstDAL.HomeEntity, Pyramid.Entity.HomeEntity>()
-              ;
+                ;
                 cfg.CreateMap<DBFirstDAL.BannerWithPoints, Pyramid.Entity.BannerWithPoints>();
 
                 cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.BannerWithPointsHomeDataModel, Pyramid.Entity.BannerWithPoints>();
@@ -46,14 +46,15 @@ namespace Pyramid.Controllers
 
                 cfg.CreateMap<DBFirstDAL.PointOnImgs, Pyramid.Entity.PointOnImg>();
 
-             //   cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.CategoryHomeModel, Entity.Category>()
-             //   .ForMember(d => d.Checked, o => o.Ignore())
-             //   .ForMember(d => d.Filters, o => o.Ignore())
-             //   .ForMember(d => d.Thumbnail, o => o.Ignore())
-             //   .ForMember(d => d.ParentId, o => o.Ignore())
-             //   .ForMember(d => d.FlagRoot, o => o.Ignore())
-             //    .ForMember(d => d.OneCId, o => o.Ignore())
-             //;
+
+                //   cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.CategoryHomeModel, Entity.Category>()
+                //   .ForMember(d => d.Checked, o => o.Ignore())
+                //   .ForMember(d => d.Filters, o => o.Ignore())
+                //   .ForMember(d => d.Thumbnail, o => o.Ignore())
+                //   .ForMember(d => d.ParentId, o => o.Ignore())
+                //   .ForMember(d => d.FlagRoot, o => o.Ignore())
+                //    .ForMember(d => d.OneCId, o => o.Ignore())
+                //;
 
                 cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.ProductHomeModel, Entity.Product>()
                 .ForMember(d => d.Categories, o => o.Ignore())
@@ -70,6 +71,8 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.DateChange, o => o.Ignore())
                  .ForMember(d => d.OneCId, o => o.Ignore())
                   .ForMember(d => d.PopularCount, o => o.Ignore())
+                  .ForMember(d => d.IsFilled, o => o.Ignore())
+                   .ForMember(d => d.IsPriority, o => o.Ignore())
                 ;
                 cfg.CreateMap<DBFirstDAL.Images, Entity.Image>();
 
@@ -77,7 +80,6 @@ namespace Pyramid.Controllers
               ;
                 cfg.CreateMap<DBFirstDAL.QuestionAnswer, Entity.QuestionAnswer>();
 
-                cfg.CreateMap<DBFirstDAL.VideoGuide, Entity.VideoGuide>();
 
 
                 cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
@@ -99,37 +101,21 @@ namespace Pyramid.Controllers
                .ForMember(d => d.Filters, o => o.Ignore())
                .ForMember(d => d.ParentId, o => o.Ignore())
                .ForMember(d => d.Products, o => o.Ignore())
-               .ForMember(d => d.Thumbnail, o => o.Ignore());
+               .ForMember(d => d.Thumbnail, o => o.Ignore())
+               .ForMember(d => d.Seo, o => o.Ignore())
+               .ForMember(d => d.SeoId, o => o.Ignore());
                 #endregion
 
 
             });
-            //var configForFooterCategories = new MapperConfiguration(cfg =>
-            //{
-            //    #region root config
-
-            //    cfg.CreateMap<DBFirstDAL.Categories, Pyramid.Entity.Category>()
-            //   .ForMember(d => d.Thumbnail, o => o.Ignore())
-            //   .ForMember(d => d.Checked, o => o.Ignore())
-            //   .ForMember(d => d.Filters, o => o.Ignore())
-            //   .ForMember(d => d.ParentId, o => o.Ignore())
-            //   .ForMember(d => d.Products, o => o.Ignore())
-            //   .ForMember(d => d.Thumbnail, o => o.Ignore());
-
-
-            //    cfg.CreateMap<DBFirstDAL.DataModels.RootCategory, Models.AllCategoriesViewModel>()
-            //    ;
-            //    #endregion
-            //});
+            
 
             #region enable valid
             config.AssertConfigurationIsValid();
-            //configForFooterCategories.AssertConfigurationIsValid();
             #endregion
 
             #region init mappers
             var mapper = config.CreateMapper();
-            //var mapperForFooter = configForFooterCategories.CreateMapper();
             #endregion
 
             var headerCategories = mapper.Map<IEnumerable<DBFirstDAL.DataModels.CategoryWithThumbnail>, List<Models.CategoryModels.HeaderCategoryViewModel>>(efRootCategories);
@@ -147,6 +133,7 @@ namespace Pyramid.Controllers
 
             //ViewBag.FooterCategories = modelRootCategories;
 
+            ViewBag.MetaTitle = "Пирамида строй";
             return View(homeEntitiesModel);
         }
 

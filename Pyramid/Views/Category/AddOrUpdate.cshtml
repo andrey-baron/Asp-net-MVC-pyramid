@@ -43,6 +43,35 @@
 
                         </div>
                     </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Seo.Alias, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Seo.Alias, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Seo.MetaDescription, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Seo.MetaDescription, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Seo.MetaKeywords, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Seo.MetaKeywords, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Seo.MetaTitle, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Seo.MetaTitle, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+
                     <div class="js-category-filters">
                         @Html.Partial("_PartialCategoryAllFilters", Model.Filters)
                     </div>

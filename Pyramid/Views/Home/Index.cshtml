@@ -3,6 +3,7 @@
     ViewBag.Title = "Home xPage";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@Styles.Render("~/Content/magnificPopupcss")
 <div class="home-slider">
 
     <div class="row no-gutter">
@@ -49,7 +50,7 @@
     <div class="row no-gutter">
 
         @{ List<Pyramid.Entity.Product>
-                      offers = (List<Pyramid.Entity.Product>)ViewBag.SeasonOffers;}
+                                  offers = (List<Pyramid.Entity.Product>)ViewBag.SeasonOffers;}
         @if (offers.Count > 0)
         {
             <div class="col-f-lg-3 col-md-3 season-offer__item_green-title">
@@ -83,7 +84,7 @@
                                     <p>Купить в один клик</p>
                                 </div>
                             </a>
-                            <span class="product__item__hover_block_wrapper__item js-add-to-cart"  data-ajaxid="@item.Id">
+                            <span class="product__item__hover_block_wrapper__item js-add-to-cart" data-ajaxid="@item.Id">
                                 <span class="product__buy product__buy_add-to-cart">
                                     Добавить в корзину
                                 </span>
@@ -96,7 +97,7 @@
         }
 
 
-        
+
 
 
     </div>
@@ -105,6 +106,7 @@
 <div class="call-to-action">
     <p class="call-to-action__head-title">Call to action</p>
 </div>
+@{var feedback = new Common.FeedBack(); }
 @foreach (var item in Model)
 {
     <div class="decoration-work">
@@ -127,7 +129,7 @@
                                         <div class="decoration-work__product-price product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)point.Products.TypePrice)">
                                             <p class="product__item-price-inner"><span class="big-decimal">@point.Products.Price</span> руб.</p>
                                         </div>
-                                        <div class="decoration-work__product-add-to-cart product__buy product__buy_add-to-cart">
+                                        <div class="decoration-work__product-add-to-cart product__buy product__buy_add-to-cart js-add-to-cart" data-ajaxid="@point.Products.Id">
                                             <p>Добавить в корзину</p>
                                         </div>
                                     </div>
@@ -137,21 +139,9 @@
 
                         }
                     }
-                    @*<div class="decoration-work__point" style="top: 40%; left: 40%;">
-                            <div class="decoration-work__product">
-                                <div class="decoration-work__product-btn-close"></div>
-                                <img src="~/Content/img/test-offer.png" alt="" class="decoration-work__product-img">
-                                <p class="decoration-work__product-title">Штукатурка гипсовая Волма-Слой 30 кг</p>
-                                <div class="decoration-work__product-price product__item-price">
-                                    <p class="product__item-price-inner"><span class="big-decimal">45 675</span> руб.</p>
-                                </div>
-                                <div class="decoration-work__product-add-to-cart product__buy product__buy_add-to-cart">
-                                    <p>Добавить в корзину</p>
-                                </div>
-                            </div>
-                        </div>*@
+
                     <div class="decoration-work__description">
-                        @MvcHtmlString.Create( item.Content)
+                        @MvcHtmlString.Create(item.Content)
                     </div>
                 </div>
             </div>
@@ -200,10 +190,15 @@
                 <div class="decoration-work__answer-question decoration-work__question-head_video-guide">
                     <p class="decoration-work__question-head">Видео-гид</p>
                     <div class="decoration-work__wrap-video">
-                        <img class="decoration-work__video" src="~/Content/img/v-baner.png" alt="">
-                        <div class="btn-play"></div>
+                        <a href="@item.LinkYouTobe" class="decoration-work__popup-youtube">
+                            <img class="decoration-work__video" src="@(item.Images!=null?item.Images.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="">
+                            @if (item.Images != null)
+                            {
+                                <div class="decoration-work__btn-play"></div>
+                            }
+                        </a>
                     </div>
-                    <p class="decoration-work__description-video">Монтаж кровли из металлочерепицы</p>
+                    <p class="decoration-work__description-video">@item.TitleVideoGuide</p>
                 </div>
 
             </div>
@@ -216,12 +211,13 @@
                     {
                         <div class="col-f-lg-3 col-md-3">
                             <div class="product__item">
-                          
-                        <img src="@(itemProduct.ThumbnailImg.ServerPathImg!=null?itemProduct.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="@itemProduct.ThumbnailImg.ImgAlt" class="product__item-img">
-                        
-                                <p class="product__item-title">
-                                    @itemProduct.Title
-                                </p>
+
+                                <a href="@Url.Action("Index","Product",new { id=itemProduct.Id})"><img src="@(itemProduct.ThumbnailImg.ServerPathImg!=null?itemProduct.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="@itemProduct.ThumbnailImg.ImgAlt" class="product__item-img"></a>
+                                <a href="@Url.Action("Index","Product",new { id=itemProduct.Id})">
+                                    <p class="product__item-title">
+                                        @itemProduct.Title
+                                    </p>
+                                </a>
                                 <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)itemProduct.TypePrice)">
                                     <div class="triangle-up"></div>
                                     <div class="triangle-down"></div>
@@ -229,31 +225,31 @@
                                 </div>
                                 <div class="product__item__hover_block_wrapper">
                                     @if (itemProduct.InStock)
-                            {
-                            <div class="product__item__hover_block_wrapper__item product__in-stock">
-                                <p>в наличии</p>
-                            </div>
-                            }
+                                    {
+                                        <div class="product__item__hover_block_wrapper__item product__in-stock">
+                                            <p>в наличии</p>
+                                        </div>
+                                    }
 
                                     <a class="product__item__hover_block_wrapper__item" href="#">
                                         <div class="product__buy product__buy_one-click">
                                             <p>Купить в один клик</p>
                                         </div>
                                     </a>
-                                    <span class="product__item__hover_block_wrapper__item js-add-to-cart"  data-ajaxid="@itemProduct.Id">
+                                    <span class="product__item__hover_block_wrapper__item js-add-to-cart" data-ajaxid="@itemProduct.Id">
                                         <span class="product__buy product__buy_add-to-cart">
                                             Добавить в корзину
                                         </span>
                                     </span>
-                                   
+
                                 </div>
                             </div>
                         </div>
 
                     }
                 }
-                @if (item.Categories != null)
-                { 
+                @if (item.Categories != null && item.Categories.Count > 0)
+                {
                     <div class="col-f-lg-3 col-md-3 ">
                         <div class="decoration-work__categories">
                             @foreach (var category in item.Categories)
@@ -261,7 +257,7 @@
                                 @Html.ActionLink(category.Title, "Index", "Category", new { id = category.Id }, new { @class = "decoration-work__category-link" })
                             }
                         </div>
-                        
+
                     </div>
 
                 }
@@ -269,65 +265,40 @@
             </div>
         </div>
     </div>
+    if (item.CallToAction != null)
+    {
+        <div class="call-to-action-wrap">
+            <div class="call-to-action">
+                <p class="call-to-action__head-title">@item.CallToAction</p>
+            </div>
+            <div class="call-to-action__form-wrap">
+                <form action="#" class="feedback-form">
+
+                    <div class="form-group call-to-action__form-group">
+                        @Html.TextBoxFor(m => feedback.Name, new { @class = "form-control call-to-action__form-control", placeholder = Html.DisplayNameFor(d => feedback.Name) })
+                        @Html.ValidationMessageFor(m => feedback.Name)
+
+                    </div>
+                    <div class="form-group call-to-action__form-group">
+                        @Html.TextBoxFor(m => feedback.Email, new { @class = "form-control call-to-action__form-control", placeholder = Html.DisplayNameFor(d => feedback.Email) })
+                        @Html.ValidationMessageFor(m => feedback.Email)
+                        @*<input type="text" class="form-control call-to-action__form-control" placeholder="E-mail">*@
+                    </div>
+                    <div class="form-group call-to-action__form-group">
+                        @Html.TextBoxFor(m => feedback.Phone, new { @class = "form-control call-to-action__form-control", placeholder = Html.DisplayNameFor(d => feedback.Phone) })
+                        @Html.ValidationMessageFor(m => feedback.Phone)
+                        @*<input type="text" class="form-control call-to-action__form-control" placeholder="Телефон">*@
+                    </div>
+                    <button class="call-to-action__btn">Отправить запрос</button>
+                </form>
+            </div>
+        </div>
+
+    }
 
 }
 
-@*<div class="grouping-products">
-        <div class="row no-gutter">
-            <div class="col-f-lg-3 col-md-3">
-                <div class="product__item">
 
-                    <img src="~/Content/img/test-offer.png" alt="" class="product__item-img">
-
-                    <p class="product__item-title">
-                        Краскопульт SATA Spray Master RP с алюминиевым верхним бачком
-                        0,7 л нагнетательного типа
-                    </p>
-                    <div class="product__item-price product__item-price_best">
-                        <div class="triangle-up"></div>
-                        <div class="triangle-down"></div>
-                        <p class="product__item-price-inner"><span class="big-decimal">45 675</span> руб.</p>
-                    </div>
-                    <div class="product__item__hover_block_wrapper">
-                        <div class="product__item__hover_block_wrapper__item product__in-stock">
-                            <p>в наличии</p>
-                        </div>
-                        <a class="product__item__hover_block_wrapper__item" href="">
-                            <div class="product__buy product__buy_one-click">
-                                <p>Купить в один клик</p>
-                            </div>
-                        </a>
-                        <a class="product__item__hover_block_wrapper__item" href="">
-                            <div class="product__buy product__buy_add-to-cart">
-                                <p>Добавить в корзину</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </div>*@
-<div class="call-to-action-wrap">
-    <div class="call-to-action">
-        <p class="call-to-action__head-title">Call to action</p>
-    </div>
-    <div class="call-to-action__form-wrap">
-        <form action="#">
-            <div class="form-group call-to-action__form-group">
-                <input type="text" class="form-control call-to-action__form-control" placeholder="Имя">
-            </div>
-            <div class="form-group call-to-action__form-group">
-                <input type="text" class="form-control call-to-action__form-control" placeholder="E-mail">
-            </div>
-            <div class="form-group call-to-action__form-group">
-                <input type="text" class="form-control call-to-action__form-control" placeholder="Телефон">
-            </div>
-            <button class="call-to-action__btn">Отправить запрос</button>
-        </form>
-    </div>
-</div>
 <div class="rules-order">
     <p class="rules-order__head-title">ОСНОВНЫЕ ПРАВИЛА СОЗДАНИЯ<br>ЗАКАЗА НА САЙТЕ</p>
     <div class="row no-gutter">
@@ -383,3 +354,6 @@
         </div>
     </div>
 </div>
+
+@Scripts.Render("~/bundles/magnificPopup")
+@Scripts.Render("~/bundles/magnificPopup-manage")

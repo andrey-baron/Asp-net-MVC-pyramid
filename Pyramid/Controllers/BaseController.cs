@@ -45,6 +45,7 @@ namespace Pyramid.Controllers
                                             context.Controller.ViewData,
                                             context.Controller.TempData,
                                             sw);
+                
                 view.Render(ctx, sw);
                 result = sw.ToString();
             }
@@ -78,7 +79,9 @@ namespace Pyramid.Controllers
                .ForMember(d => d.ParentId, o => o.Ignore())
                .ForMember(d => d.FlagRoot, o => o.Ignore())
                .ForMember(d => d.Products, o => o.Ignore())
-                 .ForMember(d => d.OneCId, o => o.Ignore());
+                 .ForMember(d => d.OneCId, o => o.Ignore())
+                  .ForMember(d => d.Seo, o => o.Ignore())
+               .ForMember(d => d.SeoId, o => o.Ignore());
 
                 cfg.CreateMap<DBFirstDAL.DataModels.RootCategory, Models.AllCategoriesViewModel>()
                 ;

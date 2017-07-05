@@ -56,7 +56,7 @@ namespace Pyramid.Tools
                     XmlNodeList Inners = ((XmlNode)product).SelectNodes("*");
 
                     var notDisplayed = ((XmlNode)product).SelectSingleNode("НеОтображатьНаСайте");
-                    if (notDisplayed.InnerText=="Нет")
+                    if (notDisplayed.InnerText=="Да")
                     {
                         continue;
                     }
@@ -79,11 +79,27 @@ namespace Pyramid.Tools
                         prodModel.CategoryTextIds.Add(((XmlNode)group).InnerText);
                     }
 
+                    XmlNode Brand = ((XmlNode)product).SelectSingleNode("Бренд");
+                    if (Brand!=null)
+                    {
+                        prodModel.Brand = Brand.InnerText;
+                    }
+                   
+
+                    XmlNode Priority = ((XmlNode)product).SelectSingleNode("Приоритетный");
+                    bool priorityFlag = false;
+                    if (Priority.InnerText=="Да")
+                    {
+                        priorityFlag = true;
+                    }
+                    //bool.TryParse(Priority.InnerText, out priorityFlag);
+                    prodModel.Priority = priorityFlag;
+
                     XmlNode PriceNode = ((XmlNode)product).SelectSingleNode("Цена");
                     XmlNode PriceForOneNode = ((XmlNode)PriceNode).SelectSingleNode("ЦенаЗаЕдиницу");
                     double price = 0;
 
-                    double.TryParse(PriceForOneNode.InnerText, out price);
+                    double.TryParse(PriceForOneNode.InnerText.Replace(" ",""), out price);
 
                     prodModel.Price = price;
                     prodModel.TypePrice = Common.TypeProductPrice.SimplePrice;
@@ -107,7 +123,7 @@ namespace Pyramid.Tools
                 
                 flagError = false;
 
-                //ChangePathFile(path);
+                ChangePathFile(path);
                 return outModel;
             }
             catch (Exception)
@@ -132,7 +148,7 @@ namespace Pyramid.Tools
             {
                 var filename=Path.GetFileName(pathFile);
                
-                filename = "done" + filename;
+                filename = "done" + DateTime.Now.ToString("d") + filename;
                 File.Move(pathFile, pathDirectoryFiles + filename);
             }
         }

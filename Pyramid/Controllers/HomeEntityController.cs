@@ -30,9 +30,8 @@ namespace Pyramid.Controllers
 
                 .ForMember(d => d.Categories, o => o.Ignore())
                 .ForMember(d => d.Products, o => o.Ignore())
-                .ForMember(d => d.VideoGuide, o => o.Ignore())
                 .ForMember(d => d.Faq, o => o.Ignore())
-
+                .ForMember(d => d.Images, o => o.Ignore())
                 ;
               
             });
@@ -75,7 +74,12 @@ namespace Pyramid.Controllers
               .ForMember(d => d.Filters, o => o.Ignore())
               .ForMember(d => d.ParentId, o => o.Ignore())
               .ForMember(d => d.Products, o => o.Ignore())
-              .ForMember(d => d.Thumbnail, o => o.Ignore());
+              .ForMember(d => d.Seo, o => o.Ignore())
+              .ForMember(d => d.SeoId, o => o.Ignore())
+              .ForMember(d => d.Thumbnail, o => o.Ignore())
+              .ForMember(d => d.SeoId, o => o.Ignore())
+              .ForMember(d => d.Seo, o => o.Ignore())
+             ;
 
                 //   cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.CategoryHomeModel, Entity.Category>()
                 //   .ForMember(d => d.Checked, o => o.Ignore())
@@ -108,7 +112,6 @@ namespace Pyramid.Controllers
                ;
                 cfg.CreateMap<DBFirstDAL.QuestionAnswer, Entity.QuestionAnswer>();
 
-                cfg.CreateMap<DBFirstDAL.VideoGuide, Entity.VideoGuide>();
 
             });
 
@@ -158,7 +161,7 @@ namespace Pyramid.Controllers
                 cfg.CreateMap<Pyramid.Entity.PointOnImg, DBFirstDAL.PointOnImgs>()
                .ForMember(d => d.BannerWithPoints, o => o.Ignore())
                .ForMember(d => d.BannerId, o => o.Ignore())
-               .ForMember(d => d.ReferenceProductId, o => o.Ignore()); 
+               .ForMember(d => d.ReferenceProductId, o => o.Ignore());
 
                 cfg.CreateMap<Entity.Category, DBFirstDAL.Categories>()
                 .ForMember(d => d.Categories1, o => o.Ignore())
@@ -167,6 +170,9 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.HomeEntity, o => o.Ignore())
                 .ForMember(d => d.Recommendations, o => o.Ignore())
                 .ForMember(d => d.Filters, o => o.Ignore())
+                .ForMember(d => d.Seo, o => o.Ignore())
+                .ForMember(d => d.SeoId, o => o.Ignore())
+                
              ;
 
                 //cfg.CreateMap<Entity.Product, DBFirstDAL.Products>()
@@ -178,7 +184,7 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.ProductImages, o => o.Ignore())
                 .ForMember(d => d.Recommendations, o => o.Ignore())
                 .ForMember(d => d.EventImages, o => o.Ignore())
-
+                .ForMember(d => d.HomeEntity, o => o.Ignore())
               ;
 
                 cfg.CreateMap<Entity.FAQ, DBFirstDAL.Faq>()
@@ -186,10 +192,6 @@ namespace Pyramid.Controllers
                 .ForMember(d => d.QuestionAnswer, o => o.Ignore())
                ;
 
-
-                cfg.CreateMap<Entity.VideoGuide, DBFirstDAL.VideoGuide>()
-                  .ForMember(d => d.HomeEntity, o => o.Ignore())
-                    .ForMember(d => d.HomeEntityId, o => o.Ignore());
 
                 cfg.CreateMap<Entity.Product,DBFirstDAL.Products>()
                  .ForMember(d => d.Categories, o => o.Ignore())
@@ -203,6 +205,8 @@ namespace Pyramid.Controllers
                   .ForMember(d => d.HomeEntity, o => o.Ignore())
                    .ForMember(d => d.Events, o => o.Ignore())
                  ;
+
+               
             });
 
 
@@ -275,14 +279,12 @@ namespace Pyramid.Controllers
             {
                 cfg.CreateMap<DBFirstDAL.DataModels.HomeModels.HomeEntityModel, Pyramid.Entity.HomeEntity>()
                  .ForMember(d => d.Categories, o => o.Ignore())
-                  .ForMember(d => d.Faq, o => o.Ignore())
-                  .ForMember(d => d.VideoGuide, o => o.Ignore());
+                  .ForMember(d => d.Faq, o => o.Ignore());
 
                 cfg.CreateMap<DBFirstDAL.HomeEntity, Pyramid.Entity.HomeEntity>()
                 .ForMember(d => d.Categories, o => o.Ignore())
                  .ForMember(d => d.Faq, o => o.Ignore())
-                 .ForMember(d => d.Products, o => o.Ignore())
-                 .ForMember(d => d.VideoGuide, o => o.Ignore());
+                 .ForMember(d => d.Products, o => o.Ignore());
 
                 cfg.CreateMap<DBFirstDAL.BannerWithPoints, Pyramid.Entity.BannerWithPoints>();
 
@@ -431,7 +433,10 @@ namespace Pyramid.Controllers
             .ForMember(d => d.Filters, o => o.Ignore())
             .ForMember(d => d.ParentId, o => o.Ignore())
             .ForMember(d => d.Products, o => o.Ignore())
-            .ForMember(d => d.Thumbnail, o => o.Ignore());
+            .ForMember(d => d.Thumbnail, o => o.Ignore())
+            .ForMember(d => d.Seo, o => o.Ignore())
+            .ForMember(d => d.SeoId, o => o.Ignore())
+            ;
             });
             var mapper = config.CreateMapper();
             ViewBag.CategoriesSelectListItem = _categoryRepository.GetAll().Select(item => new SelectListItem

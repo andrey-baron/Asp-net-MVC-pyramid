@@ -13,7 +13,7 @@ namespace Pyramid.Tools._1CToolModels
         public double Price { get; set; }
         public Common.TypeProductPrice TypePrice { get; set; }
         public bool InStock { get; set; }
-        public string Priority { get; set; }
+        public bool Priority { get; set; }
         public List<string> CategoryTextIds { get; set; }
 
         public ProductXMLModel()

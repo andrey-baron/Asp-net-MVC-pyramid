@@ -33,6 +33,8 @@ namespace Pyramid.Controllers
                    .ForMember(d => d.Thumbnail, o => o.Ignore())
                    .ForMember(d => d.Checked, o => o.Ignore())
                    .ForMember(d => d.Products, o => o.Ignore())
+                   .ForMember(d => d.Seo, o => o.Ignore())
+                   .ForMember(d => d.SeoId, o => o.Ignore())
                    ;
             });
 
@@ -60,6 +62,8 @@ namespace Pyramid.Controllers
                    .ForMember(d => d.Thumbnail, o => o.Ignore())
                    .ForMember(d => d.Checked, o => o.Ignore())
                    .ForMember(d => d.Products, o => o.Ignore())
+                   .ForMember(d => d.Seo, o => o.Ignore())
+                   .ForMember(d => d.SeoId, o => o.Ignore())
                    ;
             });
 
@@ -92,7 +96,7 @@ namespace Pyramid.Controllers
                 .ForMember(d=>d.Categories,o=>o.Ignore());
                 cfg.CreateMap<Entity.EnumValue,DBFirstDAL.EnumValues>()
                 .ForMember(d => d.Filters, o => o.Ignore())
-                .ForMember(d => d.Products, o => o.Ignore()); ;
+                .ForMember(d => d.Products, o => o.Ignore());
                 //cfg.CreateMap<Pyramid.Entity.Category,DBFirstDAL.Categories>();
             });
 

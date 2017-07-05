@@ -36,14 +36,16 @@ var reloadUrlPartial =  "/Cart/PartialShortCart";
   
     $(".js-add-to-cart").on("click", function (e) {
         var ajaxid = $(this).data("ajaxid");
+        var ajaxtitle = $(this).data("ajaxtitle");
         var singleQuantity = $(".js-single-spinner");
         var quantity = 1;
         if (singleQuantity.length!=0) {
             quantity = $(singleQuantity[0]).val();
         }
         $.post("/Cart/AddToCart?productId="+ajaxid+"&quantity="+quantity, function (data) {
-            SoccessAdd(data);
+            SoccessAdd(data); 
         })
+        Notify.generate('', 'Товар успешно добавлен в корзину', 1);
     });
 
 })();

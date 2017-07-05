@@ -25,6 +25,23 @@ namespace Pyramid
                         Pyramid.Tools.Cryptography.GetDefaultAdmin()
                         ));
             }
+
+           //var _categoryRepository = new DBFirstDAL.Repositories.CategoryRepository();
+           // var catAll = _categoryRepository.GetAll().ToList();
+
+           // foreach (var item in catAll)
+           // {
+           //     var efCat = _categoryRepository.FindBy(i => i.Id == item.Id).SingleOrDefault();
+           //     if (efCat.Seo==null)
+           //     {
+           //         efCat.Seo = new DBFirstDAL.Seo()
+           //         {
+           //             Alias = item.Title,
+           //             MetaTitle = item.Title
+           //         };
+           //         _categoryRepository.Save();
+           //     }
+            //}
         }
 
     }

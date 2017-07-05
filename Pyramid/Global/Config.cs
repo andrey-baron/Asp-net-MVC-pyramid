@@ -27,5 +27,28 @@ namespace Pyramid.Global
                 return pathImage!=null? pathImage: "/Content/img/pypamid-no-photo.png";
             }
         }
+
+        public static bool IsProduction
+        {
+            get
+            {
+                string stringIsProd = ConfigurationManager.AppSettings["IsProd"] as string;
+                bool IsProdFlag = false;
+                bool.TryParse(stringIsProd, out IsProdFlag);
+
+                return IsProdFlag;                
+            }
+        }
+
+        public static string PathFtpOneCServerUpload
+        {
+            get
+            {
+                string path = ConfigurationManager.AppSettings["PathOneCServerUpload"] as string;
+
+                return path != null ? path : "/Content/img/pypamid-no-photo.png";
+            }
+        }
+
     }
 }
