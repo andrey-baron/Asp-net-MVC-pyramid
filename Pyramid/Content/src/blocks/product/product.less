@@ -6,15 +6,15 @@
   display:block;
 }
 .product{
-  @imgHeight: 208px;
+  @imgHeight: 200px;
   @minImgHeight: 160px;
   @textHeight: 70px;
-  @item__hover_block_height: 96px;
+  @item__hover_block_height: @heightOneLine;
   @transition: all .45s;
   @itemPadding: 16px;
 
   &__item{
-    height: @seasonItem;
+    height: @product-item-height;
     padding: @itemPadding;
     border: 1px solid #eaeaea;
     position: relative;
@@ -26,7 +26,7 @@
   &__item-img {
     //margin: 30px auto;
     width: 100%;
-    height:100%;
+    //height:100%;
     max-height: @imgHeight;
     object-fit: contain;
     object-position: center top;
@@ -62,7 +62,7 @@
   }
   &__item-price{
     width: calc(~"100% - 32px");
-    top: @seasonItem - 128px - @itemPadding;
+    top:  @product-item-height - 128px - @itemPadding;
     transition: @transition;
     height: 128px;
     position: absolute;
@@ -172,7 +172,7 @@
   }
   &__buy{
     font-family: ProximaNovaSemibold;
-    height: 96px;
+    height: @heightOneLine;
     width: 100%;
     display: none;
     text-align: center;

@@ -2,7 +2,7 @@
 <div class="header">
 
     <div class="row no-gutter">
-        <div class="col-ten-lg-3 col-ten-md-2 header__line-one">
+        <div class="col-ten-lg-3 col-ten-md-2 col-ten-xs-2 header__line-one">
             <div class="header__wrap header__wrap_text-center">
                 <div class="header__social-links">
                     <a href="" class="header__social-link">
@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-ten-lg-5 col-ten-md-6 header__line-one">
+        <div class="col-ten-lg-7 col-ten-md-8 col-ten-xs-8 header__line-one">
             <div class="header__wrap header__wrap_bg-gray">
                 @{Html.RenderPartial("_PartialHeaderMenu"); }
 
@@ -34,7 +34,7 @@
             </div>
 
         </div>
-        <div class="col-ten-md-2 header__line-one">
+        <div class="header__line-one">
             <div class="header__cart">
                 <a class="header__cart-link" href="@Url.Action("ShowCart","Cart")">
                     <div class="header__wrap header__cart-wrap">
@@ -53,7 +53,7 @@
         </div>
     </div>
     <div class="row no-gutter">
-        <div class="col-ten-lg-3 col-ten-md-2 header__line-two">
+        <div class="col-ten-lg-3 col-ten-md-2 col-ten-xs-2 header__line-two">
             <div class="header__logo"></div>
             <div class="header__icon-phone"></div>
             <p class="header__text-phone">(8452) 486-168</p>
@@ -65,7 +65,7 @@
         @foreach (var item in HeaderCategories)
         {
             <a href="@Url.Action("Index","Category",new { id=item.Id})">
-                <div class="col-ten-lg-1 col-ten-md-2 header__cat-item">
+                <div class="col-ten-lg-1 col-ten-md-2 col-ten-xs-2 header__cat-item">
                     <div class="header__cat-item-inner">
                         <img src="@((item.Thumbnail!=null)? item.Thumbnail.ServerPathImg:"")" alt="">
                         <p>@item.Title</p>
@@ -75,7 +75,7 @@
         }
 
         <a href="@Url.Action("Index","Category")">
-            <div class="col-ten-lg-1 col-ten-md-2 header__cat-item header__cat-item_view-all">
+            <div class="col-ten-lg-1 col-ten-md-2 col-ten-xs-2 header__cat-item header__cat-item_view-all">
                 <div class="header__cat-item-inner">
 
                     <p class="view-all">Смотреть<br>весь каталог</p>
@@ -83,7 +83,7 @@
             </div>
         </a>
         <a href="http://decorazza64.com">
-            <div class="col-ten-lg-3 col-ten-md-4 header__cat-item">
+            <div class="col-ten-lg-3 col-ten-md-4 col-ten-xs-4 header__cat-item header__cat-item_banner">
                 <div class="header__banner" style="background:url(/Content/img/декорацца.jpg)no-repeat"></div>
             </div>
         </a>
@@ -95,7 +95,7 @@
 
     </div>
     <div class="row no-gutter">
-        <div class="col-md-4 header__line-one">
+        <div class="col-md-4 col-xs-4 header__line-one">
             <div class="header__consultant">
                 <p class="header__consultant-text">Задать вопрос нашему консультанту</p>
 
@@ -103,7 +103,7 @@
 
             </div>
         </div>
-        <div class="col-md-8 header__line-one">
+        <div class="col-md-8 col-xs-8 header__line-one">
             <div class="header__search">
                 @using (Html.BeginForm("GlobalSearch", "Home", FormMethod.Get, new { @class = "header__search-form" }))
                 {

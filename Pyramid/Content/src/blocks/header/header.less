@@ -1,6 +1,6 @@
 @import "../variable";
 .header {
-  font-size: 18px;
+  font-size: 16px;
   &__fixed-width576{
     width: 576px;
   }
@@ -30,7 +30,7 @@
   }
   &__line-one {
     height: @heightOneLine;
-
+    position: relative;
   }
   &__menu {
     list-style: none;
@@ -41,7 +41,7 @@
     display: inline-block;
 
     > a {
-      font-size: 18px;
+      font-size: 16px;
       color: #fff;
     }
   }
@@ -69,15 +69,22 @@
   &__cart {
     display: inline-block;
     background: @yellow;
-    width: 100%;
+    width: 80px;
     text-align: center;
-    position:relative;
+    position:absolute;
+    top:0;
+    right:0;
     transition:all 300ms linear;
-    height: 100%;
+    height: @heightOneLine;
     &:hover{
+         width: 200px;
         background:#fff;
         .cart__container_small{
             display:block;
+        }
+        .header__title-cart {
+            font-size:inherit;
+            margin:0 25px 0 10px;
         }
     }
   }
@@ -93,14 +100,17 @@
   }
   &__title-cart {
     display: inline-block;
-    margin: 0 20px;
+    margin:0;
+    font-size:0px;
+        transition:all 300ms linear;
+
     > a {
       color: @blackGray;
     }
   }
   &__count-items {
     display: inline-block;
-    padding: 4px 8px;
+    padding: 4px 6px;
     background: @red;
     border-radius: 38px;
     font-size: 16px;
@@ -108,6 +118,8 @@
     width: 24px;
     color: @white;
     line-height: 1;
+    position:relative;
+    left:-15px;
   }
   &__line-two {
     height: @heightTwoLine;
@@ -117,13 +129,13 @@
   &__logo {
     background: url("../img/logo.png") no-repeat center;
     width: 354px;
-    height: 230px;
+    height: @header-logo-size-large;
     margin: 0 auto;
     max-width: 100%;
-    background-size: 100%;
+    background-size: contain;
   }
   &__logo_small{
-    height: 192px;
+    height: @heightOneLine * 2;
     width: 145px;
     max-width: 90%;
     background-size: contain;
@@ -133,7 +145,7 @@
     width: 32px;
     height: 32px;
     margin: 0 auto;
-    margin-top:40px;
+    margin-top:15px;
     margin-bottom: 20px;
     /*&:before{
         display:inline-block;
@@ -156,11 +168,16 @@
     text-align: center;
   }
   &__cat-item{
-    height: 192px;
-    //width: 192px;
+    height: @header-cat-item-height;
     border: 1px solid @lightGray;
     text-align: center;
-    line-height: 192px;
+    line-height: @header-cat-item-height;
+    padding-left:5px;
+    padding-right:5px;
+  }
+  &__cat-item_banner{
+      padding:0;
+      border:0;
   }
   &__cat-item-inner{
     display: inline-block;
@@ -168,13 +185,13 @@
     line-height: normal;
     max-width: 100%;
     >p{
-      margin-top: 15px;
+      margin-top: 5px;
       font-size: 14px;
       font-family: ProximaNovaSemibold;
     }
     >img{
         max-width: 100%;
-        max-height: 100px;
+        max-height: 95px;
         object-fit: contain;
     }
 
@@ -197,7 +214,7 @@
     font-family: ProximaNovaRegular;
     .header__consultant-img{
       float: left;
-      margin: 12px 10px 12px 30px;
+      margin: 5px 20px 5px 30px;
     }
     .header__consultant-text{
       margin-left: 0;
@@ -208,16 +225,20 @@
     vertical-align: middle;
     line-height: normal;
     margin-left: 64px;
+   
+  }
+  &__consultant-text_fix50{
+       width:50%;
   }
   &__consultant-img{
     border-radius: 40px;
-    width: 72px;
-    height: 72px;
+    width: (@heightOneLine - 10px);
+    height: (@heightOneLine - 10px);
     float: right;
-    margin: 12px 40px 12px 0;
+    margin: 5px 40px 5px 0;
   }
   &__search{
-    border: 15px solid @greenColor;
+    border: 12px solid @greenColor;
     height:100%;
     position: relative;
   }
@@ -237,15 +258,15 @@
     height:32px;
     position: absolute;
     right: 20px;
-    top:17px;
+    top:8px;
     border: none;
     outline: none;
   }
   &__catalog-btn{
     background: #ccc;
     font-family: ProximaNovaSemibold;
-    line-height: 96px;
-    height:96px;
+    line-height: @heightOneLine;
+    height:@heightOneLine;
     overflow:hidden;
     :before{
       content: '';
@@ -362,11 +383,11 @@
     .header__consultant-img{
         width: 62px;
         height: 62px;
-        margin: 12px 20px 12px 0;
+        //margin: 12px 20px 12px 0;
     }
     .header__consultant_green{
          .header__consultant-img{
-             margin: 12px 3% 12px 0;
+             margin: 5px 10px 5px 10px;
         }
     }
     .header__menu{

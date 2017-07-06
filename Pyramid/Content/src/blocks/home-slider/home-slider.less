@@ -1,8 +1,7 @@
 @import "../variable";
-@lgHeigth:576px;
-@mdHeight:450px;
+
 .home-slider-base-height{
-  height: @lgHeigth;
+  height: @lgEntityFromHomeHeigth;
 }
 
 
@@ -11,7 +10,7 @@
   overflow: hidden;
   &__shipping-wrap:extend(.home-slider-base-height){
     background: @yellowGreenColor;
-    line-height: @lgHeigth;
+    line-height: @lgEntityFromHomeHeigth;
     text-align: center;
   }
   &__shipping{
@@ -49,7 +48,7 @@
   }
   &__item-title{
     font-family: "ProximaNovaExtrabld";
-    font-size: 70px;
+    font-size: 50px;
     color: #fff;
     margin-bottom: 30px;
   }
@@ -57,7 +56,7 @@
     font-size: 24px;
     font-family: ProximaNovaSemibold;
     background: @greenColor;
-    padding: 38px 90px;
+    padding: 20px 70px;
     color: #fff;
     transition: all 300ms linear;
     display: inline-block;
@@ -91,7 +90,7 @@
 
 @media (min-width: 992px) and (max-width:1200px){
     .home-slider-base-height{
-      height: @mdHeight;
+      height: @mdEntityFromHomeHeigth;
     }
     .home-slider__item{
             padding-left: 175px;
@@ -104,6 +103,6 @@
         padding: 18px 30px;
     }
     .home-slider__shipping-wrap{
-        line-height:@mdHeight;
+        line-height:@mdEntityFromHomeHeigth;
     }
     }

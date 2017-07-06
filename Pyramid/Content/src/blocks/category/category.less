@@ -3,10 +3,10 @@
 .category{
   &__title{
     font-family: ProximaNovaSemibold;
-    font-size: 28px;
+    font-size: 26px;
     padding-left: 60px;
-    height: 95px;
-    line-height: 95px;
+    height: @heightOneLine;
+    line-height: @heightOneLine;
   }
   &__sort-list{
     text-align: right;
@@ -84,6 +84,9 @@
 
   &__row-subcategory{
       margin-bottom:20px;
+  }
+  &__btn-category-filters-submit{
+      margin-top:20px;
   }
 }
 @media (min-width: 992px) and (max-width:1200px){

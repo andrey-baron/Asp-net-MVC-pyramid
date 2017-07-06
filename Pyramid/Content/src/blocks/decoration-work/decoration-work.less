@@ -1,5 +1,7 @@
+@import "../variable";
+
 .base-class {
-  height: 576px;
+  height: @lgEntityFromHomeHeigth;
 }
 
 .decoration-work {
@@ -22,15 +24,15 @@
   }
   &__extra-text{
     font-family: ProximaNovaExtrabld;
-    font-size: 78px;
+    font-size: 50px;
     line-height: 1;
     position: absolute;
-    bottom: 136px;
-    right: 38px;
+    bottom: 100px;
+    right: 30px;
   }
   &__black-text{
     font-family: ProximaNovaBlack;
-    font-size: 150px;
+    font-size: 100px;
     line-height: 1;
     position: absolute;
     bottom: 0;
@@ -55,7 +57,7 @@
 
     }
     &:hover,&:focus{
-        z-index:20; 
+        z-index:10000; 
       .decoration-work__product{
         display: block;
       }
@@ -115,16 +117,16 @@
     position: relative;
   }
   &__question-head {
-    padding-top: 65px;
-    margin-bottom: 40px;
+    padding-top: 40px;
+    margin-bottom: 25px;
     font-family: ProximaNovaSemibold;
-    font-size: 24px;
+    font-size: 20px;
     text-transform: uppercase;
     text-align: center;
   }
   &__question-text {
     /*display: inline-block;*/
-   padding: 0 30px 0 65px;
+   padding: 0 15px 0 55px;
     &:before {
       display: block;
       content: "";
@@ -143,7 +145,7 @@
   }
   &__question-all-link {
     display: inline-block;
-    margin-top: 50px;
+    margin-top: 20px;
     text-align: center;
     color: #56942f;
     text-decoration: underline;
@@ -162,7 +164,7 @@
     margin-top: 30px;
     text-align: center;
     font-family: ProximaNovaSemibold;
-    font-size: 24px;
+    font-size: 20px;
   }
   &__wrap-video{
     position: relative;

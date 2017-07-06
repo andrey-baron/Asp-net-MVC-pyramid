@@ -6,7 +6,7 @@
   height: @heightElemAction;
  
   font-family: ProximaNovaSemibold;
-  line-height: 76px;
+  line-height: @heightElemAction;
   background: @greenColor;
   color: #fff;
   text-align: center;
@@ -17,7 +17,7 @@
       color:@blackGray;
   }
   &__head-title{
-    font-size: 28px;
+    font-size: 24px;
     display: inline-block;
     vertical-align: middle;
     text-transform: uppercase;
@@ -31,8 +31,8 @@
   &__form-wrap{
     max-width: 770px;
     width: 100%;
-    margin: @heightElemAction auto 0;
-    padding-bottom: @heightElemAction + 20px;
+    margin: @heightElemAction - 20px auto 0;
+    padding-bottom: @heightElemAction + 5px;
     font-size: 28px;
     text-align: center;
     //background: @homeFormColor;
@@ -41,12 +41,12 @@
     margin: 0;
   }
   &__form-group + &__form-group{
-    margin-top: 30px;
+    margin-top: 20px;
   }
   &__form-control{
     height: @heightElemAction;
-    font-size: 28px;
-    padding-left: 55px;
+    font-size: 24px;
+    padding-left: 35px;
   }
   &__btn{
     background: @greenColor;
@@ -54,6 +54,6 @@
     padding: 0 70px;
     border: none;
     color: #ffffff;
-    margin-top: 44px;
+    margin-top: 25px;
   }
 }
