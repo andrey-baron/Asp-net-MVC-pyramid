@@ -42,7 +42,7 @@ magnetii mare
                     <div class="single__dotted-line-left">
                         <div class="single__dotted-line-title">Все характеристики</div>
                     </div>
-                    @if (Model.Product.InStock)
+                    @if (Model.Product.TypeStatusProduct==Common.TypeStatusProduct.Normal)
                     {
                         <div class="single__dotted-line-right">
                             <div class="single__dotted-line-content">
@@ -253,7 +253,9 @@ magnetii mare
                     minSlides: 2,
                     maxSlides: 5,
                     moveSlides: 1,
-                    slideMargin: 0
+                    slideMargin: 0,
+                    pager: false,
+                    auto: true
                 });
             });
     </script>

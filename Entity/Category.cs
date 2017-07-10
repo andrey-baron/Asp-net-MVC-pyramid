@@ -27,7 +27,7 @@ namespace Pyramid.Entity
         public  Seo Seo { get; set; }
 
         public Image Thumbnail { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public List<Product> Products { get; set; }
         public ICollection<Filter> Filters { get; set; }
         public Category()
         {

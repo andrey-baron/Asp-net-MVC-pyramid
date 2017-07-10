@@ -41,12 +41,12 @@ namespace DBFirstDAL
         public virtual DbSet<PointOnImgs> PointOnImgs { get; set; }
         public virtual DbSet<ProductImages> ProductImages { get; set; }
         public virtual DbSet<ProductOrders> ProductOrders { get; set; }
-        public virtual DbSet<Products> Products { get; set; }
         public virtual DbSet<ProductValues> ProductValues { get; set; }
         public virtual DbSet<QuestionAnswer> QuestionAnswer { get; set; }
         public virtual DbSet<Recommendations> Recommendations { get; set; }
         public virtual DbSet<Review> Review { get; set; }
         public virtual DbSet<Seo> Seo { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Products> Products { get; set; }
     }
 }

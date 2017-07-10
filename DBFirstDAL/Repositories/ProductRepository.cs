@@ -7,11 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using DBFirstDAL.DataModels._1C;
+using Common.SearchClasses;
+using Pyramid.Entity;
+using System.Linq.Expressions;
+using Common.Models;
 
 namespace DBFirstDAL.Repositories
 {
-    public class ProductRepository: GenericRepository<PyramidFinalContext, Products>
+    public class ProductRepository: GenericRepository<Products,PyramidFinalContext,Pyramid.Entity.Product, SearchParamsProduct,int>
     {
+       const string defaulProductLink = "/Product/index/";
+        const string defaulCateggorytLink = "/Category/index/";
         public IEnumerable<EnumValues> GetAllEnumValues(int productId)
         {
             var filter = FindBy(i => i.Id == productId).SingleOrDefault();
@@ -24,171 +30,196 @@ namespace DBFirstDAL.Repositories
 
         public void DeleteEnumValue(int id, int enumValueId)
         {
-            var filter = FindBy(i => i.Id == id).SingleOrDefault();
-            if (filter != null)
+            using (PyramidFinalContext dbContext= new PyramidFinalContext())
             {
-                var enumvalue = Context.EnumValues.Find(enumValueId);
-                filter.EnumValues.Remove(enumvalue);
 
+           
+            var product = FindBy(i => i.Id == id).SingleOrDefault();
+            if (product != null)
+            {
+                var enumvalue = dbContext.EnumValues.Find(enumValueId);
+                    product.EnumValues.Remove(enumvalue);
+                
+            }
             }
         }
 
-        public override void AddOrUpdate(Products entity)
-        {
-            var prop = entity.GetType().GetProperty("Id");
-            int id = (int)prop.GetValue(entity, null);
+        //public override void AddOrUpdate(Products entity)
+        //{
+        //    var prop = entity.GetType().GetProperty("Id");
+        //    int id = (int)prop.GetValue(entity, null);
 
-            var efEntity = Context.Products.Find(id);
-            if (efEntity == null)
-            {
-                var tmpEnumval = new List<EnumValues>(entity.EnumValues);
-                var tmpPrVal = new List<ProductValues>(entity.ProductValues);
-                var tmpCat = new List<Categories>(entity.Categories);
-                entity.EnumValues.Clear();
-                entity.ProductValues.Clear();
-                entity.Categories.Clear();
-                Context.Products.Add(entity);
-                
-                Context.SaveChanges();
-                foreach (var item in tmpEnumval)
-                {
-                    var efitem = Context.EnumValues.Find(item.Id);
-                    if (efitem!=null)
-                    {
-                        entity.EnumValues.Add(efitem);
-                    }
-                }
-                foreach (var item in tmpPrVal)
-                {
-                    entity.ProductValues.Add(new ProductValues()
-                    {
-                        Key = item.Key,
-                        Value = item.Value,
-                        ProductId = item.ProductId
-                    });
-                }
-                foreach (var item in tmpCat)
-                {
-                    var efCategory = Context.Categories.Find(item.Id);
-                    entity.Categories.Add(efCategory);
-                }
-                Context.SaveChanges();
-            }
-            else
-            {
+        //    var efEntity = Context.Products.Find(id);
+        //    if (efEntity == null)
+        //    {
+        //        var tmpEnumval = new List<EnumValues>(entity.EnumValues);
+        //        var tmpPrVal = new List<ProductValues>(entity.ProductValues);
+        //        var tmpCat = new List<Categories>(entity.Categories);
+        //        entity.EnumValues.Clear();
+        //        entity.ProductValues.Clear();
+        //        entity.Categories.Clear();
+        //        Context.Products.Add(entity);
 
-                Context.Entry(efEntity).CurrentValues.SetValues(entity);
-                Context.Entry(efEntity).State = System.Data.Entity.EntityState.Modified;
+        //        Context.SaveChanges();
+        //        foreach (var item in tmpEnumval)
+        //        {
+        //            var efitem = Context.EnumValues.Find(item.Id);
+        //            if (efitem != null)
+        //            {
+        //                entity.EnumValues.Add(efitem);
+        //            }
+        //        }
+        //        foreach (var item in tmpPrVal)
+        //        {
+        //            entity.ProductValues.Add(new ProductValues()
+        //            {
+        //                Key = item.Key,
+        //                Value = item.Value,
+        //                ProductId = item.ProductId
+        //            });
+        //        }
+        //        foreach (var item in tmpCat)
+        //        {
+        //            var efCategory = Context.Categories.Find(item.Id);
+        //            entity.Categories.Add(efCategory);
+        //        }
+        //        Context.SaveChanges();
+        //    }
+        //    else
+        //    {
 
-                Context.SaveChanges();
-                
-                
-                efEntity.Categories.Clear();
-                foreach (var item in entity.Categories)
-                {
-                    var efCategory = Context.Categories.Find(item.Id);
-                    efEntity.Categories.Add(efCategory);
-                }
-                Context.SaveChanges();
-                efEntity.EnumValues.Clear();
-                
-                foreach (var item in entity.EnumValues)
-                {
-                    var efEnumValues = Context.EnumValues.Find(item.Id);
-                    if (efEnumValues!=null)
-                    {
-                        efEntity.EnumValues.Add(efEnumValues);
-                    }
-                    
-                }
-                Context.SaveChanges();
-              
-                foreach (var item in entity.ProductValues)
-                {
-                    var efprval = Context.ProductValues.FirstOrDefault(i => i.Id == item.Id);
-                    if (efprval == null)
-                    {
-                        efprval = new ProductValues()
-                        {
-                            Key = item.Key,
-                            Value = item.Value,
-                            ProductId = efEntity.Id
-                        };
-                        Context.ProductValues.Add(efprval);
-                    }
-                    else
-                    {
-                        efprval.Key = item.Key;
-                        efprval.Value = item.Value;
-                    }
+        //        Context.Entry(efEntity).CurrentValues.SetValues(entity);
+        //        Context.Entry(efEntity).State = System.Data.Entity.EntityState.Modified;
+
+        //        Context.SaveChanges();
 
 
-                    
-                }
-                Context.SaveChanges();
+        //        efEntity.Categories.Clear();
+        //        foreach (var item in entity.Categories)
+        //        {
+        //            var efCategory = Context.Categories.Find(item.Id);
+        //            efEntity.Categories.Add(efCategory);
+        //        }
+        //        Context.SaveChanges();
+        //        efEntity.EnumValues.Clear();
 
-            }
-            if (entity.ProductImages!=null)
-            {
-                var thumbnail = entity.ProductImages.FirstOrDefault(i => i.TypeImage == (int)Pyramid.Entity.Enumerable.TypeImage.Thumbnail);
-                if (thumbnail != null)
-                {
-                   var efThumbnail= Context.ProductImages.FirstOrDefault(i => i.ImageId == thumbnail.ImageId);
-                    if (efThumbnail!=null)
-                    {
-                        Context.ProductImages.Remove(efThumbnail);
-                    }
-                   
-                    Context.ProductImages.Add(new ProductImages() {
-                        ImageId =thumbnail.ImageId,
-                        ProductId=thumbnail.ProductId,
-                        TypeImage=thumbnail.TypeImage
-                    });
-                }
-                
-            }
+        //        foreach (var item in entity.EnumValues)
+        //        {
+        //            var efEnumValues = Context.EnumValues.Find(item.Id);
+        //            if (efEnumValues != null)
+        //            {
+        //                efEntity.EnumValues.Add(efEnumValues);
+        //            }
 
-        }
+        //        }
+        //        Context.SaveChanges();
+
+        //        foreach (var item in entity.ProductValues)
+        //        {
+        //            var efprval = Context.ProductValues.FirstOrDefault(i => i.Id == item.Id);
+        //            if (efprval == null)
+        //            {
+        //                efprval = new ProductValues()
+        //                {
+        //                    Key = item.Key,
+        //                    Value = item.Value,
+        //                    ProductId = efEntity.Id
+        //                };
+        //                Context.ProductValues.Add(efprval);
+        //            }
+        //            else
+        //            {
+        //                efprval.Key = item.Key;
+        //                efprval.Value = item.Value;
+        //            }
+
+
+
+        //        }
+        //        Context.SaveChanges();
+
+        //    }
+        //    if (entity.ProductImages != null)
+        //    {
+        //        var thumbnail = entity.ProductImages.FirstOrDefault(i => i.TypeImage == (int)Pyramid.Entity.Enumerable.TypeImage.Thumbnail);
+        //        if (thumbnail != null)
+        //        {
+        //            var efThumbnail = Context.ProductImages.FirstOrDefault(i => i.ImageId == thumbnail.ImageId);
+        //            if (efThumbnail != null)
+        //            {
+        //                Context.ProductImages.Remove(efThumbnail);
+        //            }
+
+        //            Context.ProductImages.Add(new ProductImages()
+        //            {
+        //                ImageId = thumbnail.ImageId,
+        //                ProductId = thumbnail.ProductId,
+        //                TypeImage = thumbnail.TypeImage
+        //            });
+        //        }
+
+        //    }
+
+        //}
 
         public Images GetThumbnail(int productId, int typeThumbnail )
         {
             return Context.Images.FirstOrDefault(i => i.ProductImages.Any(f => f.ProductId == productId && f.TypeImage == typeThumbnail));
         }
 
-        public IEnumerable<Images> GetGalleryImage(int productId, int typeGallery)
+        public IEnumerable<Pyramid.Entity.Image> GetGalleryImage(int productId, int typeGallery)
         {
-            return Context.Images.Where(i => i.ProductImages.Any(f => f.ProductId == productId && f.TypeImage == typeGallery));
+            using (PyramidFinalContext dbContext= new PyramidFinalContext())
+            {
+                return dbContext.Images
+                    .Where(i => i.ProductImages.Any(f => f.ProductId == productId && f.TypeImage == typeGallery))
+                    .ToList()
+                    .Select(s=>Convert.ConvertImageToEntity.Convert(s));
+
+            }
         }
         public void AddToGallry(int productId,int imageId,int typeImage)
         {
-            var efProduct = FindBy(i => i.Id == productId).SingleOrDefault();
-            if (efProduct!=null)
+            using (PyramidFinalContext dbContext=new PyramidFinalContext())
             {
-                var efImage=efProduct.ProductImages.FirstOrDefault(i => i.ImageId == imageId && i.TypeImage == typeImage);
-                if (efImage == null)
+                var efProduct = dbContext.Products.Find(productId);
+                if (efProduct != null)
                 {
-                    efProduct.ProductImages.Add(new ProductImages()
+                    var efImage = efProduct.ProductImages.FirstOrDefault(i => i.ImageId == imageId && i.TypeImage == typeImage);
+                    if (efImage == null)
                     {
-                        ProductId = productId,
-                        ImageId = imageId,
-                        TypeImage = typeImage
-                    });
+                        efProduct.ProductImages.Add(new ProductImages()
+                        {
+                            ProductId = productId,
+                            ImageId = imageId,
+                            TypeImage = typeImage
+                        });
+                        dbContext.SaveChanges();
+                    }
                 }
             }
+           
             
         }
 
         public void RemoveToGallry(int productId, int imageId, int typeImage)
         {
-            var efProduct = FindBy(i => i.Id == productId).SingleOrDefault();
-            if (efProduct != null)
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
-                var efImage = efProduct.ProductImages.FirstOrDefault(i => i.ImageId == imageId && i.TypeImage == typeImage);
-                if (efImage != null)
+                var efProduct = dbContext.Products.Find(productId);
+                if (efProduct != null)
                 {
-                    efProduct.ProductImages.Remove(efImage);
+                    var efImage = dbContext.ProductImages.FirstOrDefault(i => i.ImageId == imageId 
+                    && i.TypeImage == typeImage
+                    && i.ProductId==efProduct.Id);
+                    if (efImage != null)
+                    {
+                        dbContext.ProductImages.Remove(efImage);
+                        dbContext.SaveChanges();
+                    }
                 }
             }
+           
 
         }
 
@@ -203,7 +234,7 @@ namespace DBFirstDAL.Repositories
             return FindBy(i => i.SeasonOffer == true).Select(i=>new ProductHomeModel() {
                 Id=i.Id,
                 ThumbnailImg=i.ProductImages.FirstOrDefault(f=>f.TypeImage==typeThumbnail&&f.ProductId==i.Id)!=null? i.ProductImages.FirstOrDefault(f => f.TypeImage == typeThumbnail && f.ProductId == i.Id).Images:null,
-                InStock=(bool)i.InStock,
+                //InStock=(bool)i.InStock,
                 Price=i.Price,
                 SeasonOffer=(bool)i.SeasonOffer,
                 Title=i.Title,
@@ -232,35 +263,35 @@ namespace DBFirstDAL.Repositories
         /// <summary>
         /// Запись нескольких полей в БД
         /// </summary>
-        public  void InsertsOrNot(IEnumerable<Products> entities)
-        {
-            // Настройки контекста
-            using (PyramidFinalContext context = new PyramidFinalContext())
-            {
-                // Отключаем отслеживание и проверку изменений для оптимизации вставки множества полей
-                context.Configuration.AutoDetectChangesEnabled = false;
-                context.Configuration.ValidateOnSaveEnabled = false;
+        //public  void InsertsOrNot(IEnumerable<Products> entities)
+        //{
+        //    // Настройки контекста
+        //    using (PyramidFinalContext context = new PyramidFinalContext())
+        //    {
+        //        // Отключаем отслеживание и проверку изменений для оптимизации вставки множества полей
+        //        context.Configuration.AutoDetectChangesEnabled = false;
+        //        context.Configuration.ValidateOnSaveEnabled = false;
 
-                context.Database.Log = (s => System.Diagnostics.Debug.WriteLine(s));
+        //        context.Database.Log = (s => System.Diagnostics.Debug.WriteLine(s));
 
 
-                foreach (var entity in entities)
-                {
-                    var efPr = context.Products.FirstOrDefault(f => f.OneCId == entity.OneCId);
-                    if (efPr == null)
-                    {
-                        context.Entry(entity).State = EntityState.Added;
-                    }
-                }
+        //        foreach (var entity in entities)
+        //        {
+        //            var efPr = context.Products.FirstOrDefault(f => f.OneCId == entity.OneCId);
+        //            if (efPr == null)
+        //            {
+        //                context.Entry(entity).State = EntityState.Added;
+        //            }
+        //        }
 
-                context.SaveChanges();
+        //        context.SaveChanges();
 
-                context.Configuration.AutoDetectChangesEnabled = true;
-                context.Configuration.ValidateOnSaveEnabled = true;
-            } 
+        //        context.Configuration.AutoDetectChangesEnabled = true;
+        //        context.Configuration.ValidateOnSaveEnabled = true;
+        //    } 
 
            
-        }
+        //}
 
         public void AddOrUpdateFromOneC(Products product)
         {
@@ -285,13 +316,13 @@ namespace DBFirstDAL.Repositories
         {
             dbObjext.DateChange = DateTime.Now;
             dbObjext.DateCreation = DateTime.Now;
-            dbObjext.InStock = model.InStock;
             dbObjext.IsFilled = model.IsFilled;
             dbObjext.IsPriority = model.IsPriority;
             dbObjext.Title = model.Title;
             dbObjext.TypePrice = model.TypePrice;
             dbObjext.OneCId = model.OneCId;
             dbObjext.Price = model.Price;
+            dbObjext.TypeStatusProduct = model.TypeStatusProduct;
             if (!exist)
             {
                 dbContext.Products.Add(dbObjext);
@@ -377,6 +408,242 @@ namespace DBFirstDAL.Repositories
             }
         }
 
+        protected override Products GetDbObjectByEntity(DbSet<Products> objects, Product entity)
+        {
+           return objects.FirstOrDefault(f => f.Id == entity.Id);
+        }
+
+        protected override Expression<Func<Products, int>> GetIdByDbObjectExpression()
+        {
+            return item => item.Id;
+        }
+
+        protected override Product ConvertDbObjectToEntity(PyramidFinalContext context, Products dbObject)
+        {
+            var product = new Product()
+            {
+                Alias=dbObject.Alias,
+                TypeStatusProduct=(Common.TypeStatusProduct) dbObject.TypeStatusProduct,
+                Id=dbObject.Id,
+                DateChange=dbObject.DateChange,
+                DateCreation=dbObject.DateCreation,
+                IsFilled=dbObject.IsFilled,
+                IsPriority=dbObject.IsPriority,
+                IsSEOReady= dbObject.IsSEOReady,
+                MetaDescription=dbObject.MetaDescription,
+                MetaKeywords=dbObject.MetaKeywords,
+                MetaTitle=dbObject.MetaTitle,
+                PopularCount=dbObject.PopularCount.HasValue ? dbObject.PopularCount.Value : 0,
+                OneCId=dbObject.OneCId,
+                Price=dbObject.Price,
+                SeasonOffer= dbObject.SeasonOffer.HasValue ? dbObject.SeasonOffer.Value:false,
+                Title=dbObject.Title,
+                TypePrice=(Common.TypeProductPrice) dbObject.TypePrice,
+                Categories=dbObject.Categories.Select(s=>new Category() {
+                    Title=s.Title,
+                    Id=s.Id
+                }).ToList(),
+                EnumValues=dbObject.EnumValues.Select(s => new EnumValue()
+                {
+                    Key = s.Key,
+                    TypeValue=(Common.TypeFromEnumValue) s.TypeValue,
+                    Id = s.Id,
+                    
+                }).ToList(),
+               Images=dbObject.ProductImages.Where(w=>w.TypeImage==(int)Common.TypeImage.GalleryItem&&w.ProductId==dbObject.Id).Select(i=>i.Images).Select(i=>new Image {
+                   Id=i.Id,
+                   ImgAlt=i.ImgAlt,
+                   PathInFileSystem=i.PathInFileSystem,
+                   ServerPathImg=i.ServerPathImg,
+                   Title=i.Title
+               }).ToList() ,
+               ProductValues=dbObject.ProductValues.Select(i=>new ProductValue
+               {
+                   Id=i.Id,
+                   Key=i.Key,
+                   ProductId=i.ProductId,
+                   Value=i.Value
+               }).ToList(),
+               ThumbnailImg=dbObject.ProductImages.FirstOrDefault(f=>f.ProductId==dbObject.Id&&f.TypeImage==(int)Common.TypeImage.Thumbnail)!=null?
+               Convert.ConvertImageToEntity.Convert(dbObject.ProductImages.FirstOrDefault(f => f.ProductId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images):new Image()
+               
+            };
+            return product;
+
+        }
+
+        protected override IQueryable<Products> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Products> dbObjects, SearchParamsProduct searchParams)
+        {
+            if (searchParams.CategoryId!=null)
+            {
+                dbObjects= dbObjects.Where(i => i.Categories.Any(a => a.Id == searchParams.CategoryId.Value));
+            }
+            if (searchParams.SearchString!=null)
+            {
+                dbObjects = dbObjects.Where(i=>i.Title.Contains(searchParams.SearchString));
+            }
+            if (searchParams.Priority.HasValue&& searchParams.Priority.Value)
+            {
+                dbObjects = dbObjects.Where(i=>i.IsPriority==true && searchParams.Priority.Value);
+            }
+            dbObjects = dbObjects.OrderByDescending(item => item.Id);
+            return dbObjects;
+        }
+
        
+        public override void UpdateBeforeSaving(PyramidFinalContext dbContext, Products dbEntity, Product entity, bool exists)
+        {
+            dbEntity.Alias = entity.Alias;
+            dbEntity.DateChange = entity.DateChange;
+            dbEntity.DateCreation = entity.DateCreation;
+            dbEntity.IsFilled = entity.IsFilled;
+            dbEntity.IsPriority = entity.IsPriority;
+            dbEntity.IsSEOReady = entity.IsSEOReady;
+            dbEntity.MetaDescription = entity.MetaDescription;
+            dbEntity.MetaKeywords = entity.MetaKeywords;
+            dbEntity.MetaTitle = entity.MetaTitle;
+            dbEntity.Price = entity.Price;
+            dbEntity.SeasonOffer = entity.SeasonOffer;
+            dbEntity.Title = entity.Title;
+            dbEntity.TypePrice = (int)entity.TypePrice;
+            dbEntity.TypeStatusProduct = (int)entity.TypeStatusProduct;
+        }
+        public override void UpdateAfterSaving(PyramidFinalContext dbContext, Products dbEntity, Product entity, bool exists)
+        {
+            dbEntity.Categories.Clear();
+            foreach (var item in entity.Categories)
+            {
+                var efCategory = dbContext.Categories.Find(item.Id);
+                dbEntity.Categories.Add(efCategory);
+            }
+            //Context.SaveChanges();
+            dbEntity.EnumValues.Clear();
+
+            foreach (var item in entity.EnumValues)
+            {
+                var efEnumValues = dbContext.EnumValues.Find(item.Id);
+                if (efEnumValues != null)
+                {
+                    dbEntity.EnumValues.Add(efEnumValues);
+                }
+
+            }
+           // Context.SaveChanges();
+
+            foreach (var item in entity.ProductValues)
+            {
+                var efprval = dbContext.ProductValues.FirstOrDefault(i => i.Id == item.Id);
+                if (efprval == null)
+                {
+                    efprval = new ProductValues()
+                    {
+                        Key = item.Key,
+                        Value = item.Value,
+                        ProductId = dbEntity.Id
+                    };
+                    dbContext.ProductValues.Add(efprval);
+                }
+                else
+                {
+                    efprval.Key = item.Key;
+                    efprval.Value = item.Value;
+                }
+
+
+
+            }
+           // dbContext.SaveChanges();
+
+        
+            if (entity.ThumbnailId != 0)
+            {
+                var curThumbnail = dbEntity.ProductImages.FirstOrDefault(i => i.ProductId == dbEntity.Id && i.TypeImage == (int)Pyramid.Entity.Enumerable.TypeImage.Thumbnail);
+                if (curThumbnail != null)
+                {
+                    var efThumbnail = dbContext.ProductImages.FirstOrDefault(i => i.ProductId == dbEntity.Id && i.ImageId == entity.ThumbnailId);
+                    if (efThumbnail != null)
+                    {
+                        if (efThumbnail.ImageId!=entity.ThumbnailId)
+                        {
+                            dbContext.ProductImages.Remove(curThumbnail);
+                            dbContext.ProductImages.Add(new ProductImages()
+                            {
+                                ImageId = entity.ThumbnailId,
+                                ProductId = dbEntity.Id,
+                                TypeImage = (int)Common.TypeImage.Thumbnail,
+                            });
+                        }
+                    }
+                }
+                else
+                {
+                    dbContext.ProductImages.Add(new ProductImages()
+                    {
+                        ImageId = entity.ThumbnailId,
+                        ProductId = dbEntity.Id,
+                        TypeImage = (int)Common.TypeImage.Thumbnail,
+                    });
+
+                }
+
+            }
+        }
+
+        public IEnumerable<Common.Models.BreadCrumbViewModel> GetBreadCrumbs(int productId)
+        {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                var efProduct = dbContext.Products.Find(productId);
+                List<BreadCrumbViewModel> breadcrumbs = new List<BreadCrumbViewModel>();
+                if (efProduct != null)
+                {
+                    breadcrumbs.Add(new BreadCrumbViewModel()
+                    {
+                        Title = efProduct.Title
+                    ,
+                        //Link = defaulCateggorytLink + EfModel.Id.ToString()
+                    });
+                    var flagstop = true;
+                    var cat = efProduct.Categories.FirstOrDefault();
+                    while (flagstop)
+                    {
+
+                        if (cat != null)
+                        {
+                            breadcrumbs.Add(new BreadCrumbViewModel()
+                            {
+                                Title = cat.Title,
+                                Link = defaulCateggorytLink + cat.Id.ToString()
+                            });
+                            if (cat.ParentId == null)
+                            {
+
+                                flagstop = false;
+                            }
+                            else
+                            {
+                                cat = cat.Categories2;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    breadcrumbs.Reverse();
+                }
+                return breadcrumbs;
+            }
+        }
+
+        public IEnumerable<Product> RelatedProducts(int productId)
+        {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                var efProduct = dbContext.Products.Find(productId);
+                var cat = efProduct.Categories.FirstOrDefault();
+                return cat.Products.Select(s=> ConvertDbObjectToEntityShort(dbContext,s)).ToList();
+            }
+        }
     }
 }

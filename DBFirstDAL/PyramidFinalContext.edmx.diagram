@@ -21,7 +21,6 @@
         <EntityTypeShape EntityType="PyramidModel.PointOnImgs" Width="1.5" PointX="8.25" PointY="9" />
         <EntityTypeShape EntityType="PyramidModel.ProductImages" Width="1.5" PointX="13.5" PointY="14.375" />
         <EntityTypeShape EntityType="PyramidModel.ProductOrders" Width="1.5" PointX="10.5" PointY="16.125" />
-        <EntityTypeShape EntityType="PyramidModel.Products" Width="1.5" PointX="8.25" PointY="13" />
         <EntityTypeShape EntityType="PyramidModel.ProductValues" Width="1.5" PointX="10.5" PointY="13.375" />
         <EntityTypeShape EntityType="PyramidModel.QuestionAnswer" Width="1.5" PointX="6" PointY="2" />
         <EntityTypeShape EntityType="PyramidModel.Recommendations" Width="1.5" PointX="3" PointY="15.125" />
@@ -42,20 +41,21 @@
         <AssociationConnector Association="PyramidModel.FK__HomeEntit__Thumb__4BAC3F29" />
         <AssociationConnector Association="PyramidModel.FK_ImageProducts_ForMTM" />
         <AssociationConnector Association="PyramidModel.FK__ProductOr__Order__60A75C0F" />
-        <AssociationConnector Association="PyramidModel.FK__PointOnIm__Refer__5AEE82B9" />
-        <AssociationConnector Association="PyramidModel.FK_ProductImages_ForMTM" />
-        <AssociationConnector Association="PyramidModel.FK__ProductOr__Produ__5FB337D6" />
-        <AssociationConnector Association="PyramidModel.FK__ProductVa__Produ__22AA2996" />
-        <AssociationConnector Association="PyramidModel.FK__Review__ProductI__3D5E1FD2" />
-        <AssociationConnector Association="PyramidModel.EventProducts" />
         <AssociationConnector Association="PyramidModel.FilterCategories" />
         <AssociationConnector Association="PyramidModel.FilterEnumValues" />
         <AssociationConnector Association="PyramidModel.HomeEntityCategories" />
         <AssociationConnector Association="PyramidModel.HomeEntityFaq" />
+        <AssociationConnector Association="PyramidModel.RecommendationImages" />
+        <EntityTypeShape EntityType="PyramidModel.Products" Width="1.5" PointX="8.25" PointY="12.5" />
+        <AssociationConnector Association="PyramidModel.FK__PointOnIm__Refer__5E8A0973" />
+        <AssociationConnector Association="PyramidModel.FK_ProductImages_ForMTM" />
+        <AssociationConnector Association="PyramidModel.FK__ProductOr__Produ__32AB8735" />
+        <AssociationConnector Association="PyramidModel.FK__ProductVa__Produ__5AEE82B9" />
+        <AssociationConnector Association="PyramidModel.FK__Review__ProductI__6477ECF3" />
+        <AssociationConnector Association="PyramidModel.EventProducts" />
         <AssociationConnector Association="PyramidModel.HomeEntityWithProducts" />
         <AssociationConnector Association="PyramidModel.ProductCategories" />
         <AssociationConnector Association="PyramidModel.ProductEnumValues" />
-        <AssociationConnector Association="PyramidModel.RecommendationImages" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

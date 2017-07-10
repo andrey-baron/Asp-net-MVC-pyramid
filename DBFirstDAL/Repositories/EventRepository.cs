@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using Common.SearchClasses;
+using Pyramid.Entity;
+using System.Linq.Expressions;
 
 namespace DBFirstDAL.Repositories
 {
-   public class EventRepository: GenericRepository<PyramidFinalContext, Events>
+   public class EventRepository: GenericRepository<Events,PyramidFinalContext,Pyramid.Entity.Event, SearchParamsBase,int>
     {
-        public override IQueryable<Events> GetAll()
+        /*public override e<Events> GetAll()
         {
             // говорим, что не надо создавать динамически генерируемые прокси-классы
             // (которые System.Data.Entity.DynamicProxies...)
@@ -20,55 +23,55 @@ namespace DBFirstDAL.Repositories
 
 
             return query;
-        }
-        public override void AddOrUpdate(Events entity)
-        {
-            var efEvent = FindBy(f => f.Id == entity.Id).SingleOrDefault();
-            if (efEvent==null)
-            {
-                var listProductIds = new List<int>(entity.Products.Select(i=>i.Id));
-                entity.Products.Clear();
-                foreach (var item in listProductIds)
-                {
-                    var efProd = Context.Products.Find(item);
-                    entity.Products.Add(efProd);
-                }
-                Context.Events.Add(entity);
-                Context.SaveChanges();
+        }*/
+        //public override void AddOrUpdate(Events entity)
+        //{
+        //    var efEvent = FindBy(f => f.Id == entity.Id).SingleOrDefault();
+        //    if (efEvent==null)
+        //    {
+        //        var listProductIds = new List<int>(entity.Products.Select(i=>i.Id));
+        //        entity.Products.Clear();
+        //        foreach (var item in listProductIds)
+        //        {
+        //            var efProd = Context.Products.Find(item);
+        //            entity.Products.Add(efProd);
+        //        }
+        //        Context.Events.Add(entity);
+        //        Context.SaveChanges();
 
 
-                entity.EventImages = new EventImages() {
-                    ImageId = entity.EventImages.ImageId,
-                    EventId=entity.Id
-                };
+        //        entity.EventImages = new EventImages() {
+        //            ImageId = entity.EventImages.ImageId,
+        //            EventId=entity.Id
+        //        };
                
-                Context.SaveChanges();               
-            }
-            else
-            {
-                var test = Context.Entry(efEvent);
-                Context.Entry(efEvent).CurrentValues.SetValues(entity);
-                var listProductIds = new List<int>(entity.Products.Select(i => i.Id));
+        //        Context.SaveChanges();               
+        //    }
+        //    else
+        //    {
+        //        var test = Context.Entry(efEvent);
+        //        Context.Entry(efEvent).CurrentValues.SetValues(entity);
+        //        var listProductIds = new List<int>(entity.Products.Select(i => i.Id));
 
-                efEvent.Products.Clear();
-                foreach (var item in listProductIds)
-                {
-                    var efProd = Context.Products.Find(item);
-                    efEvent.Products.Add(efProd);
-                }
+        //        efEvent.Products.Clear();
+        //        foreach (var item in listProductIds)
+        //        {
+        //            var efProd = Context.Products.Find(item);
+        //            efEvent.Products.Add(efProd);
+        //        }
                
-                Context.SaveChanges();
+        //        Context.SaveChanges();
 
 
-                entity.EventImages = new EventImages()
-                {
-                    ImageId = efEvent.EventImages.ImageId,
-                    EventId = efEvent.Id
-                };
+        //        entity.EventImages = new EventImages()
+        //        {
+        //            ImageId = efEvent.EventImages.ImageId,
+        //            EventId = efEvent.Id
+        //        };
 
-                Context.SaveChanges();
-            }
-        }
+        //        Context.SaveChanges();
+        //    }
+        //}
 
         public bool DeleteReletedProduct(int id,int productId)
         {
@@ -82,13 +85,38 @@ namespace DBFirstDAL.Repositories
                     if (efProd!=null)
                     {
                         efEvent.Products.Remove(efProd);
-                        Save();
+                        Context.SaveChanges();
                         actionResult = true;
 
                     }
                 }
             }
             return actionResult;
+        }
+
+        protected override Events GetDbObjectByEntity(DbSet<Events> objects, Event entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Expression<Func<Events, int>> GetIdByDbObjectExpression()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Event ConvertDbObjectToEntity(PyramidFinalContext context, Events dbObject)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IQueryable<Events> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Events> dbObjects, SearchParamsBase searchParams)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void UpdateBeforeSaving(PyramidFinalContext dbContext, Events dbEntity, Event entity, bool exists)
+        {
+            throw new NotImplementedException();
         }
     }
 }

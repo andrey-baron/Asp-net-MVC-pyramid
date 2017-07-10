@@ -95,7 +95,7 @@ namespace Pyramid.Controllers
                     Quantity=i.Quantity
                 }).ToList()
             };
-            _orederRepository.AddOrUpdate(efOrder);
+            //_orederRepository.AddOrUpdate(efOrder);
             bool flagErr = false;
             try
             {

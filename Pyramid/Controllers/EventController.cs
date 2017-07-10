@@ -206,7 +206,7 @@ namespace Pyramid.Controllers
             var mapper = config.CreateMapper();
 
             var efmodelFromEntity = mapper.Map<DBFirstDAL.Events>(model);
-            _eventRepository.AddOrUpdate(efmodelFromEntity);  
+            //_eventRepository.AddOrUpdate(efmodelFromEntity);  
             ViewData["OperationResult"] = "Операция прошла успешно";
             return RedirectToAction("ManageIndex");
         }
@@ -214,8 +214,8 @@ namespace Pyramid.Controllers
         public ActionResult Delete(int id)
         {
             var efEvent = _eventRepository.FindBy(i => i.Id == id).SingleOrDefault();
-            _eventRepository.Delete(efEvent);
-            _eventRepository.Save();
+            _eventRepository.Delete(efEvent.Id);
+            //_eventRepository.Save();
             return RedirectToAction("ManageIndex");
         }
 

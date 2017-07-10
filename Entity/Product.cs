@@ -20,9 +20,9 @@ namespace Pyramid.Entity
         public double Price { get; set; }
         //public bool Available { get; set; }
         [Display(Name = "Тип цены")]
-        public Enumerable.TypeProductPrice TypePrice { get; set; }
-        [Display(Name = "В наличии")]
-        public bool InStock { get; set; }
+        public Common.TypeProductPrice TypePrice { get; set; }
+        //[Display(Name = "В наличии")]
+        //public bool InStock { get; set; }
 
         [Display(Name = "Сезонное предложение")]
         public bool SeasonOffer { get; set; }
@@ -30,6 +30,9 @@ namespace Pyramid.Entity
         public bool IsPriority { get; set; }
         [Display(Name = "Заполнен")]
         public bool IsFilled { get; set; }
+
+        [Display(Name = "Статус товара")]
+        public Common.TypeStatusProduct TypeStatusProduct { get; set; }
 
         public Image ThumbnailImg { get; set; }
         public ICollection<Image> Images { get; set; }

@@ -8,7 +8,8 @@ namespace DBFirstDAL.DataModels
 {
    public class RootCategory
     {
-        public CategoryWithThumbnail Category { get; set; }
-        public IEnumerable<CategoryWithThumbnail> SubCategories { get; set; }
+        public Pyramid.Entity.Category Category { get; set; }
+        public IEnumerable<Pyramid.Entity.Category> SubCategories { get; set; }
+
     }
 }

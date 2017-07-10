@@ -26,6 +26,8 @@ namespace Pyramid
                         ));
             }
 
+
+
            //var _categoryRepository = new DBFirstDAL.Repositories.CategoryRepository();
            // var catAll = _categoryRepository.GetAll().ToList();
 

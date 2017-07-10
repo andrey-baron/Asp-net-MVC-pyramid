@@ -73,6 +73,7 @@ namespace Pyramid.Controllers
                   .ForMember(d => d.PopularCount, o => o.Ignore())
                   .ForMember(d => d.IsFilled, o => o.Ignore())
                    .ForMember(d => d.IsPriority, o => o.Ignore())
+                   .ForMember(d => d.TypeStatusProduct, o => o.Ignore())
                 ;
                 cfg.CreateMap<DBFirstDAL.Images, Entity.Image>();
 
@@ -121,7 +122,7 @@ namespace Pyramid.Controllers
             var headerCategories = mapper.Map<IEnumerable<DBFirstDAL.DataModels.CategoryWithThumbnail>, List<Models.CategoryModels.HeaderCategoryViewModel>>(efRootCategories);
             ViewBag.HeaderCategories = headerCategories;
             var efHomeModels = _homeEntityRepository.GetModels(false);
-            var homeEntitiesModel = mapper.Map<IEnumerable<DBFirstDAL.HomeEntity>, List<Entity.HomeEntity>>(efHomeModels.ToList());
+            var homeEntitiesModel = efHomeModels.ToList();
 
             var efProducts = _productRepository.GetSeasonOffers((int)Entity.Enumerable.TypeImage.Thumbnail);
             ViewBag.SeasonOffers = mapper.Map<IEnumerable<DBFirstDAL.DataModels.HomeModels.ProductHomeModel>, List<Entity.Product>>(efProducts);

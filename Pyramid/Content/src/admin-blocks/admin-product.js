@@ -50,11 +50,11 @@
         })
     })
 
-    $(".js-btn-gallery-ajax-delete").on("click", function () {
+    $(".box-product-gallery").on("click", ".js-btn-gallery-ajax-delete", function () {
         var id = $(this).data("ajaxid");
         $.post("/Product/DeleteToGallery?id=" + productId + "&imageid=" + id, function (data) {
             $('.box-product-gallery').html(data);
-            
+             
         })
     });
 })();

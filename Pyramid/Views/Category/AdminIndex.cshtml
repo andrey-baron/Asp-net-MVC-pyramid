@@ -1,8 +1,14 @@
-﻿@model IEnumerable<Pyramid.Entity.Category>
+﻿@using Pyramid.Helpers
+
+@model SearchResultViewModel<Pyramid.Entity.Category>
 
 @{
     ViewBag.Title = "Все категории";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var pagedList = Html.PagedList(Model.PagesInfo.ItemsCount, Model.PagesInfo.ItemsPerPage, Model.PagesInfo.CurrentPage, Model.PagesInfo.DisplayedPages, Url.GetAction(), Url.GetController(), pageNumber => new
+    {
+        page = pageNumber
+    });
 }
 <div class="section-header">
     <h2>@ViewBag.Title</h2>
@@ -21,12 +27,12 @@
                 <i class="font-icon glyphicon glyphicon-file"></i>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Название
             </th>
             <th></th>
         </tr>
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.Objects)
         {
             <tr>
                 <td class="table-photo">
@@ -51,3 +57,8 @@
         }
 
 </table>
+<div class="row">
+    <div class="col-md-12">
+        @pagedList
+    </div>
+</div>

@@ -14,5 +14,14 @@ namespace Pyramid.Models.CategoryModels
         public string Title { get; set; }
 
         public Image Thumbnail { get; set; }
+
+        public static CategoryShortViewModel ToModel(Category category)
+        {
+            return new CategoryShortViewModel() {
+                Id=category.Id,
+                Thumbnail=category.Thumbnail,
+                Title= category.Title
+            };
+        }
     }
 }

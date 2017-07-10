@@ -206,6 +206,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Global\Config.cs" />
+    <Compile Include="Helpers\AddressesHelper.cs" />
+    <Compile Include="Helpers\PagedListHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AllCategoriesViewModel.cs" />
     <Compile Include="Models\BreadCrumbViewModel.cs" />
@@ -217,6 +219,8 @@
     <Compile Include="Models\CategoryModels\CategoryShortViewModel.cs" />
     <Compile Include="Models\CategoryModels\CategoryViewModel.cs" />
     <Compile Include="Models\CategoryModels\HeaderCategoryViewModel.cs" />
+    <Compile Include="Models\CommonViewModels\PagesInfoModel.cs" />
+    <Compile Include="Models\CommonViewModels\SearchResultViewModel.cs" />
     <Compile Include="Models\EnterModel.cs" />
     <Compile Include="Models\Faq\FaqViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />

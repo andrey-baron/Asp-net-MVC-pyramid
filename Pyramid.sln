@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyramid.BLL", "Pyramid.BLL\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{AE169D4C-C0ED-482F-87F5-1684A65B8823}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsServicePyramid", "WindowsServicePyramid\WindowsServicePyramid.csproj", "{BE02C883-B6AE-426A-96DD-CB7D2B13B0CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{AE169D4C-C0ED-482F-87F5-1684A65B8823}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE169D4C-C0ED-482F-87F5-1684A65B8823}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE169D4C-C0ED-482F-87F5-1684A65B8823}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE02C883-B6AE-426A-96DD-CB7D2B13B0CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE02C883-B6AE-426A-96DD-CB7D2B13B0CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE02C883-B6AE-426A-96DD-CB7D2B13B0CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE02C883-B6AE-426A-96DD-CB7D2B13B0CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -70,8 +70,8 @@ namespace Pyramid.Controllers
             var mapper = config.CreateMapper();
             var efmodel = mapper.Map<Entity.EnumValue, DBFirstDAL.EnumValues>(model);
 
-            _enumRepositopy.AddOrUpdate(efmodel);
-            _enumRepositopy.Save();
+            //_enumRepositopy.AddOrUpdate(efmodel);
+           // _enumRepositopy.Save();
             return RedirectToAction("index");
         }
     }

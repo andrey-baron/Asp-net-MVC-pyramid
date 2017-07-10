@@ -190,8 +190,8 @@ namespace Pyramid.Controllers
             
 
             var efModel = mapper.Map<Pyramid.Entity.FAQ, DBFirstDAL.Faq>(model);
-            _faqRepository.AddOrUpdate(efModel);
-            _faqRepository.Save();
+            //_faqRepository.AddOrUpdate(efModel);
+            //_faqRepository.Save();
             return RedirectToActionPermanent("ManageIndex");
         }
 
@@ -242,8 +242,8 @@ namespace Pyramid.Controllers
             var efmodel = _questionAnswerRepository.FindBy(i => i.Id == id).SingleOrDefault();
             if (efmodel!=null)
             {
-                _questionAnswerRepository.Delete(efmodel);
-                _questionAnswerRepository.Save();
+                _questionAnswerRepository.Delete(efmodel.Id);
+               // _questionAnswerRepository.Save();
             }
             return null;
         }

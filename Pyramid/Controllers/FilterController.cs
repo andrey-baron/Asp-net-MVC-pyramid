@@ -106,8 +106,8 @@ namespace Pyramid.Controllers
             var mapper = config.CreateMapper();
             var efmodel =
     mapper.Map<Pyramid.Entity.Filter, DBFirstDAL.Filters>(model);
-            _filterRepository.AddOrUpdate(efmodel);
-            _filterRepository.Save();
+            //_filterRepository.AddOrUpdate(efmodel);
+            //_filterRepository.Save();
            // DBFirstDAL.FilterDAL.AddOrDefault(model);
             return RedirectToAction("index");
         }
@@ -153,8 +153,8 @@ namespace Pyramid.Controllers
 
         public ActionResult DeleteEnumValue(int id,int enumValueId)
         {
-            _filterRepository.DeleteEnumValue(id, enumValueId);
-            _filterRepository.Save();
+            //_filterRepository.DeleteEnumValue(id, enumValueId);
+            //_filterRepository.Save();
             return null;
         }
     }

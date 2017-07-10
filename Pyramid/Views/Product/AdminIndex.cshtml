@@ -1,8 +1,17 @@
-﻿@model PagedList.IPagedList<Pyramid.Entity.Product>
-@using PagedList.Mvc;
+﻿@using Pyramid.Helpers
+
+@model SearchResultViewModel<Pyramid.Entity.Product>
 @{
     ViewBag.Title = "Все товары";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var pagedList = Html.PagedList(Model.PagesInfo.ItemsCount, Model.PagesInfo.ItemsPerPage, Model.PagesInfo.CurrentPage, Model.PagesInfo.DisplayedPages, Url.GetAction(), Url.GetController(), pageNumber => new
+    {
+        page = pageNumber,
+        priority = ViewBag.Priority,
+        sortOrder = ViewBag.CurrentSort,
+        currentFilter = ViewBag.CurrentFilter,
+        categoryId = ViewBag.CategoryId
+    });
 }
 <div class="section-header">
     <h2>@ViewBag.Title</h2>
@@ -71,11 +80,11 @@
         </tr>
     </thead>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Objects)
     {
         <tr>
             <td class="table-photo">
-                <img src="/Content/img/logoSA.jpg" alt="" />
+                <img src="@(item.ThumbnailImg!=null&&item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:"/Content/img/logoSA.jpg")" alt="" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -113,7 +122,10 @@
 
 </table>
 
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("AdminIndex",
-    new { page, priority = ViewBag.Priority,sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, categoryId= ViewBag.CategoryId }))
+<div class="row">
+    <div class="col-md-12">
+        @pagedList
+    </div>
+</div>
+@*@Html.PagedListPager(Model, page => Url.Action("AdminIndex",
+    new { page, priority = ViewBag.Priority,sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, categoryId= ViewBag.CategoryId }))*@

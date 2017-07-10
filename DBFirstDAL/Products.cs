@@ -40,12 +40,12 @@ namespace DBFirstDAL
         public System.DateTime DateCreation { get; set; }
         public System.DateTime DateChange { get; set; }
         public Nullable<int> PointOnImg_Id { get; set; }
-        public bool IsPriority { get; set; }
-        public bool IsFilled { get; set; }
-        public Nullable<bool> InStock { get; set; }
         public Nullable<bool> SeasonOffer { get; set; }
         public string OneCId { get; set; }
         public Nullable<int> PopularCount { get; set; }
+        public bool IsPriority { get; set; }
+        public bool IsFilled { get; set; }
+        public int TypeStatusProduct { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PointOnImgs> PointOnImgs { get; set; }

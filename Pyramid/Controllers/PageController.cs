@@ -55,15 +55,15 @@ namespace Pyramid.Controllers
             var efmodel = Mapper.Map<Entity.Page, Pages>(model);
             if (efTest == null)
             {
-                _pageRepo.Add(efmodel);
+                //_pageRepo.Add(efmodel);
             }
             else
             {
-                _pageRepo.Edit(efmodel);
+               // _pageRepo.Edit(efmodel);
             }
 
 
-            _pageRepo.Save();
+            //_pageRepo.Save();
 
             return RedirectToAction("AdminIndex");
             try
@@ -84,8 +84,7 @@ namespace Pyramid.Controllers
             var efPage = _pageRepo.FindBy(i => i.Id == id).SingleOrDefault();
             if (efPage != null)
             {
-                _pageRepo.Delete(efPage);
-                _pageRepo.Save();
+                _pageRepo.Delete(efPage.Id);
             }
            
             return RedirectToAction("AdminIndex");

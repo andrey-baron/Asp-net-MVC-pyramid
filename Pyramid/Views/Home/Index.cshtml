@@ -72,7 +72,7 @@
                             <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
                         </div>
                         <div class="product__item__hover_block_wrapper">
-                            @if (item.InStock)
+                            @if (item.TypeStatusProduct==Common.TypeStatusProduct.Normal)
                             {
                                 <div class="product__item__hover_block_wrapper__item product__in-stock">
                                     <p>в наличии</p>
@@ -224,7 +224,7 @@
                                     <p class="product__item-price-inner"><span class="big-decimal">@itemProduct.Price</span> руб.</p>
                                 </div>
                                 <div class="product__item__hover_block_wrapper">
-                                    @if (itemProduct.InStock)
+                                    @if  (itemProduct.TypeStatusProduct == Common.TypeStatusProduct.Normal)
                                     {
                                         <div class="product__item__hover_block_wrapper__item product__in-stock">
                                             <p>в наличии</p>

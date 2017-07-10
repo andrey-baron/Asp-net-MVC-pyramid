@@ -6,10 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using Common.SearchClasses;
+using Pyramid.Entity;
+using System.Linq.Expressions;
+using DBFirstDAL.Convert;
 
 namespace DBFirstDAL.Repositories
 {
-    public class HomeEntityRepository : GenericRepository<PyramidFinalContext, HomeEntity>
+    public class HomeEntityRepository : GenericRepository<HomeEntity,PyramidFinalContext,Pyramid.Entity.HomeEntity, SearchParamsBase,int>
     {
 
 
@@ -119,42 +123,42 @@ namespace DBFirstDAL.Repositories
 
         }
 
-        public IEnumerable<HomeEntity> GetModels(bool adminManage)
+        public IEnumerable<Pyramid.Entity.HomeEntity> GetModels(bool adminManage)
         {
             if (adminManage)
             {
-                return GetAll() as IEnumerable<HomeEntity>;
+                return GetAll() as IEnumerable<Pyramid.Entity.HomeEntity>;
             }
             else
             {
-                var efEntity = Context.HomeEntity
-                    .Include(b => b.BannerWithPoints)
-                    .Include(b => b.Faq)
-                    .Include(i => i.Products)
-                    .Include(i => i.Categories)
-                    .ToList();
-                //var t= efEntity.Select(i => new HomeEntityModel()
-                //{
-                //    Id = i.Id,
-                //    Title = i.Title,
-                //    Category= ToModelCategory(i.Categories),
-                //   Faq=i.Faq,
-                //   BannerWithPoints= new BannerWithPointsHomeDataModel()
-                //   {
-                //       BannerId = i.BannerWithPoints.BannerId,
-                //       Images = i.BannerWithPoints.Images,
-                //       PointOnImgs = i.BannerWithPoints.PointOnImgs.Select(s => new PointOnImgsDataModel()
-                //       {
-                //           BannerId = s.BannerId,
-                //           CoordX = s.CoordX,
-                //           CoordY = s.CoordY,
-                //           Products = ToModelProduct(s.Products),
-                //           Id = s.Id
-                //       }).ToList()
-                //   }, 
-                //   VideoGuide=i.VideoGuide 
-                //});
-                return efEntity.ToList();
+                using (PyramidFinalContext dbContext = new PyramidFinalContext())
+                {
+                    var efEntity = dbContext.HomeEntity.ToList().Select(s => ConvertDbObjectToEntity(dbContext, s)).ToList();
+                   
+                    //var t= efEntity.Select(i => new HomeEntityModel()
+                    //{
+                    //    Id = i.Id,
+                    //    Title = i.Title,
+                    //    Category= ToModelCategory(i.Categories),
+                    //   Faq=i.Faq,
+                    //   BannerWithPoints= new BannerWithPointsHomeDataModel()
+                    //   {
+                    //       BannerId = i.BannerWithPoints.BannerId,
+                    //       Images = i.BannerWithPoints.Images,
+                    //       PointOnImgs = i.BannerWithPoints.PointOnImgs.Select(s => new PointOnImgsDataModel()
+                    //       {
+                    //           BannerId = s.BannerId,
+                    //           CoordX = s.CoordX,
+                    //           CoordY = s.CoordY,
+                    //           Products = ToModelProduct(s.Products),
+                    //           Id = s.Id
+                    //       }).ToList()
+                    //   }, 
+                    //   VideoGuide=i.VideoGuide 
+                    //});
+                    return efEntity;
+                }
+                
             }
 
         }
@@ -165,7 +169,7 @@ namespace DBFirstDAL.Repositories
             if (product != null)
             {
                 model.Id = product.Id;
-                model.InStock = product.InStock.HasValue ? product.InStock.Value : false;
+                //model.InStock = product.InStock.HasValue ? product.InStock.Value : false;
                 model.Price = product.Price;
                 model.SeasonOffer = product.SeasonOffer.HasValue ? product.SeasonOffer.Value : false;
                 model.ThumbnailImg = product.ProductImages.FirstOrDefault(i => i.TypeImage == 1 && i.ProductId == product.Id) != null ? product.ProductImages.FirstOrDefault(i => i.TypeImage == 1 && i.ProductId == product.Id).Images : null;
@@ -209,7 +213,7 @@ namespace DBFirstDAL.Repositories
                 
                 efHomeModel.CallToAction = model.CallToAction;
                 Context.HomeEntity.Add(efHomeModel);
-                Save();
+                //Save();
                 foreach (var item in model.Categories)
                 {
                     var efCat = Context.Categories.Find(item.Id);
@@ -233,7 +237,7 @@ namespace DBFirstDAL.Repositories
                 {
                     efHomeModel.Faq = efFaq;
                 }
-                Save();
+                //Save();
                 efHomeModel.BannerWithPoints = new BannerWithPoints()
                 {
                     BannerId = efHomeModel.Id,
@@ -250,7 +254,7 @@ namespace DBFirstDAL.Repositories
                         ReferenceProductId = item.Products != null ? item.Products.Id : (int?)null
                     });
                 }
-                Save();
+                //Save();
 
 
             }
@@ -260,7 +264,7 @@ namespace DBFirstDAL.Repositories
                 if (model.Content != null)
                 {
                     efHomeModel.Content = model.Content;
-                    Save();
+                   // Save();
                 }
                 efHomeModel.LinkYouTobe = model.LinkYouTobe;
                 efHomeModel.TitleVideoGuide = model.TitleVideoGuide;
@@ -275,7 +279,7 @@ namespace DBFirstDAL.Repositories
 
                 try
                 {
-                    Save();
+                    //Save();
                 }
                 catch (DbEntityValidationException ex)
                 {
@@ -302,7 +306,7 @@ namespace DBFirstDAL.Repositories
                 }
 
                 efHomeModel.Products.Clear();
-                Save();
+                //Save();
                 foreach (var item in model.Products)
                 {
                     var efPr = Context.Products.Find(item.Id);
@@ -317,7 +321,7 @@ namespace DBFirstDAL.Repositories
                 {
                     efHomeModel.Faq = efFaq;
                 }
-                Save();
+                //Save();
                 if (efHomeModel.BannerWithPoints == null)
                 {
                     efHomeModel.BannerWithPoints = new BannerWithPoints()
@@ -333,7 +337,7 @@ namespace DBFirstDAL.Repositories
                 }
                 //efHomeModel.BannerWithPoints.PointOnImgs.Clear();
 
-                Save();
+                //Save();
 
                 if (efHomeModel.BannerWithPoints.PointOnImgs != null && efHomeModel.BannerWithPoints.PointOnImgs.Count > 0)
                 {
@@ -350,7 +354,7 @@ namespace DBFirstDAL.Repositories
 
                     }
                 }
-                Save();
+                //Save();
                 foreach (var item in model.BannerWithPoints.PointOnImgs)
                 {
                     efHomeModel.BannerWithPoints.PointOnImgs.Add(new PointOnImgs()
@@ -362,7 +366,7 @@ namespace DBFirstDAL.Repositories
                         ReferenceProductId = item.Products != null ? item.Products.Id : (int?)null
                     });
                 }
-                Save();
+                //Save();
 
                 //var efVideo = Context.VideoGuide.Find(efHomeModel.Id);
                 //if(efVideo!=null)
@@ -422,7 +426,7 @@ namespace DBFirstDAL.Repositories
             {
                 efEntity.Products.Remove(efProd);
             }
-            Save();
+           // Save();
         }
         public void DeleteCategory(int homeEntityId, int categoryId )
         {
@@ -432,7 +436,103 @@ namespace DBFirstDAL.Repositories
             {
                 efEntity.Categories.Remove(cat);
             }
-            Save();
+            //Save();
+        }
+
+        protected override HomeEntity GetDbObjectByEntity(DbSet<HomeEntity> objects, Pyramid.Entity.HomeEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Expression<Func<HomeEntity, int>> GetIdByDbObjectExpression()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Pyramid.Entity.HomeEntity ConvertDbObjectToEntity(PyramidFinalContext context, HomeEntity dbObject)
+        {
+            var hEntity = new Pyramid.Entity.HomeEntity();
+            if (dbObject.BannerWithPoints != null)
+            {
+                hEntity.BannerWithPoints = new Pyramid.Entity.BannerWithPoints()
+                {
+                    BannerId = dbObject.BannerWithPoints.BannerId,
+                    Images = dbObject.BannerWithPoints.Images != null ? new Image()
+                    {
+                        Id = dbObject.BannerWithPoints.Images.Id,
+                        ImgAlt = dbObject.BannerWithPoints.Images.ImgAlt,
+                        PathInFileSystem = dbObject.BannerWithPoints.Images.PathInFileSystem,
+                        ServerPathImg = dbObject.BannerWithPoints.Images.ServerPathImg,
+                        Title = dbObject.BannerWithPoints.Images.Title
+                    } : new Image(),
+                    PointOnImgs = dbObject.BannerWithPoints.PointOnImgs.Select(p => new Pyramid.Entity.PointOnImg()
+                    {
+                        CoordX = p.CoordX,
+                        CoordY = p.CoordY,
+                        Id = p.Id,
+                        Products = new Product()
+                        {
+                            ThumbnailImg = p.Products.ProductImages.FirstOrDefault(f => f.ProductId == p.Products.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                               ConvertImageToEntity.Convert(p.Products.ProductImages.FirstOrDefault(f => f.ProductId == p.Products.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : new Pyramid.Entity.Image(),
+                            Id = p.Products.Id,
+                            Title = p.Products.Title,
+                            Price = p.Products.Price,
+                            TypePrice = (Common.TypeProductPrice)p.Products.TypePrice
+                        }
+                    }).ToList()
+                };
+            }
+            hEntity.CallToAction = dbObject.CallToAction;
+            hEntity.Content = dbObject.Content;
+            hEntity.Id = dbObject.Id;
+            hEntity.LinkYouTobe = dbObject.LinkYouTobe;
+            hEntity.Title = dbObject.Title;
+            hEntity.TitleVideoGuide = dbObject.TitleVideoGuide;
+
+            hEntity.Categories = dbObject.Categories.Select(s => new Pyramid.Entity.Category()
+            {
+                Id = s.Id,
+                Title = s.Title,
+            }).ToList();
+
+            hEntity.Images = ConvertImageToEntity.Convert(dbObject.Images);
+
+            hEntity.Products = dbObject.Products.Select(p => new Pyramid.Entity.Product()
+            {
+                ThumbnailImg = p.ProductImages.FirstOrDefault(f => f.ProductId == p.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                             ConvertImageToEntity.Convert(p.ProductImages.FirstOrDefault(f => f.ProductId == p.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : new Pyramid.Entity.Image(),
+                Id = p.Id,
+                Title = p.Title,
+                Price = p.Price,
+                TypePrice = (Common.TypeProductPrice)p.TypePrice
+            }).ToList();
+
+            hEntity.Faq = new FAQ()
+            {
+                Id = dbObject.Faq.Id,
+                Title = dbObject.Faq.Title,
+                QuestionAnswer = dbObject.Faq.QuestionAnswer.Select(s => new Pyramid.Entity.QuestionAnswer()
+                {
+                    Id = s.Id,
+                    Answer = s.Answer,
+                    Question = s.Question
+
+                }).ToList()
+            };
+
+
+            return hEntity;
+
+        }
+
+        protected override IQueryable<HomeEntity> BuildDbObjectsList(PyramidFinalContext context, IQueryable<HomeEntity> dbObjects, SearchParamsBase searchParams)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void UpdateBeforeSaving(PyramidFinalContext dbContext, HomeEntity dbEntity, Pyramid.Entity.HomeEntity entity, bool exists)
+        {
+            throw new NotImplementedException();
         }
     }
 }

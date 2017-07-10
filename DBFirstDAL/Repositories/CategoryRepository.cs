@@ -7,173 +7,346 @@ using DBFirstDAL;
 using DBFirstDAL.DataModels;
 using System.Data.Entity;
 using DBFirstDAL.DataModels._1C;
+using Common.SearchClasses;
+using System.Linq.Expressions;
+using Pyramid.Entity;
+using DBFirstDAL.Convert;
+using Common.Models;
 
 namespace DBFirstDAL.Repositories
 {
-    public class CategoryRepository:GenericRepository<PyramidFinalContext,Categories>
+    public class CategoryRepository:GenericRepository<Categories, PyramidFinalContext,Pyramid.Entity.Category, SearchParamsBase,int>
     {
+        const string defaulCateggorytLink = "/Category/index/";
+
+        public CategoryRepository(PyramidFinalContext context) : base(context)
+        {
+        }
+
+        public CategoryRepository() 
+        {
+        }
+
         public IEnumerable<RootCategory> GetRootCategoriesWithSubs()
         {
-            var rootCategories = Context.Categories.Where(i => i.ParentId == null &&(i.Products.Count>0|| i.Categories1.Count>0));
-            var d =new List<RootCategory>();
-            foreach (var item in rootCategories)
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
-                d.Add(new RootCategory()
+                var rootCategories = dbContext.Categories.Where(i => i.ParentId == null && (i.Products.Count > 0 || i.Categories1.Count > 0)).ToList();
+                var d = new List<RootCategory>();
+                foreach (var item in rootCategories)
                 {
-                    Category = new CategoryWithThumbnail() {
-                        Id= item.Id,
-                        Thumbnail= item.CategoryImages.FirstOrDefault(f => f.CategoryId == item.Id && f.TypeImage == 1)!=null?
-                        item.CategoryImages.FirstOrDefault(f=>f.CategoryId==item.Id&&f.TypeImage==1).Images:null,
-                        Title=item.Title,
-                    } ,
-                    SubCategories = Context.Categories.Where(i => i.ParentId == item.Id).Select(s=> new CategoryWithThumbnail()
+                    d.Add(new RootCategory()
                     {
-                        Id = s.Id,
-                        Thumbnail = s.CategoryImages.FirstOrDefault(f => f.CategoryId == s.Id && f.TypeImage == 1) != null ?
-                        s.CategoryImages.FirstOrDefault(f => f.CategoryId == s.Id && f.TypeImage == 1).Images : null,
-                        Title = s.Title,
-                    })
-                });
+                        Category = ConvertDbObjectToEntityShort(dbContext, item)
+                        //new Pyramid.Entity.Category()
+                        //{
+                        //    Id = item.Id,
+                        //    Thumbnail = item.CategoryImages.FirstOrDefault(f => f.CategoryId == item.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                        //    ConvertImageToEntity.Convert( item.CategoryImages.FirstOrDefault(f => f.CategoryId == item.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : null,
+                        //    Title = item.Title,
+                        //}
+                        ,
+                        SubCategories = dbContext.Categories.Where(i => i.ParentId == item.Id).ToList().Select(s => ConvertDbObjectToEntityShort(dbContext, s)).ToList(),
+                        //{
+                        //    Id = s.Id,
+                        //    Thumbnail = s.CategoryImages.FirstOrDefault(f => f.CategoryId == s.Id && f.TypeImage == 1) != null ?
+                        //    ConvertImageToEntity.Convert(s.CategoryImages.FirstOrDefault(f => f.CategoryId == s.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : null,
+                        //    Title = s.Title,
+                        //}).ToList()
+                    });
+                }
+                return d;
             }
-            return d;
-           
         }
 
         public RootCategory GetRootCategoryWithSubs(int id)
         {
-            var efCat = Context.Categories.FirstOrDefault(i => i.Id == id);
-            if (efCat != null)
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
-                var rootCategory = new RootCategory()
+                var efCat = dbContext.Categories.FirstOrDefault(i => i.Id == id);
+                if (efCat != null)
                 {
-                    Category = new CategoryWithThumbnail()
+                    var rootCategory = new RootCategory()
                     {
-                        Id = efCat.Id,
-                        Thumbnail = efCat.CategoryImages.FirstOrDefault(f => f.CategoryId == efCat.Id && f.TypeImage == 1) != null ?
-                            efCat.CategoryImages.FirstOrDefault(f => f.CategoryId == efCat.Id && f.TypeImage == 1).Images : null,
-                        Title = efCat.Title,
-                        //Products = efCat.Products
-                    },
-                    SubCategories = Context.Categories.Where(i => i.ParentId == efCat.Id).Select(s => new CategoryWithThumbnail()
-                    {
-                        Id = s.Id,
-                        Thumbnail = s.CategoryImages.FirstOrDefault(f => f.CategoryId == s.Id && f.TypeImage == 1) != null ?
-                        s.CategoryImages.FirstOrDefault(f => f.CategoryId == s.Id && f.TypeImage == 1).Images : null,
-                        Title = s.Title,
-                       // Products = s.Products
-                    })
+                        Category = new Pyramid.Entity.Category()
+                        {
+                            Id = efCat.Id,
+                            Thumbnail = efCat.CategoryImages.FirstOrDefault(f => f.CategoryId == efCat.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                                 ConvertImageToEntity.Convert(efCat.CategoryImages.FirstOrDefault(f => f.CategoryId == efCat.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : null,
+                            Title = efCat.Title,
+                            //Products = efCat.Products
+                        },
+                        SubCategories = dbContext.Categories.Where(i => i.ParentId == efCat.Id).Select(s => new Pyramid.Entity.Category()
+                        {
+                            Id = s.Id,
+                            Thumbnail = s.CategoryImages.FirstOrDefault(f => f.CategoryId == s.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                            ConvertImageToEntity.Convert(s.CategoryImages.FirstOrDefault(f => f.CategoryId == s.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : null,
+                            Title = s.Title,
+                            // Products = s.Products
+                        })
 
-                };
-                return rootCategory;
+                    };
+                    return rootCategory;
+                }
+                return new RootCategory();
+
             }
-            return new RootCategory();
-
         }
 
+        public IEnumerable<Pyramid.Entity.Category> GetNestedCategories(int categoryId)
+        {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                var efCat = dbContext.Categories.FirstOrDefault(i => i.Id == categoryId);
+                return efCat.Categories1.Select(s => ConvertDbObjectToEntityShort(dbContext, s)).ToList();
+            }
+
+        }
 
         public IEnumerable<CategoryWithThumbnail> GetRootCategoriesWithThumbnail(int typeThumbnail)
         {
-            var rootCategories = Context.Categories.Where(i => i.ParentId == null && (i.Products.Count > 0 || i.Categories1.Count > 0)).Select(i=>new CategoryWithThumbnail() {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                var rootCategories = dbContext.Categories.Where(i => i.ParentId == null && (i.Products.Count > 0 || i.Categories1.Count > 0)).Select(i => new CategoryWithThumbnail()
+                {
 
-            Id=i.Id,
-            Thumbnail=i.CategoryImages.FirstOrDefault(s=>s.TypeImage==typeThumbnail).Images,
-            Title=i.Title
-            });
-            
-            return rootCategories;
+                    Id = i.Id,
+                    Thumbnail = i.CategoryImages.FirstOrDefault(s => s.TypeImage == typeThumbnail).Images,
+                    Title = i.Title
+                });
 
+                return rootCategories.ToList();
+            }
         }
 
-        public IEnumerable<Filters> GetFilters(int categoryId)
+        public IEnumerable<Pyramid.Entity.Filter> GetFilters(int categoryId)
         {
-            var efCategory = FindBy(i => i.Id == categoryId).SingleOrDefault();
+
+            var efCategory =Get(categoryId);
             if (efCategory!=null)
             {
                 return efCategory.Filters.ToList();
             }
-            return new List<Filters>();
+            return new List<Pyramid.Entity.Filter>();
         }
 
-       
+
         public void DeleteFilter(int categoryId, int filterId)
         {
-            var efCategory = FindBy(i => i.Id == categoryId).SingleOrDefault();
-            if (efCategory!=null)
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
-                var efFilter = Context.Filters.Find(filterId);
-                efCategory.Filters.Remove(efFilter);
+                var efCategory = dbContext.Categories.Find(categoryId);
+                if (efCategory != null)
+                {
+
+                    var efFilter = dbContext.Filters.Find(filterId);
+                    efCategory.Filters.Remove(efFilter);
+                    dbContext.SaveChanges();
+                }
             }
+
         }
 
-        public override void AddOrUpdate(Categories entity)
+        public override void AddOrUpdate(Category entity)
         {
-            var prop = entity.GetType().GetProperty("Id");
-            int id = (int)prop.GetValue(entity, null);
-
-            var efEntity = FindBy(i=>i.Id==id).SingleOrDefault();
-            if (efEntity == null)
+            var data = _entities ?? new PyramidFinalContext();
+            try
             {
-                var tmp = new List<Filters>(entity.Filters);
-                entity.Filters.Clear();
-                Context.Categories.Add(entity);
-                //Context.SaveChanges();
-                foreach (var item in tmp)
+                var objects = data.Categories;
+                var dbObject = GetDbObjectByEntity(objects, entity);
+                bool exists = dbObject != null;
+                if (!exists)
                 {
-                    var effilter=Context.Filters.Find(item.Id);
-                    if (effilter!=null)
-                    {
-                        entity.Filters.Add(effilter);
-                    }
+                    dbObject = new Categories();
                 }
-                //Context.SaveChanges();
-                
-                
+                UpdateBeforeSaving(data, dbObject, entity, exists);
+                if (!exists)
+                {
+                    objects.Add(dbObject);
+                }
+                data.SaveChanges();
+                UpdateAfterSaving(data, dbObject, entity, exists);
+                data.SaveChanges();
+
+            }
+            finally
+            {
+                if (_entities == null)
+                    data.Dispose();
+            }
+
+
+            //var prop = entity.GetType().GetProperty("Id");
+            //int id = (int)prop.GetValue(entity, null);
+
+            //var efEntity = FindBy(i => i.Id == id).SingleOrDefault();
+            //if (efEntity == null)
+            //{
+            //    var tmp = new List<Filters>(entity.Filters);
+            //    entity.Filters.Clear();
+            //    Context.Categories.Add(entity);
+            //    //Context.SaveChanges();
+            //    foreach (var item in tmp)
+            //    {
+            //        var effilter = Context.Filters.Find(item.Id);
+            //        if (effilter != null)
+            //        {
+            //            entity.Filters.Add(effilter);
+            //        }
+            //    }
+            //    //Context.SaveChanges();
+
+
+            //}
+            //else
+            //{
+            //    if (entity.Filters != null)
+            //    {
+            //        efEntity.Filters.Clear();
+            //        foreach (var item in entity.Filters)
+            //        {
+            //            var efFilter = Context.Filters.Find(item.Id);
+            //            efEntity.Filters.Add(efFilter);
+            //        }
+            //    }
+            //    Context.Entry(efEntity).CurrentValues.SetValues(entity);
+            //    Context.Entry(efEntity).State = System.Data.Entity.EntityState.Modified;
+
+            //    if (efEntity.Seo == null)
+            //    {
+            //        efEntity.Seo = entity.Seo;
+            //    }
+            //    else
+            //    {
+            //        efEntity.Seo.MetaDescription = entity.Seo.MetaDescription;
+            //        efEntity.Seo.MetaKeywords = entity.Seo.MetaKeywords;
+            //        efEntity.Seo.MetaTitle = efEntity.Seo.MetaTitle;
+            //        efEntity.Seo.Alias = efEntity.Seo.Alias;
+            //    }
+            //}
+
+        }
+
+        public override void UpdateBeforeSaving(PyramidFinalContext dbContext, Categories dbEntity, Category entity, bool exists)
+        {
+            if (exists)
+            {
+                dbContext.Entry(dbEntity).CurrentValues.SetValues(entity);
             }
             else
             {
-                if (entity.Filters!=null)
-                {
-                    efEntity.Filters.Clear();
-                    foreach (var item in entity.Filters)
-                    {
-                        var efFilter = Context.Filters.Find(item.Id);
-                        efEntity.Filters.Add(efFilter);
-                    }
-                }
-                Context.Entry(efEntity).CurrentValues.SetValues(entity);
-                Context.Entry(efEntity).State = System.Data.Entity.EntityState.Modified;
 
-                if(efEntity.Seo == null){
-                    efEntity.Seo = entity.Seo;
+                dbEntity.FlagRoot = entity.FlagRoot;
+                    dbEntity.ParentId = entity.ParentId;
+                dbEntity.Title = entity.Title;
+                
+               
+            }
+            //dbContext.SaveChanges();
+        }
+        public override void UpdateAfterSaving(PyramidFinalContext dbContext, Categories dbEntity, Category entity, bool exists)
+        {
+            if (entity.Thumbnail != null && entity.Thumbnail.Id != 0)
+            {
+                var typeImage = (int)Common.TypeImage.Thumbnail;
+                var efImage = dbContext.CategoryImages.FirstOrDefault(i => i.TypeImage == typeImage && i.CategoryId==dbEntity.Id);
+
+                if (efImage != null)
+                {
+                    if (efImage.ImageId == entity.Thumbnail.Id)
+                    {
+
+                    }
+                    else
+                    {
+                        dbEntity.CategoryImages.Remove(efImage);
+
+                        dbEntity.CategoryImages.Add(new CategoryImages()
+                        {
+                            CategoryId = dbEntity.Id,
+                            ImageId = entity.Thumbnail.Id,
+                            TypeImage = typeImage
+                        });
+
+                    }
+
                 }
                 else
                 {
-                    efEntity.Seo.MetaDescription = entity.Seo.MetaDescription;
-                    efEntity.Seo.MetaKeywords = entity.Seo.MetaKeywords;
-                    efEntity.Seo.MetaTitle = efEntity.Seo.MetaTitle;
-                    efEntity.Seo.Alias = efEntity.Seo.Alias;
+                    dbEntity.CategoryImages.Add(new CategoryImages()
+                    {
+                        CategoryId = dbEntity.Id,
+                        ImageId = entity.Thumbnail.Id,
+                        TypeImage = typeImage
+                    });
+                }
+
+              
+               // SetThumbnail(dbEntity.Id, entity.Thumbnail.Id, (int)Common.TypeImage.Thumbnail);
+
+            }
+            if (entity.Filters != null)
+            {
+                dbEntity.Filters.Clear();
+                foreach (var item in entity.Filters)
+                {
+                    var efFilter = dbContext.Filters.Find(item.Id);
+                    dbEntity.Filters.Add(efFilter);
                 }
             }
+            if (dbEntity.Seo == null)
+            {
+                if (entity.Seo!=null)
+                {
+                    dbEntity.Seo = new Seo()
+                    {
+                        Alias = entity.Seo.Alias,
+                        MetaDescription = entity.Seo.MetaDescription,
+                        MetaKeywords = entity.Seo.MetaKeywords,
+                        MetaTitle = entity.Seo.MetaTitle
+                    };
+                }
+                else
+                {
+                    dbEntity.Seo = new Seo()
+                    {
+                        MetaTitle = dbEntity.Title,
+                    };
+                }
+               
+            }
+            else
+            {
+                dbEntity.Seo.MetaDescription = entity.Seo.MetaDescription;
+                dbEntity.Seo.MetaKeywords = entity.Seo.MetaKeywords;
+                dbEntity.Seo.MetaTitle = entity.Seo.MetaTitle;
+                dbEntity.Seo.Alias = entity.Seo.Alias;
+            }
+           // dbContext.SaveChanges();
 
         }
-
         public IEnumerable<Products> GetWithCheckedEnumValues(int categoryId,IEnumerable<int> enumValueIds)
         {
-            var efCategory = FindBy(i => i.Id == categoryId).SingleOrDefault();
-            if (efCategory != null)
+            using (PyramidFinalContext dbContext= new PyramidFinalContext())
             {
-                if (enumValueIds.Count() > 0)
+                var efCategory = dbContext.Categories.Find(categoryId);
+                if (efCategory != null)
                 {
-                    
-                    var efEnumValuetemp = Context.EnumValues.ToList();
-                    var tttest = efCategory.Products.Where(i => i.EnumValues.Any(p => enumValueIds.Contains(p.Id))).ToList();
-                    var te = efEnumValuetemp.Where(i => enumValueIds.Contains(i.Id)).ToList();
-                    return tttest;
+                    if (enumValueIds.Count() > 0)
+                    {
+
+                        var efEnumValuetemp = Context.EnumValues.ToList();
+                        var tttest = efCategory.Products.Where(i => i.EnumValues.Any(p => enumValueIds.Contains(p.Id))).ToList();
+                        var te = efEnumValuetemp.Where(i => enumValueIds.Contains(i.Id)).ToList();
+                        return tttest;
+                    }
+
+                    return efCategory.Products;
                 }
-                
-                return efCategory.Products;
+                return new List<Products>();
+
             }
-            return new List<Products>();
+           
            
         }
 
@@ -225,31 +398,38 @@ namespace DBFirstDAL.Repositories
 
         public int GetMaxPriceFromCategory(int categoryId)
         {
-            var efcat = FindBy(i => i.Id == categoryId).SingleOrDefault();
-            if (efcat!=null)
+            using (PyramidFinalContext dbContext= new PyramidFinalContext())
             {
-                if (efcat.Products!=null&& efcat.Products.Count>0)
+                var efcat = dbContext.Categories.Find(categoryId);
+                if (efcat != null)
                 {
-                    int max = (int)efcat.Products.Max(i => i.Price);
-                    int min = (int)efcat.Products.Min(i => i.Price);
-                    return max;
+                    if (efcat.Products != null && efcat.Products.Count > 0)
+                    {
+                        int max = (int)efcat.Products.Max(i => i.Price);
+                        int min = (int)efcat.Products.Min(i => i.Price);
+                        return max;
+                    }
+
                 }
-                
+                return 0;
             }
-            return 0;
+           
         }
         public int GetMinPriceFromCategory(int categoryId)
         {
-            var efcat = FindBy(i => i.Id == categoryId).SingleOrDefault();
-            if (efcat != null)
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
-                if (efcat.Products != null && efcat.Products.Count > 0)
+                var efcat = dbContext.Categories.Find(categoryId);
+                if (efcat != null)
                 {
-                    int min = (int)efcat.Products.Min(i => i.Price);
-                return min;
+                    if (efcat.Products != null && efcat.Products.Count > 0)
+                    {
+                        int min = (int)efcat.Products.Min(i => i.Price);
+                        return min;
+                    }
                 }
+                return 0;
             }
-            return 0;
         }
 
         public IEnumerable< Products> GetProductsByCategoryId(int id)
@@ -447,6 +627,84 @@ namespace DBFirstDAL.Repositories
             }
         }
 
+
+        protected override Categories GetDbObjectByEntity(DbSet<Categories> objects, Category entity)
+        {
+          return  objects.FirstOrDefault(item => item.Id == entity.Id);
+        }
+
+        protected override Expression<Func<Categories, int>> GetIdByDbObjectExpression()
+        {
+            return item => item.Id;
+        }
+
+        protected override Category ConvertDbObjectToEntity(PyramidFinalContext context, Categories dbObject)
+        {
+            var cat = new Category();
+            cat.Filters = dbObject.Filters.Select(s => new Pyramid.Entity.Filter() {
+                Id = s.Id,
+                Title = s.Title,
+                EnumValues = s.EnumValues.Select(e => new Pyramid.Entity.EnumValue()
+                {
+                    Id = e.Id,
+                    Key=e.Key,
+                    TypeValue=(Common.TypeFromEnumValue)e.TypeValue
+                }).ToList(),
+              }).ToList();
+
+
+            cat.Products = dbObject.Products.Select(s => new Pyramid.Entity.Product()
+            {
+                Id=s.Id,
+                ThumbnailImg=s.ProductImages.FirstOrDefault(f => f.ProductId == s.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                ConvertImageToEntity.Convert(s.ProductImages.FirstOrDefault(f => f.ProductId == s.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : new Pyramid.Entity.Image(),
+                Price=s.Price,
+                TypePrice=(Common.TypeProductPrice) s.TypePrice,
+                Title=s.Title,
+                
+            }).ToList();
+
+            cat.Id = dbObject.Id;
+            cat.Title = dbObject.Title;
+            cat.Thumbnail = dbObject.CategoryImages.FirstOrDefault(f => f.CategoryId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                ConvertImageToEntity.Convert(dbObject.CategoryImages.FirstOrDefault(f => f.CategoryId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : new Pyramid.Entity.Image();
+
+            cat.OneCId = dbObject.OneCId;
+            cat.ParentId = dbObject.ParentId;
+            if (dbObject.Seo!=null)
+            {
+                cat.Seo = new Entity.Seo() {
+                    Alias= dbObject.Seo.Alias,
+                    Id= dbObject.Seo.Id,
+                    MetaDescription= dbObject.Seo.MetaDescription,
+                    MetaKeywords= dbObject.Seo.MetaKeywords,
+                    MetaTitle= dbObject.Seo.MetaTitle
+                };
+            }
+            return cat;
+            
+        }
+
+        protected override Category ConvertDbObjectToEntityShort(PyramidFinalContext context, Categories dbObject)
+        {
+            var cat = new Category();
+            cat.Id = dbObject.Id;
+            cat.Title = dbObject.Title;
+            cat.Thumbnail = dbObject.CategoryImages.FirstOrDefault(f => f.CategoryId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+                ConvertImageToEntity.Convert(dbObject.CategoryImages.FirstOrDefault(f => f.CategoryId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : new Pyramid.Entity.Image();
+
+
+            return cat;
+        }
+
+        protected override IQueryable<Categories> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Categories> dbObjects, SearchParamsBase searchParams)
+        {
+            dbObjects = dbObjects.OrderBy(item => item.Title).ThenBy(item => item.Id);
+            return dbObjects;
+        }
+
+       
+
         //public Categories GetCategoryWithProductsAndImages(int id)
         //{
         //    using (PyramidFinalContext data =new PyramidFinalContext())
@@ -464,5 +722,80 @@ namespace DBFirstDAL.Repositories
         //}
 
 
+        public IEnumerable<Common.Models.BreadCrumbViewModel> GetBreadCrumbs(int categoryId)
+        {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+               var EfModel= dbContext.Categories.Find(categoryId);
+                List<BreadCrumbViewModel> breadcrumbs = new List<BreadCrumbViewModel>();
+                if (EfModel != null)
+                {
+                    breadcrumbs.Add(new BreadCrumbViewModel()
+                    {
+                        Title = EfModel.Title
+                    ,
+                        Link = defaulCateggorytLink + EfModel.Id.ToString()
+                    });
+                    var flagstop = true;
+                    var cat = EfModel.Categories2;
+                    while (flagstop)
+                    {
+
+                        if (cat != null)
+                        {
+                            breadcrumbs.Add(new BreadCrumbViewModel()
+                            {
+                                Title = cat.Title,
+                                Link = defaulCateggorytLink + cat.Id.ToString()
+                            });
+                            if (cat.ParentId == null)
+                            {
+
+                                flagstop = false;
+                            }
+                            else
+                            {
+                                cat = cat.Categories2;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    breadcrumbs.Reverse();
+                }
+                return breadcrumbs;
+            }
+        }
+
+        public Category GetBySearchParams(SearchParamsCategory searchParams)
+        {
+            using (PyramidFinalContext dbContext=new PyramidFinalContext())
+            {
+                var dbCategory = dbContext.Categories.Find(searchParams.Id);
+                if (dbCategory!=null)
+                {
+                    searchParams.ExistProductsInBd = dbCategory.Products.Count > 0;
+                    IEnumerable<Products> temp= dbCategory.Products.Where(i => i.TypeStatusProduct != (int)Common.TypeStatusProduct.Hide);
+                    if (searchParams.MaxPrice.HasValue)
+                    {
+                        temp = temp.Where(i => i.Price< searchParams.MaxPrice.Value);
+                    }
+                    if (searchParams.MinPrice.HasValue)
+                    {
+                        temp = temp.Where(i => i.Price > searchParams.MinPrice.Value);
+                    }
+                    if (searchParams.EnumValueIds!=null&& searchParams.EnumValueIds.Count()>0)
+                    {
+                        temp = temp.Where(i => i.EnumValues.Any(a => searchParams.EnumValueIds.Contains(a.Id)));
+                    }
+                    dbCategory.Products = temp.ToList();
+                }
+                 
+
+                return ConvertDbObjectToEntity(dbContext, dbCategory);
+            }
+        }
     }
 }

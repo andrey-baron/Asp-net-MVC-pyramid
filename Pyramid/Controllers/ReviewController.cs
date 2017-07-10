@@ -154,8 +154,8 @@ namespace Pyramid.Controllers
 
             var efModel = _reviewRepository.FindBy(i => i.Id == id).SingleOrDefault();
             efModel.IsRead = true;
-            _reviewRepository.AddOrUpdate(efModel);
-            _reviewRepository.Save();
+            //_reviewRepository.AddOrUpdate(efModel);
+            //_reviewRepository.Save();
             var model = mapper.Map<Entity.Review>(efModel);
             return View(model);
         }
@@ -172,8 +172,8 @@ namespace Pyramid.Controllers
             var efReview = _reviewRepository.FindBy(i => i.Id == id).SingleOrDefault();
             if (efReview!=null)
             {
-                _reviewRepository.Delete(efReview);
-                _reviewRepository.Save();
+                _reviewRepository.Delete(efReview.Id);
+                //_reviewRepository.Save();
             }
         
             return RedirectPermanent("Index");
@@ -197,8 +197,8 @@ namespace Pyramid.Controllers
             var efMReview = mapper.Map<DBFirstDAL.Review>(model);
             try
             {
-                _reviewRepository.Add(efMReview);
-                _reviewRepository.Save();
+                //_reviewRepository.Add(efMReview);
+                //_reviewRepository.Save();
             }
             catch (Exception)
             {

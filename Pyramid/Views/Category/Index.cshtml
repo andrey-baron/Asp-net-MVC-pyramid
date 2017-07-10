@@ -5,127 +5,134 @@
 }
 
 <div class="category">
-    @Html.HiddenFor(m=>Model.Id)
-@using (Html.BeginForm())
+    @Html.HiddenFor(m => Model.Id)
+    @using (Html.BeginForm())
             {
-    @Html.Hidden("sortingOrder", (string)ViewBag.SotringOrder)
-    <div class="row no-gutter">
-        <div class="col-ten-md-5">
-            <p class="category__title">@Model.Title</p>
-        </div>
-        <div class="col-ten-md-5">
-            <div class="category__sort">
-                <ul class="category__sort-list">
-                    <li class="category__sort-list-item">Сортировать по:</li>
-                    <li class="category__sort-list-item"><a href="@Url.Action("Index","Category",new {id=Model.Id, sortingOrder=(int)Common.TypeSort.Price })">цене</a></li>
-                    <li class="category__sort-list-item"><a href="@Url.Action("Index", "Category", new {id=Model.Id, sortingOrder=(int)Common.TypeSort.Name })">названию</a></li>
-                    <li class="category__sort-list-item"><a href="@Url.Action("Index", "Category", new {id=Model.Id, sortingOrder=(int)Common.TypeSort.Popular })">популярности</a></li>
-                </ul>
+        @Html.Hidden("sortingOrder", (string)ViewBag.SotringOrder)
+        <div class="row no-gutter">
+            <div class="col-ten-md-5">
+                <p class="category__title">@Model.Title</p>
+            </div>
+            <div class="col-ten-md-5">
+                <div class="category__sort">
+                    <ul class="category__sort-list">
+                        <li class="category__sort-list-item">Сортировать по:</li>
+                        <li class="category__sort-list-item"><a href="@Url.Action("Index","Category",new {id=Model.Id, sortingOrder=(int)Common.TypeSort.Price })">цене</a></li>
+                        <li class="category__sort-list-item"><a href="@Url.Action("Index", "Category", new {id=Model.Id, sortingOrder=(int)Common.TypeSort.Name })">названию</a></li>
+                        <li class="category__sort-list-item"><a href="@Url.Action("Index", "Category", new {id=Model.Id, sortingOrder=(int)Common.TypeSort.Popular })">популярности</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row no-gutter">
-        <div class="col-f-lg-3 col-md-3">
-           
-                <div class="category__sidebar">
-                    @for (int i = 0; i < Model.Filters.Count; i++)
+        <div class="row no-gutter">
+            @{
+                bool flagExistProducts = Model.ExistProducts;
+            }
+            @if (flagExistProducts)
+            {
+                <div class="col-f-lg-3 col-md-3">
+
+                    <div class="category__sidebar">
+                        @for (int i = 0; i < Model.Filters.Count; i++)
                     {
 
-                    @Html.HiddenFor(m => Model.Filters[i].Id)
+                            @Html.HiddenFor(m => Model.Filters[i].Id)
+                            <div class="category__filter-block">
+                                @Html.HiddenFor(m => Model.Filters[i].Title)
+                                <p class="category__filter-title">@Model.Filters[i].Title</p>
+                                <div class="category__filter-block-controls">
+                                    @for (int j = 0; j < Model.Filters[i].EnumValues.Count; j++)
+                                    {
+
+                                        <div class="checkbox">
+                                            @Html.HiddenFor(m => Model.Filters[i].EnumValues[j].Id)
+                                            @Html.CheckBoxFor(m => Model.Filters[i].EnumValues[j].Checked, new { @class = "category__input-chekbox" })
+                                            <label>@Model.Filters[i].EnumValues[j].Key</label>
+                                        </div>
+                                    }
+
+
+                                </div>
+                            </div>
+
+                        }
                         <div class="category__filter-block">
-                            @Html.HiddenFor(m=>Model.Filters[i].Title)
-                            <p class="category__filter-title">@Model.Filters[i].Title</p>
+                            <p class="category__filter-title">Фильтр по цене</p>
+                            @Html.Hidden("MinPrice", Model.MinPrice, new { id = "MinPrice" })
+                            @Html.Hidden("MaxPrice", Model.MaxPrice, new { id = "MaxPrice" })
                             <div class="category__filter-block-controls">
-                                @for (int j = 0; j < Model.Filters[i].EnumValues.Count; j++)
-                                {
+                                <div class="sliderUI"></div>
+                                <label class="label_spinner">от</label>
+                                <input type="text" class="spinnerUI1" name="CurrentMinPrice" id="CurrentMinPrice" value="@Model.CurrentMinPrice" />
+                                <label class="label_spinner">до</label>
+                                <input type="text" class="spinnerUI2" name="CurrentMaxPrice" id="CurrentMaxPrice" value="@Model.CurrentMaxPrice" />
 
-                                    <div class="checkbox">
-                                        @Html.HiddenFor(m => Model.Filters[i].EnumValues[j].Id)
-                                        @Html.CheckBoxFor(m=> Model.Filters[i].EnumValues[j].Checked, new { @class = "category__input-chekbox" })
-                                        <label>@Model.Filters[i].EnumValues[j].Key</label>
-                                    </div>
-                                }
-                                
-                                
                             </div>
                         </div>
 
-                    }
-                    <div class="category__filter-block">
-                        <p class="category__filter-title">Фильтр по цене</p>
-                        @Html.Hidden("MinPrice",Model.MinPrice,new { id = "MinPrice" })
-                        @Html.Hidden("MaxPrice", Model.MaxPrice, new { id = "MaxPrice" })
-                        <div class="category__filter-block-controls">
-                            <div class="sliderUI"></div>
-                            <label class="label_spinner">от</label>
-                            <input type="text" class="spinnerUI1" name="CurrentMinPrice" id="CurrentMinPrice" value="@Model.CurrentMinPrice" />
-                            <label class="label_spinner">до</label>
-                            <input type="text" class="spinnerUI2" name="CurrentMaxPrice" id="CurrentMaxPrice" value="@Model.CurrentMaxPrice" />
-
-                        </div>
+                        <button class="btn btn-default btn-block category__btn-category-filters-submit">Применить</button>
                     </div>
 
-                    <button class="btn btn-default btn-block category__btn-category-filters-submit">Применить</button>
+
                 </div>
-                
-           
-        </div>
-        <div class="col-f-lg-12 col-md-9">
-            <div class="row no-gutter">
 
-                @foreach (var item in Model.NestedCategories)
+            }
+            <div class="@(flagExistProducts?"col-f-lg-12 col-md-9":"col-f-lg-15 col-md-12")">
+                <div class="row no-gutter">
+
+                    @foreach (var item in Model.NestedCategories)
                 {
-                    <div class="col-md-3">
-                        <div class="subcategory subcategory_fixed-height subcategory_nested">
-                            <a href="@Url.Action("Index","Category",new { id=item.Id})">
-                                <div class="subcategory__wrap-img">
-                                    <img src="@(item.Thumbnail!=null?item.Thumbnail.ServerPathImg:"")" alt="" />
-                                </div>
-                                <p class="subcategory__parent-title">@item.Title</p>
-                            </a>
-                        </div>
-                    </div>
-
-                }
-            </div>
-            <div class="row no-gutter">
-                @foreach (var item in Model.Products)
-                {
-                    <div class="col-lg-3  col-md-4">
-                        <div class="product__item">
-                            <a href="@Url.Action("Index","Product",new { id=item.Id})">
-                                <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
-
-                                <p class="product__item-title">@item.Title</p>
-                                <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
-                                    <div class="triangle-up"></div>
-                                    <div class="triangle-down"></div>
-                                    <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
-                                </div>
-                            </a>
-                            <div class="product__item__hover_block_wrapper">
-                                <div class="product__item__hover_block_wrapper__item product__in-stock">
-                                    <p>в наличии</p>
-                                </div>
-                                <a class="product__item__hover_block_wrapper__item" href="">
-                                    <div class="product__buy product__buy_one-click">
-                                        <p>Купить в один клик</p>
-                                    </div>
-                                </a>
-                                <span class="product__item__hover_block_wrapper__item js-add-to-cart" data-ajaxid="@item.Id" >
-                                    <span class="product__buy product__buy_add-to-cart">
-                                        Добавить в корзину
-                                    </span>
-                                </span>
+                <div class="@(!flagExistProducts?"col-f-lg-3 col-md-3":"col-md-3")">
+                    <div class="subcategory subcategory_fixed-height subcategory_nested">
+                        <a href="@Url.Action("Index","Category",new { id=item.Id})">
+                            <div class="subcategory__wrap-img">
+                                <img src="@(item.Thumbnail!=null?item.Thumbnail.ServerPathImg:"")" alt="" />
                             </div>
-                        </div>
+                            <p class="subcategory__parent-title">@item.Title</p>
+                        </a>
                     </div>
+                </div>
 
                 }
-            </div>
-        </div>
-        
+                </div>
+                <div class="row no-gutter">
+                    @foreach (var item in Model.Products)
+                {
+                <div class="col-lg-3  col-md-4">
+                    <div class="product__item">
+                        <a href="@Url.Action("Index","Product",new { id=item.Id})">
+                            <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
 
-    </div>
-}
+                            <p class="product__item-title">@item.Title</p>
+                            <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
+                                <div class="triangle-up"></div>
+                                <div class="triangle-down"></div>
+                                <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
+                            </div>
+                        </a>
+                        <div class="product__item__hover_block_wrapper">
+                            <div class="product__item__hover_block_wrapper__item product__in-stock">
+                                <p>в наличии</p>
+                            </div>
+                            <a class="product__item__hover_block_wrapper__item" href="">
+                                <div class="product__buy product__buy_one-click">
+                                    <p>Купить в один клик</p>
+                                </div>
+                            </a>
+                            <span class="product__item__hover_block_wrapper__item js-add-to-cart" data-ajaxid="@item.Id">
+                                <span class="product__buy product__buy_add-to-cart">
+                                    Добавить в корзину
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                }
+                </div>
+            </div>
+
+
+        </div>
+                }
 </div>

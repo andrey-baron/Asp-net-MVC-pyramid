@@ -64,8 +64,8 @@ namespace Pyramid.Controllers
             var efmodel =
                 Mapper.Map< Entity.FeedBack, DBFirstDAL.FeedBackEmails>(model);
 
-            feedBackEmailRepository.AddOrUpdate(efmodel);
-            feedBackEmailRepository.Save();
+            //feedBackEmailRepository.AddOrUpdate(efmodel);
+            //feedBackEmailRepository.Save();
             return RedirectToAction("Index");
         }
     }

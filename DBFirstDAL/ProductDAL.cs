@@ -8,6 +8,7 @@ namespace DBFirstDAL
 {
     public class ProductDAL
     {
+        /*
         public static void AddOrUpdateEntity(Pyramid.Entity.Product entity)
         {
             using (PyramidFinalContext dbContext = new PyramidFinalContext())
@@ -169,6 +170,6 @@ namespace DBFirstDAL
            
             return obj;
         }
-
+        */
     }
 }

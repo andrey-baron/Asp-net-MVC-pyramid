@@ -63,6 +63,10 @@
     <Compile Include="CategoryImages.cs">
       <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Convert\ConvertCategoryToEntity.cs" />
+    <Compile Include="Convert\ConvertEnumValueToEntity.cs" />
+    <Compile Include="Convert\ConvertImageToEntity.cs" />
+    <Compile Include="Convert\ConvertProductToEntity.cs" />
     <Compile Include="DataModels\1C\Category1CIdWithParent1CId.cs" />
     <Compile Include="DataModels\1C\Product1cIdWith1cCategoryIds.cs" />
     <Compile Include="DataModels\CategoryWithThumbnail.cs" />
@@ -100,6 +104,7 @@
     <Compile Include="Images.cs">
       <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="OrderedQueryableVisitor.cs" />
     <Compile Include="Orders.cs">
       <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>

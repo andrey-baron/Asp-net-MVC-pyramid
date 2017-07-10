@@ -40,7 +40,7 @@ namespace Pyramid.Controllers
             config.AssertConfigurationIsValid();
 
             var mapper = config.CreateMapper();
-            var model = mapper.Map<IEnumerable<DBFirstDAL.HomeEntity>, List<Pyramid.Entity.HomeEntity>>(_homeEntityRepository.GetModels(true).ToList());
+            var model =_homeEntityRepository.GetModels(true).ToList();
 
             return View(model);
         }
@@ -263,8 +263,8 @@ namespace Pyramid.Controllers
             var efEntity = _homeEntityRepository.FindBy(i => i.Id == id).SingleOrDefault();
             if (efEntity!=null)
             {
-                _homeEntityRepository.Delete(efEntity);
-                _homeEntityRepository.Save();
+                _homeEntityRepository.Delete(efEntity.Id);
+                //_homeEntityRepository.Save();
             }
             return RedirectToAction("Index");
         }

@@ -2,7 +2,9 @@
 <div class="gallery-grid">
     @foreach (var itemImage in Model)
     {
+       
         <div class="gallery-col">
+            @Html.Hidden("Images.Id", itemImage.Id)
             <article class="gallery-item" style="height: 158px;">
                 <img class="gallery-picture" src="@itemImage.ServerPathImg" alt="" height="158">
                 <div class="gallery-hover-layout">
