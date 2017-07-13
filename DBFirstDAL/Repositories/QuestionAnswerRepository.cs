@@ -22,7 +22,7 @@ namespace DBFirstDAL.Repositories
             throw new NotImplementedException();
         }
 
-        protected override Pyramid.Entity.QuestionAnswer ConvertDbObjectToEntity(PyramidFinalContext context, QuestionAnswer dbObject)
+        public override Pyramid.Entity.QuestionAnswer ConvertDbObjectToEntity(PyramidFinalContext context, QuestionAnswer dbObject)
         {
             throw new NotImplementedException();
         }

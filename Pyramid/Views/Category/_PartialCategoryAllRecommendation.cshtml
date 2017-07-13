@@ -1,0 +1,25 @@
+﻿@model List<Pyramid.Entity.Recommendation>
+
+@for (int i = 0; i < Model.Count; i++)
+{
+    <div class="admin-category__filter">
+        <div class="form-group">
+
+            @Html.Hidden(String.Format("Recommendations[{0}].Id", i), Model[i].Id)
+
+            @Html.Label("Совет", htmlAttributes: new { @class = "col-md-3 control-label" })
+
+            <div class="col-md-8">
+                @Html.Label(Model[i].Title, new { @class = "form-control" })
+            </div>
+
+            <div class="col-md-1">
+                @*<label class="control-label">удалить</label>*@
+                <button type="button" class="tabledit-edit-button btn btn-sm btn-default js-btn-category-filter-delete" style="float: none;" data-ajaxid="@Model[i].Id">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+}

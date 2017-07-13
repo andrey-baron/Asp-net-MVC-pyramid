@@ -15,7 +15,9 @@ namespace DBFirstDAL.Repositories
     {
         public override void UpdateBeforeSaving(PyramidFinalContext dbContext, Pages dbEntity, Page entity, bool exists)
         {
-            throw new NotImplementedException();
+            dbEntity.Content = entity.Content;
+            dbEntity.Title = entity.Title;
+
         }
 
         protected override IQueryable<Pages> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Pages> dbObjects, SearchParamsBase searchParams)
@@ -23,19 +25,24 @@ namespace DBFirstDAL.Repositories
             throw new NotImplementedException();
         }
 
-        protected override Page ConvertDbObjectToEntity(PyramidFinalContext context, Pages dbObject)
+        public override Page ConvertDbObjectToEntity(PyramidFinalContext context, Pages dbObject)
         {
-            throw new NotImplementedException();
+            var page = new Page() {
+                Content=dbObject.Content,
+                Title=dbObject.Title,
+                Id=dbObject.Id
+            };
+            return page;
         }
 
         protected override Pages GetDbObjectByEntity(DbSet<Pages> objects, Page entity)
         {
-            throw new NotImplementedException();
+            return objects.FirstOrDefault(f => f.Id == entity.Id);
         }
 
         protected override Expression<Func<Pages, int>> GetIdByDbObjectExpression()
         {
-            throw new NotImplementedException();
+            return i => i.Id;
         }
     }
 }

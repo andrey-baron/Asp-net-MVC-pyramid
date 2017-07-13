@@ -14,9 +14,9 @@
   padding-right:60px;
   &__title{
       font-family:ProximaNovaSemibold;
-      font-size:32px;
-      height:96px;
-      line-height:96px;
+      font-size:26px;
+      height:@heightOneLine;
+      line-height:@heightOneLine;
   }
   &__price{
       font-size:24px;
@@ -165,12 +165,33 @@
 
   }
    &__row-magrin-bottom{
-      margin-bottom:60px; 
+      margin-bottom:40px; 
   }
+   &__add-val-item_additional{
+       display:none;
+   }
+   &__add-val-item_open-link{
+       .single__dotted-line-title{
+           color: #67b23b;
+           text-decoration:underline;
+           cursor:pointer;
+       }
+   }
+   .bx-wrapper{
+       margin:0;
+   }
+   &__recommend-pic{
+           display: block;
+    min-height: 70px;
+    height:150px;
+    background-repeat: no-repeat !important;
+    background-size: cover  !important;;
+    background-position: 50% 50% !important;
+   }
 }
 
 .single-bxslider__slide{
-    height:500px;
+    height:400px;
         text-align: center;
     display: inline-block;
     line-height: 500px;

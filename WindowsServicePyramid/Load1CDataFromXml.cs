@@ -64,8 +64,8 @@ namespace WindowsServicePyramid
                     bool flagAdd = true;
                     XmlNodeList Inners = ((XmlNode)product).SelectNodes("*");
 
-                    var notDisplayed = ((XmlNode)product).SelectSingleNode("НеОтображатьНаСайте");
-                    if (notDisplayed.InnerText=="Да")
+                    var notDisplayed = ((XmlNode)product).SelectSingleNode("ОтображатьНаСайте");
+                    if (notDisplayed.InnerText=="Нет")
                     {
                         continue;
                     }
@@ -146,8 +146,9 @@ namespace WindowsServicePyramid
                 ChangePathFile(path);
                 return outModel;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+
                 flagError = true;
                 return outModel;
             }
@@ -172,7 +173,7 @@ namespace WindowsServicePyramid
             {
                 var filename=Path.GetFileName(pathFile);
                
-                filename = "done" + DateTime.Now.ToString("g") + filename;
+                filename = "done" + DateTime.Now.ToString("g").Replace(" ","").Replace(".", "").Replace(":", "") + filename;
                 var newFilePath = Path.Combine(pathDirectoryFiles, filename);
                 File.Move(pathFile, newFilePath);
             }

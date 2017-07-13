@@ -33,25 +33,29 @@
             </ul>
         </div>
         <div class="col-ten-md-2">
-            <div class="home-slider__shipping-wrap">
-                <div class="home-slider__shipping">
-                    <div class="home-slider__shipping-img"></div>
-                    <p class="home-slider__head-title">Доставка</p>
-                    <p class="home-slider__text">Доставка товаров до дверей <br>вашего дома</p>
+            <a href="@Url.Action("Index","Page",new {id= 3 })">
+                <div class="home-slider__shipping-wrap">
+                    <div class="home-slider__shipping">
+                        <div class="home-slider__shipping-img"></div>
+                        <p class="home-slider__head-title">Доставка</p>
+                        <p class="home-slider__text">Доставка товаров до дверей <br>вашего дома</p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-ten-md-2">
-            <div class="home-slider__map"></div>
-        </div>
+            <a href="@Url.Action("Index","Page",new {id= 8 })">
+                <div class="home-slider__map"></div>
+            </a>
+</div>
     </div>
 </div>
 <div class="season-offer">
     <div class="row no-gutter">
 
-        @{ List<Pyramid.Entity.Product>
-                                  offers = (List<Pyramid.Entity.Product>)ViewBag.SeasonOffers;}
-        @if (offers.Count > 0)
+        @{ IEnumerable<Pyramid.Entity.Product>
+                                  offers = (IEnumerable<Pyramid.Entity.Product>)ViewBag.SeasonOffers;}
+        @if (offers.Count() > 0)
         {
             <div class="col-f-lg-3 col-md-3 season-offer__item_green-title">
                 <p class="season-offer__head-text">Сезонное предложение</p>
@@ -112,7 +116,7 @@
     <div class="decoration-work">
         <div class="row no-gutter">
             <div class="col-ten-lg-6 col-md-12 ">
-                <div class="decoration-work__scope-points" @(item.BannerWithPoints != null && item.BannerWithPoints.Images != null ? string.Format("style=background:url({0})no-repeat", item.BannerWithPoints.Images.ServerPathImg) : "")>
+                <div class="decoration-work__scope-points" @(item.BannerWithPoints != null && item.BannerWithPoints.Images != null&& item.BannerWithPoints.Images.ServerPathImg!=null ? string.Format("style=background-image:url({0});background-color:#a9c95a;", item.BannerWithPoints.Images.ServerPathImg) : "")>
                     @if (item.BannerWithPoints != null && item.BannerWithPoints.PointOnImgs != null)
                     {
 
@@ -124,15 +128,15 @@
                                 <div class="decoration-work__point" style="top:@(point.CoordY)%; left:@(point.CoordX)%;">
                                     <div class="decoration-work__product">
                                         <div class="decoration-work__product-btn-close"></div>
-                                        <img src="@(point.Products.ThumbnailImg!=null?point.Products.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="decoration-work__product-img">
-                                        <p class="decoration-work__product-title">@point.Products.Title</p>
-                                        <div class="decoration-work__product-price product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)point.Products.TypePrice)">
-                                            <p class="product__item-price-inner"><span class="big-decimal">@point.Products.Price</span> руб.</p>
-                                        </div>
-                                        <div class="decoration-work__product-add-to-cart product__buy product__buy_add-to-cart js-add-to-cart" data-ajaxid="@point.Products.Id">
-                                            <p>Добавить в корзину</p>
-                                        </div>
-                                    </div>
+                                        <a href="@Url.Action("Index","Product",new { id=point.Products.Id })"><img src="@(point.Products.ThumbnailImg!=null?point.Products.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="decoration-work__product-img"></a>
+                                        <a href="@Url.Action("Index","Product",new { id=point.Products.Id })"><p class="decoration-work__product-title">@point.Products.Title</p></a>
+                                            <div class="decoration-work__product-price product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)point.Products.TypePrice)">
+                                                <p class="product__item-price-inner"><span class="big-decimal">@point.Products.Price</span> руб.</p>
+                                            </div>
+                                            <div class="decoration-work__product-add-to-cart product__buy product__buy_add-to-cart js-add-to-cart" data-ajaxid="@point.Products.Id">
+                                                <p>Добавить в корзину</p>
+                                            </div>
+</div>
                                 </div>
                             }
 
@@ -158,7 +162,7 @@
 
 
                             <p class="decoration-work__question-text">
-                                <a href="@Url.Action(" Get", "Faq" , new { id=item.Faq.Id })">
+                                <a href="@Url.Action("Get", "Faq" , new { id=item.Faq.Id })">
                                     @itemQuestion.Question
                                 </a>
                             </p>
@@ -176,7 +180,7 @@
 
                         <div class="decoration-work__question-wrap-all-link">
                             <a class="decoration-work__question-all-link"
-                               href="@Url.Action(" Get","Faq",new {id=item.Faq.Id })">
+                               href="@Url.Action("Get","Faq",new {id=item.Faq.Id })">
                                 Смотреть
                                 все вопросы
                             </a>
@@ -192,7 +196,7 @@
                     <div class="decoration-work__wrap-video">
                         <a href="@item.LinkYouTobe" class="decoration-work__popup-youtube">
                             <img class="decoration-work__video" src="@(item.Images!=null?item.Images.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="">
-                            @if (item.Images != null)
+                            @if (item.Images != null && item.Images.ServerPathImg!=null)
                             {
                                 <div class="decoration-work__btn-play"></div>
                             }

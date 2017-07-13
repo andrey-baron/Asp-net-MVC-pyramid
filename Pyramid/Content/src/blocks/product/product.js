@@ -38,4 +38,14 @@
             }
         });
     })
+
+    $(".single__add-val-item_open-link").on("click", function () {
+        $(".single__add-val-item_additional").toggle("slow");
+        var sign = $(this).find(".single__sign-all");
+        if (sign.text() == "+") {
+            sign.text("-");
+        } else {
+            sign.text("+");
+        }
+    })
 })($);

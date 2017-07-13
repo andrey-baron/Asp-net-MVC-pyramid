@@ -21,11 +21,11 @@ namespace Pyramid.Entity
         [Display(Name = "Состояние заказа")]
         public Enumerable.TypeProgressOrder TypeProgressOrder { get; set; }
 
-        public  IEnumerable<Product> Products { get; set; }
+        public  IEnumerable<OrderProduct> Products { get; set; }
 
         public Order()
         {
-            Products = new List<Product>();
+            Products = new List<OrderProduct>();
         }
     }
 }

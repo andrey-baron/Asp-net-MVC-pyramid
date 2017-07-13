@@ -44,6 +44,13 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control adminTextareaCommon" } })
+                            @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
                         @Html.LabelFor(model => model.Seo.Alias, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.Seo.Alias, new { htmlAttributes = new { @class = "form-control" } })
@@ -71,24 +78,51 @@
                         </div>
                     </div>
 
-
-                    <div class="js-category-filters">
-                        @Html.Partial("_PartialCategoryAllFilters", Model.Filters)
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <button type="button" class="btn btn-primary js-btn-category-add-filter">Применить новый фильтр</button>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <input type="submit" value="Сохранить" class="btn btn-default" />
-                        </div>
-                    </div>
                 </div>
 
             </div>
         
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Фильтры</p>
+            </div>
+            <div class="card-block">
+                <div class="js-category-filters">
+                    @Html.Partial("_PartialCategoryAllFilters", Model.Filters)
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-primary js-btn-category-add-filter">Применить новый фильтр</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                Советы
+            </div>
+            <div class="card-block">
+                <div class="js-recommendations">
+                    @Html.Partial("_PartialCategoryAllRecommendation", Model.Recommendations)
+                </div>
+
+                <button type="button" class="btn btn-primary btn-add-recommendations">Добавить</button>
+            </div>
+
+        </div>
+        <div class="card">
+            <div class="card-header card-header-lg">
+            </div>
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="submit" value="Сохранить" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
     </div>
     <div class="col-lg-4 col-md-4">

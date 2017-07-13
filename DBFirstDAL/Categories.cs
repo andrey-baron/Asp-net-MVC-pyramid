@@ -17,24 +17,23 @@ namespace DBFirstDAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Categories()
         {
-            this.Recommendations = new HashSet<Recommendations>();
             this.Categories1 = new HashSet<Categories>();
             this.CategoryImages = new HashSet<CategoryImages>();
             this.Filters = new HashSet<Filters>();
             this.HomeEntity = new HashSet<HomeEntity>();
             this.Products = new HashSet<Products>();
+            this.Recommendations = new HashSet<Recommendations>();
         }
     
         public int Id { get; set; }
         public string Title { get; set; }
-        public Nullable<int> SeoId { get; set; }
         public Nullable<int> ParentId { get; set; }
         public bool FlagRoot { get; set; }
         public string OneCId { get; set; }
+        public Nullable<int> SeoId { get; set; }
+        public string Content { get; set; }
     
         public virtual Seo Seo { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Recommendations> Recommendations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Categories> Categories1 { get; set; }
         public virtual Categories Categories2 { get; set; }
@@ -46,5 +45,7 @@ namespace DBFirstDAL
         public virtual ICollection<HomeEntity> HomeEntity { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Products> Products { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Recommendations> Recommendations { get; set; }
     }
 }

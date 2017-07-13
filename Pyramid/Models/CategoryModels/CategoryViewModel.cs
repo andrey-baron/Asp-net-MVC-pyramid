@@ -23,7 +23,7 @@ namespace Pyramid.Models.CategoryModels
 
         public int CurrentMaxPrice { get; set; }
         public int CurrentMinPrice { get; set; }
-
+        public string Content { get; set; }
         public Seo Seo { get; set; }
 
         public bool ExistProducts { get; set; }
@@ -55,7 +55,8 @@ namespace Pyramid.Models.CategoryModels
                 Id=category.Id,
                 Thumbnail=category.Thumbnail,
                 Title=category.Title,
-                Seo=category.Seo
+                Seo=category.Seo,
+                Content= category.Content
 
             };
             return model;

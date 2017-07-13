@@ -132,7 +132,21 @@
                 </div>
             </div>
 
+            @if (Model.Content!=null)
+            {
 
+            
+            <div class="col-md-12">
+                <div class="seo__content-wrap">
+                    <div class="seo__content">
+                        @MvcHtmlString.Create(Model.Content)
+                       
+                    </div>
+                    <button class="btn btn-link js-toggle-content" type="button">Подробнее</button>
+                </div>
+                
+            </div>
+            }
         </div>
                 }
 </div>

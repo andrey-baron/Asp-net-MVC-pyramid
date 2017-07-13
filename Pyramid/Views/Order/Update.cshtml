@@ -1,4 +1,4 @@
-﻿@model Pyramid.Models.Order.OrderModel
+﻿@model Pyramid.Entity.Order
 @{
     ViewBag.Title = "Изменить тип заказа";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -82,10 +82,10 @@
                             <tr>
                                
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Title)
+                                    @Html.DisplayFor(modelItem => item.Product.Title)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Price)
+                                    @Html.DisplayFor(modelItem => item.Product.Price)
                                 </td>
 
 

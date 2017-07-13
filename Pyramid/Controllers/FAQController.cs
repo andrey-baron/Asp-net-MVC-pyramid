@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using Common.Models;
+using Common.SearchClasses;
 using DBFirstDAL.Repositories;
+using Pyramid.Models.CommonViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,42 +23,21 @@ namespace Pyramid.Controllers
         // GET: FAQ
         public ActionResult Index()
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<DBFirstDAL.Faq, Pyramid.Entity.FAQ>()
-                .ForMember(d => d.QuestionAnswer, o => o.Ignore());
 
-                cfg.CreateMap<DBFirstDAL.QuestionAnswer, Pyramid.Entity.QuestionAnswer>()
-                ;
-            });
-            
-                 List<Models.BreadCrumbViewModel> breadcrumbs = new List<Models.BreadCrumbViewModel>();
+           List<BreadCrumbViewModel> breadcrumbs = new List<BreadCrumbViewModel>();
 
-            breadcrumbs.Add(new Models.BreadCrumbViewModel()
+            breadcrumbs.Add(new BreadCrumbViewModel()
             {
                 Title = "Актуальные вопросы"
             });
             ViewBag.BredCrumbs = breadcrumbs;
-            config.AssertConfigurationIsValid();
-            var mapper = config.CreateMapper();
-
-            var configFaq = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<DBFirstDAL.Faq, Pyramid.Entity.FAQ>()
-                ;
-
-                cfg.CreateMap<DBFirstDAL.QuestionAnswer, Pyramid.Entity.QuestionAnswer>()
-                ;
-            });
 
 
-            configFaq.AssertConfigurationIsValid();
-            var mapperFaq = configFaq.CreateMapper();
-            var efFaqs = _faqRepository.GetAll().ToList();
-            var faqlist = mapper.Map<IEnumerable<DBFirstDAL.Faq>, IEnumerable<Pyramid.Entity.FAQ>>(efFaqs);
+            var faqlist = _faqRepository.GetAll();
+          
             Models.Faq.FaqViewModel model = new Models.Faq.FaqViewModel();
             model.AllFaq = faqlist;
-            
+           
             if (model.CurrentFaq == null)
             {
                 model.CurrentFaq = new Entity.FAQ();
@@ -66,50 +48,28 @@ namespace Pyramid.Controllers
         }
         public ActionResult Get(int id)
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<DBFirstDAL.Faq, Pyramid.Entity.FAQ>()
-                .ForMember(d=>d.QuestionAnswer,o=>o.Ignore());
-
-                cfg.CreateMap<DBFirstDAL.QuestionAnswer, Pyramid.Entity.QuestionAnswer>()
-                ;
-            });
-            var configFaq = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<DBFirstDAL.Faq, Pyramid.Entity.FAQ>()
-                ;
-
-                cfg.CreateMap<DBFirstDAL.QuestionAnswer, Pyramid.Entity.QuestionAnswer>()
-                ;
-            });
-
-
-            configFaq.AssertConfigurationIsValid();
-            var mapperFaq = configFaq.CreateMapper();
-
-            config.AssertConfigurationIsValid();
-            var mapper = config.CreateMapper();
+          
+          
             var efFaqs = _faqRepository.GetAllWithQuestionAnswer().ToList();
-            var faqlist=mapper.Map<IEnumerable<DBFirstDAL.Faq>, IEnumerable<Pyramid.Entity.FAQ>>(efFaqs);
-            var efFaqSingle = _faqRepository.FindBy(i => i.Id == id).SingleOrDefault();
+            var faqlist = _faqRepository.GetAll();
+            var faqSingle = faqlist.FirstOrDefault(i => i.Id == id);
             Models.Faq.FaqViewModel model = new Models.Faq.FaqViewModel();
             model.AllFaq = faqlist;
-            if (efFaqSingle!=null)
+            if (faqSingle!=null)
             {
-                
-                model.CurrentFaq = mapperFaq.Map<Entity.FAQ>(efFaqSingle);
+                model.CurrentFaq = faqSingle;
             }
             if (model.CurrentFaq == null)
             {
                 model.CurrentFaq = new Entity.FAQ();
             }
-            List<Models.BreadCrumbViewModel> breadcrumbs = new List<Models.BreadCrumbViewModel>();
+            List<BreadCrumbViewModel> breadcrumbs = new List<BreadCrumbViewModel>();
 
-            breadcrumbs.Add(new Models.BreadCrumbViewModel()
+            breadcrumbs.Add(new BreadCrumbViewModel()
             {
                 Title = "Актуальные вопросы"
             });
-            breadcrumbs.Add(new Models.BreadCrumbViewModel()
+            breadcrumbs.Add(new BreadCrumbViewModel()
             {
                 Title = model.CurrentFaq.Title
             });
@@ -119,48 +79,28 @@ namespace Pyramid.Controllers
             return View("Index",model);
         }
         [Authorize]
-        public ActionResult ManageIndex()
+        public ActionResult ManageIndex(int? page)
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<DBFirstDAL.Faq, Pyramid.Entity.FAQ>();
+            var pageNumber = page ?? 1;
 
-                cfg.CreateMap<DBFirstDAL.QuestionAnswer, Pyramid.Entity.QuestionAnswer>()
-                ;
-            });
+            var objectsPerPage = 20;
+            var startIndex = (pageNumber - 1) * objectsPerPage;
 
+            SearchParamsBase SearchParams = new SearchParamsBase(startIndex, objectsPerPage);
 
-            config.AssertConfigurationIsValid();
+            var searchResult = _faqRepository.Get(SearchParams);
 
-            var mapper = config.CreateMapper();
+            var viewModel = SearchResultViewModel<Pyramid.Entity.FAQ>.CreateFromSearchResult(searchResult, i => i, 10);
 
-            var efModel = _faqRepository.GetAll().ToList();
-
-            var model = mapper.Map<IEnumerable<DBFirstDAL.Faq>, IEnumerable<Pyramid.Entity.FAQ>>(efModel);
-
-            return View(model);
+            return View(viewModel);
         }
         [Authorize]
         public ActionResult AddOrUpdate(int id = 0)
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<DBFirstDAL.Faq, Pyramid.Entity.FAQ>();
 
-                cfg.CreateMap<DBFirstDAL.QuestionAnswer, Pyramid.Entity.QuestionAnswer>()
+            var model=_faqRepository.Get(id);
 
-                ;
-            });
-
-
-            config.AssertConfigurationIsValid();
-
-            var mapper = config.CreateMapper();
-
-            var efModel = _faqRepository.FindBy(i=>i.Id==id).SingleOrDefault();
-
-            var model = mapper.Map<DBFirstDAL.Faq, Pyramid.Entity.FAQ>(efModel);
-            if (model==null)
+            if (model== null)
             {
                 model = new Entity.FAQ();
             }
@@ -170,49 +110,14 @@ namespace Pyramid.Controllers
         [HttpPost]
         public ActionResult AddOrUpdate(Pyramid.Entity.FAQ model)
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Pyramid.Entity.FAQ,DBFirstDAL.Faq>()
-                 .ForMember(d => d.HomeEntity, o => o.Ignore())
-                ;
-
-                cfg.CreateMap< Pyramid.Entity.QuestionAnswer, DBFirstDAL.QuestionAnswer>()
-                .ForMember(d => d.FaqId, o => o.Ignore())
-                .ForMember(d => d.Faq, o => o.Ignore())
-                ;
-            });
-
-
-            config.AssertConfigurationIsValid();
-
-            var mapper = config.CreateMapper();
-
-            
-
-            var efModel = mapper.Map<Pyramid.Entity.FAQ, DBFirstDAL.Faq>(model);
-            //_faqRepository.AddOrUpdate(efModel);
-            //_faqRepository.Save();
+            _faqRepository.AddOrUpdate(model);
             return RedirectToActionPermanent("ManageIndex");
         }
 
         public ActionResult PartialGetAllQuestionAnswer(int id)
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<DBFirstDAL.Faq, Pyramid.Entity.FAQ>();
 
-                cfg.CreateMap<DBFirstDAL.QuestionAnswer, Pyramid.Entity.QuestionAnswer>()
-                ;
-            });
-
-
-            config.AssertConfigurationIsValid();
-
-            var mapper = config.CreateMapper();
-
-            var efModel = _faqRepository.FindBy(i => i.Id == id).SingleOrDefault();
-
-            var model = mapper.Map<DBFirstDAL.Faq, Pyramid.Entity.FAQ>(efModel);
+            var model = _faqRepository.Get(id);
             if (model==null)
             {
                 model = new Entity.FAQ();
@@ -223,7 +128,7 @@ namespace Pyramid.Controllers
         public ActionResult AddNewDefault(int id, int count)
         {
             var newIndex = 0;
-            var effaq = _faqRepository.FindBy(i => i.Id == id).SingleOrDefault();
+            var effaq = _faqRepository.Get(id);
             if (effaq != null)
             {
                 newIndex = effaq.QuestionAnswer.Count;
@@ -239,10 +144,11 @@ namespace Pyramid.Controllers
 
         public ActionResult DeleteQuestionAnswer(int id)
         {
-            var efmodel = _questionAnswerRepository.FindBy(i => i.Id == id).SingleOrDefault();
-            if (efmodel!=null)
+            //var efmodel = _questionAnswerRepository.FindBy(i => i.Id == id).SingleOrDefault();
+            var model = _faqRepository.Get(id);
+            if (model != null)
             {
-                _questionAnswerRepository.Delete(efmodel.Id);
+                _questionAnswerRepository.Delete(model.Id);
                // _questionAnswerRepository.Save();
             }
             return null;

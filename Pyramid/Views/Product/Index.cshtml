@@ -22,9 +22,10 @@ magnetii mare
         <div class="col-md-6 single-col">
             <div class="single__content">
                 <ul class="single__additional-values">
+                    @{ var indxProdValue = 0;}
                     @foreach (var item in Model.Product.ProductValues)
                     {
-                        <li class="single__add-val-item">
+                        <li class="single__add-val-item @(indxProdValue>4? "single__add-val-item_additional" : "")">
                             <div class="single__dotted-line-left">
                                 <div class="single__dotted-line-title">@item.Key</div>
                             </div>
@@ -32,21 +33,35 @@ magnetii mare
                                 <div class="single__dotted-line-content">@item.Value</div>
                             </div>
                         </li>
-
+                        indxProdValue++;
+                       
                     }
-
+                    @if (indxProdValue > 5)
+                    {
+                    <li class="single__add-val-item single__add-val-item_open-link">
+                        
+                            <div class="single__dotted-line-title"><span class="single__sign-all">+</span> Все характеристики</div>
+                        
+                    </li>
+                    }
 
                 </ul>
 
                 <div class="single__b-last-additional">
-                    <div class="single__dotted-line-left">
-                        <div class="single__dotted-line-title">Все характеристики</div>
-                    </div>
+                    
                     @if (Model.Product.TypeStatusProduct==Common.TypeStatusProduct.Normal)
                     {
                         <div class="single__dotted-line-right">
                             <div class="single__dotted-line-content">
                                 <div class="single__in-stock">В наличии</div>
+                            </div>
+                        </div>
+                    }
+                    @if (Model.Product.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
+                    {
+                        <div class="single__dotted-line-right">
+                            <div class="single__dotted-line-content">
+                                <div class="single__in-stock">Ожидается поставка</div>
                             </div>
                         </div>
                     }
@@ -144,7 +159,21 @@ magnetii mare
     <div class="tab-content">
         <div id="panely1" class="tab-pane fade in active">
             <h3>Советы</h3>
-            <p>Содержимое 1 панели...</p>
+           
+            <div class="tab-wrap">
+                @if (ViewBag.Recommendations!=null)
+                {
+                    <div class="row"></div>
+                    foreach (Pyramid.Entity.Recommendation item in ViewBag.Recommendations)
+                    {
+                        <div class="col-f-lg-3 col-md-4">
+                            <div class="single__recommend-pic" style="background: url(@item.Image.ServerPathImg)"></div>
+                            <p class="single__recommend-title">@item.Title</p>
+                        </div>
+
+                    }
+                }
+            </div>
         </div>
         <div id="panely2" class="tab-pane fade">
             <h3>Доставка</h3>
@@ -202,6 +231,23 @@ magnetii mare
         </div>
     </div>
 
+
+    @if (Model.Product.Content != null)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="seo__content-wrap">
+                    <div class="seo__title">Описание</div>
+                    <div class="seo__content">
+                        @MvcHtmlString.Create(Model.Product.Content)
+
+                    </div>
+                    <button class="btn btn-link js-toggle-content" type="button">Подробнее</button>
+                </div>
+
+            </div>
+        </div>
+    }
 </div>
 
 <div class="single__related-products">

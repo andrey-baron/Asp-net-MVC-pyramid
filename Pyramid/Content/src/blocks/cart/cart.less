@@ -7,7 +7,7 @@
     &__container_small{
        box-shadow: -3px 8px 13px 0 rgba(0, 0, 0, 0.10);
         position:absolute;
-        width:700px;
+        width:560px;
         right:0;
          background:#fff;
          z-index:10;
@@ -17,7 +17,7 @@
         background-size:contain!important;
         background-position:center center!important;
         height:150px;
-        width:150px;
+        //width:150px;
     }
     &__part{
         text-align: center;
@@ -35,19 +35,23 @@
 
     }
     &__row_fixed-height{
-                height:190px;
+                height:150px;
     }
     &__item{
         padding:30px;
         border-bottom:1px solid #eaeaea;
         position:relative;
     }
+     &__item_small{
+        padding:10px;
+        
+    }
     &__btn-to-cart{
         background:@yellowColor;
-        height:96px;
+        height:@heightOneLine;
         font-family: ProximaNovaSemibold;
         text-transform:uppercase;
-        line-height:96px;
+        line-height:@heightOneLine;
         display:block;
     }
     &__remove-item{
@@ -65,5 +69,28 @@
     &__empty{
         line-height:96px;
     }
+    &__item-title{
+        padding:10px;
+    }
+    &__to-checkout-btn{
+        float:right;
+        margin:10px;
+    }
+}
 
+.checkout-form{
+    max-width: 770px;
+    width: 100%;
+    margin: 40px auto 0;
+    padding-bottom: 65px;
+    font-size: 28px;
+    text-align: center;
+}
+.card-header-lg{
+    text-align: center;
+    font-size: 22px;
+}
+
+label.error{
+    font-size: 14px;
 }

@@ -22,6 +22,7 @@ namespace DBFirstDAL
             this.EventImages = new HashSet<EventImages>();
             this.HomeEntity = new HashSet<HomeEntity>();
             this.ProductImages = new HashSet<ProductImages>();
+            this.EventBanners = new HashSet<EventBanners>();
             this.Recommendations = new HashSet<Recommendations>();
         }
     
@@ -41,6 +42,8 @@ namespace DBFirstDAL
         public virtual ICollection<HomeEntity> HomeEntity { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductImages> ProductImages { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EventBanners> EventBanners { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Recommendations> Recommendations { get; set; }
     }

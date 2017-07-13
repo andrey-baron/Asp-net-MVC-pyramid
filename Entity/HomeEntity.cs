@@ -26,5 +26,10 @@ namespace Pyramid.Entity
         public string CallToAction { get; set; }
         public Nullable<int> ThumbnailId { get; set; }
         public Image Images { get; set; }
+
+        public HomeEntity() {
+            Categories = new List<Category>();
+            Products = new List<Product>();
+        }
     }
 }

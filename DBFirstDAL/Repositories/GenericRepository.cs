@@ -20,11 +20,12 @@ namespace DBFirstDAL.Repositories
 
         protected readonly TDbContext _entities;
 
-        public TDbContext Context
-        {
+        //public TDbContext Context
+        //{
 
-            get { return _entities; }
-        }
+        //    get { return _entities; }
+        //}
+
         protected GenericRepository(TDbContext context)
         {
             _entities = context;
@@ -85,7 +86,7 @@ namespace DBFirstDAL.Repositories
             }
         }
 
-        public virtual IEnumerable<TDbObject> GetAll()
+        public virtual IEnumerable<TEntity> GetAll()
         {
             var data = _entities ?? new TDbContext();
             // говорим, что не надо создавать динамически генерируемые прокси-классы
@@ -96,7 +97,8 @@ namespace DBFirstDAL.Repositories
             try
             {
                 IQueryable<TDbObject> query = data.Set<TDbObject>().AsNoTracking();
-                return query.ToList();
+                var entityObjectList = query.ToList().Select(s => ConvertDbObjectToEntityShort(data, s)).ToList();
+                return entityObjectList;
             }
 
             finally
@@ -209,7 +211,7 @@ namespace DBFirstDAL.Repositories
 
         protected abstract Expression<Func<TDbObject, int>> GetIdByDbObjectExpression();
 
-        protected abstract TEntity ConvertDbObjectToEntity(TDbContext context, TDbObject dbObject);
+        public abstract TEntity ConvertDbObjectToEntity(TDbContext context, TDbObject dbObject);
 
         protected virtual TEntity ConvertDbObjectToEntityShort(TDbContext context, TDbObject dbObject)
         {

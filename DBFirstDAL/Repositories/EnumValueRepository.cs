@@ -14,27 +14,36 @@ namespace DBFirstDAL.Repositories
     {
         public override void UpdateBeforeSaving(PyramidFinalContext dbContext, EnumValues dbEntity, EnumValue entity, bool exists)
         {
-            throw new NotImplementedException();
+            dbEntity.Key = entity.Key;
+            dbEntity.TypeValue = (int)entity.TypeValue;
+
+            
         }
 
         protected override IQueryable<EnumValues> BuildDbObjectsList(PyramidFinalContext context, IQueryable<EnumValues> dbObjects, SearchParamsBase searchParams)
         {
-            throw new NotImplementedException();
+            dbObjects = dbObjects.OrderBy(item => item.Id);
+            return dbObjects;
         }
 
-        protected override EnumValue ConvertDbObjectToEntity(PyramidFinalContext context, EnumValues dbObject)
+        public override EnumValue ConvertDbObjectToEntity(PyramidFinalContext context, EnumValues dbObject)
         {
-            throw new NotImplementedException();
+            var entity = new EnumValue() {
+                Id=dbObject.Id,
+                Key=dbObject.Key,
+               TypeValue=(Common.TypeFromEnumValue)dbObject.TypeValue 
+            };
+            return entity;
         }
 
         protected override EnumValues GetDbObjectByEntity(DbSet<EnumValues> objects, EnumValue entity)
         {
-            throw new NotImplementedException();
+            return objects.FirstOrDefault(f => f.Id == entity.Id);
         }
 
         protected override Expression<Func<EnumValues, int>> GetIdByDbObjectExpression()
         {
-            throw new NotImplementedException();
+            return i => i.Id;
         }
     }
 }

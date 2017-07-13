@@ -6,16 +6,16 @@
     {
         foreach (var item in cart.Lines)
         {
-            <div class="cart__item">
+            <div class="cart__item cart__item_small">
                 <div class="row cart__row cart__row_fixed-height">
                     <div class="col-md-3">
                         <div class="cart__part">
-                            <div class="cart__picture" style="background:url('/Content/img/test-offer.png')no-repeat"></div>
+                            <div class="cart__picture" style="background:url('@(item.Product.Picture!=null&&item.Product.Picture.ServerPathImg!=null?item.Product.Picture.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)')no-repeat"></div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="cart__part cart__part_pad">
-                            <p>@item.Product.Title</p>
+                            <p class="cart__item-title">@item.Product.Title</p>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -38,7 +38,7 @@
             min: 1,
         });
         </script>
-        <div class="cart__item cart__item_total">
+        <div class="cart__item cart__item_small cart__item_total">
             <div class="row cart__row">
                 <div class="col-md-6 col-md-offset-3">
                     <p>Итог на сумму:</p>

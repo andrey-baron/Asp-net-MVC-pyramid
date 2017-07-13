@@ -3,11 +3,11 @@
 {
     foreach (var item in Model.Lines)
     {
-    <div class="cart__item">
+    <div class="cart__item cart__item_small">
         <div class="row cart__row cart__row_fixed-height">
             <div class="col-md-3">
                 <div class="cart__part">
-                    <div class="cart__picture" style="background:url('/Content/img/test-offer.png')no-repeat"></div>
+                    <div class="cart__picture" style="background:url('@(item.Product.Picture!=null&&item.Product.Picture.ServerPathImg!=null?item.Product.Picture.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)')no-repeat"></div>
                 </div>
             </div>
             <div class="col-md-6">

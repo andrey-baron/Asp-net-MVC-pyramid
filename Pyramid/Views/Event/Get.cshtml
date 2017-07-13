@@ -7,34 +7,7 @@
     <div class="page__title">@Model.Title</div>
     <div class="row no-gutter">
         <div class="col-f-lg-3">
-            @*@Html.Partial("")*@
-            <div class="page__slider-container">
-                <ul class="page__slider">
-                    <li class="page__slide">
-                        <img src="~/Content/img/testslide.png" alt="" />
-                    </li>
-                    <li class="page__slide">
-                        <img src="~/Content/img/testslide.png" alt="" />
-                    </li>
-                    <li class="page__slide">
-                        <img src="~/Content/img/testslide.png" alt="" />
-                    </li>
-                    <li class="page__slide">
-                        <img src="~/Content/img/testslide.png" alt="" />
-                    </li>
-                </ul>
-            </div>
-            <script>
-            $('.page__slider').bxSlider({
-                slideMargin: 5,
-                controls: false,
-                prevText: '',
-                nextText: '',
-                pager: true
-
-            });
-
-            </script>
+            @Html.Partial("_PartialSliderOnPages")
         </div>
 
         <div class="col-f-lg-12">
@@ -88,7 +61,7 @@
                 }
             <div class="col-lg-12">
 
-                <a href="" class="page__link-event">Все акции</a>
+                <a href="@Url.Action("Index","Event")" class="page__link-event">Все акции</a>
 
 
             </div>

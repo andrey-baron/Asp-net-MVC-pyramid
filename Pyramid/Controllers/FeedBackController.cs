@@ -39,8 +39,7 @@ namespace Pyramid.Controllers
         public ActionResult Index()
         {
             Mapper.Initialize(cfg => cfg.CreateMap<DBFirstDAL.FeedBackEmails, Entity.FeedBack>());
-            var model =
-                Mapper.Map<IEnumerable<DBFirstDAL.FeedBackEmails>, List<Entity.FeedBack>>(feedBackEmailRepository.GetAll().ToList());
+            var model =feedBackEmailRepository.GetAll();
             return View(model);
         }
 

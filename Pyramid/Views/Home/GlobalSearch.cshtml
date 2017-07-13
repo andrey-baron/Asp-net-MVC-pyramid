@@ -1,13 +1,22 @@
-﻿@model PagedList.IPagedList<Pyramid.Entity.Product>
-@using PagedList.Mvc;
+﻿@using Pyramid.Helpers
+
+@model SearchResultViewModel<Pyramid.Entity.Product>
 @{
     ViewBag.Title = "Поиск по сайту";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var pagedList = Html.PagedList(Model.PagesInfo.ItemsCount, Model.PagesInfo.ItemsPerPage, Model.PagesInfo.CurrentPage, Model.PagesInfo.DisplayedPages, Url.GetAction(), Url.GetController(), pageNumber => new
+    {
+        page = pageNumber,
+        //priority = ViewBag.Priority,
+        //sortOrder = ViewBag.CurrentSort,
+        currentFilter = ViewBag.CurrentFilter,
+        //categoryId = ViewBag.CategoryId
+    });
 }
 <div class="search-page">
     <div class="container">
         <div class="row">
-            @foreach (var item in Model)
+            @foreach (var item in Model.Objects)
             {
                 <div class="col-md-12">
                     <div class="search-item">
@@ -37,10 +46,11 @@
             }
             
         </div>
-        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-        @Html.PagedListPager(Model, page => Url.Action("GlobalSearch",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        <div class="row">
+            <div class="col-md-12">
+                @pagedList
+            </div>
+        </div>
     </div>
 </div>
 

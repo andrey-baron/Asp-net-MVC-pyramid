@@ -82,6 +82,9 @@
     <Compile Include="EnumValues.cs">
       <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="EventBanners.cs">
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="EventImages.cs">
       <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
@@ -148,6 +151,7 @@
       <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositories\EnumValueRepository.cs" />
+    <Compile Include="Repositories\EventBannerRepository.cs" />
     <Compile Include="Repositories\EventRepository.cs" />
     <Compile Include="Repositories\FaqRepository.cs" />
     <Compile Include="Repositories\FeedBackEmailRepository.cs" />
@@ -165,6 +169,7 @@
     <Compile Include="Repositories\PageRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="Repositories\QuestionAnswerRepository.cs" />
+    <Compile Include="Repositories\RecommendationRepository.cs" />
     <Compile Include="Repositories\ReviewRepository.cs" />
     <Compile Include="Repositories\SeoRepository.cs" />
     <Compile Include="Review.cs">

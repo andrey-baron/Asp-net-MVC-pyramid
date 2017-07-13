@@ -59,7 +59,7 @@ namespace DBFirstDAL.Repositories
             throw new NotImplementedException();
         }
 
-        protected override Pyramid.Entity.Review ConvertDbObjectToEntity(PyramidFinalContext context, Review dbObject)
+        public override Pyramid.Entity.Review ConvertDbObjectToEntity(PyramidFinalContext context, Review dbObject)
         {
             throw new NotImplementedException();
         }

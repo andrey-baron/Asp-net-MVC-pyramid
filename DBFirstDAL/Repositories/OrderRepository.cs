@@ -14,29 +14,45 @@ namespace DBFirstDAL.Repositories
     {
         public override void UpdateBeforeSaving(PyramidFinalContext dbContext, Orders dbEntity, Order entity, bool exists)
         {
-            throw new NotImplementedException();
+           
+            dbEntity.TypeProgressOrder = (int)entity.TypeProgressOrder;
+          
         }
 
-        //public override void AddOrUpdate(Orders entity)
-        //{
-        //    using (PyramidFinalContext dbContext = new PyramidFinalContext())
-        //    {
-        //        var copyList = new List<DBFirstDAL.ProductOrders>(entity.ProductOrders);
-        //        entity.ProductOrders.Clear();
-        //        dbContext.Orders.Add(entity);
-        //        dbContext.SaveChanges();
-        //        int orderId = entity.Id;
-        //        copyList = copyList.Select(i => new ProductOrders()
-        //        {
-        //            OrderId = orderId,
-        //            ProductId = i.ProductId,
-        //            Quantity = i.Quantity,
-        //        }).ToList();
-        //        dbContext.ProductOrders.AddRange(copyList);
-        //        dbContext.SaveChanges();
+        public override void UpdateAfterSaving(PyramidFinalContext dbContext, Orders dbEntity, Order entity, bool exists)
+        {
+            
+           
+        }
 
-        //    }
-        //}
+        public void Add(Order entity)
+        {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                var dbEntity = new Orders() {
+                    Adress = entity.Adress,
+                    Email = entity.Email,
+                    Phone = entity.Phone,
+                    TypeProgressOrder = (int)entity.TypeProgressOrder,
+                    UserName = entity.UserName,
+                    
+                };
+
+               
+                dbContext.Orders.Add(dbEntity);
+                dbContext.SaveChanges();
+
+                dbEntity.ProductOrders = entity.Products.Select(s => new ProductOrders()
+                {
+                    OrderId=dbEntity.Id,
+                    ProductId=s.Product.Id,
+                    Quantity=s.Quantity
+                }).ToList();
+                dbContext.SaveChanges();
+               
+
+            }
+        }
         public void UpdateType(int orderId, int typeOrder)
         {
             using (PyramidFinalContext dbcontext= new PyramidFinalContext())
@@ -55,19 +71,31 @@ namespace DBFirstDAL.Repositories
             throw new NotImplementedException();
         }
 
-        protected override Order ConvertDbObjectToEntity(PyramidFinalContext context, Orders dbObject)
+        public override Order ConvertDbObjectToEntity(PyramidFinalContext context, Orders dbObject)
         {
-            throw new NotImplementedException();
+            var order = new Order() {
+                Products=dbObject.ProductOrders.Select(s=>new OrderProduct() {
+                    Product=new ProductRepository().ConvertDbObjectToEntity(context,s.Products),
+                    Quantity=s.Quantity                    
+                }).ToList(),
+                Adress=dbObject.Adress,
+                Email=dbObject.Email,
+                Id=dbObject.Id,
+                Phone=dbObject.Phone,
+                TypeProgressOrder= (Pyramid.Entity.Enumerable.TypeProgressOrder) dbObject.TypeProgressOrder,
+                UserName=dbObject.UserName
+            };
+            return order;
         }
 
         protected override Orders GetDbObjectByEntity(DbSet<Orders> objects, Order entity)
         {
-            throw new NotImplementedException();
+            return objects.FirstOrDefault(f => f.Id == entity.Id);
         }
 
         protected override Expression<Func<Orders, int>> GetIdByDbObjectExpression()
         {
-            throw new NotImplementedException();
+            return r => r.Id;
         }
     }
 }

@@ -1,27 +1,27 @@
-﻿<div class="page__slider-container">
-    <ul class="page__slider">
-        <li class="page__slide">
-            <img src="~/Content/img/testslide.png" alt="" />
-        </li>
-        <li class="page__slide">
-            <img src="~/Content/img/testslide.png" alt="" />
-        </li>
-        <li class="page__slide">
-            <img src="~/Content/img/testslide.png" alt="" />
-        </li>
-        <li class="page__slide">
-            <img src="~/Content/img/testslide.png" alt="" />
-        </li>
-    </ul>
-</div>
-<script>
+﻿@{var slides = (IEnumerable<Pyramid.Entity.EventBanner>) ViewBag.Banners; }
+@if (slides != null && slides.Count() > 0)
+{
+    <div class="page__slider-container">
+        <ul class="page__slider">
+           @foreach (var item in slides)
+           {
+            <li class="page__slide">
+                <img src="@(item.Thumbnail != null && item.Thumbnail.ServerPathImg != null? item.Thumbnail.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" />
+            </li>
+           }
+            
+        </ul>
+    </div>
+    <script>
             $('.page__slider').bxSlider({
                 slideMargin: 5,
                 controls: false,
                 prevText: '',
                 nextText: '',
-                pager: true
-
+                pager: true,
+                auto:true
             });
 
-</script>
+    </script>
+
+}

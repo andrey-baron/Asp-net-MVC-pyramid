@@ -188,6 +188,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\EnumValueController.cs" />
+    <Compile Include="Controllers\EventBannerController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\FAQController.cs" />
     <Compile Include="Controllers\FeedBackController.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\RecommendationController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
     <Compile Include="Controllers\Unloading1CController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -342,6 +344,7 @@
     <Content Include="Content\src\blocks\home-slider\home-slider.js" />
     <Content Include="Content\src\blocks\other.js" />
     <Content Include="Content\src\blocks\product\product.js" />
+    <Content Include="Content\src\blocks\seo\seo.js" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -426,6 +429,7 @@
     <Content Include="Content\src\admin-blocks\event\admin-event.less" />
     <Content Include="Content\src\blocks\page\page.less" />
     <Content Include="Content\src\blocks\search\search.less" />
+    <Content Include="Content\src\blocks\seo\seo.less" />
     <None Include="Properties\PublishProfiles\Pyramid.pubxml" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css" />
@@ -738,6 +742,12 @@
     <Content Include="Views\FeedBack\_PartialEmailMessage.cshtml" />
     <Content Include="Views\FeedBack\Index.cshtml" />
     <Content Include="Views\FeedBack\AddOrUpdate.cshtml" />
+    <Content Include="Views\EventBanner\Index.cshtml" />
+    <Content Include="Views\EventBanner\AddOrUpdate.cshtml" />
+    <Content Include="Views\Recommendation\Index.cshtml" />
+    <Content Include="Views\Recommendation\AddOrUpdate.cshtml" />
+    <Content Include="Views\Category\_PartialRecommendationTemplate.cshtml" />
+    <Content Include="Views\Category\_PartialCategoryAllRecommendation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

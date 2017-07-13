@@ -22,6 +22,8 @@ namespace Pyramid.Entity
         public int? ParentId { get; set; }
         public bool FlagRoot { get; set; }
 
+        [Display(Name = "Описание")]
+        public string Content { get; set; }
         public Nullable<int> SeoId { get; set; }
 
         public  Seo Seo { get; set; }
@@ -29,11 +31,13 @@ namespace Pyramid.Entity
         public Image Thumbnail { get; set; }
         public List<Product> Products { get; set; }
         public ICollection<Filter> Filters { get; set; }
+        public ICollection<Recommendation> Recommendations { get; set; }
         public Category()
         {
             Products = new List<Product>();
             Filters = new List<Filter>();
             Thumbnail = new Image();
+                Recommendations= new List<Recommendation>(); ;
         }
     }
 }

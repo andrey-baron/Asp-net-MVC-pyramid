@@ -21,11 +21,13 @@ namespace Pyramid.Controllers
         //DAL.UnitOfWork unitOfWork;
         CategoryRepository _categoryRepository;
         FilterRepository _filterRepository;
+        RecommendationRepository _recommendationRepository;
         const string defaulCateggorytLink = "/Category/index/";
         public CategoryController()
         {
             _categoryRepository = new CategoryRepository();
             _filterRepository = new FilterRepository();
+            _recommendationRepository = new RecommendationRepository();
 
         }
         [Authorize]
@@ -142,6 +144,7 @@ namespace Pyramid.Controllers
 
             viewModel.MaxPrice = _categoryRepository.GetMaxPriceFromCategory(id);
             viewModel.MinPrice = _categoryRepository.GetMinPriceFromCategory(id);
+            ViewBag.MetaTitle = viewModel.Seo.MetaTitle;
             return View(viewModel);
 
             #region old
@@ -553,6 +556,7 @@ namespace Pyramid.Controllers
         }
         [Authorize]
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult AddOrUpdate(Pyramid.Entity.Category model)
         {
             //var config = new MapperConfiguration(cfg =>
@@ -672,6 +676,32 @@ namespace Pyramid.Controllers
             return PartialView("_PartialGetProductTemplateDropDownList", pointindex);
         }
 
-        
+        public ActionResult GetRecommendationTemplate(int id,int count)
+        {
+            var model = _categoryRepository.GetRecommendations(id).Count();
+            if (id == 0 || count > model)
+            {
+                model = count;
+            }
+
+            ViewBag.RecommendationSelectList = _recommendationRepository.GetAll().Select(item => new SelectListItem
+            {
+                Text = item.Title,
+                Value = item.Id.ToString()
+            });
+            return PartialView("_PartialRecommendationTemplate", model);
+        }
+        public ActionResult DeleteRecommendation(int id, int recommendationid)
+        {
+            _categoryRepository.DeleteRecommendation(id, recommendationid);
+            // _categoryRepository.Save();
+            return null;
+        }
+        public ActionResult GetAllRecommendation(int id)
+        {
+            var model = _categoryRepository.GetRecommendations(id);
+            return PartialView("_PartialCategoryAllRecommendation", model);
+        }
+
     }
 }

@@ -17,8 +17,8 @@ namespace DBFirstDAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public HomeEntity()
         {
-            this.Categories = new HashSet<Categories>();
             this.Products = new HashSet<Products>();
+            this.Categories = new HashSet<Categories>();
         }
     
         public int Id { get; set; }
@@ -31,10 +31,10 @@ namespace DBFirstDAL
     
         public virtual BannerWithPoints BannerWithPoints { get; set; }
         public virtual Images Images { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Categories> Categories { get; set; }
         public virtual Faq Faq { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Products> Products { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Categories> Categories { get; set; }
     }
 }

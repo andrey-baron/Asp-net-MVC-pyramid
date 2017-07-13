@@ -11,7 +11,7 @@
     display: inline-block;
   }
   &__list-item + &__list-item{
-    :before{
+    a:before{
       content: "";
       display: inline-block;
       vertical-align: middle;
@@ -27,3 +27,11 @@
     height: 12px;
   }
 }
+
+@media (min-width: 992px) and (max-width:1200px){
+    .breadcrumbs__list-item + .breadcrumbs__list-item {
+        a:before{
+             margin: 0 10px;
+        }
+}
+    }

@@ -75,38 +75,53 @@ namespace DBFirstDAL.Repositories
 
         public bool DeleteReletedProduct(int id,int productId)
         {
-            var actionResult = false;
-            var efEvent = FindBy(i => i.Id == id).SingleOrDefault();
-            if (efEvent!=null)
+            using (PyramidFinalContext dbContext=new PyramidFinalContext())
             {
-                if (efEvent.Products != null)
+                var actionResult = false;
+                var efEvent = dbContext.Events.Find(id);
+                if (efEvent != null)
                 {
-                    var efProd=efEvent.Products.FirstOrDefault(f => f.Id == productId);
-                    if (efProd!=null)
+                    if (efEvent.Products != null)
                     {
-                        efEvent.Products.Remove(efProd);
-                        Context.SaveChanges();
-                        actionResult = true;
+                        var efProd = efEvent.Products.FirstOrDefault(f => f.Id == productId);
+                        if (efProd != null)
+                        {
+                            efEvent.Products.Remove(efProd);
+                            dbContext.SaveChanges();
+                            actionResult = true;
 
+                        }
                     }
                 }
+                return actionResult;
             }
-            return actionResult;
+           
         }
 
         protected override Events GetDbObjectByEntity(DbSet<Events> objects, Event entity)
         {
-            throw new NotImplementedException();
+            return objects.FirstOrDefault(f => f.Id == entity.Id);
         }
 
         protected override Expression<Func<Events, int>> GetIdByDbObjectExpression()
         {
-            throw new NotImplementedException();
+            return i => i.Id;
         }
 
-        protected override Event ConvertDbObjectToEntity(PyramidFinalContext context, Events dbObject)
+        public override Event ConvertDbObjectToEntity(PyramidFinalContext context, Events dbObject)
         {
-            throw new NotImplementedException();
+            var entity = new Event() {
+                Content= dbObject.Content,
+                Id=dbObject.Id,
+                DateEventEnd=dbObject.DateEventEnd,
+                DateEventStart=dbObject.DateEventStart,
+                //Image=dbObject.EventImages
+                isActive=dbObject.isActive,
+                Products=dbObject.Products.Select(s=>new ProductRepository().ConvertDbObjectToEntity(context,s)).ToList(),
+                ShortContent=dbObject.ShortContent,
+                Title= dbObject.Title
+            };
+            return entity;
         }
 
         protected override IQueryable<Events> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Events> dbObjects, SearchParamsBase searchParams)
@@ -116,7 +131,35 @@ namespace DBFirstDAL.Repositories
 
         public override void UpdateBeforeSaving(PyramidFinalContext dbContext, Events dbEntity, Event entity, bool exists)
         {
-            throw new NotImplementedException();
+            dbEntity.Content = entity.Content;
+            dbEntity.DateEventEnd = entity.DateEventEnd;
+            dbEntity.DateEventStart = entity.DateEventStart;
+            dbEntity.isActive = entity.isActive;
+            dbEntity.ShortContent = entity.ShortContent;
+            dbEntity.Title = entity.Title;
+        }
+        public override void UpdateAfterSaving(PyramidFinalContext dbContext, Events dbEntity, Event entity, bool exists)
+        {
+            var listProductIds = new List<int>(entity.Products.Select(i => i.Id));
+
+            dbEntity.Products.Clear();
+            foreach (var item in listProductIds)
+            {
+                var efProd = dbContext.Products.Find(item);
+                if (efProd!=null)
+                {
+                    dbEntity.Products.Add(efProd);
+
+                }
+            }
+
+
+            dbEntity.EventImages = new EventImages()
+            {
+                ImageId = entity.Image.Id,
+                EventId = dbEntity.Id
+            };
+
         }
     }
 }

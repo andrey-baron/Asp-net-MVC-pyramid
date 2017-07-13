@@ -65,9 +65,6 @@ namespace DBFirstDAL.Repositories
 
         }
 
-
-
-
         public HomeEntity GetModel(int id)
         {
             var efHome = FindBy(i => i.Id == id).SingleOrDefault();
@@ -125,38 +122,19 @@ namespace DBFirstDAL.Repositories
 
         public IEnumerable<Pyramid.Entity.HomeEntity> GetModels(bool adminManage)
         {
-            if (adminManage)
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
-                return GetAll() as IEnumerable<Pyramid.Entity.HomeEntity>;
-            }
-            else
-            {
-                using (PyramidFinalContext dbContext = new PyramidFinalContext())
+                if (adminManage)
                 {
-                    var efEntity = dbContext.HomeEntity.ToList().Select(s => ConvertDbObjectToEntity(dbContext, s)).ToList();
-                   
-                    //var t= efEntity.Select(i => new HomeEntityModel()
-                    //{
-                    //    Id = i.Id,
-                    //    Title = i.Title,
-                    //    Category= ToModelCategory(i.Categories),
-                    //   Faq=i.Faq,
-                    //   BannerWithPoints= new BannerWithPointsHomeDataModel()
-                    //   {
-                    //       BannerId = i.BannerWithPoints.BannerId,
-                    //       Images = i.BannerWithPoints.Images,
-                    //       PointOnImgs = i.BannerWithPoints.PointOnImgs.Select(s => new PointOnImgsDataModel()
-                    //       {
-                    //           BannerId = s.BannerId,
-                    //           CoordX = s.CoordX,
-                    //           CoordY = s.CoordY,
-                    //           Products = ToModelProduct(s.Products),
-                    //           Id = s.Id
-                    //       }).ToList()
-                    //   }, 
-                    //   VideoGuide=i.VideoGuide 
-                    //});
-                    return efEntity;
+                    return GetAll();
+                }
+                else
+                {
+                    var entity= dbContext.HomeEntity
+                        .ToList()
+                        .Select(s => ConvertDbObjectToEntity(dbContext, s))
+                        .ToList();
+                    return entity;
                 }
                 
             }
@@ -192,204 +170,204 @@ namespace DBFirstDAL.Repositories
             return catModel;
         }
 
-        public void AddOrUpdateModel(HomeEntity model)
-        {
-            var efHomeModel = FindBy(i => i.Id == model.Id).SingleOrDefault();
-            if (efHomeModel == null)
-            {
-                efHomeModel = new HomeEntity();
+        //public void AddOrUpdateModel(HomeEntity model)
+        //{
+        //    var efHomeModel = FindBy(i => i.Id == model.Id).SingleOrDefault();
+        //    if (efHomeModel == null)
+        //    {
+        //        efHomeModel = new HomeEntity();
 
-                efHomeModel.Title = model.Title;
-                if (model.Content != null)
-                {
-                    efHomeModel.Content = model.Content;
-                }
-                efHomeModel.LinkYouTobe = model.LinkYouTobe;
-                if (model.ThumbnailId!=0)
-                {
-                    efHomeModel.ThumbnailId = model.ThumbnailId;
+        //        efHomeModel.Title = model.Title;
+        //        if (model.Content != null)
+        //        {
+        //            efHomeModel.Content = model.Content;
+        //        }
+        //        efHomeModel.LinkYouTobe = model.LinkYouTobe;
+        //        if (model.ThumbnailId!=0)
+        //        {
+        //            efHomeModel.ThumbnailId = model.ThumbnailId;
 
-                }
+        //        }
                 
-                efHomeModel.CallToAction = model.CallToAction;
-                Context.HomeEntity.Add(efHomeModel);
-                //Save();
-                foreach (var item in model.Categories)
-                {
-                    var efCat = Context.Categories.Find(item.Id);
-                    if (efCat != null)
-                    {
-                        efHomeModel.Categories.Add(efCat);
-                    }
+        //        efHomeModel.CallToAction = model.CallToAction;
+        //        Context.HomeEntity.Add(efHomeModel);
+        //        //Save();
+        //        foreach (var item in model.Categories)
+        //        {
+        //            var efCat = Context.Categories.Find(item.Id);
+        //            if (efCat != null)
+        //            {
+        //                efHomeModel.Categories.Add(efCat);
+        //            }
 
-                }
-                foreach (var item in model.Products)
-                {
-                    var efPr = Context.Products.Find(item.Id);
-                    if (efPr != null)
-                    {
-                        efHomeModel.Products.Add(efPr);
-                    }
+        //        }
+        //        foreach (var item in model.Products)
+        //        {
+        //            var efPr = Context.Products.Find(item.Id);
+        //            if (efPr != null)
+        //            {
+        //                efHomeModel.Products.Add(efPr);
+        //            }
 
-                }
-                var efFaq = Context.Faq.Find(model.Faq.Id);
-                if (efFaq != null)
-                {
-                    efHomeModel.Faq = efFaq;
-                }
-                //Save();
-                efHomeModel.BannerWithPoints = new BannerWithPoints()
-                {
-                    BannerId = efHomeModel.Id,
-                    ImageId = model.BannerWithPoints.Images.Id != 0 ? (int?)model.BannerWithPoints.Images.Id : null
-                };
-                foreach (var item in model.BannerWithPoints.PointOnImgs)
-                {
-                    efHomeModel.BannerWithPoints.PointOnImgs.Add(new PointOnImgs()
-                    {
-                        BannerId = efHomeModel.BannerWithPoints.BannerId,
-                        CoordX = item.CoordX,
-                        CoordY = item.CoordY,
-                        Id = item.Id,
-                        ReferenceProductId = item.Products != null ? item.Products.Id : (int?)null
-                    });
-                }
-                //Save();
+        //        }
+        //        var efFaq = Context.Faq.Find(model.Faq.Id);
+        //        if (efFaq != null)
+        //        {
+        //            efHomeModel.Faq = efFaq;
+        //        }
+        //        //Save();
+        //        efHomeModel.BannerWithPoints = new BannerWithPoints()
+        //        {
+        //            BannerId = efHomeModel.Id,
+        //            ImageId = model.BannerWithPoints.Images.Id != 0 ? (int?)model.BannerWithPoints.Images.Id : null
+        //        };
+        //        foreach (var item in model.BannerWithPoints.PointOnImgs)
+        //        {
+        //            efHomeModel.BannerWithPoints.PointOnImgs.Add(new PointOnImgs()
+        //            {
+        //                BannerId = efHomeModel.BannerWithPoints.BannerId,
+        //                CoordX = item.CoordX,
+        //                CoordY = item.CoordY,
+        //                Id = item.Id,
+        //                ReferenceProductId = item.Products != null ? item.Products.Id : (int?)null
+        //            });
+        //        }
+        //        //Save();
 
 
-            }
-            else
-            {
-                efHomeModel.Title = model.Title;
-                if (model.Content != null)
-                {
-                    efHomeModel.Content = model.Content;
-                   // Save();
-                }
-                efHomeModel.LinkYouTobe = model.LinkYouTobe;
-                efHomeModel.TitleVideoGuide = model.TitleVideoGuide;
-                if (model.ThumbnailId!=0)
-                {
-                    efHomeModel.ThumbnailId = model.ThumbnailId;
+        //    }
+        //    else
+        //    {
+        //        efHomeModel.Title = model.Title;
+        //        if (model.Content != null)
+        //        {
+        //            efHomeModel.Content = model.Content;
+        //           // Save();
+        //        }
+        //        efHomeModel.LinkYouTobe = model.LinkYouTobe;
+        //        efHomeModel.TitleVideoGuide = model.TitleVideoGuide;
+        //        if (model.ThumbnailId!=0)
+        //        {
+        //            efHomeModel.ThumbnailId = model.ThumbnailId;
 
-                }
+        //        }
                 
-                efHomeModel.CallToAction = model.CallToAction;
+        //        efHomeModel.CallToAction = model.CallToAction;
 
 
-                try
-                {
-                    //Save();
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    StringBuilder s = new StringBuilder();
-                    foreach (var entityValidationErrors in ex.EntityValidationErrors)
-                    {
-                        foreach (var validationError in entityValidationErrors.ValidationErrors)
-                        {
-                            s.AppendLine("Property: "+ validationError.PropertyName + " Error: "+ validationError.ErrorMessage);
-                        }
-                    }
+        //        try
+        //        {
+        //            //Save();
+        //        }
+        //        catch (DbEntityValidationException ex)
+        //        {
+        //            StringBuilder s = new StringBuilder();
+        //            foreach (var entityValidationErrors in ex.EntityValidationErrors)
+        //            {
+        //                foreach (var validationError in entityValidationErrors.ValidationErrors)
+        //                {
+        //                    s.AppendLine("Property: "+ validationError.PropertyName + " Error: "+ validationError.ErrorMessage);
+        //                }
+        //            }
 
-                }
+        //        }
 
-                efHomeModel.Categories.Clear();
-                foreach (var item in model.Categories)
-                {
-                    var efCat = Context.Categories.Find(item.Id);
-                    if (efCat != null)
-                    {
-                        efHomeModel.Categories.Add(efCat);
-                    }
+        //        efHomeModel.Categories.Clear();
+        //        foreach (var item in model.Categories)
+        //        {
+        //            var efCat = Context.Categories.Find(item.Id);
+        //            if (efCat != null)
+        //            {
+        //                efHomeModel.Categories.Add(efCat);
+        //            }
 
-                }
+        //        }
 
-                efHomeModel.Products.Clear();
-                //Save();
-                foreach (var item in model.Products)
-                {
-                    var efPr = Context.Products.Find(item.Id);
-                    if (efPr != null)
-                    {
-                        efHomeModel.Products.Add(efPr);
-                    }
+        //        efHomeModel.Products.Clear();
+        //        //Save();
+        //        foreach (var item in model.Products)
+        //        {
+        //            var efPr = Context.Products.Find(item.Id);
+        //            if (efPr != null)
+        //            {
+        //                efHomeModel.Products.Add(efPr);
+        //            }
 
-                }
-                var efFaq = Context.Faq.Find(model.Faq.Id);
-                if (efFaq != null)
-                {
-                    efHomeModel.Faq = efFaq;
-                }
-                //Save();
-                if (efHomeModel.BannerWithPoints == null)
-                {
-                    efHomeModel.BannerWithPoints = new BannerWithPoints()
-                    {
-                        BannerId = model.Id,
-                        ImageId = model.BannerWithPoints.Images.Id != 0 ? (int?)model.BannerWithPoints.Images.Id : null
-                    };
-                }
-                else
-                {
+        //        }
+        //        var efFaq = Context.Faq.Find(model.Faq.Id);
+        //        if (efFaq != null)
+        //        {
+        //            efHomeModel.Faq = efFaq;
+        //        }
+        //        //Save();
+        //        if (efHomeModel.BannerWithPoints == null)
+        //        {
+        //            efHomeModel.BannerWithPoints = new BannerWithPoints()
+        //            {
+        //                BannerId = model.Id,
+        //                ImageId = model.BannerWithPoints.Images.Id != 0 ? (int?)model.BannerWithPoints.Images.Id : null
+        //            };
+        //        }
+        //        else
+        //        {
 
-                    efHomeModel.BannerWithPoints.ImageId = model.BannerWithPoints.Images.Id != 0 ? (int?)model.BannerWithPoints.Images.Id : null;
-                }
-                //efHomeModel.BannerWithPoints.PointOnImgs.Clear();
+        //            efHomeModel.BannerWithPoints.ImageId = model.BannerWithPoints.Images.Id != 0 ? (int?)model.BannerWithPoints.Images.Id : null;
+        //        }
+        //        //efHomeModel.BannerWithPoints.PointOnImgs.Clear();
 
-                //Save();
+        //        //Save();
 
-                if (efHomeModel.BannerWithPoints.PointOnImgs != null && efHomeModel.BannerWithPoints.PointOnImgs.Count > 0)
-                {
-                    List<PointOnImgs> oldImgs = new List<PointOnImgs>(efHomeModel.BannerWithPoints.PointOnImgs);
+        //        if (efHomeModel.BannerWithPoints.PointOnImgs != null && efHomeModel.BannerWithPoints.PointOnImgs.Count > 0)
+        //        {
+        //            List<PointOnImgs> oldImgs = new List<PointOnImgs>(efHomeModel.BannerWithPoints.PointOnImgs);
 
-                    foreach (var item in oldImgs)
-                    {
-                        var efpoint = efHomeModel.BannerWithPoints.PointOnImgs.FirstOrDefault(i => i.Id == item.Id);
-                        if (efpoint != null)
-                        {
-                            //efHomeModel.BannerWithPoints.PointOnImgs.Remove(efpoint);
-                            Context.PointOnImgs.Remove(efpoint);
-                        }
+        //            foreach (var item in oldImgs)
+        //            {
+        //                var efpoint = efHomeModel.BannerWithPoints.PointOnImgs.FirstOrDefault(i => i.Id == item.Id);
+        //                if (efpoint != null)
+        //                {
+        //                    //efHomeModel.BannerWithPoints.PointOnImgs.Remove(efpoint);
+        //                    Context.PointOnImgs.Remove(efpoint);
+        //                }
 
-                    }
-                }
-                //Save();
-                foreach (var item in model.BannerWithPoints.PointOnImgs)
-                {
-                    efHomeModel.BannerWithPoints.PointOnImgs.Add(new PointOnImgs()
-                    {
-                        BannerId = efHomeModel.BannerWithPoints.BannerId,
-                        CoordX = item.CoordX,
-                        CoordY = item.CoordY,
-                        Id = item.Id,
-                        ReferenceProductId = item.Products != null ? item.Products.Id : (int?)null
-                    });
-                }
-                //Save();
+        //            }
+        //        }
+        //        //Save();
+        //        foreach (var item in model.BannerWithPoints.PointOnImgs)
+        //        {
+        //            efHomeModel.BannerWithPoints.PointOnImgs.Add(new PointOnImgs()
+        //            {
+        //                BannerId = efHomeModel.BannerWithPoints.BannerId,
+        //                CoordX = item.CoordX,
+        //                CoordY = item.CoordY,
+        //                Id = item.Id,
+        //                ReferenceProductId = item.Products != null ? item.Products.Id : (int?)null
+        //            });
+        //        }
+        //        //Save();
 
-                //var efVideo = Context.VideoGuide.Find(efHomeModel.Id);
-                //if(efVideo!=null)
-                //{
-                //    efVideo.LinkYouTobe = model.VideoGuide.LinkYouTobe;
-                //    efVideo.ThumbnailId = model.VideoGuide.Images.Id;
-                //}
-                //else
-                //{
-                //    efVideo = new VideoGuide()
-                //    {
-                //        HomeEntityId = model.Id,
-                //        LinkYouTobe = model.VideoGuide.LinkYouTobe,
-                //        ThumbnailId = model.VideoGuide.Images.Id,
-                //        HomeEntity=efHomeModel
-                //    };
-                //    Context.VideoGuide.Add(efVideo);
+        //        //var efVideo = Context.VideoGuide.Find(efHomeModel.Id);
+        //        //if(efVideo!=null)
+        //        //{
+        //        //    efVideo.LinkYouTobe = model.VideoGuide.LinkYouTobe;
+        //        //    efVideo.ThumbnailId = model.VideoGuide.Images.Id;
+        //        //}
+        //        //else
+        //        //{
+        //        //    efVideo = new VideoGuide()
+        //        //    {
+        //        //        HomeEntityId = model.Id,
+        //        //        LinkYouTobe = model.VideoGuide.LinkYouTobe,
+        //        //        ThumbnailId = model.VideoGuide.Images.Id,
+        //        //        HomeEntity=efHomeModel
+        //        //    };
+        //        //    Context.VideoGuide.Add(efVideo);
 
-                //}
+        //        //}
 
-                //Save();
-            }
-        }
+        //        //Save();
+        //    }
+        //}
  
 
         //public IQueryable<HomeEntity> GetAllWithNavigation()
@@ -410,46 +388,58 @@ namespace DBFirstDAL.Repositories
 
         public void DeletePoint(int pointId)
         {
-            var efPoint = Context.PointOnImgs.Find(pointId);
-            if (efPoint!=null)
+            using (PyramidFinalContext dbContext =new PyramidFinalContext())
             {
-                Context.PointOnImgs.Remove(efPoint);
-                Context.SaveChanges();
+                var efPoint = dbContext.PointOnImgs.Find(pointId);
+                if (efPoint != null)
+                {
+                    dbContext.PointOnImgs.Remove(efPoint);
+                    dbContext.SaveChanges();
+                }
             }
+           
         }
 
         public void DeleteProduct(int homeEntityId,int productId)
         {
-            var efEntity = FindBy(i => i.Id == homeEntityId).SingleOrDefault();
-            var efProd = Context.Products.Find(productId);
-            if (efProd!=null)
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
-                efEntity.Products.Remove(efProd);
+                var efEntity = dbContext.HomeEntity.Find(homeEntityId);
+                var efProd = dbContext.Products.Find(productId);
+                if (efProd != null)
+                {
+                    efEntity.Products.Remove(efProd);
+                    dbContext.SaveChanges();
+                }
             }
-           // Save();
         }
         public void DeleteCategory(int homeEntityId, int categoryId )
         {
-            var efEntity = FindBy(i => i.Id == homeEntityId).SingleOrDefault();
-            var cat = Context.Categories.Find(categoryId);
-            if (cat != null)
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
-                efEntity.Categories.Remove(cat);
+                var efEntity = dbContext.HomeEntity.Find(homeEntityId);
+
+                var cat = dbContext.Categories.Find(categoryId);
+                if (cat != null)
+                {
+                    efEntity.Categories.Remove(cat);
+                    dbContext.SaveChanges();
+                }
             }
             //Save();
         }
 
         protected override HomeEntity GetDbObjectByEntity(DbSet<HomeEntity> objects, Pyramid.Entity.HomeEntity entity)
         {
-            throw new NotImplementedException();
+            return objects.FirstOrDefault(item => item.Id == entity.Id);    
         }
 
         protected override Expression<Func<HomeEntity, int>> GetIdByDbObjectExpression()
         {
-            throw new NotImplementedException();
+            return item => item.Id;
         }
 
-        protected override Pyramid.Entity.HomeEntity ConvertDbObjectToEntity(PyramidFinalContext context, HomeEntity dbObject)
+        public override Pyramid.Entity.HomeEntity ConvertDbObjectToEntity(PyramidFinalContext context, HomeEntity dbObject)
         {
             var hEntity = new Pyramid.Entity.HomeEntity();
             if (dbObject.BannerWithPoints != null)
@@ -507,32 +497,137 @@ namespace DBFirstDAL.Repositories
                 TypePrice = (Common.TypeProductPrice)p.TypePrice
             }).ToList();
 
-            hEntity.Faq = new FAQ()
+            if (dbObject.Faq!=null)
             {
-                Id = dbObject.Faq.Id,
-                Title = dbObject.Faq.Title,
-                QuestionAnswer = dbObject.Faq.QuestionAnswer.Select(s => new Pyramid.Entity.QuestionAnswer()
+                hEntity.Faq = new FAQ()
                 {
-                    Id = s.Id,
-                    Answer = s.Answer,
-                    Question = s.Question
+                    Id = dbObject.Faq.Id,
+                    Title = dbObject.Faq.Title,
+                    QuestionAnswer = dbObject.Faq.QuestionAnswer.Select(s => new Pyramid.Entity.QuestionAnswer()
+                    {
+                        Id = s.Id,
+                        Answer = s.Answer,
+                        Question = s.Question
 
-                }).ToList()
-            };
+                    }).ToList()
+                };
+            }
+            
 
 
             return hEntity;
 
         }
 
+        protected override Pyramid.Entity.HomeEntity ConvertDbObjectToEntityShort(PyramidFinalContext context, HomeEntity dbObject)
+        {
+            var hEntity = new Pyramid.Entity.HomeEntity()
+            {
+                Title = dbObject.Title,
+                Id=dbObject.Id
+            };
+
+            return hEntity;
+        }
         protected override IQueryable<HomeEntity> BuildDbObjectsList(PyramidFinalContext context, IQueryable<HomeEntity> dbObjects, SearchParamsBase searchParams)
         {
-            throw new NotImplementedException();
+            dbObjects = dbObjects.OrderBy(item => item.Title).ThenBy(item => item.Id);
+            return dbObjects;
         }
 
         public override void UpdateBeforeSaving(PyramidFinalContext dbContext, HomeEntity dbEntity, Pyramid.Entity.HomeEntity entity, bool exists)
         {
-            throw new NotImplementedException();
+            dbEntity.Title = entity.Title;
+            if (entity.Content != null)
+            {
+                dbEntity.Content = entity.Content;
+            }
+            dbEntity.LinkYouTobe = entity.LinkYouTobe;
+            if (entity.ThumbnailId != 0)
+            {
+                dbEntity.ThumbnailId = entity.ThumbnailId;
+
+            }
+
+            dbEntity.CallToAction = entity.CallToAction;
+            dbEntity.TitleVideoGuide = entity.TitleVideoGuide;
+
+        }
+
+        public override void UpdateAfterSaving(PyramidFinalContext dbContext, HomeEntity dbEntity, Pyramid.Entity.HomeEntity entity, bool exists)
+        {
+            dbEntity.Categories.Clear();
+            foreach (var item in entity.Categories)
+            {
+                var efCat = dbContext.Categories.Find(item.Id);
+                if (efCat != null)
+                {
+                    dbEntity.Categories.Add(efCat);
+                }
+
+            }
+
+            dbEntity.Products.Clear();
+            //Save();
+            foreach (var item in entity.Products)
+            {
+                var efPr = dbContext.Products.Find(item.Id);
+                if (efPr != null)
+                {
+                    dbEntity.Products.Add(efPr);
+                }
+
+            }
+            var efFaq = dbContext.Faq.Find(entity.Faq.Id);
+            if (efFaq != null)
+            {
+                dbEntity.Faq = efFaq;
+            }
+            //Save();
+            if (dbEntity.BannerWithPoints == null)
+            {
+                dbEntity.BannerWithPoints = new BannerWithPoints()
+                {
+                    BannerId = entity.Id,
+                    ImageId = entity.BannerWithPoints.Images.Id != 0 ? (int?)entity.BannerWithPoints.Images.Id : null
+                };
+            }
+            else
+            {
+
+                dbEntity.BannerWithPoints.ImageId = entity.BannerWithPoints.Images.Id != 0 ? (int?)entity.BannerWithPoints.Images.Id : null;
+            }
+            //efHomeModel.BannerWithPoints.PointOnImgs.Clear();
+
+            //Save();
+
+            if (dbEntity.BannerWithPoints.PointOnImgs != null && dbEntity.BannerWithPoints.PointOnImgs.Count > 0)
+            {
+                List<PointOnImgs> oldImgs = new List<PointOnImgs>(dbEntity.BannerWithPoints.PointOnImgs);
+
+                foreach (var item in oldImgs)
+                {
+                    var efpoint = dbEntity.BannerWithPoints.PointOnImgs.FirstOrDefault(i => i.Id == item.Id);
+                    if (efpoint != null)
+                    {
+                        //efHomeModel.BannerWithPoints.PointOnImgs.Remove(efpoint);
+                        dbContext.PointOnImgs.Remove(efpoint);
+                    }
+
+                }
+            }
+            //Save();
+            foreach (var item in entity.BannerWithPoints.PointOnImgs)
+            {
+                dbEntity.BannerWithPoints.PointOnImgs.Add(new PointOnImgs()
+                {
+                    BannerId = dbEntity.BannerWithPoints.BannerId,
+                    CoordX = (int)item.CoordX,
+                    CoordY = (int)item.CoordY,
+                    Id = item.Id,
+                    ReferenceProductId = item.Products != null ? item.Products.Id : (int?)null
+                });
+            }
         }
     }
 }

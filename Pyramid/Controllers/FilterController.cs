@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Common.SearchClasses;
 using DBFirstDAL.Repositories;
+using Pyramid.Models.CommonViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,114 +23,82 @@ namespace Pyramid.Controllers
         }
         // GET: Filter
         [Authorize]
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var efmodel = _filterRepository.GetAll().ToList();
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<DBFirstDAL.Filters, Pyramid.Entity.Filter>()
-                .ForMember(d => d.Categories, o => o.Ignore());
-                cfg.CreateMap<DBFirstDAL.EnumValues,Entity.EnumValue>();
-                cfg.CreateMap<DBFirstDAL.Categories, Pyramid.Entity.Category>()
-                   .ForMember(d => d.Thumbnail, o => o.Ignore())
-                   .ForMember(d => d.Checked, o => o.Ignore())
-                   .ForMember(d => d.Products, o => o.Ignore())
-                   .ForMember(d => d.Seo, o => o.Ignore())
-                   .ForMember(d => d.SeoId, o => o.Ignore())
-                   ;
-            });
+            var pageNumber = page ?? 1;
+
+            var objectsPerPage = 20;
+            var startIndex = (pageNumber - 1) * objectsPerPage;
+
+            SearchParamsBase SearchParams = new SearchParamsBase( startIndex, objectsPerPage);
+
+            var searchResult = _filterRepository.Get(SearchParams);
+
+            var viewModel = SearchResultViewModel<Pyramid.Entity.Filter>.CreateFromSearchResult(searchResult, i => i, 10);
+
+            return View(viewModel);
+            #region old
+           
+    //        var efmodel = _filterRepository.GetAll().ToList();
+    //        var config = new MapperConfiguration(cfg =>
+    //        {
+    //            cfg.CreateMap<DBFirstDAL.Filters, Pyramid.Entity.Filter>()
+    //            .ForMember(d => d.Categories, o => o.Ignore());
+    //            cfg.CreateMap<DBFirstDAL.EnumValues,Entity.EnumValue>();
+    //            cfg.CreateMap<DBFirstDAL.Categories, Pyramid.Entity.Category>()
+    //               .ForMember(d => d.Thumbnail, o => o.Ignore())
+    //               .ForMember(d => d.Checked, o => o.Ignore())
+    //               .ForMember(d => d.Products, o => o.Ignore())
+    //               .ForMember(d => d.Seo, o => o.Ignore())
+    //               .ForMember(d => d.SeoId, o => o.Ignore())
+    //               ;
+    //        });
 
 
-            config.AssertConfigurationIsValid();
+    //        config.AssertConfigurationIsValid();
 
-            var mapper = config.CreateMapper();
-            var modelAllFilters =
-    mapper.Map<IEnumerable<DBFirstDAL.Filters>, List<Pyramid.Entity.Filter>>(efmodel);
+    //        var mapper = config.CreateMapper();
+    //        var modelAllFilters =
+    //mapper.Map<IEnumerable<DBFirstDAL.Filters>, List<Pyramid.Entity.Filter>>(efmodel);
 
 
-            // var model = DBFirstDAL.FilterDAL.GetAll();
-            return View(modelAllFilters);
+    //        // var model = DBFirstDAL.FilterDAL.GetAll();
+    //        return View(modelAllFilters);
+            #endregion
         }
-        
+        [Authorize]
         public ActionResult AddOrUpdate(int id=0)
         {
-            var efmodel = _filterRepository.FindBy(i=>i.Id==id).SingleOrDefault();
-            var config = new MapperConfiguration(cfg =>
+            var filter = _filterRepository.Get(id);
+
+            if (filter == null)
             {
-                cfg.CreateMap<DBFirstDAL.Filters, Pyramid.Entity.Filter>()
-                .ForMember(d => d.Categories, o => o.Ignore()); ;
-                cfg.CreateMap<DBFirstDAL.EnumValues, Entity.EnumValue>();
-                cfg.CreateMap<DBFirstDAL.Categories, Pyramid.Entity.Category>()
-                   .ForMember(d => d.Thumbnail, o => o.Ignore())
-                   .ForMember(d => d.Checked, o => o.Ignore())
-                   .ForMember(d => d.Products, o => o.Ignore())
-                   .ForMember(d => d.Seo, o => o.Ignore())
-                   .ForMember(d => d.SeoId, o => o.Ignore())
-                   ;
-            });
-
-
-            config.AssertConfigurationIsValid();
-
-            var mapper = config.CreateMapper();
-            var modelFilter =
-    mapper.Map<DBFirstDAL.Filters, Pyramid.Entity.Filter>(efmodel);
-
-            if (modelFilter==null)
-            {
-                modelFilter = new Entity.Filter();
+                filter = new Entity.Filter();
             }
             ViewBag.EnumValuesSelectList= _enumRepositopy.GetAll().Select(item => new SelectListItem
             {
                 Text = item.Key,
                 Value = item.Id.ToString()
             }); 
-            return View(modelFilter);
+            return View(filter);
         }
         [Authorize]
         [HttpPost]
         public ActionResult AddOrUpdate(Pyramid.Entity.Filter model)
         {
-           
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Pyramid.Entity.Filter,DBFirstDAL.Filters >()
-                .ForMember(d=>d.Categories,o=>o.Ignore());
-                cfg.CreateMap<Entity.EnumValue,DBFirstDAL.EnumValues>()
-                .ForMember(d => d.Filters, o => o.Ignore())
-                .ForMember(d => d.Products, o => o.Ignore());
-                //cfg.CreateMap<Pyramid.Entity.Category,DBFirstDAL.Categories>();
-            });
-
-
-            config.AssertConfigurationIsValid();
-
-            var mapper = config.CreateMapper();
-            var efmodel =
-    mapper.Map<Pyramid.Entity.Filter, DBFirstDAL.Filters>(model);
-            //_filterRepository.AddOrUpdate(efmodel);
-            //_filterRepository.Save();
-           // DBFirstDAL.FilterDAL.AddOrDefault(model);
+          
+            _filterRepository.AddOrUpdate(model);
+            
             return RedirectToAction("index");
         }
         [Authorize]
         public ActionResult GetAllEnumValues(int filterid) {
-            var config = new MapperConfiguration(cfg =>
-            {
-                
-                cfg.CreateMap<Entity.EnumValue, DBFirstDAL.EnumValues>()
-                .ForMember(d => d.Filters, o => o.Ignore())
-                .ForMember(d => d.Products, o => o.Ignore())
-                ; ;
-               
-            });
+          
 
 
-            config.AssertConfigurationIsValid();
-
-            var mapper = config.CreateMapper();
-            var efmodel = _filterRepository.GetAllEnumValues(filterid);
-            var model = mapper.Map<IEnumerable<DBFirstDAL.EnumValues>, IEnumerable<Entity.EnumValue>>(efmodel);
+          
+            var model = _filterRepository.GetAllEnumValues(filterid);
+          
             ViewBag.EnumValuesSelectList= _enumRepositopy.GetAll().Select(item => new SelectListItem
             {
                 Text = item.Key,

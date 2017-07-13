@@ -21,8 +21,9 @@ namespace Pyramid.Entity
         //public bool Available { get; set; }
         [Display(Name = "Тип цены")]
         public Common.TypeProductPrice TypePrice { get; set; }
-        //[Display(Name = "В наличии")]
-        //public bool InStock { get; set; }
+        [Display(Name = "Описание")]
+       
+         public string Content { get; set; }
 
         [Display(Name = "Сезонное предложение")]
         public bool SeasonOffer { get; set; }

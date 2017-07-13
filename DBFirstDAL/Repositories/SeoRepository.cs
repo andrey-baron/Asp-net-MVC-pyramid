@@ -22,7 +22,7 @@ namespace DBFirstDAL.Repositories
             throw new NotImplementedException();
         }
 
-        protected override Entity.Seo ConvertDbObjectToEntity(PyramidFinalContext context, Seo dbObject)
+        public override Entity.Seo ConvertDbObjectToEntity(PyramidFinalContext context, Seo dbObject)
         {
             throw new NotImplementedException();
         }

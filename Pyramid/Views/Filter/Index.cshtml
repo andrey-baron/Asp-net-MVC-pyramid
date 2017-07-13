@@ -1,8 +1,13 @@
-﻿@model IEnumerable<Pyramid.Entity.Filter>
+﻿@using Pyramid.Helpers
 
+@model SearchResultViewModel<Pyramid.Entity.Filter>
 @{
     ViewBag.Title = "Фильтры";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var pagedList = Html.PagedList(Model.PagesInfo.ItemsCount, Model.PagesInfo.ItemsPerPage, Model.PagesInfo.CurrentPage, Model.PagesInfo.DisplayedPages, Url.GetAction(), Url.GetController(), pageNumber => new
+    {
+        page = pageNumber
+    });
 }
 
 <div class="section-header">
@@ -20,18 +25,25 @@
         <tr>
             
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+               Название фильтра
             </th>
+            <th>Применен к категориям</th>
             <th>Действия</th>
         </tr>
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.Objects)
         {
             <tr>
                 
 
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @foreach (var category in item.Categories)
+                    {
+                        <p>@category.Title</p>
+                    }
                 </td>
                 <td>
                     <div class="btn-group btn-group-sm" style="float: none;">
@@ -48,5 +60,9 @@
         }
 
 </table>
-
+<div class="row">
+    <div class="col-md-12">
+        @pagedList
+    </div>
+</div>
 

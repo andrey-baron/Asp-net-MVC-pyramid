@@ -18,7 +18,7 @@ namespace DBFirstDAL
         public int ImageId { get; set; }
         public int TypeImage { get; set; }
     
-        public virtual Categories Categories { get; set; }
         public virtual Images Images { get; set; }
+        public virtual Categories Categories { get; set; }
     }
 }

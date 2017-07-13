@@ -69,33 +69,35 @@ namespace Pyramid.Controllers
                 ViewBag.Action = requestContext.RouteData.Values["action"];
             }
 
-            var configForFooterCategories = new MapperConfiguration(cfg =>
-            {
-                #region root config
+            //var configForFooterCategories = new MapperConfiguration(cfg =>
+            //{
+            //    #region root config
 
-                cfg.CreateMap<DBFirstDAL.DataModels.CategoryWithThumbnail, Pyramid.Entity.Category>()
-               .ForMember(d => d.Checked, o => o.Ignore())
-               .ForMember(d => d.Filters, o => o.Ignore())
-               .ForMember(d => d.ParentId, o => o.Ignore())
-               .ForMember(d => d.FlagRoot, o => o.Ignore())
-               .ForMember(d => d.Products, o => o.Ignore())
-                 .ForMember(d => d.OneCId, o => o.Ignore())
-                  .ForMember(d => d.Seo, o => o.Ignore())
-               .ForMember(d => d.SeoId, o => o.Ignore());
+            //    cfg.CreateMap<DBFirstDAL.DataModels.CategoryWithThumbnail, Pyramid.Entity.Category>()
+            //   .ForMember(d => d.Checked, o => o.Ignore())
+            //   .ForMember(d => d.Filters, o => o.Ignore())
+            //   .ForMember(d => d.ParentId, o => o.Ignore())
+            //   .ForMember(d => d.FlagRoot, o => o.Ignore())
+            //   .ForMember(d => d.Products, o => o.Ignore())
+            //     .ForMember(d => d.OneCId, o => o.Ignore())
+            //      .ForMember(d => d.Seo, o => o.Ignore())
+            //   .ForMember(d => d.SeoId, o => o.Ignore());
 
-                cfg.CreateMap<DBFirstDAL.DataModels.RootCategory, Models.AllCategoriesViewModel>()
-                ;
+            //    cfg.CreateMap<DBFirstDAL.DataModels.RootCategory, Models.AllCategoriesViewModel>()
+            //    ;
 
-                cfg.CreateMap<DBFirstDAL.Images, Entity.Image>();
-                #endregion
-            });
-            configForFooterCategories.AssertConfigurationIsValid();
-            var mapperForFooter = configForFooterCategories.CreateMapper();
+            //    cfg.CreateMap<DBFirstDAL.Images, Entity.Image>();
+            //    #endregion
+            //});
+            //configForFooterCategories.AssertConfigurationIsValid();
+            //var mapperForFooter = configForFooterCategories.CreateMapper();
 
             var rootCategories = _categoryRepository.GetRootCategoriesWithSubs();
 
-            var modelRootCategories =
-                mapperForFooter.Map<IEnumerable<DBFirstDAL.DataModels.RootCategory>, IEnumerable<Models.AllCategoriesViewModel>>(rootCategories);
+            var modelRootCategories = rootCategories.Select(s=>new Models.AllCategoriesViewModel() {
+                Category=s.Category,
+                SubCategories=s.SubCategories
+            });
 
             ViewBag.FooterCategories = modelRootCategories;
             base.Initialize(requestContext);

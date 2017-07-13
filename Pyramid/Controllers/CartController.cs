@@ -1,4 +1,5 @@
 ﻿using DBFirstDAL.Repositories;
+using Pyramid.Entity;
 using Pyramid.Models.Cart;
 using Pyramid.Tools;
 using System;
@@ -21,19 +22,20 @@ namespace Pyramid.Controllers
 
         public ActionResult AddToCart(int productId, int quantity)
         {
-
-            var line= GetCart().Lines.Where(i => i.Product.Id == productId).FirstOrDefault();
+            
+            var line= GetCart().Lines.FirstOrDefault(i => i.Product.Id == productId);
             if (line == null)
             {
-                var efProduct = _productRepository.FindBy(g => g.Id == productId).SingleOrDefault();
-                if (efProduct != null)
+                var product = _productRepository.Get(productId);
+                if (product != null)
                 {
 
                     GetCart().AddItem(new ProductCartModel()
                     {
-                        Id = efProduct.Id,
-                        Price = efProduct.Price,
-                        Title = efProduct.Title
+                        Id = product.Id,
+                        Price = product.Price,
+                        Title = product.Title,
+                        Picture= product.ThumbnailImg
                     }
                     , quantity);
                 }
@@ -82,26 +84,27 @@ namespace Pyramid.Controllers
         public ActionResult Checkout(CheckoutModel model)
         {
             var cart = GetCart();
-            var efOrder = new DBFirstDAL.Orders()
+            var entity = new Order()
             {
                 Adress = model.Adress,
                 Email = model.Email,
                 Phone = model.Phone,
                 TypeProgressOrder = (int)Entity.Enumerable.TypeProgressOrder.SimplePrice,
                 UserName = model.Name,
-                ProductOrders = cart.Lines.Select(i => new DBFirstDAL.ProductOrders()
+                Products = cart.Lines.Select(i => new OrderProduct()
                 {
-                    ProductId = i.Product.Id,
+                    Product = new Product() { Id = i.Product.Id },
                     Quantity=i.Quantity
                 }).ToList()
             };
-            //_orederRepository.AddOrUpdate(efOrder);
+            _orederRepository.Add(entity);
+            GetCart().Clear();
             bool flagErr = false;
             try
             {
                 //_orederRepository.Add(efOrder);
                 //_orederRepository.Save();
-                //GetCart().Clear();
+              
 
             }
             catch (Exception)
@@ -111,7 +114,7 @@ namespace Pyramid.Controllers
             ViewBag.IsAddedOrder = !flagErr;
 
             ViewBag.MetaTitle = "Подтверждение заказа";
-            return View("ResultCheckout",cart);
+            return View("ResultCheckout", GetCart());
         }
         public ActionResult RemoveItem(int id)
         {

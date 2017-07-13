@@ -14,16 +14,19 @@ namespace DBFirstDAL.Repositories
     {
         public void AddEmptyQuestionAnswer(int faqId)
         {
-            var efFaq = FindBy(i => i.Id == faqId).SingleOrDefault();
-            if (efFaq!=null)
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
-                efFaq.QuestionAnswer.Add(new QuestionAnswer()
+                var efFaq = dbContext.Faq.Find(faqId);
+                if (efFaq != null)
                 {
-                    Answer = "",
-                    Question = ""
-                });
+                    efFaq.QuestionAnswer.Add(new QuestionAnswer()
+                    {
+                        Answer = "",
+                        Question = ""
+                    });
+                }
+                dbContext.SaveChanges();
             }
-            Context.SaveChanges();
         }
 
         //public override void AddOrUpdate(Faq entity)
@@ -33,7 +36,7 @@ namespace DBFirstDAL.Repositories
         //    using (PyramidFinalContext dbContext= new PyramidFinalContext())
         //    {
         //        var efEntity = dbContext.Faq.Find(id);
-                
+
         //        if (efEntity == null)
         //        {
         //            bool flagQA = false;
@@ -63,42 +66,67 @@ namespace DBFirstDAL.Repositories
 
         //        }
         //    }
-            
+
 
         //}
 
-        public  IEnumerable<Faq> GetAllWithQuestionAnswer()
+        public  IEnumerable<FAQ> GetAllWithQuestionAnswer()
         {
             using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
-                return dbContext.Faq.Include(i => i.QuestionAnswer).AsNoTracking().ToList();
+                return dbContext.Faq.Include(i => i.QuestionAnswer).AsNoTracking().ToList().Select(s=>ConvertDbObjectToEntity(dbContext,s));
             }
            // return base.GetAll();
         }
 
         public override void UpdateBeforeSaving(PyramidFinalContext dbContext, Faq dbEntity, FAQ entity, bool exists)
         {
-            throw new NotImplementedException();
+            dbEntity.Title = entity.Title;
+
+        }
+        public override void UpdateAfterSaving(PyramidFinalContext dbContext, Faq dbEntity, FAQ entity, bool exists)
+        {
+            
+            dbEntity.QuestionAnswer.Clear();
+            foreach (var item in entity.QuestionAnswer)
+            {
+                dbEntity.QuestionAnswer.Add(new QuestionAnswer() {
+                    Answer=item.Answer,
+                    Question=item.Question,
+                    Id=item.Id
+                });
+            }
         }
 
         protected override IQueryable<Faq> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Faq> dbObjects, SearchParamsBase searchParams)
         {
-            throw new NotImplementedException();
+            dbObjects = dbObjects.OrderBy(item => item.Id);
+            return dbObjects;
         }
 
-        protected override FAQ ConvertDbObjectToEntity(PyramidFinalContext context, Faq dbObject)
+        public override FAQ ConvertDbObjectToEntity(PyramidFinalContext context, Faq dbObject)
         {
-            throw new NotImplementedException();
+            var faq = new FAQ() {
+                Id=dbObject.Id,
+               Title=dbObject.Title,
+               QuestionAnswer=dbObject.QuestionAnswer.Select(s=>new Pyramid.Entity.QuestionAnswer()
+               {
+                   Answer=s.Answer,
+                   Id=s.Id,
+                   Question=s.Question
+               }).ToList() 
+            };
+            return faq;
         }
 
         protected override Faq GetDbObjectByEntity(DbSet<Faq> objects, FAQ entity)
         {
-            throw new NotImplementedException();
+            return objects.FirstOrDefault(i => i.Id == entity.Id);
         }
 
         protected override Expression<Func<Faq, int>> GetIdByDbObjectExpression()
         {
-            throw new NotImplementedException();
+            return i => i.Id;
         }
     }
 }

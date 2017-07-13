@@ -164,7 +164,10 @@ namespace DBFirstDAL.Repositories
 
         public Images GetThumbnail(int productId, int typeThumbnail )
         {
-            return Context.Images.FirstOrDefault(i => i.ProductImages.Any(f => f.ProductId == productId && f.TypeImage == typeThumbnail));
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                return dbContext.Images.FirstOrDefault(i => i.ProductImages.Any(f => f.ProductId == productId && f.TypeImage == typeThumbnail));
+            }
         }
 
         public IEnumerable<Pyramid.Entity.Image> GetGalleryImage(int productId, int typeGallery)
@@ -229,22 +232,21 @@ namespace DBFirstDAL.Repositories
             return efProduct.Review;
         }
         
-        public IEnumerable<ProductHomeModel> GetSeasonOffers(int typeThumbnail)
+        public IEnumerable<Product> GetSeasonOffers(int typeThumbnail)
         {
-            return FindBy(i => i.SeasonOffer == true).Select(i=>new ProductHomeModel() {
-                Id=i.Id,
-                ThumbnailImg=i.ProductImages.FirstOrDefault(f=>f.TypeImage==typeThumbnail&&f.ProductId==i.Id)!=null? i.ProductImages.FirstOrDefault(f => f.TypeImage == typeThumbnail && f.ProductId == i.Id).Images:null,
-                //InStock=(bool)i.InStock,
-                Price=i.Price,
-                SeasonOffer=(bool)i.SeasonOffer,
-                Title=i.Title,
-                TypePrice=i.TypePrice
-            }).ToList() ;
+            using (PyramidFinalContext dbContext= new PyramidFinalContext())
+            {
+                return dbContext.Products.Where(i => i.SeasonOffer == true).ToList().Select(i => ConvertDbObjectToEntityShort(dbContext, i)).ToList();
+            }
+           
         }
 
         public IQueryable<Products> GetAllWithThumbnail(int typeThumbnail)
         {
-            return Context.Products.Include(i => i.ProductImages.Select(s => s.Images));
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                return dbContext.Products.Include(i => i.ProductImages.Select(s => s.Images));
+            }
         }
 
         public void EnhancementPopularField(int productId)
@@ -323,6 +325,7 @@ namespace DBFirstDAL.Repositories
             dbObjext.OneCId = model.OneCId;
             dbObjext.Price = model.Price;
             dbObjext.TypeStatusProduct = model.TypeStatusProduct;
+
             if (!exist)
             {
                 dbContext.Products.Add(dbObjext);
@@ -418,7 +421,7 @@ namespace DBFirstDAL.Repositories
             return item => item.Id;
         }
 
-        protected override Product ConvertDbObjectToEntity(PyramidFinalContext context, Products dbObject)
+        public override Product ConvertDbObjectToEntity(PyramidFinalContext context, Products dbObject)
         {
             var product = new Product()
             {
@@ -439,7 +442,8 @@ namespace DBFirstDAL.Repositories
                 SeasonOffer= dbObject.SeasonOffer.HasValue ? dbObject.SeasonOffer.Value:false,
                 Title=dbObject.Title,
                 TypePrice=(Common.TypeProductPrice) dbObject.TypePrice,
-                Categories=dbObject.Categories.Select(s=>new Category() {
+                Content = dbObject.Content,
+                Categories =dbObject.Categories.Select(s=>new Category() {
                     Title=s.Title,
                     Id=s.Id
                 }).ToList(),
@@ -470,6 +474,27 @@ namespace DBFirstDAL.Repositories
             };
             return product;
 
+        }
+
+        protected override Product ConvertDbObjectToEntityShort(PyramidFinalContext context, Products dbObject)
+        {
+            var product = new Product()
+            {
+                TypeStatusProduct = (Common.TypeStatusProduct)dbObject.TypeStatusProduct,
+                Id = dbObject.Id,
+                DateChange = dbObject.DateChange,
+                DateCreation = dbObject.DateCreation,
+                IsFilled = dbObject.IsFilled,
+                IsPriority = dbObject.IsPriority,
+                IsSEOReady = dbObject.IsSEOReady,
+                Price = dbObject.Price,
+                SeasonOffer = dbObject.SeasonOffer.HasValue ? dbObject.SeasonOffer.Value : false,
+                Title = dbObject.Title,
+                TypePrice = (Common.TypeProductPrice)dbObject.TypePrice,
+                ThumbnailImg = dbObject.ProductImages.FirstOrDefault(f => f.ProductId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+               Convert.ConvertImageToEntity.Convert(dbObject.ProductImages.FirstOrDefault(f => f.ProductId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : new Image()
+            };
+            return product;
         }
 
         protected override IQueryable<Products> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Products> dbObjects, SearchParamsProduct searchParams)
@@ -507,6 +532,7 @@ namespace DBFirstDAL.Repositories
             dbEntity.Title = entity.Title;
             dbEntity.TypePrice = (int)entity.TypePrice;
             dbEntity.TypeStatusProduct = (int)entity.TypeStatusProduct;
+            dbEntity.Content = entity.Content;
         }
         public override void UpdateAfterSaving(PyramidFinalContext dbContext, Products dbEntity, Product entity, bool exists)
         {
@@ -642,7 +668,7 @@ namespace DBFirstDAL.Repositories
             {
                 var efProduct = dbContext.Products.Find(productId);
                 var cat = efProduct.Categories.FirstOrDefault();
-                return cat.Products.Select(s=> ConvertDbObjectToEntityShort(dbContext,s)).ToList();
+                return cat.Products.Where(i=>i.Id!=productId).Select(s=> ConvertDbObjectToEntityShort(dbContext,s)).ToList();
             }
         }
     }
