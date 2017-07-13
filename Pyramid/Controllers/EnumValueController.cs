@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace Pyramid.Controllers
 {
+    [Authorize]
     public class EnumValueController : Controller
     {
         EnumValueRepository _enumRepositopy;
@@ -45,6 +46,11 @@ namespace Pyramid.Controllers
 
             _enumRepositopy.AddOrUpdate(model);
 
+            return RedirectToAction("index");
+        }
+        public ActionResult Delete(int id)
+        {
+            _enumRepositopy.Delete(id);
             return RedirectToAction("index");
         }
     }

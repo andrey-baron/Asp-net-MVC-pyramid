@@ -7,7 +7,8 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     var pagedList = Html.PagedList(Model.PagesInfo.ItemsCount, Model.PagesInfo.ItemsPerPage, Model.PagesInfo.CurrentPage, Model.PagesInfo.DisplayedPages, Url.GetAction(), Url.GetController(), pageNumber => new
     {
-        page = pageNumber
+        page = pageNumber,
+        currentFilter = ViewBag.CurrentFilter,
     });
 }
 <div class="section-header">
@@ -19,6 +20,26 @@
 <p class="pmargin">
     @Html.ActionLink("Новая категория", "AddOrUpdate", null, new { @class = "btn btn-primary" })
 </p>
+@using (Html.BeginForm("AdminIndex", "Category", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-6">
+            <p class="pmargin">
+                Поиск по названию: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                <input type="submit" value="Поиск" />
+
+
+            </p>
+        </div>
+        <div class="col-md-6">
+
+
+
+        </div>
+    </div>
+
+}
+
 
 <table class="table table-bordered table-hover">
     <thead>

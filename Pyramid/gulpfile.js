@@ -179,5 +179,7 @@ gulp.task('dev-start', [
     'less',
     'js',
     'watch-less',
-    'watch-js'
+    'watch-js',
+    'watch-less-admin',
+    'watch-js-admin'
 ]);

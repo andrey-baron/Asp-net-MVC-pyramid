@@ -144,9 +144,12 @@ namespace Pyramid.Controllers
         public ActionResult AddOrUpdate(int id=0)
         {
            var model= _eventRepository.Get(id);
-            if (model != null)
+            if (model == null)
             {
-                model = new Event();
+                model = new Event() {
+                    DateEventEnd=DateTime.Now,
+                    DateEventStart= DateTime.Now,
+                };
             }
             return View(model);
         }

@@ -12,16 +12,26 @@ namespace Common.SearchClasses
         public int? MinPrice { get; set; }
         public IEnumerable<int> EnumValueIds { get; set; }
         public int Id { get; set; }
+        public string SearchString { get; set; }
 
         public bool ExistProductsInBd { get; set; }
 
-        public SearchParamsCategory(int id,int? maxPrice=null, int? minPrice=null, IEnumerable<int> enumValueIds=null,
+        public SearchParamsCategory(string searchString, int? id,int? maxPrice=null, int? minPrice=null, IEnumerable<int> enumValueIds=null,
              int startIndex = 0, int? objectsCount = null) :base(startIndex,objectsCount)
         {
-            Id = id;
+            Id = (int)id;
             MaxPrice = maxPrice;
             MinPrice = minPrice;
             EnumValueIds = enumValueIds;
+            SearchString = searchString;
+        }
+        public SearchParamsCategory(int? id=null,int startIndex = 0, int? objectsCount = null) : base(startIndex, objectsCount)
+        {
+            if (id.HasValue)
+            {
+                Id = (int)id;
+            }
+            
         }
     }
 }

@@ -15,7 +15,7 @@ using Common.Models;
 
 namespace DBFirstDAL.Repositories
 {
-    public class CategoryRepository:GenericRepository<Categories, PyramidFinalContext,Pyramid.Entity.Category, SearchParamsBase,int>
+    public class CategoryRepository:GenericRepository<Categories, PyramidFinalContext,Pyramid.Entity.Category, SearchParamsCategory,int>
     {
         const string defaulCateggorytLink = "/Category/index/";
 
@@ -752,9 +752,13 @@ namespace DBFirstDAL.Repositories
             return cat;
         }
 
-        protected override IQueryable<Categories> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Categories> dbObjects, SearchParamsBase searchParams)
+        protected override IQueryable<Categories> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Categories> dbObjects, SearchParamsCategory searchParams)
         {
-            dbObjects = dbObjects.OrderBy(item => item.Title).ThenBy(item => item.Id);
+            if (!string.IsNullOrEmpty( searchParams.SearchString))
+            {
+                dbObjects = dbObjects.Where(i => i.Title.Contains(searchParams.SearchString));
+
+            }
             return dbObjects;
         }
 

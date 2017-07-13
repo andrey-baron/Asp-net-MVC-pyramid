@@ -162,9 +162,10 @@
                 notAvailablePath: '/Content/img-file-uploader/not_available-generic.png'
             }
         },
-        //autoUpload: true,
+        autoUpload: true,
         interceptSubmit: false,
-        allowXdr:true,
+        allowXdr: true,
+        debug:false,
        // multiple: false
     }).on('complete', function (event, id, name, responseJSON) {
         var tmp = responseJSON;

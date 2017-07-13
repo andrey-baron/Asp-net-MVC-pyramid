@@ -220,6 +220,19 @@ function SoccessAdd(response) {
 
    
 })();
+(function () {
+
+    $('.ft-grid').masonry({
+        itemSelector: '.ft-item',
+        columnWidth: '.grid-sizer',
+        percentPosition: true
+    });
+
+     //$(".footer__catalog-products").hide();
+     $(".footer__switch").on("click",function () {
+     $(".footer__catalog-products").toggle( 400 );
+     });
+})();
 (function ($) {
 
     $('.home-slider__wrap').bxSlider({
@@ -234,19 +247,6 @@ function SoccessAdd(response) {
     });
 }($));
 
-(function () {
-
-    $('.ft-grid').masonry({
-        itemSelector: '.ft-item',
-        columnWidth: '.grid-sizer',
-        percentPosition: true
-    });
-
-     //$(".footer__catalog-products").hide();
-     $(".footer__switch").on("click",function () {
-     $(".footer__catalog-products").toggle( 400 );
-     });
-})();
 (function ($) {
    /* $(".product__item").mouseover(function (e) {
 

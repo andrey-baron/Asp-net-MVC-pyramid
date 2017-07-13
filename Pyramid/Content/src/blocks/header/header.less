@@ -123,6 +123,7 @@
   }
   &__line-two {
     height: @heightTwoLine;
+    overflow:hidden;
   }
   &__logo-wrap{
   }
@@ -147,20 +148,28 @@
     margin: 0 auto;
     margin-top:15px;
     margin-bottom: 20px;
-    /*&:before{
-        display:inline-block;
+    position:relative;
+    &:before{
+        display:block;
         content:"";
         height:1px;
         background:#ccc;
-        width:100px;
+        width: 105px;
+        margin-right: 45px;
+        position: absolute;
+        right: 0;
+        margin-top: 16px;
     }
     &:after{
-         display:inline-block;
+         display:block;
         content:"";
         height:1px;
         background:#ccc;
-        width:100px;
-    }*/
+           width: 105px;
+    margin-left: 45px;
+    position: absolute;
+    margin-top: 16px;
+    }
   }
   &__text-phone{
     font-family: "ProximaNovaSemibold";
@@ -207,6 +216,7 @@
     background: @consultantGray;
     font-family: ProximaNovaSemibold;
     line-height: @heightOneLine;
+    cursor:pointer;
   }
   &__consultant_green{
     background: @greenColor;
@@ -397,5 +407,28 @@
        width: 20px;
     margin-left: 10px;
     margin-right: 10px;
+   }
+   .header__icon-phone{
+          &:before{
+        display:block;
+        content:"";
+        height:1px;
+        background:#ccc;
+        width: 50px;
+        margin-right: 45px;
+        position: absolute;
+        right: 0;
+        margin-top: 16px;
+    }
+    &:after{
+         display:block;
+        content:"";
+        height:1px;
+        background:#ccc;
+        width: 50px;
+    margin-left: 45px;
+    position: absolute;
+    margin-top: 16px;
+    }
    }
 }

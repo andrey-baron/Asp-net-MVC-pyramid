@@ -20,12 +20,16 @@ namespace DBFirstDAL.Repositories
         const string defaulCateggorytLink = "/Category/index/";
         public IEnumerable<EnumValues> GetAllEnumValues(int productId)
         {
-            var filter = FindBy(i => i.Id == productId).SingleOrDefault();
-            if (filter != null)
+            using (PyramidFinalContext dbContext= new PyramidFinalContext())
             {
-                return filter.EnumValues.ToList();
+                var product = dbContext.Products.Find(productId);
+                if (product != null)
+                {
+                    return product.EnumValues.ToList();
+                }
+                return new List<EnumValues>();
             }
-            return new List<EnumValues>();
+            
         }
 
         public void DeleteEnumValue(int id, int enumValueId)

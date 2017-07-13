@@ -1,6 +1,6 @@
 ﻿@model List<Pyramid.Entity.HomeEntity>
 @{
-    ViewBag.Title = "Home xPage";
+    ViewBag.Title = "Пирамида строй";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @Styles.Render("~/Content/magnificPopupcss")
@@ -65,11 +65,13 @@
                 <div class="col-f-lg-3 col-md-3">
                     <div class="product__item">
 
-                        <img src="@(item.ThumbnailImg!=null?item.ThumbnailImg.ServerPathImg:"")" alt="" class="product__item-img">
+                        <a href="@Url.Action("Index","Product",new { id=item.Id })"><img src="@(item.ThumbnailImg!=null?item.ThumbnailImg.ServerPathImg:"")" alt="" class="product__item-img"></a>
 
-                        <p class="product__item-title">
-                            @item.Title
-                        </p>
+                <a href="@Url.Action("Index","Product",new { id=item.Id })">
+                    <p class="product__item-title">
+                        @item.Title
+                    </p>
+                </a>
                         <div class="product__item-price product__item-price_best">
                             <div class="triangle-up"></div>
                             <div class="triangle-down"></div>

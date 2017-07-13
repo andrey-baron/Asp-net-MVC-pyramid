@@ -16,6 +16,7 @@ using System.Web.Mvc;
 
 namespace Pyramid.Controllers
 {
+    [Authorize]
     public class CategoryController : BaseController
     {
         //DAL.UnitOfWork unitOfWork;
@@ -31,15 +32,25 @@ namespace Pyramid.Controllers
 
         }
         [Authorize]
-        public ActionResult AdminIndex(int page = 1)
+        public ActionResult AdminIndex(string currentFilter, string searchString, int? categoryId, int? page)
         {
-            var objectsPerPage = 20;
-            var searchResult = _categoryRepository.Get(new SearchParamsBase
+            var pageNumber = page ?? 1;
+            if (searchString != null)
             {
-                StartIndex = (page - 1) * objectsPerPage,
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            var objectsPerPage = 20;
+            var searchResult = _categoryRepository.Get(new SearchParamsCategory
+            {
+                StartIndex = (pageNumber - 1) * objectsPerPage,
                 ObjectsCount = objectsPerPage,
+                SearchString= searchString
             });
-
+            ViewBag.CurrentFilter = searchString;
             var viewModel = SearchResultViewModel<Category>.CreateFromSearchResult(searchResult, i=>i, 10);
 
             return View(viewModel);
@@ -67,6 +78,7 @@ namespace Pyramid.Controllers
             //model.Reverse();
             //return View(model);
         }
+        [AllowAnonymous]
         public ActionResult Index(int id=0, int sortingOrder=0)
         {
             ViewBag.SortingOrder = sortingOrder;
@@ -95,7 +107,7 @@ namespace Pyramid.Controllers
                 {
                     checkedEnumValueIds.AddRange(item.EnumValues.Select(s => s.Id));
                 }
-                searchParamsCategory=new SearchParamsCategory(id,(int)jsonObj.MaxPrice,(int)jsonObj.MinPrice,checkedEnumValueIds.AsEnumerable());
+                searchParamsCategory=new SearchParamsCategory(null,id,(int)jsonObj.MaxPrice,(int)jsonObj.MinPrice,checkedEnumValueIds.AsEnumerable());
 
                 viewModel = CategoryViewModel.ToModel(_categoryRepository.GetBySearchParams(searchParamsCategory));
                 viewModel.CurrentMaxPrice = (int)jsonObj.MaxPrice;
@@ -293,6 +305,7 @@ namespace Pyramid.Controllers
             #endregion
         }
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult Index(CategoryViewModel model , int sortingOrder=0 )
         {
 
@@ -319,7 +332,7 @@ namespace Pyramid.Controllers
                 checkedEnumValueIds.AddRange(item.EnumValues.Where(t => t.Checked == true).Select(s => s.Id));
             }
 
-            SearchParamsCategory searchParamsCategory= new SearchParamsCategory(model.Id, model.CurrentMaxPrice, model.CurrentMinPrice, checkedEnumValueIds);
+            SearchParamsCategory searchParamsCategory= new SearchParamsCategory(null,model.Id, model.CurrentMaxPrice, model.CurrentMinPrice, checkedEnumValueIds);
             var viewModel = CategoryViewModel.ToModel(_categoryRepository.GetBySearchParams(searchParamsCategory));
             viewModel.ExistProducts = searchParamsCategory.ExistProductsInBd;
             if (sortingOrder != 0)

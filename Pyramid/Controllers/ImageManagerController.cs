@@ -57,15 +57,8 @@ namespace Pyramid.Controllers
         }
         public ActionResult PartialSelectImage()
         {
-            var model = DBFirstDAL.ImageDAL.GetAll().Select(i => new Pyramid.Entity.Image()
-            {
-                Id = i.Id,
-                ImgAlt = i.ImgAlt,
-                PathInFileSystem = i.PathInFileSystem,
-                ServerPathImg = i.ServerPathImg,
-                Title = i.Title
-            }).ToList();
-            model.Reverse();
+            var model = DBFirstDAL.ImageDAL.GetAll();
+           
             return PartialView("_PartialSelectImage", model);
         }
 

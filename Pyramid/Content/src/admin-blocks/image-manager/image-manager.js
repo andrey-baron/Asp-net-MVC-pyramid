@@ -3,9 +3,13 @@
 
     $(".gallery-grid").on("click", ".btn-ajax-delete", function (e) {
         var id = $(this).data("ajaxid");
+        if (confirm("Вы уверены что хотите удалить эту картинку?")) {
+
+        
         $.post("/ImageManager/delete/" + id, function () {
             reloadData()
         })
+        }
     });
 
     $(".gallery-grid").on("click", ".btn-ajax-edit", function (e) {

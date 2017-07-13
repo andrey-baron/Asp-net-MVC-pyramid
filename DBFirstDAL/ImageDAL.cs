@@ -83,7 +83,9 @@ namespace DBFirstDAL
         }
         static Images SaveFile(HttpPostedFileBase file)
         {
-            var filename = DateTime.Now.ToString("d") + Path.GetFileName(file.FileName);
+            Random r = new Random();
+            var salt = r.Next(10000000).ToString();
+            var filename = DateTime.Now.ToString("d") + "_"+ salt + "_" + Path.GetFileName(file.FileName);
             var title = Path.GetFileNameWithoutExtension(file.FileName);
             var pathInFileSystem = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, pathDirectoryFilesImage,filename);
             var serverPath = Path.Combine(pathServerImg, filename);
@@ -111,6 +113,14 @@ namespace DBFirstDAL
                 var entity=dbContext.Images.Find(id);
                 if (entity!=null)
                 {
+                    entity.HomeEntity.Clear();
+                    entity.BannerWithPoints.Clear();
+                    entity.CategoryImages.Clear();
+                    entity.EventBanners.Clear();
+                    entity.EventImages.Clear();
+                    entity.Recommendations.Clear();
+                    dbContext.SaveChanges();
+
                     DeleteFile(entity.PathInFileSystem);
                     dbContext.Images.Remove(entity);
                 }
