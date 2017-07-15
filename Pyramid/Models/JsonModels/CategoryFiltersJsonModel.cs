@@ -31,7 +31,7 @@ namespace Pyramid.Models.JsonModels
                 Filters = viewModel.Filters.Select(s => new FilterJsonModel()
                 {
                     Id = s.Id,
-                    EnumValues = s.EnumValues.Where(w => w.Checked == true).Select(e => new EnumValueJsonModel() { Id = e.Id }).ToList()
+                    EnumValueIds = s.EnumValues.Where(w => w.Checked == true).Select(e =>  e.Id ).ToList()
                 }),
                 MaxPrice = viewModel.CurrentMaxPrice,
                 MinPrice = viewModel.CurrentMinPrice

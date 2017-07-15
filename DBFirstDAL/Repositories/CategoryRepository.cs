@@ -845,9 +845,17 @@ namespace DBFirstDAL.Repositories
                     {
                         temp = temp.Where(i => i.Price > searchParams.MinPrice.Value);
                     }
-                    if (searchParams.EnumValueIds!=null&& searchParams.EnumValueIds.Count()>0)
+                    if (searchParams.FiltersSearch!=null&& searchParams.FiltersSearch.Count()>0)
                     {
-                        temp = temp.Where(i => i.EnumValues.Any(a => searchParams.EnumValueIds.Contains(a.Id)));
+                        List<IEnumerable<Products>> listProductsFromFilters = new List<IEnumerable<Products>>();
+                        foreach (var item in searchParams.FiltersSearch)
+                        {
+                            listProductsFromFilters.Add(temp.Where(i => i.EnumValues.Any(a=>item.EventValueIds.Contains(a.Id))));
+                        }
+                        foreach (var item in listProductsFromFilters)
+                        {
+                            temp = temp.Intersect(item);
+                        }
                     }
                     dbCategory.Products = temp.ToList();
                 }

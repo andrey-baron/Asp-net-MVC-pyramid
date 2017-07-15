@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Models;
 using Common.SearchClasses;
 using DBFirstDAL.Repositories;
 using Entity;
@@ -103,12 +104,21 @@ namespace Pyramid.Controllers
             {
                 var jsonObj = JsonConvert.DeserializeObject<CategoryFiltersJsonModel>(curCookie.Value);
                 var checkedEnumValueIds = new List<int>();
+                //foreach (var item in jsonObj.Filters)
+                //{
+                //    checkedEnumValueIds.AddRange(item.EnumValueIds);
+                //}
+                var filterSearchModel = new List<FilterSearchModel>();
                 foreach (var item in jsonObj.Filters)
                 {
-                    checkedEnumValueIds.AddRange(item.EnumValues.Select(s => s.Id));
+                    filterSearchModel.Add(new FilterSearchModel()
+                    {
+                        Id = item.Id,
+                        EventValueIds = item.EnumValueIds,
+                    });
                 }
-                searchParamsCategory=new SearchParamsCategory(null,id,(int)jsonObj.MaxPrice,(int)jsonObj.MinPrice,checkedEnumValueIds.AsEnumerable());
-
+                    searchParamsCategory = new SearchParamsCategory(null, id, (int)jsonObj.MaxPrice, (int)jsonObj.MinPrice, filterSearchModel);
+                
                 viewModel = CategoryViewModel.ToModel(_categoryRepository.GetBySearchParams(searchParamsCategory));
                 viewModel.CurrentMaxPrice = (int)jsonObj.MaxPrice;
                 viewModel.CurrentMinPrice = (int)jsonObj.MinPrice;
@@ -308,8 +318,7 @@ namespace Pyramid.Controllers
         [AllowAnonymous]
         public ActionResult Index(CategoryViewModel model , int sortingOrder=0 )
         {
-
-
+            
             CategoryFiltersJsonModel cookieModel = CategoryFiltersJsonModel.ConvertToJsonModel(model);
 
             var jsonObj=JsonConvert.SerializeObject(cookieModel);
@@ -326,13 +335,20 @@ namespace Pyramid.Controllers
             var min = model.CurrentMinPrice;
 
             var Filters = model.Filters.Where(i => i.EnumValues.Any(t => t.Checked == true) && i.EnumValues.Count > 0).ToList();
-            var checkedEnumValueIds = new List<int>();
+            //var checkedEnumValueIds = new List<int>();
+            var filterSearchModel = new List<FilterSearchModel>();
             foreach (var item in Filters)
             {
-                checkedEnumValueIds.AddRange(item.EnumValues.Where(t => t.Checked == true).Select(s => s.Id));
+                filterSearchModel.Add(new FilterSearchModel() {
+                    Id=item.Id,
+                    Title=item.Title,
+                    EventValueIds = item.EnumValues.Where(i => i.Checked).Select(i => i.Id)
+            });
+                
+                //checkedEnumValueIds.AddRange(item.EnumValues.Where(t => t.Checked == true).Select(s => s.Id));
             }
 
-            SearchParamsCategory searchParamsCategory= new SearchParamsCategory(null,model.Id, model.CurrentMaxPrice, model.CurrentMinPrice, checkedEnumValueIds);
+            SearchParamsCategory searchParamsCategory= new SearchParamsCategory(null,model.Id, model.CurrentMaxPrice, model.CurrentMinPrice, filterSearchModel);
             var viewModel = CategoryViewModel.ToModel(_categoryRepository.GetBySearchParams(searchParamsCategory));
             viewModel.ExistProducts = searchParamsCategory.ExistProductsInBd;
             if (sortingOrder != 0)

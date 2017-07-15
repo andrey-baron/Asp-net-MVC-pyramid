@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,15 +15,17 @@ namespace Common.SearchClasses
         public int Id { get; set; }
         public string SearchString { get; set; }
 
+        public IEnumerable< FilterSearchModel> FiltersSearch { get; set; }
+
         public bool ExistProductsInBd { get; set; }
 
-        public SearchParamsCategory(string searchString, int? id,int? maxPrice=null, int? minPrice=null, IEnumerable<int> enumValueIds=null,
+        public SearchParamsCategory(string searchString, int? id,int? maxPrice=null, int? minPrice=null, IEnumerable<FilterSearchModel> filtersSearch = null,
              int startIndex = 0, int? objectsCount = null) :base(startIndex,objectsCount)
         {
             Id = (int)id;
             MaxPrice = maxPrice;
             MinPrice = minPrice;
-            EnumValueIds = enumValueIds;
+             FiltersSearch = filtersSearch;
             SearchString = searchString;
         }
         public SearchParamsCategory(int? id=null,int startIndex = 0, int? objectsCount = null) : base(startIndex, objectsCount)

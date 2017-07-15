@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="FeedBack.cs" />
     <Compile Include="Models\BreadCrumbViewModel.cs" />
+    <Compile Include="Models\FilterSearchModel.cs" />
     <Compile Include="SearchClasses\SearchParamsBase.cs" />
     <Compile Include="SearchClasses\SearchParamsCategory.cs" />
     <Compile Include="SearchClasses\SearchParamsProduct.cs" />

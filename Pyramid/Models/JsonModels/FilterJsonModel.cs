@@ -10,10 +10,10 @@ namespace Pyramid.Models.JsonModels
     {
         public int Id { get; set; }
 
-        public IEnumerable<EnumValueJsonModel> EnumValues { get; set; }
+        public IEnumerable<int> EnumValueIds { get; set; }
 
         public FilterJsonModel() {
-            EnumValues = new List<EnumValueJsonModel>();
+            EnumValueIds = new List<int>();
         }
     }
 }
