@@ -1,23 +1,23 @@
 ﻿@model Pyramid.Entity.Event
 @{
-    ViewBag.Title = "Get";
+    ViewBag.Title = Model.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="page">
     <div class="page__title">@Model.Title</div>
     <div class="row no-gutter">
-        <div class="col-f-lg-3">
+        <div class="col-f-lg-3 col-md-3 col-xs-3">
             @Html.Partial("_PartialSliderOnPages")
         </div>
 
-        <div class="col-f-lg-12">
+        <div class="col-f-lg-12 col-md-9 col-xs-9">
             <div class="row no-gutter">
-                <div class="col-lg-12">
+                <div class="col-lg-12 col-xs-12">
                     <div class="page__event-banner">
                         <img class="page__event-banner-img" src="~/Content/img/eventbanner.png" alt="" />
                     </div>
                 </div>
-                <div class="col-lg-9">
+                <div class="col-lg-9 col-md-12 col-xs-12">
                     <div class="page__content-wrap">
                         <div class="page__event-period">
                             Сроки проведения: @Model.DateEventStart.ToString("d") - @Model.DateEventEnd.ToString("d")
@@ -28,7 +28,7 @@
             </div>
             @foreach (var item in Model.Products)
                 {
-                <div class="col-lg-3 col-md-3">
+                <div class="col-lg-3 col-md-4 col-xs-4">
                     <div class="product__item">
                         <a href="@Url.Action("Index","Product",new { id=item.Id})">
                             <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
@@ -44,22 +44,22 @@
                             <div class="product__item__hover_block_wrapper__item product__in-stock">
                                 <p>в наличии</p>
                             </div>
-                            <a class="product__item__hover_block_wrapper__item" href="">
+                            <a class="product__item__hover_block_wrapper__item" href="@Url.Action("CheckoutOneClick","Cart",new { id=item.Id})">
                                 <div class="product__buy product__buy_one-click">
                                     <p>Купить в один клик</p>
                                 </div>
                             </a>
-                            <a class="product__item__hover_block_wrapper__item" href="">
-                                <div class="product__buy product__buy_add-to-cart">
-                                    <p>Добавить в корзину</p>
-                                </div>
-                            </a>
+                            <span class="product__item__hover_block_wrapper__item js-add-to-cart" data-ajaxid="@item.Id">
+                                <span class="product__buy product__buy_add-to-cart">
+                                    Добавить в корзину
+                                </span>
+                            </span>
                         </div>
                     </div>
                 </div>
 
                 }
-            <div class="col-lg-12">
+            <div class="col-lg-12 col-md-12 col-xs-12">
 
                 <a href="@Url.Action("Index","Event")" class="page__link-event">Все акции</a>
 

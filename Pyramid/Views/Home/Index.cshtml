@@ -7,7 +7,7 @@
 <div class="home-slider">
 
     <div class="row no-gutter">
-        <div class="col-ten-md-6">
+        <div class="col-ten-md-6  col-xs-12">
             <ul class="home-slider__wrap">
 
                 <li>
@@ -32,7 +32,7 @@
                 </li>
             </ul>
         </div>
-        <div class="col-ten-md-2">
+        <div class="col-ten-md-2 col-xs-6">
             <a href="@Url.Action("Index","Page",new {id= 3 })">
                 <div class="home-slider__shipping-wrap">
                     <div class="home-slider__shipping">
@@ -43,7 +43,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-ten-md-2">
+        <div class="col-ten-md-2  col-xs-6">
             <a href="@Url.Action("Index","Page",new {id= 8 })">
                 <div class="home-slider__map"></div>
             </a>
@@ -57,12 +57,12 @@
                                   offers = (IEnumerable<Pyramid.Entity.Product>)ViewBag.SeasonOffers;}
         @if (offers.Count() > 0)
         {
-            <div class="col-f-lg-3 col-md-3 season-offer__item_green-title">
+            <div class="col-f-lg-3 col-md-3 col-xs-3 season-offer__item_green-title">
                 <p class="season-offer__head-text">Сезонное предложение</p>
             </div>
             foreach (var item in offers)
             {
-                <div class="col-f-lg-3 col-md-3">
+                <div class="col-f-lg-3 col-md-3 col-xs-3">
                     <div class="product__item">
 
                         <a href="@Url.Action("Index","Product",new { id=item.Id })"><img src="@(item.ThumbnailImg!=null?item.ThumbnailImg.ServerPathImg:"")" alt="" class="product__item-img"></a>
@@ -85,7 +85,7 @@
                                 </div>
                             }
 
-                            <a class="product__item__hover_block_wrapper__item" href="">
+                            <a class="product__item__hover_block_wrapper__item" href="@Url.Action("CheckoutOneClick","Cart",new { id=item.Id})">
                                 <div class="product__buy product__buy_one-click">
                                     <p>Купить в один клик</p>
                                 </div>
@@ -109,15 +109,15 @@
     </div>
 
 </div>
-<div class="call-to-action">
+@*<div class="call-to-action">
     <p class="call-to-action__head-title">Call to action</p>
-</div>
+</div>*@
 @{var feedback = new Common.FeedBack(); }
 @foreach (var item in Model)
 {
     <div class="decoration-work">
         <div class="row no-gutter">
-            <div class="col-ten-lg-6 col-md-12 ">
+            <div class="col-ten-lg-6 col-md-12 col-xs-12">
                 <div class="decoration-work__scope-points" @(item.BannerWithPoints != null && item.BannerWithPoints.Images != null&& item.BannerWithPoints.Images.ServerPathImg!=null ? string.Format("style=background-image:url({0});background-color:#a9c95a;", item.BannerWithPoints.Images.ServerPathImg) : "")>
                     @if (item.BannerWithPoints != null && item.BannerWithPoints.PointOnImgs != null)
                     {
@@ -151,7 +151,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-ten-lg-2 col-md-6">
+            <div class="col-ten-lg-2 col-md-6  col-xs-6">
                 <div class="decoration-work__answer-question">
                     @if (item.Faq != null)
                     {
@@ -192,7 +192,7 @@
                 </div>
 
             </div>
-            <div class="col-ten-lg-2 col-md-6">
+            <div class="col-ten-lg-2 col-md-6 col-xs-6">
                 <div class="decoration-work__answer-question decoration-work__question-head_video-guide">
                     <p class="decoration-work__question-head">Видео-гид</p>
                     <div class="decoration-work__wrap-video">
@@ -215,7 +215,7 @@
                 {
                     foreach (var itemProduct in item.Products)
                     {
-                        <div class="col-f-lg-3 col-md-3">
+                        <div class="col-f-lg-3 col-md-3 col-xs-3">
                             <div class="product__item">
 
                                 <a href="@Url.Action("Index","Product",new { id=itemProduct.Id})"><img src="@(itemProduct.ThumbnailImg.ServerPathImg!=null?itemProduct.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="@itemProduct.ThumbnailImg.ImgAlt" class="product__item-img"></a>
@@ -237,7 +237,7 @@
                                         </div>
                                     }
 
-                                    <a class="product__item__hover_block_wrapper__item" href="#">
+                                    <a class="product__item__hover_block_wrapper__item" href="@Url.Action("CheckoutOneClick","Cart",new { id=itemProduct.Id})">
                                         <div class="product__buy product__buy_one-click">
                                             <p>Купить в один клик</p>
                                         </div>
@@ -256,7 +256,7 @@
                 }
                 @if (item.Categories != null && item.Categories.Count > 0)
                 {
-                    <div class="col-f-lg-3 col-md-3 ">
+                    <div class="col-f-lg-3 col-md-3 col-xs-3">
                         <div class="decoration-work__categories">
                             @foreach (var category in item.Categories)
                             {
@@ -308,7 +308,7 @@
 <div class="rules-order">
     <p class="rules-order__head-title">ОСНОВНЫЕ ПРАВИЛА СОЗДАНИЯ<br>ЗАКАЗА НА САЙТЕ</p>
     <div class="row no-gutter">
-        <div class="col-f-md-3 rules-order__item">
+        <div class="col-f-md-3 col-f-xs-3 rules-order__item">
 
             <div class="rules-order__wrap-img">
                 <img src="~/Content/img/mouse.png" alt="" class="rules-order__img">
@@ -320,7 +320,7 @@
                 что вам интересно
             </p>
         </div>
-        <div class="col-f-md-3 rules-order__item">
+        <div class="col-f-md-3 col-f-xs-3 rules-order__item">
 
             <div class="rules-order__wrap-img">
                 <img src="~/Content/img/shopping-basket.png" alt="Добавьте товары в свою корзину"
@@ -331,7 +331,7 @@
                 в свою корзину
             </p>
         </div>
-        <div class="col-f-md-3 rules-order__item">
+        <div class="col-f-md-3 col-f-xs-3 rules-order__item">
             <div class="rules-order__wrap-img">
                 <img src="~/Content/img/placeholder.png" alt="" class="rules-order__img">
             </div>
@@ -340,7 +340,7 @@
                 доставки
             </p>
         </div>
-        <div class="col-f-md-3 rules-order__item">
+        <div class="col-f-md-3 col-f-xs-3 rules-order__item">
             <div class="rules-order__wrap-img">
                 <img src="~/Content/img/telephone.png" alt="" class="rules-order__img">
             </div>
@@ -349,7 +349,7 @@
                 нашего курьера
             </p>
         </div>
-        <div class="col-f-md-3 rules-order__item">
+        <div class="col-f-md-3 col-f-xs-3 rules-order__item">
             <div class="rules-order__wrap-img">
                 <img src="~/Content/img/trolley.png" alt="" class="rules-order__img">
             </div>

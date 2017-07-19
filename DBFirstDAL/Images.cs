@@ -19,10 +19,10 @@ namespace DBFirstDAL
         {
             this.BannerWithPoints = new HashSet<BannerWithPoints>();
             this.CategoryImages = new HashSet<CategoryImages>();
-            this.EventImages = new HashSet<EventImages>();
             this.HomeEntity = new HashSet<HomeEntity>();
             this.ProductImages = new HashSet<ProductImages>();
             this.EventBanners = new HashSet<EventBanners>();
+            this.EventImages = new HashSet<EventImages>();
             this.Recommendations = new HashSet<Recommendations>();
         }
     
@@ -37,13 +37,13 @@ namespace DBFirstDAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CategoryImages> CategoryImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EventImages> EventImages { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HomeEntity> HomeEntity { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductImages> ProductImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventBanners> EventBanners { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EventImages> EventImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Recommendations> Recommendations { get; set; }
     }

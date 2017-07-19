@@ -28,7 +28,6 @@ namespace DBFirstDAL
         public virtual DbSet<BannerWithPoints> BannerWithPoints { get; set; }
         public virtual DbSet<CategoryImages> CategoryImages { get; set; }
         public virtual DbSet<EnumValues> EnumValues { get; set; }
-        public virtual DbSet<EventImages> EventImages { get; set; }
         public virtual DbSet<Events> Events { get; set; }
         public virtual DbSet<Faq> Faq { get; set; }
         public virtual DbSet<FeedBackEmails> FeedBackEmails { get; set; }
@@ -42,12 +41,14 @@ namespace DBFirstDAL
         public virtual DbSet<ProductOrders> ProductOrders { get; set; }
         public virtual DbSet<ProductValues> ProductValues { get; set; }
         public virtual DbSet<QuestionAnswer> QuestionAnswer { get; set; }
-        public virtual DbSet<Review> Review { get; set; }
         public virtual DbSet<Seo> Seo { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Products> Products { get; set; }
         public virtual DbSet<EventBanners> EventBanners { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<EventImages> EventImages { get; set; }
         public virtual DbSet<Recommendations> Recommendations { get; set; }
+        public virtual DbSet<GlobalOption> GlobalOption { get; set; }
+        public virtual DbSet<Reviews> Reviews { get; set; }
     }
 }

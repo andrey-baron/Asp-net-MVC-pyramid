@@ -37,7 +37,10 @@ namespace DBFirstDAL.Repositories
                     UserName = entity.UserName,
                     
                 };
-
+                if (dbEntity.Email==null)
+                {
+                    dbEntity.Email = "";
+                }
                
                 dbContext.Orders.Add(dbEntity);
                 dbContext.SaveChanges();
@@ -97,5 +100,13 @@ namespace DBFirstDAL.Repositories
         {
             return r => r.Id;
         }
+
+        //public override bool Delete(int id)
+        //{
+        //    using (PyramidFinalContext dbContext= new PyramidFinalContext())
+        //    {
+        //        dbContext.or
+        //    }
+        //}
     }
 }

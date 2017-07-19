@@ -72,6 +72,18 @@ a{
 ol,ul{
   margin: 0;
 }
+
+.btn-green{
+        background: #67b23b;
+    color: #fff;
+    font-family: ProximaNovaRegular;
+    outline: none;
+    &:hover,&:focus,&:active{
+        outline: none;
+            background: #67b23b;
+    color: #fff;
+    }
+}
 @media (min-width: 1200px) {
   .container {
     width: 100%;
@@ -145,4 +157,10 @@ ol,ul{
    .container , .wrapper{
   min-width: 1000px;
   max-width: none !important;
+}
+
+
+
+body div#jivo-iframe-container.jivo-state-widget{
+   display:none!important;
 }

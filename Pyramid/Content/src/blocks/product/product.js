@@ -1,4 +1,4 @@
-(function ($) {
+﻿(function ($) {
    /* $(".product__item").mouseover(function (e) {
 
         $(this).css({"text-align": "left"});
@@ -31,12 +31,24 @@
 
     $("#save-btn-single-review").on("click", function () {
         var form = $('#FormAddReview');
-        var serializeData = form.serialize();
-        $.post("/Review/AddReview/", serializeData, function (data) {
-            if (data.Status == "Ok") {
+        if ($('textarea[Name="Content"]', form).val() == '') {
+            showSubmitResult(form, true, "Напишите отзыв");
+            return;
+        }
+        if ($('input[Name="Name"]', form).val() == '') {
+            showSubmitResult(form, true, 'Введите имя');
+            return; 
+        }
+        form.find("#review-text")
+       
+            var serializeData = form.serialize();
+            $.post("/Review/AddReview/", serializeData, function (data) {
+                showSubmitResult(form, false, 'Отзыв отправлен');
+                if (data.Status == "Ok") {
 
-            }
-        });
+                }
+            });
+       
     })
 
     $(".single__add-val-item_open-link").on("click", function () {
@@ -49,3 +61,22 @@
         }
     })
 })($);
+
+function showSubmitResult(form, wasError, message) {
+    var elem = $('.result-info', form);
+    elem.stop().css('opacity', 0).val(message);
+    if (wasError) {
+        elem.addClass('error');
+    } else {
+        elem.removeClass('error');
+    }
+    elem.html(message);
+    elem.animate({ opacity: 1 }, 500);
+    if (!wasError) {
+        $('input', form).val('');
+        $('textarea', form).val('');
+        setTimeout(function () {
+            $.magnificPopup.close();
+        }, 5000);
+    }
+}

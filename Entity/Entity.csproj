@@ -55,6 +55,7 @@
     <Compile Include="FeedBack.cs" />
     <Compile Include="Filter.cs" />
     <Compile Include="FilterValue.cs" />
+    <Compile Include="GlobalOptionEntity.cs" />
     <Compile Include="HomeEntity.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="Order.cs" />

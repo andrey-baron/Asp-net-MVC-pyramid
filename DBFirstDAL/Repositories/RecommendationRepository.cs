@@ -17,8 +17,20 @@ namespace DBFirstDAL.Repositories
             var recommend = new Recommendation() {
                 Id=dbObject.Id,
                 Content=dbObject.Content,
+                ShortContent=dbObject.ShortContent,
                 Title=dbObject.Title,
                 Image= Convert.ConvertImageToEntity.Convert(dbObject.Images.FirstOrDefault())
+            };
+            return recommend;
+        }
+        protected override Recommendation ConvertDbObjectToEntityShort(PyramidFinalContext context, Recommendations dbObject)
+        {
+            var recommend = new Recommendation()
+            {
+                Id = dbObject.Id,
+                Title = dbObject.Title,
+                ShortContent=dbObject.ShortContent,
+                Image = Convert.ConvertImageToEntity.Convert(dbObject.Images.FirstOrDefault())
             };
             return recommend;
         }
@@ -27,6 +39,7 @@ namespace DBFirstDAL.Repositories
         {
             dbEntity.Title = entity.Title;
             dbEntity.Content = entity.Content;
+            dbEntity.ShortContent = entity.ShortContent;
 
            
         }

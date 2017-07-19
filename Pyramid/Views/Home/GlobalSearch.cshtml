@@ -13,45 +13,61 @@
         //categoryId = ViewBag.CategoryId
     });
 }
-<div class="search-page">
+<div class="search">
     <div class="container">
         <div class="row">
+
+            <div class="col-md-12 col-xs-12">
+                @if (Model.Objects.Count == 0)
+                {
+                    <p class="search__result">По вашему запросу товаров не найдено</p>
+                }
+                else
+                {
+                    <p class="search__result">По вашему запросу найдено @Model.Objects.Count товаров</p>
+                }
+            </div>
+
+
+
             @foreach (var item in Model.Objects)
             {
-                <div class="col-md-12">
-                    <div class="search-item">
+                <div class="col-md-12 col-xs-12">
+                    <div class="search__search-item">
+
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-xs-4">
                                 <div class="search-item__img-block">
                                     <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="search-item__img">
 
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-xs-4">
                                 <div class="search-item__title-block">
                                     <div class="search-item__title">@item.Title</div>
                                     <div class="search-item__item-price">@item.Price</div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-xs-4">
                                 <div class="search-item__actions-block">
-                                    <div class="search-item__product-deteil"><a href="@Url.Action("Index","Product",new { id=item.Id})" class="search-item__link">Подробней</a></div>
+                                    <div class="search-item__product-deteil">
+                                        <a href="@Url.Action("Index","Product",new { id=item.Id})" class="btn btn-green search-item__link">Подробней</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                       
-                       
+
+
                     </div>
                 </div>
             }
-            
+
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 col-xs-12">
                 @pagedList
             </div>
         </div>
     </div>
 </div>
-
 

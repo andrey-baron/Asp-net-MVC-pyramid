@@ -7,6 +7,7 @@
             "feedback.Phone": {
                 required: true,
             },
+        },
         messages: {
             "feedback.Name": {
                 required: "Введите имя"
@@ -15,11 +16,12 @@
                 required: "Введите Телефон"
             },
         }
+    
 
         }
-    });
+    );
 
-    $(".checkout-form").validate({
+    $(".checkout-form, .checkout-form-one-click").validate({
         rules: {
             Name: { 
                 required: true
@@ -27,6 +29,7 @@
             Phone: {
                 required: true,
             },
+        },
             messages: {
                 Name: {
                     required: "Введите имя"
@@ -34,10 +37,8 @@
                 Phone: {
                     required: "Введите Телефон"
                 },
-                
             }
 
-        }
     });
     $(".feedback-form").on("submit", function (e) {
         e.preventDefault();
@@ -59,6 +60,21 @@
         var amountError = $("input.error", $(this));
         if (amountError.length == 0) {
             $.post("/Cart/Checkout", formRes, function (data) {
+                //$(".js-result-insert").html(data);
+                Notify.generate('', 'Заявка отправленна', 1);
+            });
+            $("input", $(this)).val("");
+        }
+
+    })
+    $(".checkout-form-one-click").on("submit", function (e) {
+        e.preventDefault();
+        $(this).validate();
+        var formRes = $(this).serialize();
+        var amountError = $("input.error", $(this));
+        if (amountError.length == 0) {
+            $.post("/Cart/CheckoutOneClick", formRes, function (data) {
+                //$(".js-result-insert").html(data);
                 Notify.generate('', 'Заявка отправленна', 1);
             });
             $("input", $(this)).val("");
@@ -68,15 +84,11 @@
 
 })();
 
-
-(function () {
-
-    $(".call-to-action__form-wrap").hide();
-    $(".call-to-action").on("click",function () {
-        $(this).next(".call-to-action__form-wrap").toggle( 400 );
-
-    });
-})();
+function ConsultantOpen() {
+    var block = $("div#jivo-iframe-container");
+   // $("div#jivo-iframe-container").css({ "display": "block!important" })
+   
+}
 
 ;
 var isPartial = $(".cart__container").hasClass("cart__container_small") ? true : false;
@@ -158,6 +170,16 @@ function SoccessAdd(response) {
     UpdateCartPoint(response);
   
 }
+
+
+(function () {
+
+    $(".call-to-action__form-wrap").hide();
+    $(".call-to-action").on("click",function () {
+        $(this).next(".call-to-action__form-wrap").toggle( 400 );
+
+    });
+})();
 ;(function () {
     var maxVal=$("#MaxPrice").val();
     var minVal = $("#MinPrice").val();
@@ -280,12 +302,24 @@ function SoccessAdd(response) {
 
     $("#save-btn-single-review").on("click", function () {
         var form = $('#FormAddReview');
-        var serializeData = form.serialize();
-        $.post("/Review/AddReview/", serializeData, function (data) {
-            if (data.Status == "Ok") {
+        if ($('textarea[Name="Content"]', form).val() == '') {
+            showSubmitResult(form, true, "Напишите отзыв");
+            return;
+        }
+        if ($('input[Name="Name"]', form).val() == '') {
+            showSubmitResult(form, true, 'Введите имя');
+            return; 
+        }
+        form.find("#review-text")
+       
+            var serializeData = form.serialize();
+            $.post("/Review/AddReview/", serializeData, function (data) {
+                showSubmitResult(form, false, 'Отзыв отправлен');
+                if (data.Status == "Ok") {
 
-            }
-        });
+                }
+            });
+       
     })
 
     $(".single__add-val-item_open-link").on("click", function () {
@@ -298,6 +332,25 @@ function SoccessAdd(response) {
         }
     })
 })($);
+
+function showSubmitResult(form, wasError, message) {
+    var elem = $('.result-info', form);
+    elem.stop().css('opacity', 0).val(message);
+    if (wasError) {
+        elem.addClass('error');
+    } else {
+        elem.removeClass('error');
+    }
+    elem.html(message);
+    elem.animate({ opacity: 1 }, 500);
+    if (!wasError) {
+        $('input', form).val('');
+        $('textarea', form).val('');
+        setTimeout(function () {
+            $.magnificPopup.close();
+        }, 5000);
+    }
+}
 ;(function () {
 $(".js-toggle-content").on("click", function (e) {
     var parent = $(this).parent();

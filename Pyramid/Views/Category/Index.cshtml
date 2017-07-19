@@ -10,10 +10,10 @@
             {
         @Html.Hidden("sortingOrder", (string)ViewBag.SotringOrder)
         <div class="row no-gutter">
-            <div class="col-ten-md-5">
+            <div class="col-md-6 col-xs-6">
                 <p class="category__title">@Model.Title</p>
             </div>
-            <div class="col-ten-md-5">
+            <div class="col-md-6 col-xs-6">
                 <div class="category__sort">
                     <ul class="category__sort-list">
                         <li class="category__sort-list-item">Сортировать по:</li>
@@ -30,7 +30,7 @@
             }
             @if (flagExistProducts)
             {
-                <div class="col-f-lg-3 col-md-3">
+                <div class="col-f-lg-3 col-md-3 col-xs-3">
 
                     <div class="category__sidebar">
                         @for (int i = 0; i < Model.Filters.Count; i++)
@@ -77,12 +77,12 @@
                 </div>
 
             }
-            <div class="@(flagExistProducts?"col-f-lg-12 col-md-9":"col-f-lg-15 col-md-12")">
+            <div class="@(flagExistProducts?"col-f-lg-12 col-md-9 col-xs-9":"col-f-lg-15 col-md-12 col-xs-12")">
                 <div class="row no-gutter">
 
                     @foreach (var item in Model.NestedCategories)
                 {
-                <div class="@(!flagExistProducts?"col-f-lg-3 col-md-3":"col-md-3")">
+                <div class="@(!flagExistProducts?"col-f-lg-3 col-md-3 col-xs-3":"col-md-3 col-xs-3")">
                     <div class="subcategory subcategory_fixed-height subcategory_nested">
                         <a href="@Url.Action("Index","Category",new { id=item.Id})">
                             <div class="subcategory__wrap-img">
@@ -98,7 +98,7 @@
                 <div class="row no-gutter">
                     @foreach (var item in Model.Products)
                 {
-                <div class="col-lg-3  col-md-4">
+                <div class="col-lg-3  col-md-4 col-xs-4">
                     <div class="product__item">
                         <a href="@Url.Action("Index","Product",new { id=item.Id})">
                             <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
@@ -136,7 +136,7 @@
             {
 
             
-            <div class="col-md-12">
+            <div class="col-md-12 col-xs-12">
                 <div class="seo__content-wrap">
                     <div class="seo__content">
                         @MvcHtmlString.Create(Model.Content)

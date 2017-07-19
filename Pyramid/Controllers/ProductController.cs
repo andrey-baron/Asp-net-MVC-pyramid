@@ -19,6 +19,8 @@ namespace Pyramid.Controllers
         ProductRepository _productRepository;
         EnumValueRepository _enumRepositopy;
         CategoryRepository _categoryRepository;
+        RecommendationRepository _recommendationRepository;
+        GlobalOptionRepository _globalOptionRepository;
         const string defaulProductLink = "/Product/index/";
         const string defaulCateggorytLink = "/Category/index/";
         public ProductController()
@@ -26,6 +28,8 @@ namespace Pyramid.Controllers
             _productRepository = new ProductRepository();
             _enumRepositopy = new EnumValueRepository();
             _categoryRepository = new CategoryRepository();
+            _recommendationRepository = new RecommendationRepository();
+            _globalOptionRepository = new GlobalOptionRepository();
         }
         public ActionResult Index(int id)
         {
@@ -38,10 +42,14 @@ namespace Pyramid.Controllers
                 RelatedProducts = _productRepository.RelatedProducts(id)
             };
             _productRepository.EnhancementPopularField(id);
+            
+            //var existColer=viewModel.Product.Categories.e
+
             var category=viewModel.Product.Categories.FirstOrDefault();
             var cat = _categoryRepository.Get(category.Id);
             ViewBag.Recommendations = cat.Recommendations;
             ViewBag.MetaTitle = viewModel.Product.MetaTitle?? viewModel.Product.Title;
+            ViewBag.Shipping = _globalOptionRepository.Get("shipping").OptionContent;
             return View(viewModel);
 
             #region old
@@ -230,68 +238,15 @@ namespace Pyramid.Controllers
         [Authorize]
         public ActionResult AddOrUpdate(int id = 0)
         {
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
-            //    .ForMember(d => d.ThumbnailId, o => o.Ignore())
-            //    .ForMember(d => d.ThumbnailImg, o => o.Ignore())
-            //    .ForMember(d => d.Images, o => o.Ignore())
-                
-            //    //.ForMember(d => d.Categories, o => o.Ignore())
-            //    ;
-
-            //    cfg.CreateMap<DBFirstDAL.Categories, Entity.Category>()
-            //    .ForMember(d => d.Checked, o => o.UseValue(false))
-            //    .ForMember(d => d.Filters, o => o.Ignore())
-            //    .ForMember(d => d.Products, o => o.Ignore())
-            //    .ForMember(d => d.Thumbnail, o => o.Ignore())
-
-            //     .ForMember(d => d.Seo, o => o.Ignore())
-            //      .ForMember(d => d.SeoId, o => o.Ignore())
-                  
-            //    ;
-            //    cfg.CreateMap<DBFirstDAL.Categories, Pyramid.Models.CategoryAdminViewModel>()
-            //    .ForMember(d => d.Checked, o => o.UseValue(false))
-                 
-            //    ;
-
-            //    cfg.CreateMap<DBFirstDAL.ProductValues, Entity.ProductValue>()
-            //    .ForMember(d => d.Product, o => o.Ignore())
-            //    ;
-            //    cfg.CreateMap<DBFirstDAL.EnumValues, EnumValue>()
-            //    ;
-            //    cfg.CreateMap<DBFirstDAL.Images, Image>()
-            //    ;
-
-            //});
-            //config.AssertConfigurationIsValid();
-
-
-            //var mapper = config.CreateMapper();
-            //var efModel = _productRepository.FindBy(i => i.Id == id).SingleOrDefault();
             var model = _productRepository.Get(id);
-            //if (efModel!=null)
-            //{
-            //    var efProductImagesThubnail = efModel.ProductImages
-            //    .FirstOrDefault(i => i.TypeImage == (int)Entity.Enumerable.TypeImage.Thumbnail);
-
-            //    var efThumbnail = _productRepository.GetThumbnail(id, (int)Entity.Enumerable.TypeImage.Thumbnail);
-            //    var efGalery = _productRepository.GetGalleryImage(id, (int)Entity.Enumerable.TypeImage.GaleryItem);
-            //    model.ThumbnailImg = mapper.Map<Image>(efThumbnail);
-
-            //    model.Images = mapper.Map<List<Image>>(efGalery);
-            //}
-
-
-
-
+           
             var categoriesViewModel = _categoryRepository.GetAll().Select(i => new Models.CategoryAdminViewModel {
                 Checked=false,
                 Id=i.Id,
                 Title=i.Title
             }).ToList();
-                //mapper.Map<IEnumerable<DBFirstDAL.Categories>, List<Models.CategoryAdminViewModel>>(_categoryRepository.GetAll().ToList());
 
+          
 
             if (model!=null&& model.Categories!=null)
             {
@@ -312,6 +267,11 @@ namespace Pyramid.Controllers
             });
 
             ViewBag.AllCategories = categoriesViewModel;
+            ViewBag.AllRecommendations = _recommendationRepository.GetAll().Select(item => new SelectListItem
+            {
+                Text = item.Title,
+                Value = item.Id.ToString()
+            });
 
             return View(model);
         }
@@ -460,6 +420,29 @@ namespace Pyramid.Controllers
            // _productRepository.Save();
             return null;
         }
+        //[HttpPost]
+        //public ActionResult DeleteRecomendation(int id, int recomendationId)
+        //{
+        //    _productRepository.DeleteRecomendation(id, recomendationId);
+        //    // _productRepository.Save();
+        //    return null;
+        //}
+
+        //public ActionResult GetTemplateRecomendation(int id, int count)
+        //{
+        //    ViewBag.AllRecommendations = _recommendationRepository.GetAll().Select(item => new SelectListItem
+        //    {
+        //        Text = item.Title,
+        //        Value = item.Id.ToString()
+        //    });
+        //    var product = _productRepository.Get(id);
+        //    var model = product.Recommendations.Count;
+        //    if (count > model)
+        //    {
+        //        model = count;
+        //    }
+        //    return PartialView("_PartialProductTemplateRecomendation", model);
+        //}
 
         public PartialViewResult GetAllImageFromCategory(int id,int imageId)
         {
@@ -486,24 +469,24 @@ namespace Pyramid.Controllers
             //_productRepository.Save();
             return GetAllImageFromCategory(id, imageid);
         }
-        [Authorize]
-        public ActionResult GetProductReview(int id)
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<DBFirstDAL.Review, Entity.Review>();
-            });
-            config.AssertConfigurationIsValid();
-            var mapper = config.CreateMapper();
-            var efProduct = _productRepository.FindBy(i => i.Id == id).SingleOrDefault();
-            if (efProduct!=null)
-            {
-                ViewBag.TitlePage = efProduct.Title;
-            }
-            var efModel = _productRepository.GetReview(id);
-            var model = mapper.Map<Review>(efModel);
-            return View(model);
-        }
+        //[Authorize]
+        //public ActionResult GetProductReview(int id)
+        //{
+        //    var config = new MapperConfiguration(cfg =>
+        //    {
+        //        cfg.CreateMap<DBFirstDAL.Review, Entity.Review>();
+        //    });
+        //    config.AssertConfigurationIsValid();
+        //    var mapper = config.CreateMapper();
+        //    var efProduct = _productRepository.FindBy(i => i.Id == id).SingleOrDefault();
+        //    if (efProduct!=null)
+        //    {
+        //        ViewBag.TitlePage = efProduct.Title;
+        //    }
+        //    var efModel = _productRepository.GetReview(id);
+        //    var model = mapper.Map<Review>(efModel);
+        //    return View(model);
+        //}
         [Authorize]
         public ActionResult Delete(int id)
         {

@@ -1,0 +1,96 @@
+﻿@using Pyramid.Helpers
+
+@model SearchResultViewModel<Pyramid.Entity.Review>
+@{
+    ViewBag.Title = "Отзывы";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var pagedList = Html.PagedList(Model.PagesInfo.ItemsCount, Model.PagesInfo.ItemsPerPage, Model.PagesInfo.CurrentPage, Model.PagesInfo.DisplayedPages, Url.GetAction(), Url.GetController(), pageNumber => new
+    {
+        page = pageNumber,
+        currentFilter = ViewBag.CurrentFilter,
+        isApproved = ViewBag.IsApproved,
+        isNotRead = ViewBag.IsRead
+    });
+
+    var approvedSelectList = new List<SelectListItem>();
+    approvedSelectList.Add(new SelectListItem() {
+        Text="Одобрено",
+        Value=true.ToString(),
+    });
+    approvedSelectList.Add(new SelectListItem()
+    {
+        Text = "Не одобрено",
+        Value = false.ToString(),
+    });
+}
+
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+    <div class="subtitle">информация</div>
+</div>
+
+
+@using (Html.BeginForm("AdminIndex", "Review", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-6">
+            <p class="pmargin">
+                Поиск по названию товара: @Html.TextBox("productTitle", ViewBag.CurrentFilter as string)
+                <input type="submit" value="Поиск" />
+
+
+            </p>
+        </div>
+        <div class="col-md-6">
+            одобренный
+            @Html.DropDownList("isApproved", approvedSelectList,"Выбор")
+            новый
+            @Html.CheckBox("isNotRead", ((bool?)ViewBag.IsRead).HasValue&& ((bool?)ViewBag.IsRead).Value)
+
+
+        </div>
+    </div>
+
+}
+
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                Имя
+            </th>
+            <th>Название товара</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Objects)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Title)
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm" style="float: none;">
+                        <a href="@Url.Action("Update", "Review", new { id = item.Id })" class="tabledit-edit-button btn btn-sm btn-default" style="float: none;">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                        <a href="@Url.Action("Delete", "Review", new { id = item.Id })" class="tabledit-delete-button btn btn-sm btn-default" style="float: none;">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </div>
+
+                </td>
+            </tr>
+        }
+
+</table>
+<div class="row">
+    <div class="col-md-12">
+        @pagedList
+    </div>
+</div>
+

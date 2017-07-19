@@ -2,13 +2,11 @@
 <div class="header">
 
     <div class="row no-gutter">
-        <div class="col-ten-md-1 header__logo-wrap">
-            <a href="/">
-                <div class="header__logo header__logo_small"></div>
-            </a>
+        <div class="col-ten-md-1 col-ten-xs-1  header__logo-wrap">
+            <a href="/"><div class="header__logo header__logo_small"></div></a>
         </div>
         <div class="row no-gutter">
-            <div class="col-ten-md-2 header__line-one">
+            <div class="col-ten-md-2 col-ten-xs-2 header__line-one">
                 <div class="header__consultant header__consultant_green" onclick="jivo_api.open();">
                     <img class="header__consultant-img" src="~/Content/img/consultant.png" alt="">
                     <p class="header__consultant-text header__consultant-text_fix50">Онлайн консультант</p>
@@ -16,7 +14,7 @@
 
                 </div>
             </div>
-            <div class="col-ten-lg-7 col-ten-md-7 col-ten-xs-8 header__line-one">
+            <div class="col-ten-lg-7 col-ten-md-7 col-ten-xs-7 col-ten-xs-8 header__line-one">
                 <div class="header__wrap header__wrap_bg-gray">
                     @{Html.RenderPartial("_PartialHeaderMenu"); }
                     
@@ -47,7 +45,7 @@
 
                 </div>
            
-            <div class="col-ten-md-2 header__line-one">
+            <div class="col-ten-md-2 col-ten-xs-2 header__line-one">
                 <div class="header__wrap-catalog-dropdown">
                     <div class="header__catalog-btn">
                         <p>Каталог товаров</p>
@@ -100,7 +98,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-ten-md-7 header__line-one">
+            <div class="col-ten-md-7 col-ten-xs-7 header__line-one">
                 <div class="header__search">
                     @using (Html.BeginForm("GlobalSearch", "Home", FormMethod.Get, new { @class = "header__search-form" }))
                     {

@@ -57,6 +57,46 @@
              
         })
     });
+     
+    /*recomendations 
+    $(".js-btn-add-product-recommendation").on("click", function () {
+        var countRecomendation = $(".admin-product-recommendation").length;
+        $.post("/Product/GetTemplateRecomendation?id=" + productId + "&count=" + countRecomendation, function (data) {
+            $(".js-admin-product-recommendations").append(data);
+        });
+    });
+    $(".js-admin-product-recommendations").on("click", ".btn-product-recommendation-delete", function () {
+        var id = $(this).data("ajaxid");
+        $.post("/Product/DeleteRecomendation?id=" + productId + "&recomendationId=" + id, function (data) {
+            $('.box-product-gallery').html(data);
+
+        })
+    });*/
+})();
+;(function(){
+    tinymce.init({
+
+
+        // General options
+        elements: "content_editor",
+        language: "ru",
+        plugins: "code,autolink,lists,spellchecker,pagebreak,table,save,,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
+        menu: {
+            file: { title: 'File', items: 'newdocument' },
+            edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall' },
+            insert: { title: 'Insert', items: 'link media | template hr' },
+            view: { title: 'View', items: 'visualaid' },
+            format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat' },
+            tools: { title: 'Tools', items: 'code' }
+        },
+        selector: '.adminTextareaCommon',
+    });
+
+    $(".datepickerCommon").datepicker({
+        gotoCurrent: true,
+        dateFormat: "dd.mm.yy"
+    });
+
 })();
 ; (function () {
      
@@ -89,31 +129,6 @@
             });
         });
     })
-})();
-;(function(){
-    tinymce.init({
-
-
-        // General options
-        elements: "content_editor",
-        language: "ru",
-        plugins: "code,autolink,lists,spellchecker,pagebreak,table,save,,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
-        menu: {
-            file: { title: 'File', items: 'newdocument' },
-            edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall' },
-            insert: { title: 'Insert', items: 'link media | template hr' },
-            view: { title: 'View', items: 'visualaid' },
-            format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat' },
-            tools: { title: 'Tools', items: 'code' }
-        },
-        selector: '.adminTextareaCommon',
-    });
-
-    $(".datepickerCommon").datepicker({
-        gotoCurrent: true,
-        dateFormat: "dd.mm.yy"
-    });
-
 })();
 
 ; (function () {
@@ -178,6 +193,24 @@
     });
     
 
+})();
+; (function () {
+    /*filter function*/
+       var filterId = $("#Filter_Id").val();
+    $(".js-btn-filter-add-enumvalue").on("click", function () {
+        var count =$(".admin-filter__enum-value").length;
+        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId + "&count=" + count, function (data) {
+            $(".js-filter-all-enumvalues").append(data);
+        });
+    });
+    $(".js-filter-all-enumvalues").on("click", ".btn-filter-enum-value-delete", function (e) {
+        var id = $(this).data("ajaxid");
+        $.post("/Filter/DeleteEnumValue?id=" + filterId + "&enumValueId=" + id, function (t) {
+            $.post("/Filter/GetAllEnumValues?filterid=" + filterId, function (data) {
+                $(".js-filter-all-enumvalues").html(data);
+            });
+        });
+    })
 })();
 (function () {
     /*function home-entity.js*/
@@ -299,24 +332,6 @@
         inputY.val(coordY);
     }
 })()
-; (function () {
-    /*filter function*/
-       var filterId = $("#Filter_Id").val();
-    $(".js-btn-filter-add-enumvalue").on("click", function () {
-        var count =$(".admin-filter__enum-value").length;
-        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId + "&count=" + count, function (data) {
-            $(".js-filter-all-enumvalues").append(data);
-        });
-    });
-    $(".js-filter-all-enumvalues").on("click", ".btn-filter-enum-value-delete", function (e) {
-        var id = $(this).data("ajaxid");
-        $.post("/Filter/DeleteEnumValue?id=" + filterId + "&enumValueId=" + id, function (t) {
-            $.post("/Filter/GetAllEnumValues?filterid=" + filterId, function (data) {
-                $(".js-filter-all-enumvalues").html(data);
-            });
-        });
-    })
-})();
 ;(function () {
     
 

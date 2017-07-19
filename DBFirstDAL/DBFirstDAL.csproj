@@ -101,6 +101,9 @@
     <Compile Include="Filters.cs">
       <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="GlobalOption.cs">
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="HomeEntity.cs">
       <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
@@ -164,6 +167,7 @@
     <Compile Include="ProductValueDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
+    <Compile Include="Repositories\GlobalOptionRepository.cs" />
     <Compile Include="Repositories\HomeEntityRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\PageRepository.cs" />
@@ -172,7 +176,7 @@
     <Compile Include="Repositories\RecommendationRepository.cs" />
     <Compile Include="Repositories\ReviewRepository.cs" />
     <Compile Include="Repositories\SeoRepository.cs" />
-    <Compile Include="Review.cs">
+    <Compile Include="Reviews.cs">
       <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Seo.cs">

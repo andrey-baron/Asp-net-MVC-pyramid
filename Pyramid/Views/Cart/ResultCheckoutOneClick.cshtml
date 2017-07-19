@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "ResultCheckout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="chackout">
+    @if (ViewBag.IsAddedOrder)
+    {
+
+        <p>Ваш заказ, отправлен</p>
+
+    }
+    else
+    {
+        <p>При отправке заказа возникла ошибка, попробуйте позже</p>
+    }
+
+
+</div>

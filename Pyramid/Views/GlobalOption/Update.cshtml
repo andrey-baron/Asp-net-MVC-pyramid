@@ -1,0 +1,48 @@
+﻿@model Pyramid.Entity.GlobalOptionEntity
+@{
+    ViewBag.Title = "Редактирование опции";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+</div>
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-lg-8 col-md-8">
+
+            <div class="box-typical box-typical-padding">
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.StringKey)
+                    @Html.HiddenFor(model => model.Description)
+                    @Html.HiddenFor(model => model.IsHtml)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OptionContent, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.OptionContent, new { htmlAttributes = new { @class =(Model.IsHtml)? "form-control adminTextareaCommon": "form-control" } })
+                            @Html.ValidationMessageFor(model => model.OptionContent, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Сохранить" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+}
+
+

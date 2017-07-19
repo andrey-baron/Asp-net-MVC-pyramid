@@ -1,6 +1,6 @@
 ﻿@model Pyramid.Models.Cart.CheckoutModel
 @{
-    ViewBag.Title = "Checkout";
+    ViewBag.Title = "Подтверждение";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{ var cart = (Pyramid.Tools.Cart)ViewBag.Cart;}
@@ -37,7 +37,7 @@
         @Html.ActionLink("Вернуться в корзину", "Cart", null, new { @class = "btn btn-default" })
 
 
-        <div class="card">
+        <div class="card js-result-insert">
             <div class="card-header card-header-lg">
                 <p>Контактные данные</p>
             </div>

@@ -39,8 +39,10 @@ namespace Pyramid.Entity
         public ICollection<Image> Images { get; set; }
         public ICollection<Category> Categories { get; set; }
         public ICollection<ProductValue> ProductValues { get; set; }
-
+        public virtual ICollection<Review> Reviews { get; set; }
         public ICollection<EnumValue> EnumValues { get; set; }
+
+       // public ICollection<Recommendation> Recommendations { get; set; }
 
         public int PopularCount { get; set; }
 
@@ -50,6 +52,7 @@ namespace Pyramid.Entity
             Images = new List<Image>();
             ProductValues = new List<ProductValue>();
             EnumValues = new List<EnumValue>();
+            Reviews = new List<Review>();
         }
     }
 }

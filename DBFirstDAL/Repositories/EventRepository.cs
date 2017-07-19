@@ -153,12 +153,15 @@ namespace DBFirstDAL.Repositories
                 }
             }
 
-
-            dbEntity.EventImages = new EventImages()
+            if (dbEntity.Id!=0&& entity.Image.Id!=0)
             {
-                ImageId = entity.Image.Id,
-                EventId = dbEntity.Id
-            };
+                dbEntity.EventImages = new EventImages()
+                {
+                    ImageId = entity.Image.Id,
+                    EventId = dbEntity.Id
+                };
+            }
+           
 
         }
     }

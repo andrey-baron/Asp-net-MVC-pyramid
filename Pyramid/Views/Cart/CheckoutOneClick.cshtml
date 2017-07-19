@@ -1,0 +1,73 @@
+﻿@model Pyramid.Models.Cart.CheckoutModel
+@{
+    ViewBag.Title = "Подтверждение";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{ var product = (Pyramid.Entity.Product)ViewBag.Product;}
+<div class="container cart__container">
+    <div class="chackout">
+        <table class="display table table-striped table-bordered dataTable">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                   
+                    <th>Цена</th>
+                </tr>
+            </thead>
+            <tbody>
+               
+                    <tr>
+                        <td>@product.Title</td>
+                       
+                        <td>@(product.Price)</td>
+                    </tr>
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td >Итоговая стоимость</td>
+                    <td>@(product.Price)</td>
+                </tr>
+
+            </tfoot>
+        </table>
+        @*@Html.ActionLink("Вернуться в корзину", "Cart", null, new { @class = "btn btn-default" })*@
+
+
+        <div class="card js-result-insert">
+            <div class="card-header card-header-lg">
+                <p>Контактные данные</p>
+            </div>
+            <div class="card-block">
+                <div class="call-to-action__form-wrap_checkout">
+                    @using (Html.BeginForm("CheckoutOneClick", "Cart", FormMethod.Post, new { @class = "checkout-form-one-click" }))
+                    {
+                        @Html.Hidden("productId",product.Id)
+                        <div class="form-group call-to-action__form-group">
+                            @Html.TextBoxFor(m => Model.Name, new { @class = "form-control call-to-action__form-control", placeholder = "Имя" })
+                            @*<input type="text" class="form-control call-to-action__form-control" placeholder="Имя">*@
+                        </div>
+                        <div class="form-group call-to-action__form-group">
+                            @Html.TextBoxFor(m => Model.Email, new { @class = "form-control call-to-action__form-control", placeholder = "E-mail" })
+                            @*<input type="text" class="form-control call-to-action__form-control" placeholder="E-mail">*@
+                        </div>
+                        <div class="form-group call-to-action__form-group">
+                            @Html.TextBoxFor(m => Model.Phone, new { @class = "form-control call-to-action__form-control", placeholder = "Телефон" })
+
+
+                            @*<input type="text" class="form-control call-to-action__form-control" placeholder="Телефон">*@
+                        </div>
+                        <div class="form-group call-to-action__form-group">
+                            @Html.TextBoxFor(m => Model.Adress, new { @class = "form-control call-to-action__form-control", placeholder = "Адрес доставки" })
+
+
+                            @*<input type="text" class="form-control call-to-action__form-control" placeholder="Адрес доставки">*@
+                        </div>
+                        <button class="call-to-action__btn">Отправить запрос</button>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -19,8 +19,13 @@ namespace Common.SearchClasses
             Priority = priority;
             SearchString = searchString;
         }
+        public SearchParamsProduct(string searchString, 
+        int startIndex = 0, int? objectsCount = null) : base(startIndex, objectsCount)
+        {
+            SearchString = searchString;
+        }
 
-        SearchParamsProduct(int startIndex = 0, int? objectsCount = null) : base(startIndex, objectsCount)
+        public SearchParamsProduct(int startIndex = 0, int? objectsCount = null) : base(startIndex, objectsCount)
         {
 
         }

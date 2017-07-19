@@ -29,9 +29,23 @@
 }
 
 @media (min-width: 992px) and (max-width:1200px){
+     .breadcrumbs__list{
+        margin: 0 0 0 30px;
+    }
     .breadcrumbs__list-item + .breadcrumbs__list-item {
         a:before{
              margin: 0 10px;
         }
-}
     }
+}
+
+@media (min-width: 300px) and (max-width:991px){
+    .breadcrumbs__list{
+        margin: 0 0 0 20px;
+    }
+    .breadcrumbs__list-item + .breadcrumbs__list-item {
+        a:before{
+             margin: 0 4px;
+        }
+    }
+}

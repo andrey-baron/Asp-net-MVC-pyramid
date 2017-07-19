@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pyramid.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -26,7 +27,21 @@ namespace Pyramid
                         ));
             }
 
-
+            DBFirstDAL.Repositories.GlobalOptionRepository globRepo = new DBFirstDAL.Repositories.GlobalOptionRepository();
+           
+        
+            if (!globRepo.isExist("shipping"))
+            {
+                var newEntityObj = new GlobalOptionEntity()
+                {
+                    StringKey = "shipping",
+                    IsHtml = true,
+                    Description = "Доставка",
+                    OptionContent = ""
+                };
+                globRepo.AddOrUpdate(newEntityObj);
+            }
+            
 
            //var _categoryRepository = new DBFirstDAL.Repositories.CategoryRepository();
            // var catAll = _categoryRepository.GetAll().ToList();

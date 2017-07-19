@@ -57,4 +57,19 @@
              
         })
     });
+     
+    /*recomendations 
+    $(".js-btn-add-product-recommendation").on("click", function () {
+        var countRecomendation = $(".admin-product-recommendation").length;
+        $.post("/Product/GetTemplateRecomendation?id=" + productId + "&count=" + countRecomendation, function (data) {
+            $(".js-admin-product-recommendations").append(data);
+        });
+    });
+    $(".js-admin-product-recommendations").on("click", ".btn-product-recommendation-delete", function () {
+        var id = $(this).data("ajaxid");
+        $.post("/Product/DeleteRecomendation?id=" + productId + "&recomendationId=" + id, function (data) {
+            $('.box-product-gallery').html(data);
+
+        })
+    });*/
 })();

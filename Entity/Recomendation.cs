@@ -21,6 +21,8 @@ namespace Pyramid.Entity
         public string Title { get; set; }
         [Display(Name = "Описание")]
         public string Content { get; set; }
+        [Display(Name = "Краткое описание")]
+        public string ShortContent { get; set; }
 
         // public ICollection<Category> Categories { get; set; }
         [Display(Name = "Картинка")]

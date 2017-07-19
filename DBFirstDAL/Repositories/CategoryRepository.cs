@@ -731,8 +731,9 @@ namespace DBFirstDAL.Repositories
             if (dbObject.Recommendations!=null)
             {
                 cat.Recommendations = dbObject.Recommendations.Select(s => new Recommendation() {
-                    Content=s.Content,
+                    ShortContent=s.ShortContent,
                     Title=s.Title,
+                    Id=s.Id,
                     Image=ConvertImageToEntity.Convert( s.Images.FirstOrDefault())
                 }).ToList();
             }
@@ -836,7 +837,7 @@ namespace DBFirstDAL.Repositories
                 if (dbCategory!=null)
                 {
                     searchParams.ExistProductsInBd = dbCategory.Products.Count > 0;
-                    IEnumerable<Products> temp= dbCategory.Products.Where(i => i.TypeStatusProduct != (int)Common.TypeStatusProduct.Hide&& i.Price>0).ToList();
+                    IEnumerable<Products> temp= dbCategory.Products.Where(i => i.TypeStatusProduct != (int)Common.TypeStatusProduct.Hide/*&& i.Price>0*/).ToList();
                     if (searchParams.MaxPrice.HasValue)
                     {
                         temp = temp.Where(i => i.Price< searchParams.MaxPrice.Value);

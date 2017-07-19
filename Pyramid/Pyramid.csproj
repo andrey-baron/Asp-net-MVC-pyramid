@@ -193,6 +193,7 @@
     <Compile Include="Controllers\FAQController.cs" />
     <Compile Include="Controllers\FeedBackController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
+    <Compile Include="Controllers\GlobalOptionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeEntityController.cs" />
     <Compile Include="Controllers\ImageManagerController.cs" />
@@ -302,6 +303,7 @@
     <Content Include="Content\img\shopping-basket.png" />
     <Content Include="Content\img\single.png" />
     <Content Include="Content\img\single2.jpg" />
+    <Content Include="Content\img\single_plus.png" />
     <Content Include="Content\img\slider-map.png" />
     <Content Include="Content\img\star-white.svg" />
     <Content Include="Content\img\star-yellow.svg" />
@@ -744,10 +746,19 @@
     <Content Include="Views\FeedBack\AddOrUpdate.cshtml" />
     <Content Include="Views\EventBanner\Index.cshtml" />
     <Content Include="Views\EventBanner\AddOrUpdate.cshtml" />
-    <Content Include="Views\Recommendation\Index.cshtml" />
+    <Content Include="Views\Recommendation\AdminIndex.cshtml" />
     <Content Include="Views\Recommendation\AddOrUpdate.cshtml" />
     <Content Include="Views\Category\_PartialRecommendationTemplate.cshtml" />
     <Content Include="Views\Category\_PartialCategoryAllRecommendation.cshtml" />
+    <Content Include="Views\Product\_PartialProductRecommendations.cshtml" />
+    <Content Include="Views\Product\_PartialProductTemplateRecomendation.cshtml" />
+    <Content Include="Views\Recommendation\Index.cshtml" />
+    <Content Include="Views\Recommendation\Get.cshtml" />
+    <Content Include="Views\GlobalOption\Index.cshtml" />
+    <Content Include="Views\GlobalOption\Update.cshtml" />
+    <Content Include="Views\Review\AdminIndex.cshtml" />
+    <Content Include="Views\Cart\CheckoutOneClick.cshtml" />
+    <Content Include="Views\Cart\ResultCheckoutOneClick.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

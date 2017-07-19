@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Common.SearchClasses;
 using DBFirstDAL.Repositories;
 using PagedList;
+using Pyramid.Entity;
 using Pyramid.Global;
+using Pyramid.Models.CommonViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,101 +32,123 @@ namespace Pyramid.Controllers
             return View();
         }
         [Authorize]
-        public ActionResult NewReviews( int? page)
+        public ActionResult AdminIndex(string productTitle, string currentFilter, bool? isApproved,bool? isNotRead, int? page)
         {
-            var config = new MapperConfiguration(cfg =>
+            var pageNumber = page ?? 1;
+            if (productTitle != null)
             {
-                cfg.CreateMap<DBFirstDAL.Review, Pyramid.Entity.Review>()
-                .ForMember(d=>d.Content,
-                           o=>o.ResolveUsing(r=>r.Content.Length>80? r.Content.Substring(0, 80): r.Content))
-                .ForMember(d => d.Product, o => o.ResolveUsing(r => r.Products));
+                page = 1;
+            }
+            else
+            {
+                productTitle = currentFilter;
+            }
+            var objectsPerPage = 20;
+            var searchResult = _reviewRepository.Get(new SearchParamsReview(productTitle, isApproved, isNotRead, (pageNumber - 1) * objectsPerPage, objectsPerPage));
+            ViewBag.CurrentFilter = productTitle;
+            ViewBag.IsApproved = isApproved;
+            ViewBag.IsRead = isNotRead;
 
-                cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
-                .ForMember(d => d.Categories, o => o.Ignore())
-                .ForMember(d => d.EnumValues, o => o.Ignore())
-                .ForMember(d => d.Images, o => o.Ignore())
-                .ForMember(d => d.ProductValues, o => o.Ignore())
-                .ForMember(d => d.ThumbnailImg, o => o.Ignore())
-                .ForMember(d => d.ThumbnailId, o => o.Ignore());
-            });
-            config.AssertConfigurationIsValid();
+            var viewModel = SearchResultViewModel<Review>.CreateFromSearchResult(searchResult, i => i, 10);
 
-            var mapper = config.CreateMapper();
+            return View(viewModel);
+        }
+        //[Authorize]
+        //public ActionResult NewReviews( int? page)
+        //{
+        //    var config = new MapperConfiguration(cfg =>
+        //    {
+        //        cfg.CreateMap<DBFirstDAL.Review, Pyramid.Entity.Review>()
+        //        .ForMember(d=>d.Content,
+        //                   o=>o.ResolveUsing(r=>r.Content.Length>80? r.Content.Substring(0, 80): r.Content))
+        //        .ForMember(d => d.Product, o => o.ResolveUsing(r => r.Products));
+
+        //        cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
+        //        .ForMember(d => d.Categories, o => o.Ignore())
+        //        .ForMember(d => d.EnumValues, o => o.Ignore())
+        //        .ForMember(d => d.Images, o => o.Ignore())
+        //        .ForMember(d => d.ProductValues, o => o.Ignore())
+        //        .ForMember(d => d.ThumbnailImg, o => o.Ignore())
+        //        .ForMember(d => d.ThumbnailId, o => o.Ignore());
+        //    });
+        //    config.AssertConfigurationIsValid();
+
+        //    var mapper = config.CreateMapper();
 
            
-            var efReviews = _reviewRepository.GetNewReviews().ToList();
+        //    var efReviews = _reviewRepository.GetNewReviews().ToList();
 
-            int pageNumber = (page ?? 1);
-            var modelList = new PagedList<Entity.Review>(
-            efReviews.Select(u => mapper.Map<DBFirstDAL.Review, Entity.Review>(u)).AsQueryable(),
-            pageNumber, Config.PageSize);
-            ViewBag.Title = "Новые отзывы(не прочитанные)";
-            return View("Reviews", modelList);
-        }
-        [Authorize]
-        public ActionResult NotApproved(int? page)
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<DBFirstDAL.Review, Pyramid.Entity.Review>()
-                .ForMember(d => d.Content,
-                           o => o.ResolveUsing(r => r.Content.Length > 80 ? r.Content.Substring(0, 80) : r.Content))
-                .ForMember(d => d.Product, o => o.ResolveUsing(r => r.Products));
+        //    int pageNumber = (page ?? 1);
+        //    var modelList = new PagedList<Entity.Review>(
+        //    efReviews.Select(u => mapper.Map<DBFirstDAL.Review, Entity.Review>(u)).AsQueryable(),
+        //    pageNumber, Config.PageSize);
+        //    ViewBag.Title = "Новые отзывы(не прочитанные)";
+        //    return View("Reviews", modelList);
+        //}
+        //[Authorize]
+        //public ActionResult NotApproved(int? page)
+        //{
+        //    var config = new MapperConfiguration(cfg =>
+        //    {
+        //        cfg.CreateMap<DBFirstDAL.Review, Pyramid.Entity.Review>()
+        //        .ForMember(d => d.Content,
+        //                   o => o.ResolveUsing(r => r.Content.Length > 80 ? r.Content.Substring(0, 80) : r.Content))
+        //        .ForMember(d => d.Product, o => o.ResolveUsing(r => r.Products));
 
-                cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
-                .ForMember(d => d.Categories, o => o.Ignore())
-                .ForMember(d => d.EnumValues, o => o.Ignore())
-                .ForMember(d => d.Images, o => o.Ignore())
-                .ForMember(d => d.ProductValues, o => o.Ignore())
-                .ForMember(d => d.ThumbnailImg, o => o.Ignore())
-                .ForMember(d => d.ThumbnailId, o => o.Ignore());
-            });
-            config.AssertConfigurationIsValid();
+        //        cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
+        //        .ForMember(d => d.Categories, o => o.Ignore())
+        //        .ForMember(d => d.EnumValues, o => o.Ignore())
+        //        .ForMember(d => d.Images, o => o.Ignore())
+        //        .ForMember(d => d.ProductValues, o => o.Ignore())
+        //        .ForMember(d => d.ThumbnailImg, o => o.Ignore())
+        //        .ForMember(d => d.ThumbnailId, o => o.Ignore());
+        //    });
+        //    config.AssertConfigurationIsValid();
 
-            var mapper = config.CreateMapper();
-
-
-            var efReviews = _reviewRepository.GetNotApprovedReviews().ToList();
-
-            int pageNumber = (page ?? 1);
-            var modelList = new PagedList<Entity.Review>(
-            efReviews.Select(u => mapper.Map<DBFirstDAL.Review, Entity.Review>(u)).AsQueryable(),
-            pageNumber, Config.PageSize);
-            ViewBag.Title = "Не одобренные отзывы";
-            return View("Reviews", modelList);
-        }
-        [Authorize]
-        public ActionResult Approved(int? page)
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<DBFirstDAL.Review, Pyramid.Entity.Review>()
-                .ForMember(d => d.Content,
-                           o => o.ResolveUsing(r => r.Content.Length > 80 ? r.Content.Substring(0, 80) : r.Content))
-                .ForMember(d => d.Product, o => o.ResolveUsing(r => r.Products));
-
-                cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
-                .ForMember(d => d.Categories, o => o.Ignore())
-                .ForMember(d => d.EnumValues, o => o.Ignore())
-                .ForMember(d => d.Images, o => o.Ignore())
-                .ForMember(d => d.ProductValues, o => o.Ignore())
-                .ForMember(d => d.ThumbnailImg, o => o.Ignore())
-                .ForMember(d => d.ThumbnailId, o => o.Ignore());
-            });
-            config.AssertConfigurationIsValid();
-
-            var mapper = config.CreateMapper();
+        //    var mapper = config.CreateMapper();
 
 
-            var efReviews = _reviewRepository.GetApprovedReviews().ToList();
+        //    var efReviews = _reviewRepository.GetNotApprovedReviews().ToList();
 
-            int pageNumber = (page ?? 1);
-            var modelList = new PagedList<Entity.Review>(
-            efReviews.Select(u => mapper.Map<DBFirstDAL.Review, Entity.Review>(u)).AsQueryable(),
-            pageNumber, Config.PageSize);
-            ViewBag.Title = "Одобренные отзывы";
-            return View("Reviews", modelList);
-        }
+        //    int pageNumber = (page ?? 1);
+        //    var modelList = new PagedList<Entity.Review>(
+        //    efReviews.Select(u => mapper.Map<DBFirstDAL.Review, Entity.Review>(u)).AsQueryable(),
+        //    pageNumber, Config.PageSize);
+        //    ViewBag.Title = "Не одобренные отзывы";
+        //    return View("Reviews", modelList);
+        //}
+        //[Authorize]
+        //public ActionResult Approved(int? page)
+        //{
+        //    var config = new MapperConfiguration(cfg =>
+        //    {
+        //        cfg.CreateMap<DBFirstDAL.Review, Pyramid.Entity.Review>()
+        //        .ForMember(d => d.Content,
+        //                   o => o.ResolveUsing(r => r.Content.Length > 80 ? r.Content.Substring(0, 80) : r.Content))
+        //        .ForMember(d => d.Product, o => o.ResolveUsing(r => r.Products));
+
+        //        cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
+        //        .ForMember(d => d.Categories, o => o.Ignore())
+        //        .ForMember(d => d.EnumValues, o => o.Ignore())
+        //        .ForMember(d => d.Images, o => o.Ignore())
+        //        .ForMember(d => d.ProductValues, o => o.Ignore())
+        //        .ForMember(d => d.ThumbnailImg, o => o.Ignore())
+        //        .ForMember(d => d.ThumbnailId, o => o.Ignore());
+        //    });
+        //    config.AssertConfigurationIsValid();
+
+        //    var mapper = config.CreateMapper();
+
+
+        //    var efReviews = _reviewRepository.GetApprovedReviews().ToList();
+
+        //    int pageNumber = (page ?? 1);
+        //    var modelList = new PagedList<Entity.Review>(
+        //    efReviews.Select(u => mapper.Map<DBFirstDAL.Review, Entity.Review>(u)).AsQueryable(),
+        //    pageNumber, Config.PageSize);
+        //    ViewBag.Title = "Одобренные отзывы";
+        //    return View("Reviews", modelList);
+        //}
         [Authorize]
         public ActionResult ToNotApproved(int id)
         {
@@ -133,30 +158,7 @@ namespace Pyramid.Controllers
         [Authorize]
         public ActionResult Update(int id)
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<DBFirstDAL.Review, Pyramid.Entity.Review>()
-                .ForMember(d => d.Content,
-                           o => o.ResolveUsing(r => r.Content))
-                .ForMember(d => d.Product, o => o.ResolveUsing(r => r.Products));
-
-                cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
-                .ForMember(d => d.Categories, o => o.Ignore())
-                .ForMember(d => d.EnumValues, o => o.Ignore())
-                .ForMember(d => d.Images, o => o.Ignore())
-                .ForMember(d => d.ProductValues, o => o.Ignore())
-                .ForMember(d => d.ThumbnailImg, o => o.Ignore())
-                .ForMember(d => d.ThumbnailId, o => o.Ignore());
-            });
-            config.AssertConfigurationIsValid();
-
-            var mapper = config.CreateMapper();
-
-            var efModel = _reviewRepository.FindBy(i => i.Id == id).SingleOrDefault();
-            efModel.IsRead = true;
-            //_reviewRepository.AddOrUpdate(efModel);
-            //_reviewRepository.Save();
-            var model = mapper.Map<Entity.Review>(efModel);
+            var model = _reviewRepository.Get(id);
             return View(model);
         }
         [Authorize]
@@ -183,22 +185,14 @@ namespace Pyramid.Controllers
         #region public method
         public ActionResult AddReview(Entity.Review model)
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap< Pyramid.Entity.Review, DBFirstDAL.Review>()
-                .ForMember(d=>d.Products,o=>o.Ignore());
 
-            });
-            config.AssertConfigurationIsValid();
-
-            var mapper = config.CreateMapper();
 
             model.DateCreation = DateTime.Now;
-            var efMReview = mapper.Map<DBFirstDAL.Review>(model);
+           
             try
             {
-                //_reviewRepository.Add(efMReview);
-                //_reviewRepository.Save();
+                _reviewRepository.AddOrUpdate(model);
+              
             }
             catch (Exception)
             {
@@ -210,27 +204,14 @@ namespace Pyramid.Controllers
         public ActionResult PartialGetReviewsByProductId(int productid,int? page)
         {
             ViewBag.ProductId = productid;
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<DBFirstDAL.Review, Pyramid.Entity.Review>()
-                .ForMember(d => d.Content,
-                           o => o.ResolveUsing(r => r.Content))
-                .ForMember(d => d.Product, o => o.Ignore());
+            var pageNumber = page ?? 1;
+            var objectsPerPage = 20;
+            var searchResult = _reviewRepository.Get(new SearchParamsReview(productid, (pageNumber - 1) * objectsPerPage, objectsPerPage));
+            ViewBag.ProductId = productid;
 
-               
-            });
-            config.AssertConfigurationIsValid();
+            var viewModel = SearchResultViewModel<Review>.CreateFromSearchResult(searchResult, i => i, 10);
 
-            var mapper = config.CreateMapper();
-
-            var efReviews = _reviewRepository.GetReviewsByProductId(productid).ToList();
-
-            int pageNumber = (page ?? 1);
-            var modelList = new PagedList<Entity.Review>(
-            efReviews.Select(u => mapper.Map<DBFirstDAL.Review, Entity.Review>(u)).AsQueryable(),
-            pageNumber, Config.PageSize);
-
-            return PartialView("_PartialProductReviews", modelList);
+            return PartialView("_PartialProductReviews", viewModel);
         }
         #endregion
     }

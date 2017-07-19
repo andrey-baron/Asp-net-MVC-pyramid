@@ -1,0 +1,68 @@
+﻿@using Pyramid.Helpers
+
+@model SearchResultViewModel<Pyramid.Entity.Recommendation>
+@{
+    ViewBag.Title = "Советы";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var pagedList = Html.PagedList(Model.PagesInfo.ItemsCount, Model.PagesInfo.ItemsPerPage, Model.PagesInfo.CurrentPage, Model.PagesInfo.DisplayedPages, Url.GetAction(), Url.GetController(), pageNumber => new
+    {
+        page = pageNumber
+    });
+}
+
+
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+    <div class="subtitle">информация</div>
+</div>
+
+
+<p class="pmargin">
+    @Html.ActionLink("Новый совет", "AddOrUpdate", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th class="table-icon-cell">
+                <i class="font-icon glyphicon glyphicon-file"></i>
+            </th>
+            <th>
+                Название
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Objects)
+        {
+            <tr>
+                <td class="table-photo">
+                    <img src="@(item.Image!=null?item.Image.ServerPathImg:"")" alt="" />
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm" style="float: none;">
+                        <a href="@Url.Action("AddOrUpdate", "Recommendation", new { id = item.Id })" class="tabledit-edit-button btn btn-sm btn-default" style="float: none;">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                        <a href="@Url.Action("DeleteCategory", "Recommendation", new { id = item.Id })" class="tabledit-delete-button btn btn-sm btn-default" style="float: none;">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </div>
+
+                </td>
+            </tr>
+        }
+
+</table>
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        @pagedList
+    </div>
+</div>

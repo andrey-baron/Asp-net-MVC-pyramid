@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Common.Models;
 using Common.SearchClasses;
 using DBFirstDAL.Repositories;
 using PagedList;
@@ -138,28 +139,11 @@ namespace Pyramid.Controllers
 
        public ActionResult GlobalSearch(string currentFilter, string searchString, int? page)
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<DBFirstDAL.Images, Pyramid.Entity.Image>();
-                cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
-                .ForMember(d => d.EnumValues, o => o.Ignore())
-                .ForMember(d => d.Categories, o => o.Ignore())
-                .ForMember(d => d.ProductValues, o => o.Ignore())
-                .ForMember(d => d.ThumbnailId, o => o.Ignore())
-                .ForMember(d => d.ThumbnailImg, o => o.MapFrom(p=>
-                (p.ProductImages.FirstOrDefault(h=>h.ProductId==p.Id&&h.TypeImage==(int)Entity.Enumerable.TypeImage.Thumbnail)) != null ?
-                p.ProductImages.FirstOrDefault(h => h.ProductId == p.Id && h.TypeImage == (int)Entity.Enumerable.TypeImage.Thumbnail).Images: new DBFirstDAL.Images()))
-                .ForMember(d => d.Images, o => o.Ignore())
-                ;
-                //cfg.CreateMap<IPagedList<DBFirstDAL.Products>, IPagedList<Entity.Product>>()
-                //;
-
-            });
-            config.AssertConfigurationIsValid();
-
-            var mapper = config.CreateMapper();
-
             var pageNumber = page ?? 1;
+            if (string.IsNullOrWhiteSpace(searchString))
+            {
+                searchString = null;
+            }
             if (searchString != null)
             {
                 page = 1;
@@ -171,12 +155,73 @@ namespace Pyramid.Controllers
             var objectsPerPage = 20;
             var startIndex = (pageNumber - 1) * objectsPerPage;
 
-            SearchParamsProduct SearchParams = new SearchParamsProduct(searchString,null,null, startIndex, objectsPerPage);
-
-            var searchResult = _productRepository.Get(SearchParams);
-            var viewModel = SearchResultViewModel<Product>.CreateFromSearchResult(searchResult, i => i, 10);
-
+            SearchParamsProduct SearchParams = new SearchParamsProduct(searchString, startIndex, objectsPerPage);
+            SearchResult<Product> searchResult;
+            if (searchString==null)
+            {
+                 searchResult = new SearchResult<Product>()
+                 {
+                     Objects = new List<Product>(),
+                     RequestedStartIndex = 0,
+                     Total = objectsPerPage,
+                     RequestedObjectsCount = objectsPerPage
+                 };
+            }
+            else
+            {
+                 searchResult = _productRepository.Get(SearchParams);
+            }
+          
             ViewBag.CurrentFilter = searchString;
+            var viewModel = SearchResultViewModel<Product>.CreateFromSearchResult(searchResult, i => i, 10);
+            List<BreadCrumbViewModel> breadcrumbs = new List<BreadCrumbViewModel>();
+            breadcrumbs.Add(new BreadCrumbViewModel()
+            {
+                Title = "Поиск"
+            });
+            ViewBag.BredCrumbs = breadcrumbs;
+            ViewBag.MetaTitle = "Поиск: " + searchString;
+            return View(viewModel);
+
+            //var config = new MapperConfiguration(cfg =>
+            //{
+            //    cfg.CreateMap<DBFirstDAL.Images, Pyramid.Entity.Image>();
+            //    cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
+            //    .ForMember(d => d.EnumValues, o => o.Ignore())
+            //    .ForMember(d => d.Categories, o => o.Ignore())
+            //    .ForMember(d => d.ProductValues, o => o.Ignore())
+            //    .ForMember(d => d.ThumbnailId, o => o.Ignore())
+            //    .ForMember(d => d.ThumbnailImg, o => o.MapFrom(p=>
+            //    (p.ProductImages.FirstOrDefault(h=>h.ProductId==p.Id&&h.TypeImage==(int)Entity.Enumerable.TypeImage.Thumbnail)) != null ?
+            //    p.ProductImages.FirstOrDefault(h => h.ProductId == p.Id && h.TypeImage == (int)Entity.Enumerable.TypeImage.Thumbnail).Images: new DBFirstDAL.Images()))
+            //    .ForMember(d => d.Images, o => o.Ignore())
+            //    ;
+            //    //cfg.CreateMap<IPagedList<DBFirstDAL.Products>, IPagedList<Entity.Product>>()
+            //    //;
+
+            //});
+            //config.AssertConfigurationIsValid();
+
+            //var mapper = config.CreateMapper();
+
+            //var pageNumber = page ?? 1;
+            //if (searchString != null)
+            //{
+            //    page = 1;
+            //}
+            //else
+            //{
+            //    searchString = currentFilter;
+            //}
+            //var objectsPerPage = 20;
+            //var startIndex = (pageNumber - 1) * objectsPerPage;
+
+            //SearchParamsProduct SearchParams = new SearchParamsProduct(searchString,null,null, startIndex, objectsPerPage);
+
+            //var searchResult = _productRepository.Get(SearchParams);
+            //var viewModel = SearchResultViewModel<Product>.CreateFromSearchResult(searchResult, i => i, 10);
+
+            //ViewBag.CurrentFilter = searchString;
 
             //var efProducts = _productRepository.GetAllWithThumbnail((int)Entity.Enumerable.TypeImage.Thumbnail);
 
@@ -192,7 +237,7 @@ namespace Pyramid.Controllers
             //efProductsList.Select(u => mapper.Map<DBFirstDAL.Products, Entity.Product>(u)).AsQueryable(),
             //pageNumber, Config.PageSize);
 
-            return View(viewModel);
+            //return View(viewModel);
         }
     }
 }

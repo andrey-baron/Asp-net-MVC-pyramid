@@ -30,7 +30,7 @@
   }
   &__additional-values{
           width: 100%;
-    max-width: 600px;
+    //max-width: 600px;
   }
   &__dotted-line-title{
       display:inline;
@@ -41,15 +41,20 @@
       //margin-left: .3em;
     display: block;
   }
+  &__add-val-item{
+      font-size: 0;
+  }
   &__dotted-line-left{
+      font-size: 16px;
       display: inline-block;
-    width: 70%;
+    width: 65%;
       overflow: visible;
     background: url(/Content/img/dotted-line-dot.gif) 0 100% repeat-x;
   }
   &__dotted-line-right{
+      font-size: 16px;
       display: inline-block;
-    width: 28%;
+    width: 35%;
   }
   &__in-stock{
       &:before{
@@ -79,6 +84,9 @@
   }
   &__last-menu{
       margin-bottom:40px;
+  }
+  &__bottom-menu{
+      display:inline-block;
   }
   &__bottom-menu-item{
       display:inline-block;
@@ -172,6 +180,7 @@
    }
    &__add-val-item_open-link{
        .single__dotted-line-title{
+           font-size:16px;
            color: #67b23b;
            text-decoration:underline;
            cursor:pointer;
@@ -179,6 +188,10 @@
    }
    .bx-wrapper{
        margin:0;
+   }
+   &__recommend-title{
+           font-size: 18px;
+    font-weight: bold;
    }
    &__recommend-pic{
            display: block;
@@ -188,40 +201,61 @@
     background-size: cover  !important;;
     background-position: 50% 50% !important;
    }
+   &__recommend-content{
+           margin-bottom: 20px;
+   }
+   &__recommend-row{
+       margin-bottom: 20px;
+   }
+   &__textarea{
+    overflow: hidden;
+    max-width: 100%;
+    height: 60px;
+    max-height: 100px;
+    min-width: 100%;
+    padding: .5em .6em;
+    border: 1px solid rgba(0,0,0,.12);
+    background: #FCFCFC;
+    border-radius: 2px;
+    cursor: text;
+   }
+   &__input{
+           padding: .5em .6em;
+    border: 1px solid rgba(0,0,0,.12);
+    background: #FCFCFC;
+    border-radius: 2px;
+   }
 }
 
 .single-bxslider__slide{
     height:400px;
         text-align: center;
     display: inline-block;
-    line-height: 500px;
+    line-height: 400px;
     img{
             max-height: 500px;
     display:inline-block!important;
     }
 }
 
-.star-on{
-    display: inline-block;
+.star-on,.star-off{
+     display: inline-block;
     width: 20px;
     height: 20px;
     background-size: 20px 20px;
     background-position: top left;
     background-repeat: no-repeat;
+    cursor:pointer;
+}
+.star-on{
     background: url(/Content/img/star-yellow.svg)no-repeat;
 }
-.star-off
-    {
-        display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-size: 20px 20px;
-    background-position: top left;
-    background-repeat: no-repeat;
+.star-off{
     background: url(/Content/img/star-white.svg)no-repeat;
-
 }
-
+.single-galery-wrap{
+    margin-bottom:20px;
+}
 @media (min-width: 992px) and (max-width:1200px){
     .single{
         padding:0 30px;
@@ -230,4 +264,25 @@
         padding-left: 25px;
     padding-right: 25px;
     }
+}
+
+@media (min-width: 300px) and (max-width:991px){
+    .single{
+        padding:0 20px;
     }
+}
+
+.single-coler{
+    background:#f7d50b;
+    display: inline-block;
+    position: relative;
+    padding: 10px 15px;
+    line-height: 1.42857143;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    vertical-align: top;
+
+    &:hover,&:focus{
+         background:#f7d50b!important;
+    }
+}

@@ -12,7 +12,7 @@ namespace DBFirstDAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Review
+    public partial class Reviews
     {
         public int Id { get; set; }
         public string Name { get; set; }

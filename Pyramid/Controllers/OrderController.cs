@@ -58,5 +58,10 @@ namespace Pyramid.Controllers
             _orederRepository.UpdateType(order.Id, (int)order.TypeProgressOrder);
             return RedirectToAction("Index");
         }
+        public ActionResult Delete( int id)
+        {
+            _orederRepository.Delete(id);
+            return RedirectToAction("Index");
+        }
     }
 }

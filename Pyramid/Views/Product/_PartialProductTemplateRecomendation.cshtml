@@ -1,0 +1,22 @@
+﻿@model int
+
+<div class="admin-product-recommendation">
+    <div class="row">
+        @*@Html.Hidden(String.Format("EnumValues[{0}].Id", Model) )*@
+        <div class="col-md-4">
+            @Html.Label("Совет ", htmlAttributes: new { @class = "control-label" })
+
+            @Html.DropDownList(String.Format("Recommendations[{0}].Id", Model), new SelectList(ViewBag.AllRecommendations, "Value", "Text"), "Выбрать", new { @class = "form-control" })
+
+
+        </div>
+        <div class="col-md-1">
+            <label class="control-label">удалить</label>
+            <button type="button" class="tabledit-edit-button btn btn-sm btn-default btn-product-recommendation-delete" style="float: none;" data-ajaxid="@Model">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
+        </div>
+    </div>
+</div>
+
+

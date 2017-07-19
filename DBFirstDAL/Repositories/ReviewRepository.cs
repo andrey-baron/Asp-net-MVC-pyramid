@@ -10,68 +10,103 @@ using System.Linq.Expressions;
 
 namespace DBFirstDAL.Repositories
 {
-    public class ReviewRepository : GenericRepository<Review, PyramidFinalContext, Pyramid.Entity.Review, SearchParamsBase,int>
+    public class ReviewRepository : GenericRepository<Reviews  , PyramidFinalContext, Pyramid.Entity.Review, SearchParamsReview, int>
     {
-        public IEnumerable<Review> GetNewReviews()
-        {
-            return FindBy(i => i.IsRead == false);
-        }
-
-        public IEnumerable<Review> GetApprovedReviews()
-        {
-            return FindBy(i => i.IsApproved == true);
-        }
-        public IEnumerable<Review> GetNotApprovedReviews()
-        {
-            return FindBy(i => i.IsApproved == false);
-        }
+        
         public void ToNotApproved(int reviewId)
         {
-            var efReview = FindBy(i => i.Id == reviewId).SingleOrDefault();
-            if (efReview!=null)
+            using (PyramidFinalContext dbContext= new PyramidFinalContext())
             {
-                efReview.IsApproved = false;
-               // Save();
+                var efReview = dbContext.Reviews.Find(reviewId);
+                if (efReview != null)
+                {
+                    efReview.IsApproved = false;
+                    dbContext.SaveChanges();
+                }
             }
+           
         }
         public void UpdateApproved(int reviewId, bool currentApproved)
         {
-            var efReview = FindBy(i => i.Id == reviewId).SingleOrDefault();
-            if (efReview != null)
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
-                efReview.IsApproved = currentApproved;
-               // Save();
+                var efReview = dbContext.Reviews.Find(reviewId);
+                if (efReview != null)
+                {
+                    efReview.IsApproved = currentApproved;
+                    dbContext.SaveChanges();
+                }
             }
         }
 
-        public IEnumerable<Review> GetReviewsByProductId(int productId)
+        public IEnumerable<Review> GetReviewsByProductId(int productId,SearchParamsBase searchParams)
         {
-            return FindBy(i => i.ProductId == productId&& i.IsApproved==true);
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                var objects=dbContext.Reviews.Where(w => w.ProductId == productId).Select(s=> ConvertDbObjectToEntity(dbContext,s));
+                return objects;
+            }
+
         }
 
-        protected override Review GetDbObjectByEntity(DbSet<Review> objects, Pyramid.Entity.Review entity)
+        public override void UpdateBeforeSaving(PyramidFinalContext dbContext, Reviews dbEntity, Review entity, bool exists)
         {
-            throw new NotImplementedException();
+            dbEntity.Content = entity.Content;
+            dbEntity.DateCreation = entity.DateCreation;
+            dbEntity.IsApproved = entity.IsApproved;
+            dbEntity.IsRead = entity.IsRead;
+            dbEntity.Name = entity.Name;
+            dbEntity.ProductId = entity.ProductId;
+            dbEntity.Rating = entity.Rating;
         }
 
-        protected override Expression<Func<Review, int>> GetIdByDbObjectExpression()
+        protected override Reviews GetDbObjectByEntity(DbSet<Reviews> objects, Review entity)
         {
-            throw new NotImplementedException();
+            return objects.Find(entity.Id);
         }
 
-        public override Pyramid.Entity.Review ConvertDbObjectToEntity(PyramidFinalContext context, Review dbObject)
+        protected override Expression<Func<Reviews, int>> GetIdByDbObjectExpression()
         {
-            throw new NotImplementedException();
+            return i => i.Id;
         }
 
-        protected override IQueryable<Review> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Review> dbObjects, SearchParamsBase searchParams)
+        public override Review ConvertDbObjectToEntity(PyramidFinalContext context, Reviews dbObject)
         {
-            throw new NotImplementedException();
+            var review = new Review()
+            {
+                Content = dbObject.Content,
+                DateCreation = dbObject.DateCreation,
+                Id = dbObject.Id,
+                IsApproved = dbObject.IsApproved,
+                IsRead = dbObject.IsRead,
+                Name = dbObject.Name,
+                Product = new Product()
+                {
+                    Title = dbObject.Products.Title,
+                    Id = dbObject.Products.Id,
+
+                },
+                ProductId = dbObject.ProductId,
+                Rating = dbObject.Rating,
+            };
+            return review;
         }
 
-        public override void UpdateBeforeSaving(PyramidFinalContext dbContext, Review dbEntity, Pyramid.Entity.Review entity, bool exists)
+        protected override IQueryable<Reviews> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Reviews> dbObjects, SearchParamsReview searchParams)
         {
-            throw new NotImplementedException();
+            if (searchParams.ProductTitle!=null)
+            {
+                dbObjects = dbObjects.Where(w => w.Products.Title.Contains(searchParams.ProductTitle));
+            }
+            if (searchParams.IsApproved.HasValue)
+            {
+                dbObjects = dbObjects.Where(w => w.IsApproved == searchParams.IsApproved.Value);
+            }
+            if (searchParams.isNotRead.HasValue)
+            {
+                dbObjects = dbObjects.Where(w => !w.IsRead);
+            }
+            return dbObjects;
         }
     }
 }

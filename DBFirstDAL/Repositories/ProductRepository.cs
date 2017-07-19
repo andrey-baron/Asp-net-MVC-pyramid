@@ -34,19 +34,37 @@ namespace DBFirstDAL.Repositories
 
         public void DeleteEnumValue(int id, int enumValueId)
         {
-            using (PyramidFinalContext dbContext= new PyramidFinalContext())
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
-
-           
-            var product = FindBy(i => i.Id == id).SingleOrDefault();
-            if (product != null)
-            {
-                var enumvalue = dbContext.EnumValues.Find(enumValueId);
-                    product.EnumValues.Remove(enumvalue);
-                
-            }
+                var product = dbContext.Products.Find(id);
+                if (product != null)
+                {
+                    var enumvalue = dbContext.EnumValues.Find(enumValueId);
+                    if (enumvalue!=null)
+                    {
+                        product.EnumValues.Remove(enumvalue);
+                        dbContext.SaveChanges();
+                    }
+                }
             }
         }
+
+        //public void DeleteRecomendation(int id, int recomendationId)
+        //{
+        //    using (PyramidFinalContext dbContext = new PyramidFinalContext())
+        //    {
+        //        var product = dbContext.Products.Find(id);
+        //        if (product != null)
+        //        {
+        //            var recomend = dbContext.Recommendations.Find(recomendationId);
+        //            if (recomend != null)
+        //            {
+        //                product.Recommendations.Remove(recomend);
+        //                dbContext.SaveChanges();
+        //            }
+        //        }
+        //    }
+        //}
 
         //public override void AddOrUpdate(Products entity)
         //{
@@ -230,11 +248,11 @@ namespace DBFirstDAL.Repositories
 
         }
 
-        public IEnumerable<Review> GetReview(int id)
-        {
-            var efProduct = FindBy(i => i.Id == id).SingleOrDefault();
-            return efProduct.Review;
-        }
+        //public IEnumerable<Review> GetReview(int id)
+        //{
+        //    var efProduct = FindBy(i => i.Id == id).SingleOrDefault();
+        //    return efProduct.Review;
+        //}
         
         public IEnumerable<Product> GetSeasonOffers(int typeThumbnail)
         {
@@ -472,6 +490,18 @@ namespace DBFirstDAL.Repositories
                    ProductId=i.ProductId,
                    Value=i.Value
                }).ToList(),
+               Reviews= dbObject.Reviews.Where(w=>w.IsApproved).Select(i=>new Pyramid.Entity.Review
+               {
+                   Content=i.Content,
+                   DateCreation=i.DateCreation,
+                   Name=i.Name,
+                   Rating=i.Rating
+               }).ToList(),
+               //Recommendations=dbObject.Recommendations.Select(i=>new Recommendation
+               //{
+               //    Id=i.Id,
+               //    Title=i.Title
+               //}).ToList(),
                ThumbnailImg=dbObject.ProductImages.FirstOrDefault(f=>f.ProductId==dbObject.Id&&f.TypeImage==(int)Common.TypeImage.Thumbnail)!=null?
                Convert.ConvertImageToEntity.Convert(dbObject.ProductImages.FirstOrDefault(f => f.ProductId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images):new Image()
                
@@ -546,6 +576,12 @@ namespace DBFirstDAL.Repositories
                 var efCategory = dbContext.Categories.Find(item.Id);
                 dbEntity.Categories.Add(efCategory);
             }
+            //dbEntity.Recommendations.Clear();
+            //foreach (var item in entity.Recommendations)
+            //{
+            //    var efRecommendation = dbContext.Recommendations.Find(item.Id);
+            //    dbEntity.Recommendations.Add(efRecommendation);
+            //}
             //Context.SaveChanges();
             dbEntity.EnumValues.Clear();
 
@@ -675,5 +711,43 @@ namespace DBFirstDAL.Repositories
                 return cat.Products.Where(i=>i.Id!=productId).Select(s=> ConvertDbObjectToEntityShort(dbContext,s)).ToList();
             }
         }
+
+        //public bool ExistInCategoryHierarchy(int productId,int categoryId)
+        //{
+        //    using (PyramidFinalContext dbContext= new PyramidFinalContext())
+        //    {
+        //        var product=dbContext.Products.Find(productId);
+        //        if (product==null)
+        //        {
+        //            return false;
+        //        }
+        //        product.Categories.
+        //    }
+        //}
+        //private bool CheckCategory(PyramidFinalContext dbContext,Categories category, int findCategoryId)
+        //{
+        //    var list = new List<int>();
+
+        //    while (category!=null&& category.Categories1!=null)
+        //    {
+        //        list.AddRange(category.Categories1.Select(i => i.Id));
+        //        ca
+        //    }
+            
+
+        //    var tmp = categories.Where(i => i.Id == findCategoryId);
+        //    if (tmp.Count()>0)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return CheckCategory(categories)
+        //    }
+        //    if ()
+        //    {
+
+        //    }
+        //}
     }
 }

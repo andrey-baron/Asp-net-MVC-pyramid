@@ -3,23 +3,16 @@
     ViewBag.Title = "single";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@*5к 
-era
-
-magnetii mare
-3.6*@
-
-
 
 <div class="single">
-    @Html.HiddenFor(m=>Model.Product.Id,new { id="single-productid"})
+    @Html.HiddenFor(m => Model.Product.Id, new { id = "single-productid" })
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 col-xs-12">
             <p class="single__title">@Model.Product.Title</p>
         </div>
     </div>
     <div class="row single__row-magrin-bottom">
-        <div class="col-md-6 single-col">
+        <div class="col-md-6 col-xs-6 single-col">
             <div class="single__content">
                 <ul class="single__additional-values">
                     @{ var indxProdValue = 0;}
@@ -34,22 +27,22 @@ magnetii mare
                             </div>
                         </li>
                         indxProdValue++;
-                       
+
                     }
                     @if (indxProdValue > 5)
                     {
-                    <li class="single__add-val-item single__add-val-item_open-link">
-                        
+                        <li class="single__add-val-item single__add-val-item_open-link">
+
                             <div class="single__dotted-line-title"><span class="single__sign-all">+</span> Все характеристики</div>
-                        
-                    </li>
+
+                        </li>
                     }
 
                 </ul>
 
                 <div class="single__b-last-additional">
-                    
-                    @if (Model.Product.TypeStatusProduct==Common.TypeStatusProduct.Normal)
+
+                    @if (Model.Product.TypeStatusProduct == Common.TypeStatusProduct.Normal)
                     {
                         <div class="single__dotted-line-right">
                             <div class="single__dotted-line-content">
@@ -75,9 +68,9 @@ magnetii mare
                 <span class="single__price-select-text">Выберите<br /> количество</span>
             </div>
         </div>
-        <div class="col-md-6 single-col">
+        <div class="col-md-6 col-xs-6 single-col">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-lg-8 col-md-12 col-xs-12">
                     <div class="single-galery-wrap">
                         <ul id="single-bxslider">
                             @foreach (var item in Model.Product.Images)
@@ -87,10 +80,10 @@ magnetii mare
                             @if (Model.Product.Images == null || Model.Product.Images.Count == 0)
                             {
                                 <li class="single-bxslider__slide"><img src="@Pyramid.Global.Config.PathNotFilledImage" /></li>       }
-                            </ul>
+                        </ul>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-lg-4 col-md-12 col-xs-12">
                     <div id="single-bx-pager" class="single-galery-pager">
                         @{int indx = 0; }
                         @foreach (var item in Model.Product.Images)
@@ -110,19 +103,19 @@ magnetii mare
     </div>
     <div class="single__last-menu">
         <div class="row no-gutter">
-            <div class="col-ten-lg-2 col-md-3">
+            <div class="col-ten-lg-2 col-md-3 col-xs-3">
                 @*@Ajax.ActionLink("Добавить в корзину", "AddToCart", "Cart", new { productId = Model.Id, quantity = 1 }, new AjaxOptions { OnSuccess= "SoccessAdd" }, new { @class="product__buy product__buy_add-to-cart single__buy single__add-to-cart"})*@
                 @*<a href="@Url.Action("AddToCart","Cart",new {productId=Model.Id, quantity=1 })" class="product__buy product__buy_add-to-cart single__buy single__add-to-cart">
-                    <p>Добавить в корзину</p>
-                </a>*@
-                <span class="product__buy product__buy_add-to-cart single__buy single__add-to-cart js-add-to-cart" data-ajaxid="@Model.Product.Id" >Добавить в корзину</span>
+                        <p>Добавить в корзину</p>
+                    </a>*@
+                <span class="product__buy product__buy_add-to-cart single__buy single__add-to-cart js-add-to-cart" data-ajaxid="@Model.Product.Id">Добавить в корзину</span>
             </div>
-            <div class="col-ten-lg-2 col-md-3">
-                <a href="#" class="product__buy product__buy_one-click single__buy single__buy-one-click">
+            <div class="col-ten-lg-2 col-md-3 col-xs-3">
+                <a href="@Url.Action("CheckoutOneClick","Cart",new { id=Model.Product.Id})" class="product__buy product__buy_one-click single__buy single__buy-one-click">
                     <p>Купить в один клик</p>
                 </a>
             </div>
-            <div class="col-ten-lg-6 col-md-6">
+            <div class="col-ten-lg-6 col-md-6 col-xs-6">
                 <script type="text/javascript">
                     $(document).ready(function () {
                         // Отображается 1 вкладка,
@@ -132,11 +125,13 @@ magnetii mare
                 </script>
 
                 <ul id="myTab2" class="nav nav-tabs single__bottom-menu">
-                    <li><a data-toggle="tab" href="#panely1">Советы</a></li>
-                    <li><a data-toggle="tab" href="#panely2">Доставка</a></li>
-                    <li><a data-toggle="tab" href="#panely3">Услуги</a></li>
+                    <li><a data-toggle="tab" href="#panely1">Описание</a></li>
+                    <li><a data-toggle="tab" href="#panely2">Советы</a></li>
+                    <li><a data-toggle="tab" href="#panely3">Доставка</a></li>
                     <li><a data-toggle="tab" href="#panely4">Отзывы</a></li>
+                    @*<li><a href="/Page/Index/2" class="single-coler">Колеровка</a></li>*@
                 </ul>
+                
 
 
                 @*<ul class="single__bottom-menu">
@@ -157,97 +152,117 @@ magnetii mare
         </div>
     </div>
     <div class="tab-content">
-        <div id="panely1" class="tab-pane fade in active">
+        <div id="panely1" class="tab-pane fade">
+            <h3>Описание</h3>
+            @if (Model.Product.Content != null)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        @MvcHtmlString.Create(Model.Product.Content)
+                        
+
+                    </div>
+                </div>
+            }
+        </div>
+        <div id="panely2" class="tab-pane fade in active">
             <h3>Советы</h3>
-           
+
             <div class="tab-wrap">
-                @if (ViewBag.Recommendations!=null)
+                @if (ViewBag.Recommendations != null)
                 {
-                    <div class="row"></div>
                     foreach (Pyramid.Entity.Recommendation item in ViewBag.Recommendations)
                     {
-                        <div class="col-f-lg-3 col-md-4">
-                            <div class="single__recommend-pic" style="background: url(@item.Image.ServerPathImg)"></div>
-                            <p class="single__recommend-title">@item.Title</p>
+                        <div class="row single__recommend-row">
+                            <div class="col-f-lg-3 col-md-4 col-xs-4">
+                                <a href="@Url.Action("Get","Recommendation",new { id=item.Id})">
+                                    <div class="single__recommend-pic" style="background: url(@item.Image.ServerPathImg)"></div>
+                                </a>
+                                
+                            </div>
+                            <div class="col-f-lg-8 col-md-8  col-xs-8">
+                                <a href="@Url.Action("Get","Recommendation",new { id=item.Id})">
+                                    <p class="single__recommend-title">@item.Title</p>
+                                </a>
+                                <div class="single__recommend-content">@MvcHtmlString.Create(item.ShortContent)</div>
+                                <a href="@Url.Action("Get","Recommendation",new { id=item.Id})" class="page__link-event page__link-event_for-list page__link-event_for-single-product">Подробней</a>
+                            </div>
                         </div>
-
                     }
                 }
             </div>
         </div>
-        <div id="panely2" class="tab-pane fade">
-            <h3>Доставка</h3>
-            <p>Содержимое 2 панели...</p>
-        </div>
         <div id="panely3" class="tab-pane fade">
-            <h3>Услуги</h3>
-            <p>Содержимое 3 панели...</p>
+            <h3>Доставка</h3>
+            @MvcHtmlString.Create(ViewBag.Shipping)
         </div>
+       
         <div id="panely4" class="tab-pane fade">
             <p>Отзывы</p>
             <div class="single__review-info">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 col-xs-12">
                         <div class="single__avg-review">
                             @*<div class="single__review-rating single__review-rating_big">
-                                <div class="star-on"></div>
-                                <div class="star-on"></div>
-                                <div class="star-on"></div>
-                                <div class="star-on"></div>
-                                <div class="star-off"></div>
-                            </div>*@
-                            <button class="btn btn-lg btn-primary" id="btn-single-add-review" data-toggle="modal" data-target="#single-add-review">Оставить отзыв</button>
+                                    <div class="star-on"></div>
+                                    <div class="star-on"></div>
+                                    <div class="star-on"></div>
+                                    <div class="star-on"></div>
+                                    <div class="star-off"></div>
+                                </div>*@
+                            <button class="btn btn-lg btn-green" id="btn-single-add-review" data-toggle="modal" data-target="#single-add-review">Оставить отзыв</button>
                         </div>
-                        <div class="single__review-block">
+                        @if (Model.Product.Reviews != null)
+                        {
+                            foreach (var item in Model.Product.Reviews)
+                            {
+                                <div class="single__review-block">
 
-                            <div class="single__review-item">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="single__review-rating">
-                                            
-                                            <div class="star-on"></div>
-                                            <div class="star-on"></div>
-                                            <div class="star-on"></div>
-                                            <div class="star-on"></div>
-                                            <div class="star-off"></div>
+                                    <div class="single__review-item">
+                                        <div class="row">
+                                            <div class="col-md-6 col-xs-6">
+                                                <div class="single__review-rating">
+                                                    @for (int i = 0; i < item.Rating; i++)
+                                                    {
+                                                        if (i <= item.Rating)
+                                                        {
+                                                            <div class="star-on"></div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="star-off"></div>
+                                                        }
+                                                    }
+                                                    
+                                                    @*<div class="star-on"></div>
+                                                    <div class="star-on"></div>
+                                                    <div class="star-on"></div>
+                                                    <div class="star-off"></div>*@
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-xs-6">
+                                                <div class="single__review-date">@item.DateCreation</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="single__review-date">@DateTime.Now</div>
+                                        <div class="single__review-autor">@item.Name</div>
+                                        <p class="single__review-content">
+                                            @item.Content
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="single__review-autor">Test</div>
-                                <p class="single__review-content">
-                                    text text text text text text text text text text text text text text text text text
-                                    text text text text text text text text text text text text text text text text text text
-                                    text text text text text text text text text text
-                                </p>
-                            </div>
-                        </div>
+
+                            }
+                        }
                     </div>
                 </div>
             </div>
 
         </div>
+       
     </div>
 
 
-    @if (Model.Product.Content != null)
-    {
-        <div class="row">
-            <div class="col-md-12">
-                <div class="seo__content-wrap">
-                    <div class="seo__title">Описание</div>
-                    <div class="seo__content">
-                        @MvcHtmlString.Create(Model.Product.Content)
-
-                    </div>
-                    <button class="btn btn-link js-toggle-content" type="button">Подробнее</button>
-                </div>
-
-            </div>
-        </div>
-    }
+   
 </div>
 
 <div class="single__related-products">
@@ -257,82 +272,91 @@ magnetii mare
     <div class="single__bxslider">
         @foreach (var item in Model.RelatedProducts)
             {
-                <div class="single__bxslider-item">
-                    <div class="product__item">
-                        <a href="@Url.Action("Index","Product",new { id=item.Id})">
-                            <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
+            <div class="single__bxslider-item">
+                <div class="product__item">
+                    <a href="@Url.Action("Index","Product",new { id=item.Id})">
+                        <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
 
-                            <p class="product__item-title">@item.Title</p>
-                            <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
-                                <div class="triangle-up"></div>
-                                <div class="triangle-down"></div>
-                                <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
+                        <p class="product__item-title">@item.Title</p>
+                        <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
+                            <div class="triangle-up"></div>
+                            <div class="triangle-down"></div>
+                            <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
+                        </div>
+                    </a>
+                    <div class="product__item__hover_block_wrapper">
+                        <div class="product__item__hover_block_wrapper__item product__in-stock">
+                            <p>в наличии</p>
+                        </div>
+                        <a class="product__item__hover_block_wrapper__item" href="">
+                            <div class="product__buy product__buy_one-click">
+                                <p>Купить в один клик</p>
                             </div>
                         </a>
-                        <div class="product__item__hover_block_wrapper">
-                            <div class="product__item__hover_block_wrapper__item product__in-stock">
-                                <p>в наличии</p>
-                            </div>
-                            <a class="product__item__hover_block_wrapper__item" href="">
-                                <div class="product__buy product__buy_one-click">
-                                    <p>Купить в один клик</p>
-                                </div>
-                            </a>
-                            
-                                <div class="product__buy product__buy_add-to-cart js-add-to-cart"  data-ajaxid="@item.Id">
-                                    <p>Добавить в корзину</p>
-                                </div>
-                            
-                        </div>
-                    </div>
 
+                        <div class="product__buy product__buy_add-to-cart js-add-to-cart" data-ajaxid="@item.Id">
+                            <p>Добавить в корзину</p>
+                        </div>
+
+                    </div>
                 </div>
 
-            }
+            </div>
+
+        }
 
     </div>
 
     <script>
-            $(document).ready(function () {
-                $('.single__bxslider').bxSlider({
-                    slideWidth: 300,
-                    minSlides: 2,
-                    maxSlides: 5,
-                    moveSlides: 1,
-                    slideMargin: 0,
-                    pager: false,
-                    auto: true
-                });
+        $(document).ready(function () {
+            $('.single__bxslider').bxSlider({
+                slideWidth: 300,
+                minSlides: 2,
+                maxSlides: 5,
+                moveSlides: 1,
+                slideMargin: 0,
+                pager: false,
+                auto: true
             });
+        });
     </script>
 </div>
 
 
 <div class="modal fade" id="single-add-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">Новый отзыв на товар @Model.Product.Title</h4>
             </div>
-            @{Pyramid.Entity.Review review = new Pyramid.Entity.Review() { ProductId=Model.Product.Id};}
+            @{Pyramid.Entity.Review review = new Pyramid.Entity.Review() { ProductId = Model.Product.Id };}
             <div class="modal-body">
                 @using (Html.BeginForm("NewReview", "Product", FormMethod.Post, new { id = "FormAddReview" }))
                 {
-                    @Html.Hidden("ProductId",Model.Product.Id,new {@class= "js-single-control" })
+
+                    @Html.Hidden("ProductId", Model.Product.Id, new { @class = "js-single-control" })
                     <div class="form-group">
                         <p>Рейтинг</p>
-                        @Html.TextBox("Rating", 5)
+                        <div class="single__review-rating js-review-rating-block">
+                            <div class="js-review-star star-on" data-rating="1"></div>
+                            <div class="js-review-star star-on" data-rating="2"></div>
+                            <div class="js-review-star star-on" data-rating="3"></div>
+                            <div class="js-review-star star-on" data-rating="4"></div>
+                            <div class="js-review-star star-on" data-rating="5"></div>
+                        </div>
+                        @Html.Hidden("Rating", 5,new {id="rating-from-review" })
                     </div>
                     <div class="form-group">
                         <p>Отзыв</p>
-                        @Html.TextArea("Content", "", new { @class= "single__textarea js-single-control" })
+                        @Html.TextArea("Content", "", new {id="review-text", @class = "single__textarea js-single-control",placeholder="Текст отзыва" })
                     </div>
                     <div class="form-group">
                         <p>Имя</p>
-                        @Html.TextBox("Name", "", new { @class = "single__input js-single-control" })
+                        @Html.TextBox("Name", "", new { id = "review-name", @class = "single__input js-single-control",placeholder="Ваше имя?" })
                     </div>
-                    
+                    <div class="result-info"></div>
+
                 }
 
             </div>

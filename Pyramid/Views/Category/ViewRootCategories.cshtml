@@ -5,12 +5,12 @@
 }
 <div class="category">
     <div class="row no-gutter">
-        <div class="col-ten-md-4">
+        <div class="col-ten-md-4 col-xs-12">
             <p class="category__title">Каталог</p>
         </div>
     </div>
     <div class="row no-gutter">
-        <div class="col-f-lg-3 col-md-3">
+        <div class="col-f-lg-3 col-md-3 col-xs-3">
             <div class="category__sidebar">
 
 
@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <div class="col-f-lg-12 col-md-9">
+        <div class="col-f-lg-12 col-md-9 col-xs-9">
             
                 @{ var rowIndx = 0;}
                 @for (int i = 0; i < Model.Count(); i = i + 3)
@@ -34,7 +34,7 @@
                             @foreach (var item in partModel)
                 {
 
-                                <div class="col-lg-3 col-md-3">
+                                <div class="col-lg-4 col-md-4 col-xs-4">
                                     <div class="subcategory">
                                         <div class="subcategory__wrap-img">
                                             <img src="@(item.Category.Thumbnail!=null?item.Category.Thumbnail.ServerPathImg:"")" alt="" />

@@ -67,34 +67,6 @@ namespace Pyramid.Controllers
         [AllowAnonymous]
         public ActionResult Get(int id)
         {
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<DBFirstDAL.Events, Pyramid.Entity.Event>()
-            //    .ForMember(d => d.Image, o => o
-            //        .MapFrom(m =>
-            //    m.EventImages.Images));
-
-            //    cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
-            //  .ForMember(d => d.EnumValues, o => o.Ignore())
-            //   .ForMember(d => d.Categories, o => o.Ignore())
-            //    .ForMember(d => d.Images, o => o.Ignore())
-            //     .ForMember(d => d.ProductValues, o => o.Ignore())
-            //      .ForMember(d => d.ThumbnailId, o => o.Ignore())
-            //                         .ForMember(d => d.ThumbnailImg, o => o.
-            //    MapFrom(m =>
-            //    m.ProductImages.FirstOrDefault(f => f.ProductId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
-            //    m.ProductImages.FirstOrDefault(f => f.ProductId == m.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images : new DBFirstDAL.Images()));
-
-            //    cfg.CreateMap<DBFirstDAL.Images, Entity.Image>();
-
-
-            //});
-
-
-            //config.AssertConfigurationIsValid();
-
-            //var mapper = config.CreateMapper();
-           // var efEvent = _eventRepository.FindBy(f => f.Id == id).SingleOrDefault();
             var model = _eventRepository.Get(id);
             if (model != null)
             {

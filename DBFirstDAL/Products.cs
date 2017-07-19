@@ -21,11 +21,11 @@ namespace DBFirstDAL
             this.ProductImages = new HashSet<ProductImages>();
             this.ProductOrders = new HashSet<ProductOrders>();
             this.ProductValues = new HashSet<ProductValues>();
-            this.Review = new HashSet<Review>();
             this.Events = new HashSet<Events>();
             this.HomeEntity = new HashSet<HomeEntity>();
             this.EnumValues = new HashSet<EnumValues>();
             this.Categories = new HashSet<Categories>();
+            this.Reviews = new HashSet<Reviews>();
         }
     
         public int Id { get; set; }
@@ -57,8 +57,6 @@ namespace DBFirstDAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductValues> ProductValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Review> Review { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Events> Events { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HomeEntity> HomeEntity { get; set; }
@@ -66,5 +64,7 @@ namespace DBFirstDAL
         public virtual ICollection<EnumValues> EnumValues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Categories> Categories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Reviews> Reviews { get; set; }
     }
 }

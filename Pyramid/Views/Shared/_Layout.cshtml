@@ -91,7 +91,7 @@
 
                         foreach (var item in footerCategories)
                         {
-                    <div class="col-md-3 grid-sizer ft-item">
+                    <div class="col-md-3 col-xs-6 grid-sizer ft-item">
                         <div class="footer__catalog-item">
                             <a href="@Url.Action("Index","Category",new { id=item.Category.Id})"><p class="footer__catalog-item-title">@item.Category.Title</p></a>
                             <ul class="footer__catalog-list">
@@ -114,12 +114,12 @@
             </div>
             <div class="footer_bottom">
                 <div class="row no-gutter">
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-xs-3">
                         <div class="footer__copyright">
                             <p class="footer__copyright-text">2016 © Пирамида.<span class="footer__copyright-text_yellow">Строй</span></p>
                         </div>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-9 col-xs-9">
                         <div class="footer__menu-wrap">
                             <ul class="footer__menu">
                                 <li class="footer__menu-item"><a class="footer__menu-item-link" href="@Url.Action("Index","Page",new { id = 4 })">Наша компания</a></li>

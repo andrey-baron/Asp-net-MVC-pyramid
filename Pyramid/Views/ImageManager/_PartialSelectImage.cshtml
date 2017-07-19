@@ -6,7 +6,7 @@
 
 <!-- Fine Uploader JS file
 ====================================================================== -->
-<script src="~/Scripts/fine-uploader.js"></script>
+<script src="~/Scripts/jquery.fine-uploader.js"></script>
 
 <!-- Fine Uploader Thumbnails template w/ customization
 ====================================================================== -->
@@ -150,33 +150,23 @@
     //            notAvailablePath: '/Content/img-file-uploader/not_available-generic.png'
     //        }
     //    },
-    //    autoUpload: false,
-    //    callbacks: {
-    //        onSubmit: function (id, fileName) {
-                
-    //                //return false;
-               
-    //        },
-    //        onCancel: function (id, fileName) {
-               
-    //        },
-    //        onComplete: function (id, fileName, responseJSON) {
-    //            if (responseJSON.success) {
-                    
-    //            }
-    //        }
-    //    },
-    //    debug: true
-    //   // multiple: false
+    //    autoUpload: true,
+    //    interceptSubmit: false,
+    //    allowXdr: true,
+    //    debug: false,
+    //    // multiple: false
     //}).on('complete', function (event, id, name, responseJSON) {
     //    var tmp = responseJSON;
     //    reloadData();
-
-    //    console.log(files);
     //    setTimeout(function () {
     //        $(".qq-upload-list-selector").html("");
-    //    }, 3000)
+    //    }, 3000);
+    //    event.preventDefault();
     //});;
+
+    //$('#trigger-upload').click(function () {
+    //    $('#fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
+    //});
 
     //$('#trigger-upload').click(function () {
     //   $('#fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
