@@ -33,7 +33,7 @@
             @foreach (var item in Model.Objects)
             {
                 <div class="col-md-12 col-xs-12">
-                    <div class="search__search-item">
+                    <div class="search-item">
 
                         <div class="row">
                             <div class="col-md-4 col-xs-4">
@@ -42,13 +42,29 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-4 col-xs-4">
+                            <div class="col-md-6 col-xs-6">
                                 <div class="search-item__title-block">
                                     <div class="search-item__title">@item.Title</div>
-                                    <div class="search-item__item-price">@item.Price</div>
+                                    <div class="search-item__item-price">
+                                        <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
+                                        
+                                    </div>
                                 </div>
+                                <div class="search-item__bottom-block">
+                                    <span class="js-add-to-cart" data-ajaxid="@item.Id">
+                                        <span class="product__buy product__buy_add-to-cart product__buy_from-search">
+                                            Добавить в корзину
+                                        </span>
+                                    </span>
+                                    <a class="" href="/Cart/CheckoutOneClick/@item.Id">
+                                        <div class="product__buy product__buy_one-click product__buy_from-search">
+                                            <p>Купить в один клик</p>
+                                        </div>
+                                    </a>
+                                </div>
+
                             </div>
-                            <div class="col-md-4 col-xs-4">
+                            <div class="col-md-2 col-xs-2">
                                 <div class="search-item__actions-block">
                                     <div class="search-item__product-deteil">
                                         <a href="@Url.Action("Index","Product",new { id=item.Id})" class="btn btn-green search-item__link">Подробней</a>
@@ -56,6 +72,11 @@
                                 </div>
                             </div>
                         </div>
+                        @*<div class="row">
+                                <div class="col-md-8 col-md-offset-4 col-xs-12">
+
+                                </div>
+                            </div>*@
 
 
                     </div>

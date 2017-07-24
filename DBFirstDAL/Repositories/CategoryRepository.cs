@@ -706,7 +706,7 @@ namespace DBFirstDAL.Repositories
                 Price=s.Price,
                 TypePrice=(Common.TypeProductPrice) s.TypePrice,
                 Title=s.Title,
-                
+                TypeStatusProduct=(Common.TypeStatusProduct)s.TypeStatusProduct
             }).ToList();
 
             cat.Id = dbObject.Id;
@@ -840,13 +840,13 @@ namespace DBFirstDAL.Repositories
                     IEnumerable<Products> temp= dbCategory.Products.Where(i => i.TypeStatusProduct != (int)Common.TypeStatusProduct.Hide/*&& i.Price>0*/).ToList();
                     if (searchParams.MaxPrice.HasValue)
                     {
-                        temp = temp.Where(i => i.Price< searchParams.MaxPrice.Value);
+                        temp = temp.Where(i => i.Price<= searchParams.MaxPrice.Value);
                     }
                     if (searchParams.MinPrice.HasValue)
                     {
-                        temp = temp.Where(i => i.Price > searchParams.MinPrice.Value);
+                        temp = temp.Where(i => i.Price >= searchParams.MinPrice.Value);
                     }
-                    if (searchParams.FiltersSearch!=null&& searchParams.FiltersSearch.Count()>0)
+                    if (searchParams.FiltersSearch!=null&& searchParams.FiltersSearch.Count()>0&& searchParams.FiltersSearch.Where(w=>w.EventValueIds.Count()>0).Count()>0)
                     {
                         List<IEnumerable<Products>> listProductsFromFilters = new List<IEnumerable<Products>>();
                         foreach (var item in searchParams.FiltersSearch)
@@ -891,5 +891,51 @@ namespace DBFirstDAL.Repositories
                 return true;
             }
         }
+
+        public bool IsChildFromParent(int categoryChildId,int categoryParentId)
+        {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                List<int> visitedList = new List<int>();
+                var curCategory = dbContext.Categories.Find(categoryChildId);
+                if (curCategory!=null)
+                {
+                   
+                    while (curCategory!=null&&!visitedList.Contains(curCategory.Id))
+                    {
+                        visitedList.Add(curCategory.Id);
+                        if (visitedList.Contains(categoryParentId))
+                        {
+                            return true;
+                        }
+                        curCategory = curCategory.Categories2;
+                    }
+                    //return BFSFromCategory(dbContext, curCategory, visitedList, categoryParentId);
+                }
+                return false;
+            }
+        }
+        //private bool BFSFromCategory(PyramidFinalContext dbContext,Categories currentCategory, List<int> visitedIds, int categoryParentId)
+        //{
+        //    if (visitedIds.Contains(categoryParentId))
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        if (currentCategory.Categories1!=null)
+        //        {
+        //            foreach (var item in currentCategory.Categories1)
+        //            {
+        //                if (!visitedIds.Contains(item.Id))
+        //                {
+        //                    visitedIds.Add(item.Id);
+        //                    BFSFromCategory(dbContext, item, visitedIds, categoryParentId);
+        //                }
+        //            }
+        //        }
+        //        return false;
+        //    }
+        //}
     }
 }

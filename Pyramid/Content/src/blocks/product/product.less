@@ -150,14 +150,14 @@
     text-align: center;
     display: none;
     background: #fff;
-    &:before{
+    & :before{
       content: "";
       background: url("../img/done.png")no-repeat;
       width: 32px;
       height:32px;
       display: inline-block;
       vertical-align: middle;
-
+      margin-right: 5px;
     }
     &:after{
       content: "";
@@ -217,7 +217,11 @@
       height: 31px;
     }
   }
-
+  &__buy_from-search{
+      max-width:100%;
+      width:220px;
+      display:inline-block;
+  }
 
   &__item:focus,&__item:hover{
     //font-size: 0;

@@ -17,14 +17,7 @@ namespace DBFirstDAL.Repositories
     where TEntity : class
     where TSearchParams : SearchParamsBase
     {
-
         protected readonly TDbContext _entities;
-
-        //public TDbContext Context
-        //{
-
-        //    get { return _entities; }
-        //}
 
         protected GenericRepository(TDbContext context)
         {
@@ -36,8 +29,7 @@ namespace DBFirstDAL.Repositories
         {
             
         }
-
-
+        
         public abstract void UpdateBeforeSaving(TDbContext dbContext, TDbObject dbEntity, TEntity entity, bool exists);
 
         public virtual SearchResult<TEntity> Get(TSearchParams searchParams)
@@ -148,29 +140,8 @@ namespace DBFirstDAL.Repositories
 
         }
 
-        //public virtual void Edit(TDbObject entity)
-        //{
-        //        _entities.Entry(entity).CurrentValues.SetValues(entity);
-        //        _entities.Entry(entity).State = System.Data.Entity.EntityState.Modified;
-        //}
-
         public virtual void AddOrUpdate(TEntity entity)
         {
-           //var prop= entity.GetType().GetProperty("Id");
-           // int id = (int)prop.GetValue(entity, null);
-
-           // var efEntity = _entities.Set<TDbObject>().Find(id);
-           // if (efEntity == null)
-           // {
-           //     _entities.Set<TDbObject>().Add(entity);
-           // }
-           // else
-           // {
-           //     _entities.Entry(efEntity).CurrentValues.SetValues(entity);
-           //     _entities.Entry(efEntity).State = System.Data.Entity.EntityState.Modified;
-
-           // }
-
             var data = _entities ?? new TDbContext();
             try
             {
@@ -197,11 +168,6 @@ namespace DBFirstDAL.Repositories
                     data.Dispose();
             }
         }
-
-        //public virtual void Save()
-        //{
-        //    _entities.SaveChanges();
-        //}
 
         protected virtual TDbObject GetDbObjectById(DbSet<TDbObject> objects, TObjectId objectId) {
             return objects.Find(objectId);

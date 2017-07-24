@@ -20,19 +20,7 @@ namespace Pyramid.Controllers
         // GET: EnumValue
         public ActionResult Index()
         {
-            //var efmodel = 
-            //var config = new MapperConfiguration(cfg =>
-            //{
-
-            //    cfg.CreateMap<DBFirstDAL.EnumValues,Entity.EnumValue>();
-            //});
-
-
-            //config.AssertConfigurationIsValid();
-
-            //var mapper = config.CreateMapper();
             var modelAllValue = _enumRepositopy.GetAll().ToList();
-
             return View(modelAllValue);
         }
         public   ActionResult AddOrUpdate(int id=0)
@@ -43,9 +31,7 @@ namespace Pyramid.Controllers
         [HttpPost]
         public ActionResult AddOrUpdate(Entity.EnumValue model)
         {
-
             _enumRepositopy.AddOrUpdate(model);
-
             return RedirectToAction("index");
         }
         public ActionResult Delete(int id)

@@ -282,7 +282,7 @@ body div#jivo-iframe-container.jivo-state-widget {
 .cart__picture {
   background-size: contain!important;
   background-position: center center!important;
-  height: 150px;
+  height: 120px;
 }
 .cart__part {
   text-align: center;
@@ -299,7 +299,7 @@ body div#jivo-iframe-container.jivo-state-widget {
   align-items: center;
 }
 .cart__row_fixed-height {
-  height: 150px;
+  height: 120px;
 }
 .cart__item {
   padding: 30px;
@@ -307,7 +307,7 @@ body div#jivo-iframe-container.jivo-state-widget {
   position: relative;
 }
 .cart__item_small {
-  padding: 10px;
+  padding: 5px;
 }
 .cart__btn-to-cart {
   background: #ffe025;
@@ -319,8 +319,8 @@ body div#jivo-iframe-container.jivo-state-widget {
 }
 .cart__remove-item {
   position: absolute;
-  right: 20px;
-  top: 20px;
+  right: 10px;
+  top: 10px;
   color: #cdcdcd;
   font-size: 24px;
   cursor: pointer;
@@ -355,6 +355,9 @@ body div#jivo-iframe-container.jivo-state-widget {
 }
 label.error {
   font-size: 14px;
+}
+.table-checkout tfoot {
+  border-top: 2px solid #000;
 }
 
 /* header variable*/
@@ -1768,13 +1771,14 @@ page__event-item + page__event-item {
   display: none;
   background: #fff;
 }
-.product__in-stock:before {
+.product__in-stock :before {
   content: "";
   background: url("../img/done.png") no-repeat;
   width: 32px;
   height: 32px;
   display: inline-block;
   vertical-align: middle;
+  margin-right: 5px;
 }
 .product__in-stock:after {
   content: "";
@@ -1833,6 +1837,11 @@ page__event-item + page__event-item {
   background: url("../img/cart.png") no-repeat;
   width: 32px;
   height: 31px;
+}
+.product__buy_from-search {
+  max-width: 100%;
+  width: 220px;
+  display: inline-block;
 }
 .product__item:focus,
 .product__item:hover {
@@ -1960,10 +1969,15 @@ page__event-item + page__event-item {
 .search__result {
   margin: 20px;
 }
-.search__search-item {
+.search-item {
   margin-bottom: 20px;
   padding: 20px;
-  background: rgba(153, 153, 153, 0.25);
+}
+.search-item__bottom-block {
+  margin-top: 20px;
+}
+.search-item .product__item-price-inner {
+  text-align: left;
 }
 
 /* header variable*/

@@ -13,7 +13,6 @@ namespace Pyramid.Controllers
     [Authorize]
     public class PageController : BaseController
     {
-        
         PageRepository _pageRepo;
         EventBannerRepository _eventBannerRepository;
 
@@ -22,7 +21,7 @@ namespace Pyramid.Controllers
             _pageRepo = new PageRepository();
             _eventBannerRepository = new EventBannerRepository();
         }
-        // GET: Page
+
         public ActionResult AdminIndex()
         {
            // Mapper.Initialize(cfg => cfg.CreateMap<Pages, Pyramid.Entity.Page>());
@@ -46,7 +45,6 @@ namespace Pyramid.Controllers
             return View(model);
         }
 
-        // POST: Page/Create
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult AddOrUpdate(Entity.Page model)
@@ -62,9 +60,6 @@ namespace Pyramid.Controllers
            
         }
 
-      
-
-        // GET: Page/Delete/5
         public ActionResult Delete(int id)
         {
             var efPage = _pageRepo.FindBy(i => i.Id == id).SingleOrDefault();
@@ -78,18 +73,6 @@ namespace Pyramid.Controllers
         [AllowAnonymous]
         public ActionResult Index(int id)
         {
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    #region root config
-
-            //    cfg.CreateMap<DBFirstDAL.Pages, Pyramid.Entity.Page>(); 
-
-               
-            //    #endregion
-            //});
-            //config.AssertConfigurationIsValid();
-            //var mapper = config.CreateMapper();
-
             var page = _pageRepo.Get(id);
             if (page != null)
             {
@@ -101,7 +84,6 @@ namespace Pyramid.Controllers
                 });
                 ViewBag.BredCrumbs = breadcrumbs;
             }
-            //var modelPage = mapper.Map<Pyramid.Entity.Page>(page);
             ViewBag.Banners = _eventBannerRepository.GetAll();
             ViewBag.MetaTitle = page.Title;
             return View(page);

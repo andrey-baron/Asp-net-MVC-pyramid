@@ -32,24 +32,8 @@ namespace Pyramid.Controllers
         }
         public ActionResult Update(int id)
         {
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<DBFirstDAL.Orders, OrderModel>()
-            //    .ForMember(d => d.Products, o => o.MapFrom(m=>m.ProductOrders.Select(s=>s.Products)));
-
-
-            //    cfg.CreateMap<DBFirstDAL.Products, ProductOrderModel>()
-            //   .ForMember(d => d.Quantity, o => o.MapFrom(m=> m.ProductOrders.FirstOrDefault(f => f.ProductId == m.Id)!=null?m.ProductOrders.FirstOrDefault(f=>f.ProductId==m.Id).Quantity:0))
-            //   ;
-
-            //});
-            //config.AssertConfigurationIsValid();
-
-            //var mapper = config.CreateMapper();
-
+          
             var order = _orederRepository.Get(id);
-
-           // var model = mapper.Map<DBFirstDAL.Orders, OrderModel>(efOrder);
             return View(order);
         }
         [HttpPost]

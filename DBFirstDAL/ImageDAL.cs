@@ -85,7 +85,7 @@ namespace DBFirstDAL
         {
             Random r = new Random();
             var salt = r.Next(10000000).ToString();
-            var filename = DateTime.Now.ToString("d") + "_"+ salt + "_" + Path.GetFileName(file.FileName);
+            var filename = DateTime.Now.ToString("d") + "_"+ salt + "_" + Path.GetFileName(file.FileName).Replace(" ","");
             var title = Path.GetFileNameWithoutExtension(file.FileName);
             var pathInFileSystem = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, pathDirectoryFilesImage,filename);
             var serverPath = Path.Combine(pathServerImg, filename);

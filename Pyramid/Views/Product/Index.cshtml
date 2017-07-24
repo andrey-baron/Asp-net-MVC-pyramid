@@ -129,7 +129,11 @@
                     <li><a data-toggle="tab" href="#panely2">Советы</a></li>
                     <li><a data-toggle="tab" href="#panely3">Доставка</a></li>
                     <li><a data-toggle="tab" href="#panely4">Отзывы</a></li>
-                    @*<li><a href="/Page/Index/2" class="single-coler">Колеровка</a></li>*@
+                    @if ((bool)ViewBag.IsFromParent)
+                    {
+                        <li><a href="/Page/Index/2" class="single-coler">Колеровка</a></li>
+                    }
+                    
                 </ul>
                 
 

@@ -1,0 +1,56 @@
+﻿@model  Pyramid.Models.Cart.CartOrderFromEmailSendModel
+
+<div class="container cart__container">
+    <div class="chackout">
+        <table class="display table table-striped table-bordered dataTable table-checkout">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Количесво</th>
+                    <th>Цена</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Cart.Lines)
+                {
+                    <tr>
+                        <td>@item.Product.Title</td>
+                        <td>@item.Quantity</td>
+                        <td>@(item.Product.Price * item.Quantity)</td>
+                    </tr>
+
+                }
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Итоговая стоимость</td>
+                    <td>@Model.Cart.ComputeTotalValue()</td>
+                </tr>
+
+            </tfoot>
+        </table>
+
+        <div class="card js-result-insert">
+            <div class="card-header card-header-lg">
+                <p>Контактные данные</p>
+            </div>
+            <div class="card-block">
+                <div class="call-to-action__form-wrap_checkout">
+                    <p>Имя : @Model.UserData.Name</p>
+                    <p>Телефон: @Model.UserData.Phone</p>
+                    @if (Model.UserData.Email != null)
+                    {
+                        <p>Электронная почта: @Model.UserData.Email</p>
+                    }
+                    @if (Model.UserData.Adress != null)
+                    {
+                        <p>Адрес: @Model.UserData.Adress</p>
+                    }
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

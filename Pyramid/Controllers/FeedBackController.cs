@@ -59,12 +59,7 @@ namespace Pyramid.Controllers
         [HttpPost]
         public ActionResult AddOrUpdate(Entity.FeedBack model)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap< Entity.FeedBack, DBFirstDAL.FeedBackEmails>());
-            var efmodel =
-                Mapper.Map< Entity.FeedBack, DBFirstDAL.FeedBackEmails>(model);
-
-            //feedBackEmailRepository.AddOrUpdate(efmodel);
-            //feedBackEmailRepository.Save();
+            feedBackEmailRepository.AddOrUpdate(model);
             return RedirectToAction("Index");
         }
     }

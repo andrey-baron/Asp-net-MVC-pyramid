@@ -50,6 +50,7 @@ namespace Pyramid.Controllers
             ViewBag.Recommendations = cat.Recommendations;
             ViewBag.MetaTitle = viewModel.Product.MetaTitle?? viewModel.Product.Title;
             ViewBag.Shipping = _globalOptionRepository.Get("shipping").OptionContent;
+            ViewBag.IsFromParent = _categoryRepository.IsChildFromParent(viewModel.Product.Categories.First().Id, 1213);
             return View(viewModel);
 
             #region old
@@ -164,34 +165,6 @@ namespace Pyramid.Controllers
 
             var searchResult = _productRepository.Get(SearchParams);
 
-
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
-            //    .ForMember(d => d.EnumValues, o => o.Ignore())
-            //    .ForMember(d => d.Categories, o => o.Ignore())
-            //    .ForMember(d => d.ProductValues, o => o.Ignore())
-            //    .ForMember(d => d.ThumbnailId, o => o.Ignore())
-            //    .ForMember(d => d.ThumbnailImg, o => o.Ignore())
-            //    .ForMember(d => d.Images, o => o.Ignore())
-            //    ;
-            //    //cfg.CreateMap<IPagedList<DBFirstDAL.Products>, IPagedList<Entity.Product>>()
-            //    //;
-
-            //});
-            //config.AssertConfigurationIsValid();
-
-            //var mapper = config.CreateMapper();
-
-            //if (searchString != null)
-            //{
-            //    page = 1;
-            //}
-            //else
-            //{
-            //    searchString = currentFilter;
-            //}
-
             ViewBag.CurrentFilter = searchString;
             ViewBag.CategoryId = categoryId;
             ViewBag.Priority = priority;
@@ -201,37 +174,6 @@ namespace Pyramid.Controllers
                 Value = item.Id.ToString()
             });
 
-            //IQueryable<DBFirstDAL.Products> efProducts;
-            //if (categoryId != null)
-            //{
-            //    efProducts = _categoryRepository.GetProductsByCategoryId(categoryId.Value).AsQueryable();
-            //}
-            //else
-            //{
-            //    // efProducts = _productRepository.GetAll();
-            //}
-
-
-
-
-            //if (!String.IsNullOrEmpty(searchString))
-            //{
-            //    efProducts = efProducts.Where(s => s.Title.Contains(searchString));
-            //}
-            //if (priority)
-            //{
-            //    efProducts = efProducts.Where(s => s.IsPriority == true);
-
-            //}
-
-            //var efProductsList = efProducts.ToList();
-            //efProductsList.Reverse();
-            //int pageNumber = (page ?? 1);
-            //var modelList = new PagedList<Entity.Product>(
-            //efProductsList.Select(u => mapper.Map<DBFirstDAL.Products, Entity.Product>(u)),
-            //pageNumber, Config.PageSize);
-            //var pagedProducts= efProducts.OrderBy(i=>i.Title).ToPagedList(pageNumber, pageSize);
-            //var model = mapper.Map<IEnumerable<DBFirstDAL.Products>, IPagedList<Entity.Product>>(pagedProducts);
             var viewModel = SearchResultViewModel<Product>.CreateFromSearchResult(searchResult, i => i, 10);
             return View(viewModel);
         }
@@ -286,62 +228,9 @@ namespace Pyramid.Controllers
             }
             model.DateChange = DateTime.Now;
 
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<Pyramid.Entity.Product, DBFirstDAL.Products>()
-            //    .ForMember(d => d.PointOnImg_Id, o => o.Ignore())
-            //    .ForMember(d => d.ProductImages, o => o.Ignore())
-            //     .ForMember(d => d.Review, o => o.Ignore())
-            //     .ForMember(d => d.PointOnImgs, o => o.Ignore())
-            //     .ForMember(d => d.HomeEntity, o => o.Ignore())
-            //     .ForMember(d => d.Events, o => o.Ignore())
-            //     .ForMember(d => d.ProductOrders, o => o.Ignore());
-
-            //    cfg.CreateMap<Pyramid.Entity.Category, DBFirstDAL.Categories>()
-            //    .ForMember(d => d.Categories1, o => o.Ignore())
-            //    .ForMember(d => d.Categories2, o => o.Ignore())
-            //    .ForMember(d => d.Filters, o => o.Ignore())
-            //    .ForMember(d => d.Products, o => o.Ignore())
-            //    .ForMember(d => d.CategoryImages, o => o.Ignore())
-            //    .ForMember(d => d.Recommendations, o => o.Ignore())
-            //    .ForMember(d => d.HomeEntity, o => o.Ignore())
-            //    .ForMember(d => d.Seo, o => o.Ignore())
-            //    .ForMember(d => d.SeoId, o => o.Ignore())
-                
-            //    ;
-
-            //    cfg.CreateMap<EnumValue, DBFirstDAL.EnumValues>()
-            //    .ForMember(d => d.Filters, o => o.Ignore())
-            //    .ForMember(d => d.Products, o => o.Ignore())
-            //    ;
-            //    cfg.CreateMap<ProductValue, DBFirstDAL.ProductValues>()
-            //    .ForMember(d => d.Products, o => o.Ignore())
-            //    ;
-
-
-            //});
-            //config.AssertConfigurationIsValid();
-
-            //var mapper = config.CreateMapper();
-
             model.Categories= model.Categories.Where(i => i.Checked == true).ToList();
 
-            //var efModel = mapper.Map<DBFirstDAL.Products>(model);
-            //if (model.ThumbnailId!=0)
-            //{
-            //    efModel.ProductImages = new List<DBFirstDAL.ProductImages>();
-            //    efModel.ProductImages
-            //        .Add(new DBFirstDAL.ProductImages()
-            //    {
-            //        ImageId = model.ThumbnailId,
-            //        ProductId = model.Id,
-            //        TypeImage = (int)Entity.Enumerable.TypeImage.Thumbnail
-            //    } );
-            //}
-            
             _productRepository.AddOrUpdate(model);
-            //_productRepository.Save();
-
             return RedirectToAction("AdminIndex");
         }
         [Authorize]

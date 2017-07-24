@@ -42,7 +42,14 @@
                         </a>
                         <div class="product__item__hover_block_wrapper">
                             <div class="product__item__hover_block_wrapper__item product__in-stock">
+                              @if (item.TypeStatusProduct == Common.TypeStatusProduct.Normal)
+                              {
                                 <p>в наличии</p>
+                              }
+                            @if (item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
+                            {
+                                <p>Доступен для заказа</p>
+                            }
                             </div>
                             <a class="product__item__hover_block_wrapper__item" href="@Url.Action("CheckoutOneClick","Cart",new { id=item.Id})">
                                 <div class="product__buy product__buy_one-click">

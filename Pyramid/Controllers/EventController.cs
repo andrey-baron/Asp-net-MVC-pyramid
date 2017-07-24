@@ -27,39 +27,13 @@ namespace Pyramid.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<DBFirstDAL.Events, Pyramid.Entity.Event>()
-            //    .ForMember(d => d.Image, o => o
-            //        .MapFrom(m =>
-            //    m.EventImages.Images));
-
-            //    cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
-            //  .ForMember(d => d.EnumValues, o => o.Ignore())
-            //   .ForMember(d => d.Categories, o => o.Ignore())
-            //    .ForMember(d => d.Images, o => o.Ignore())
-            //     .ForMember(d => d.ProductValues, o => o.Ignore())
-            //      .ForMember(d => d.ThumbnailId, o => o.Ignore())
-            //       .ForMember(d => d.ThumbnailImg, o => o.Ignore());
-
-            //    cfg.CreateMap<DBFirstDAL.Images, Entity.Image>();
-
-
-            //});
-
-
             List<BreadCrumbViewModel> breadcrumbs = new List<BreadCrumbViewModel>();
             breadcrumbs.Add(new BreadCrumbViewModel()
             {
                 Title = "Акции"
             });
             ViewBag.BredCrumbs = breadcrumbs;
-
-            //config.AssertConfigurationIsValid();
-
-            //var mapper = config.CreateMapper();
             var model  = _eventRepository.GetAll().ToList();
-
             ViewBag.Banners = _eventBannerRepository.GetAll();
             ViewBag.MetaTitle = "Акции";
             return View(model);
@@ -130,7 +104,6 @@ namespace Pyramid.Controllers
         public ActionResult AddOrUpdate(Event model)
         {
             _eventRepository.AddOrUpdate(model);
-           
             ViewData["OperationResult"] = "Операция прошла успешно";
             return RedirectToAction("ManageIndex");
         }
@@ -139,7 +112,6 @@ namespace Pyramid.Controllers
         {
             var efEvent = _eventRepository.FindBy(i => i.Id == id).SingleOrDefault();
             _eventRepository.Delete(id);
-            //_eventRepository.Save();
             return RedirectToAction("ManageIndex");
         }
 

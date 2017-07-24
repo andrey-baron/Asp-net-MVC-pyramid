@@ -214,6 +214,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AllCategoriesViewModel.cs" />
     <Compile Include="Models\BreadCrumbViewModel.cs" />
+    <Compile Include="Models\Cart\CartOrderFromEmailSendModel.cs" />
     <Compile Include="Models\Cart\CheckoutModel.cs" />
     <Compile Include="Models\Cart\ProductCartModel.cs" />
     <Compile Include="Models\CategoryModels\CategoryEnumValueViewModel.cs" />
@@ -759,6 +760,7 @@
     <Content Include="Views\Review\AdminIndex.cshtml" />
     <Content Include="Views\Cart\CheckoutOneClick.cshtml" />
     <Content Include="Views\Cart\ResultCheckoutOneClick.cshtml" />
+    <Content Include="Views\Cart\_PartialNewOrderFromEmailSend.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

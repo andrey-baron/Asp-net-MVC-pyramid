@@ -23,9 +23,7 @@ namespace Pyramid.Controllers
         // GET: FAQ
         public ActionResult Index()
         {
-
            List<BreadCrumbViewModel> breadcrumbs = new List<BreadCrumbViewModel>();
-
             breadcrumbs.Add(new BreadCrumbViewModel()
             {
                 Title = "Актуальные вопросы"
@@ -48,8 +46,6 @@ namespace Pyramid.Controllers
         }
         public ActionResult Get(int id)
         {
-          
-          
             var efFaqs = _faqRepository.GetAllWithQuestionAnswer().ToList();
             var faqlist = _faqRepository.GetAll();
             var faqSingle = faqlist.FirstOrDefault(i => i.Id == id);
@@ -97,9 +93,7 @@ namespace Pyramid.Controllers
         [Authorize]
         public ActionResult AddOrUpdate(int id = 0)
         {
-
             var model=_faqRepository.Get(id);
-
             if (model== null)
             {
                 model = new Entity.FAQ();
@@ -116,7 +110,6 @@ namespace Pyramid.Controllers
 
         public ActionResult PartialGetAllQuestionAnswer(int id)
         {
-
             var model = _faqRepository.Get(id);
             if (model==null)
             {
@@ -144,12 +137,10 @@ namespace Pyramid.Controllers
 
         public ActionResult DeleteQuestionAnswer(int id)
         {
-            //var efmodel = _questionAnswerRepository.FindBy(i => i.Id == id).SingleOrDefault();
             var model = _faqRepository.Get(id);
             if (model != null)
             {
                 _questionAnswerRepository.Delete(model.Id);
-               // _questionAnswerRepository.Save();
             }
             return null;
         }

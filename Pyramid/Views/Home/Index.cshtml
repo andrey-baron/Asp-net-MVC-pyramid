@@ -47,14 +47,14 @@
             <a href="@Url.Action("Index","Page",new {id= 8 })">
                 <div class="home-slider__map"></div>
             </a>
-</div>
+        </div>
     </div>
 </div>
 <div class="season-offer">
     <div class="row no-gutter">
 
         @{ IEnumerable<Pyramid.Entity.Product>
-                                  offers = (IEnumerable<Pyramid.Entity.Product>)ViewBag.SeasonOffers;}
+                                              offers = (IEnumerable<Pyramid.Entity.Product>)ViewBag.SeasonOffers;}
         @if (offers.Count() > 0)
         {
             <div class="col-f-lg-3 col-md-3 col-xs-3 season-offer__item_green-title">
@@ -67,24 +67,27 @@
 
                         <a href="@Url.Action("Index","Product",new { id=item.Id })"><img src="@(item.ThumbnailImg!=null?item.ThumbnailImg.ServerPathImg:"")" alt="" class="product__item-img"></a>
 
-                <a href="@Url.Action("Index","Product",new { id=item.Id })">
-                    <p class="product__item-title">
-                        @item.Title
-                    </p>
-                </a>
-                        <div class="product__item-price product__item-price_best">
+                        <a href="@Url.Action("Index","Product",new { id=item.Id })">
+                            <p class="product__item-title">
+                                @item.Title
+                            </p>
+                        </a>
+                        <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
                             <div class="triangle-up"></div>
                             <div class="triangle-down"></div>
                             <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
                         </div>
                         <div class="product__item__hover_block_wrapper">
-                            @if (item.TypeStatusProduct==Common.TypeStatusProduct.Normal)
-                            {
-                                <div class="product__item__hover_block_wrapper__item product__in-stock">
+                            <div class="product__item__hover_block_wrapper__item product__in-stock">
+                                @if (item.TypeStatusProduct == Common.TypeStatusProduct.Normal)
+                                {
                                     <p>в наличии</p>
-                                </div>
-                            }
-
+                                }
+                                @if (item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
+                                {
+                                    <p>Доступен для заказа</p>
+                                }
+                            </div>
                             <a class="product__item__hover_block_wrapper__item" href="@Url.Action("CheckoutOneClick","Cart",new { id=item.Id})">
                                 <div class="product__buy product__buy_one-click">
                                     <p>Купить в один клик</p>
@@ -110,19 +113,17 @@
 
 </div>
 @*<div class="call-to-action">
-    <p class="call-to-action__head-title">Call to action</p>
-</div>*@
+        <p class="call-to-action__head-title">Call to action</p>
+    </div>*@
 @{var feedback = new Common.FeedBack(); }
 @foreach (var item in Model)
 {
     <div class="decoration-work">
         <div class="row no-gutter">
             <div class="col-ten-lg-6 col-md-12 col-xs-12">
-                <div class="decoration-work__scope-points" @(item.BannerWithPoints != null && item.BannerWithPoints.Images != null&& item.BannerWithPoints.Images.ServerPathImg!=null ? string.Format("style=background-image:url({0});background-color:#a9c95a;", item.BannerWithPoints.Images.ServerPathImg) : "")>
+                <div class="decoration-work__scope-points" @(item.BannerWithPoints != null && item.BannerWithPoints.Images != null && item.BannerWithPoints.Images.ServerPathImg != null ? string.Format("style=background-image:url({0});background-color:#a9c95a;", item.BannerWithPoints.Images.ServerPathImg) : "")>
                     @if (item.BannerWithPoints != null && item.BannerWithPoints.PointOnImgs != null)
                     {
-
-
                         foreach (var point in item.BannerWithPoints.PointOnImgs)
                         {
                             if (point.Products != null)
@@ -132,20 +133,17 @@
                                         <div class="decoration-work__product-btn-close"></div>
                                         <a href="@Url.Action("Index","Product",new { id=point.Products.Id })"><img src="@(point.Products.ThumbnailImg!=null?point.Products.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="decoration-work__product-img"></a>
                                         <a href="@Url.Action("Index","Product",new { id=point.Products.Id })"><p class="decoration-work__product-title">@point.Products.Title</p></a>
-                                            <div class="decoration-work__product-price product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)point.Products.TypePrice)">
-                                                <p class="product__item-price-inner"><span class="big-decimal">@point.Products.Price</span> руб.</p>
-                                            </div>
-                                            <div class="decoration-work__product-add-to-cart product__buy product__buy_add-to-cart js-add-to-cart" data-ajaxid="@point.Products.Id">
-                                                <p>Добавить в корзину</p>
-                                            </div>
-</div>
+                                        <div class="decoration-work__product-price product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)point.Products.TypePrice)">
+                                            <p class="product__item-price-inner"><span class="big-decimal">@point.Products.Price</span> руб.</p>
+                                        </div>
+                                        <div class="decoration-work__product-add-to-cart product__buy product__buy_add-to-cart js-add-to-cart" data-ajaxid="@point.Products.Id">
+                                            <p>Добавить в корзину</p>
+                                        </div>
+                                    </div>
                                 </div>
                             }
-
-
                         }
                     }
-
                     <div class="decoration-work__description">
                         @MvcHtmlString.Create(item.Content)
                     </div>
@@ -155,14 +153,10 @@
                 <div class="decoration-work__answer-question">
                     @if (item.Faq != null)
                     {
-
-
                         <p class="decoration-work__question-head">ВОПРОС-ОТВЕТ</p>
                         int indxq = 0;
                         foreach (var itemQuestion in item.Faq.QuestionAnswer)
                         {
-
-
                             <p class="decoration-work__question-text">
                                 <a href="@Url.Action("Get", "Faq" , new { id=item.Faq.Id })">
                                     @itemQuestion.Question
@@ -175,11 +169,7 @@
                                 break;
 
                             }
-
                         }
-
-
-
                         <div class="decoration-work__question-wrap-all-link">
                             <a class="decoration-work__question-all-link"
                                href="@Url.Action("Get","Faq",new {id=item.Faq.Id })">
@@ -188,9 +178,7 @@
                             </a>
                         </div>
                     }
-
                 </div>
-
             </div>
             <div class="col-ten-lg-2 col-md-6 col-xs-6">
                 <div class="decoration-work__answer-question decoration-work__question-head_video-guide">
@@ -198,7 +186,7 @@
                     <div class="decoration-work__wrap-video">
                         <a href="@item.LinkYouTobe" class="decoration-work__popup-youtube">
                             <img class="decoration-work__video" src="@(item.Images!=null?item.Images.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="">
-                            @if (item.Images != null && item.Images.ServerPathImg!=null)
+                            @if (item.Images != null && item.Images.ServerPathImg != null)
                             {
                                 <div class="decoration-work__btn-play"></div>
                             }
@@ -206,7 +194,6 @@
                     </div>
                     <p class="decoration-work__description-video">@item.TitleVideoGuide</p>
                 </div>
-
             </div>
         </div>
         <div class="grouping-products">
@@ -217,7 +204,6 @@
                     {
                         <div class="col-f-lg-3 col-md-3 col-xs-3">
                             <div class="product__item">
-
                                 <a href="@Url.Action("Index","Product",new { id=itemProduct.Id})"><img src="@(itemProduct.ThumbnailImg.ServerPathImg!=null?itemProduct.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="@itemProduct.ThumbnailImg.ImgAlt" class="product__item-img"></a>
                                 <a href="@Url.Action("Index","Product",new { id=itemProduct.Id})">
                                     <p class="product__item-title">
@@ -230,12 +216,17 @@
                                     <p class="product__item-price-inner"><span class="big-decimal">@itemProduct.Price</span> руб.</p>
                                 </div>
                                 <div class="product__item__hover_block_wrapper">
-                                    @if  (itemProduct.TypeStatusProduct == Common.TypeStatusProduct.Normal)
-                                    {
-                                        <div class="product__item__hover_block_wrapper__item product__in-stock">
+                                    <div class="product__item__hover_block_wrapper__item product__in-stock">
+                                        @if (itemProduct.TypeStatusProduct == Common.TypeStatusProduct.Normal)
+                                        {
                                             <p>в наличии</p>
-                                        </div>
-                                    }
+                                        }
+                                        @if (itemProduct.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
+                                        {
+                                            <p>Доступен для заказа</p>
+                                        }
+                                    </div>
+
 
                                     <a class="product__item__hover_block_wrapper__item" href="@Url.Action("CheckoutOneClick","Cart",new { id=itemProduct.Id})">
                                         <div class="product__buy product__buy_one-click">
@@ -251,7 +242,6 @@
                                 </div>
                             </div>
                         </div>
-
                     }
                 }
                 @if (item.Categories != null && item.Categories.Count > 0)
@@ -301,10 +291,7 @@
         </div>
 
     }
-
 }
-
-
 <div class="rules-order">
     <p class="rules-order__head-title">ОСНОВНЫЕ ПРАВИЛА СОЗДАНИЯ<br>ЗАКАЗА НА САЙТЕ</p>
     <div class="row no-gutter">

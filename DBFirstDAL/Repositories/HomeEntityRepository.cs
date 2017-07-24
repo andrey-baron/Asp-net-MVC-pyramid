@@ -494,7 +494,8 @@ namespace DBFirstDAL.Repositories
                 Id = p.Id,
                 Title = p.Title,
                 Price = p.Price,
-                TypePrice = (Common.TypeProductPrice)p.TypePrice
+                TypePrice = (Common.TypeProductPrice)p.TypePrice,
+                TypeStatusProduct=( Common.TypeStatusProduct)p.TypeStatusProduct
             }).ToList();
 
             if (dbObject.Faq!=null)
