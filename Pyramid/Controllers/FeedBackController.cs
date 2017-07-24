@@ -62,5 +62,11 @@ namespace Pyramid.Controllers
             feedBackEmailRepository.AddOrUpdate(model);
             return RedirectToAction("Index");
         }
+
+        public ActionResult Delete(int id)
+        {
+            feedBackEmailRepository.Delete(id);
+            return RedirectToAction("Index");
+        }
     }
 }

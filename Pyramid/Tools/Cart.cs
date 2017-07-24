@@ -61,6 +61,13 @@ namespace Pyramid.Tools
         {
             get { return lineCollection; }
         }
+
+        public Cart() {
+        }
+        public Cart(List<CartLine> lines)
+        {
+            lineCollection = lines;
+        }
     }
 
     public class CartLine

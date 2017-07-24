@@ -157,6 +157,27 @@ namespace Pyramid.Controllers
         [HttpPost]
         public ActionResult CheckoutOneClick(CheckoutModel model, int productId)
         {
+            ValidateModel(model);
+            var product=_productRepository.Get(productId);
+
+            List<CartLine> lineCollection = new List<CartLine>();
+            lineCollection.Add(new CartLine()
+            {
+                Quantity = 1,
+                Product = new ProductCartModel()
+                {
+                    Id = product.Id,
+                    Price = product.Price,
+                    Title = product.Title
+                }
+            });
+            var emailModel = new CartOrderFromEmailSendModel()
+            {
+                Cart = new Cart(lineCollection),
+                UserData = model
+            };
+            var message = RenderViewToString(this.ControllerContext, "/Views/Cart/_PartialNewOrderFromEmailSend.cshtml", emailModel, true);
+
             var entity = new Order()
             {
                 Adress = model.Adress,
@@ -169,6 +190,16 @@ namespace Pyramid.Controllers
                     Quantity=1
                 } }),
             };
+            MailerMessage mailerMessage = new MailerMessage();
+            mailerMessage.Body = message;
+            mailerMessage.Subject = "Заказ с сайта Пирамида строй";
+            mailerMessage.To = _feedBackEmailRepository.GetAll().Select(i => i.Email).ToList();
+            mailerMessage.SenderName = "Pyramid";
+
+            if (mailerMessage.To.Count > 0)
+            {
+                Mailer.Send(mailerMessage);
+            }
 
             bool flagErr = false;
             try
