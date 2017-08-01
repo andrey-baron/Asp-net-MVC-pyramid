@@ -36,6 +36,7 @@ namespace WindowsServicePyramid
         {
             _categoryRepository = new CategoryRepository();
             _productRepository = new ProductRepository();
+            _timer.Start();
         }
 
         protected override void OnStop()
@@ -112,7 +113,7 @@ namespace WindowsServicePyramid
         {
             OnStart(null);
             Console.OpenStandardInput();
-            Console.ReadLine();
+            //Console.ReadLine();
             ExecuteLogic();
             OnStop();
         }

@@ -41,8 +41,16 @@ namespace Pyramid
                 };
                 globRepo.AddOrUpdate(newEntityObj);
             }
-            
 
+            //DBFirstDAL.Repositories.ProductRepository _productRepository = new DBFirstDAL.Repositories.ProductRepository();
+            //var allProd = _productRepository.GetAllWithCategory();
+            //foreach (var item in allProd)
+            //{
+            //    if (item.Categories.Count==0)
+            //    {
+            //       // _productRepository.Delete(item.Id);
+            //    }
+            //}
            //var _categoryRepository = new DBFirstDAL.Repositories.CategoryRepository();
            // var catAll = _categoryRepository.GetAll().ToList();
 

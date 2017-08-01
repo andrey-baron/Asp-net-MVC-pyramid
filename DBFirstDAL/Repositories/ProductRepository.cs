@@ -530,6 +530,31 @@ namespace DBFirstDAL.Repositories
             };
             return product;
         }
+        protected  Product ConvertDbObjectToEntityShortWithCategory(PyramidFinalContext context, Products dbObject)
+        {
+            var product = new Product()
+            {
+                TypeStatusProduct = (Common.TypeStatusProduct)dbObject.TypeStatusProduct,
+                Id = dbObject.Id,
+                DateChange = dbObject.DateChange,
+                DateCreation = dbObject.DateCreation,
+                IsFilled = dbObject.IsFilled,
+                IsPriority = dbObject.IsPriority,
+                IsSEOReady = dbObject.IsSEOReady,
+                Price = dbObject.Price,
+                SeasonOffer = dbObject.SeasonOffer.HasValue ? dbObject.SeasonOffer.Value : false,
+                Title = dbObject.Title,
+                TypePrice = (Common.TypeProductPrice)dbObject.TypePrice,
+                ThumbnailImg = dbObject.ProductImages.FirstOrDefault(f => f.ProductId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
+               Convert.ConvertImageToEntity.Convert(dbObject.ProductImages.FirstOrDefault(f => f.ProductId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : new Image(),
+                Categories = dbObject.Categories.Select(s => new Category()
+                {
+                    Title = s.Title,
+                    Id = s.Id
+                }).ToList(),
+            };
+            return product;
+        }
 
         protected override IQueryable<Products> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Products> dbObjects, SearchParamsProduct searchParams)
         {
@@ -712,42 +737,14 @@ namespace DBFirstDAL.Repositories
             }
         }
 
-        //public bool ExistInCategoryHierarchy(int productId,int categoryId)
-        //{
-        //    using (PyramidFinalContext dbContext= new PyramidFinalContext())
-        //    {
-        //        var product=dbContext.Products.Find(productId);
-        //        if (product==null)
-        //        {
-        //            return false;
-        //        }
-        //        product.Categories.
-        //    }
-        //}
-        //private bool CheckCategory(PyramidFinalContext dbContext,Categories category, int findCategoryId)
-        //{
-        //    var list = new List<int>();
-
-        //    while (category!=null&& category.Categories1!=null)
-        //    {
-        //        list.AddRange(category.Categories1.Select(i => i.Id));
-        //        ca
-        //    }
-            
-
-        //    var tmp = categories.Where(i => i.Id == findCategoryId);
-        //    if (tmp.Count()>0)
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return CheckCategory(categories)
-        //    }
-        //    if ()
-        //    {
-
-        //    }
-        //}
+        public IEnumerable<Product> GetAllWithCategory()
+        {
+            using (PyramidFinalContext data = new PyramidFinalContext())
+            {
+                IQueryable<Products> query = data.Set<Products>().AsNoTracking();
+                var entityObjectList = query.ToList().Select(s => ConvertDbObjectToEntityShortWithCategory(data, s)).ToList();
+                return entityObjectList;
+            }
+        }
     }
 }
