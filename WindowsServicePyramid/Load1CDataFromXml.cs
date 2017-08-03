@@ -63,15 +63,19 @@ namespace WindowsServicePyramid
                 {
                     bool flagAdd = true;
                     XmlNodeList Inners = ((XmlNode)product).SelectNodes("*");
+                    ProductXMLModel prodModel = new ProductXMLModel();
 
                     var notDisplayed = ((XmlNode)product).SelectSingleNode("ОтображатьНаСайте");
                     if (notDisplayed.InnerText=="Нет")
                     {
-                        continue;
+                        prodModel.TypeStatusProduct = Common.TypeStatusProduct.Hide;
                     }
+                    else
+                    {
+                        prodModel.TypeStatusProduct = Common.TypeStatusProduct.Normal;
 
-                    ProductXMLModel prodModel = new ProductXMLModel();
-
+                    }
+                    
                     XmlNode IdNode = ((XmlNode)product).SelectSingleNode("Ид");
                     prodModel.Id = IdNode.InnerText;
                     XmlNode TitleNode = ((XmlNode)product).SelectSingleNode("Наименование");
@@ -84,7 +88,7 @@ namespace WindowsServicePyramid
                     }
                     else
                     {
-                        prodModel.TypeStatusProduct = Common.TypeStatusProduct.Hide;
+                        prodModel.TypeStatusProduct = Common.TypeStatusProduct.WillBeAdded;
 
                     }
 

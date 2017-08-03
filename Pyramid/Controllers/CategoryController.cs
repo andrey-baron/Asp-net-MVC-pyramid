@@ -101,6 +101,7 @@ namespace Pyramid.Controllers
             if (curCookie != null)
             {
                 var jsonObj = JsonConvert.DeserializeObject<CategoryFiltersJsonModel>(curCookie.Value);
+                
                 var checkedEnumValueIds = new List<int>();
                 var filterSearchModel = new List<FilterSearchModel>();
                 foreach (var item in jsonObj.Filters)
@@ -110,6 +111,7 @@ namespace Pyramid.Controllers
                         Id = item.Id,
                         EventValueIds = item.EnumValueIds,
                     });
+                    checkedEnumValueIds.AddRange(item.EnumValueIds);
                 }
                     searchParamsCategory = new SearchParamsCategory(null, id, (int)jsonObj.MaxPrice, (int)jsonObj.MinPrice, filterSearchModel);
                 

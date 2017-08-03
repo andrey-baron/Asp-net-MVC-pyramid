@@ -21,6 +21,7 @@ namespace WindowsServicePyramid
         private readonly object syncRoot = new object();
         private CategoryRepository _categoryRepository;
         private ProductRepository _productRepository;
+        static object locker = new object();
 
         public ServicePyramid()
         {
@@ -46,66 +47,67 @@ namespace WindowsServicePyramid
 
         private void ExecuteLogic()
         {
-            bool flagErr = false;
-            var xmlModel = Load1CDataFromXml.GetXmlModel(out flagErr);
-            try
+            lock (locker)
             {
-                var efCats = xmlModel.Categories.Select(s => new DBFirstDAL.Categories()
+
+                bool flagErr = false;
+                var xmlModel = Load1CDataFromXml.GetXmlModel(out flagErr);
+                try
                 {
-                    Title = s.Title,
-                    OneCId = s.Id,
+                    var efCats = xmlModel.Categories.Select(s => new DBFirstDAL.Categories()
+                    {
+                        Title = s.Title,
+                        OneCId = s.Id,
 
-                });
-                foreach (var item in efCats)
-                {
-                    _categoryRepository.AddOrUpdateFromOneC(item);
-                }
-
-
-                var efCatWithParent = xmlModel.Categories.Select(s => new Category1CIdWithParent1CId() { Id = s.Id, ParentId = s.ParentId }).ToList();
-
-
-                _categoryRepository.UpdateParentCategory(efCatWithParent);
+                    });
+                    foreach (var item in efCats)
+                    {
+                        _categoryRepository.AddOrUpdateFromOneC(item);
+                    }
 
 
-                var efProducts = xmlModel.Products.Select(s => new DBFirstDAL.Products()
-                {
-                    Title = s.Title,
-                    Price = s.Price,
-                    DateChange = DateTime.Now,
-                    DateCreation = DateTime.Now,
-                    OneCId = s.Id,
-                    TypePrice = (int)s.TypePrice,
-                    IsPriority = s.Priority,
-                    IsFilled = false,
-                    EnumValues = new List<DBFirstDAL.EnumValues>(new DBFirstDAL.EnumValues[]{ new DBFirstDAL.EnumValues() {
+                    var efCatWithParent = xmlModel.Categories.Select(s => new Category1CIdWithParent1CId() { Id = s.Id, ParentId = s.ParentId }).ToList();
+
+
+                    _categoryRepository.UpdateParentCategory(efCatWithParent);
+
+
+                    var efProducts = xmlModel.Products.Select(s => new DBFirstDAL.Products()
+                    {
+                        Title = s.Title,
+                        Price = s.Price,
+                        DateChange = DateTime.Now,
+                        DateCreation = DateTime.Now,
+                        OneCId = s.Id,
+                        TypePrice = (int)s.TypePrice,
+                        IsPriority = s.Priority,
+                        IsFilled = false,
+                        EnumValues = new List<DBFirstDAL.EnumValues>(new DBFirstDAL.EnumValues[]{ new DBFirstDAL.EnumValues() {
                     Key =s.Brand,
                     TypeValue =(int)Common.TypeFromEnumValue.Brand} }),
-                    //InStock=s.InStock,
-                    TypeStatusProduct=(int)s.TypeStatusProduct,
-                    Categories = s.CategoryTextIds.Select(i => new DBFirstDAL.Categories() { OneCId = i }).ToList()
-                });
-                //var efProductsWithCategories = xmlModel.Products.Select(s => new Product1cIdWith1cCategoryIds()
-                //{
-                //    OneCId = s.Id,
-                //    CategoryIds = s.CategoryTextIds
-                //});
-                foreach (var item in efProducts)
+                       
+                        TypeStatusProduct = (int)s.TypeStatusProduct,
+                        Categories = s.CategoryTextIds.Select(i => new DBFirstDAL.Categories() { OneCId = i }).ToList()
+                    });
+
+                    _categoryRepository.DeleteAllFilterBrands();
+                    foreach (var item in efProducts)
+                    {
+                        _productRepository.AddOrUpdateFromOneC(item);
+                    }
+
+
+                    _categoryRepository.AddOrUpdateFilterBrand();
+
+                }
+                catch (Exception ex)
                 {
-                    _productRepository.AddOrUpdateFromOneC(item);
+                    Logger.Log(LogLevel.Error, ex, $"Ошибка при выгрузке информации на публичный сайт: {ex}");
+
+                    flagErr = true; ;
                 }
 
-                _categoryRepository.AddOrUpdateFilterBrand();
-                //_productRepository.InsertsOrNot(efProducts);
-                //_productRepository.UpdateReletedCategoriesFromProducts(efProductsWithCategories);
             }
-            catch (Exception ex)
-            {
-                Logger.Log(LogLevel.Error, ex, $"Ошибка при выгрузке информации на публичный сайт: {ex}");
-
-                flagErr = true; ;
-            }
-           
         }
 
 
@@ -113,7 +115,7 @@ namespace WindowsServicePyramid
         {
             OnStart(null);
             Console.OpenStandardInput();
-            //Console.ReadLine();
+           //Console.ReadLine();
             ExecuteLogic();
             OnStop();
         }

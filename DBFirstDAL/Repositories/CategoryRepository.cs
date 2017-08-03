@@ -606,10 +606,22 @@ namespace DBFirstDAL.Repositories
             }
         }
 
+        public void DeleteAllFilterBrands()
+        {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                var dbFilterBrand = dbContext.Filters.Where(i => i.Title == "Бренд");
+                dbContext.Filters.RemoveRange(dbFilterBrand);
+                var enumBrands = dbContext.EnumValues.Where(i => i.TypeValue == (int)Common.TypeFromEnumValue.Brand);
+                dbContext.EnumValues.RemoveRange(enumBrands);
+                dbContext.SaveChanges();
+            }
+        }
         public void AddOrUpdateFilterBrand()
         {
             using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
+                
                 
                 foreach (var category in dbContext.Categories)
                 {
@@ -668,7 +680,16 @@ namespace DBFirstDAL.Repositories
                     }
                     
                 }
+                var enumBrands = dbContext.EnumValues.Where(i => i.TypeValue == (int)Common.TypeFromEnumValue.Brand).ToList();
+                foreach (var enumVal in enumBrands)
+                {
+                    if (enumVal.Filters.Count==0)
+                    {
+                        dbContext.EnumValues.Remove(enumVal);
+                    }
+                }
                 dbContext.SaveChanges();
+                //dbContext.SaveChanges();
             }
         }
 

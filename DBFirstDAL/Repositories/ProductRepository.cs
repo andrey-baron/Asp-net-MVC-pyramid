@@ -381,6 +381,15 @@ namespace DBFirstDAL.Repositories
                     var enumValueFromProduct = dbObjext.EnumValues.FirstOrDefault(f => f.Key == firstEnumValue.Key);
                     if (enumValueFromProduct == null)
                     {
+                        var listBrandsFromProduct = new List<EnumValues>( dbObjext.EnumValues.Where(i => i.TypeValue == (int)Common.TypeFromEnumValue.Brand));
+                        if (listBrandsFromProduct.Count>0)
+                        {
+                            foreach (var item in listBrandsFromProduct)
+                            {
+                                dbObjext.EnumValues.Remove(item);
+                            }
+                        }
+                        dbContext.SaveChanges();
                         var dbEnumValue = dbContext.EnumValues.Where(i => i.Key == firstEnumValue.Key).Distinct().SingleOrDefault();
                         if (dbEnumValue != null)
                         {
