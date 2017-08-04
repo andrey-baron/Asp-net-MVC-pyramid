@@ -52,6 +52,10 @@ namespace WindowsServicePyramid
 
                 bool flagErr = false;
                 var xmlModel = Load1CDataFromXml.GetXmlModel(out flagErr);
+                if (xmlModel.Categories.Count()==0 && xmlModel.Products.Count()==0)
+                {
+                    return;
+                }
                 try
                 {
                     var efCats = xmlModel.Categories.Select(s => new DBFirstDAL.Categories()
