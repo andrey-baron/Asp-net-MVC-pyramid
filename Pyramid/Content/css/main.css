@@ -159,8 +159,10 @@ body div#jivo-iframe-container.jivo-state-widget {
 /*forms variable*/
 /*forms variable end*/
 .breadcrumbs {
-  height: 48px;
-  line-height: 48px;
+  /* height: 48px;
+  line-height: 48px;*/
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 .breadcrumbs__list {
   margin: 0 0 0 60px;
@@ -672,7 +674,7 @@ label.error {
 }
 .decoration-work__product {
   max-width: 384px;
-  width: 300px;
+  width: 270px;
   background: #fff;
   position: relative;
   z-index: 100;
@@ -1664,6 +1666,10 @@ page__event-item + page__event-item {
   transition: all 0.45s;
   overflow: hidden;
 }
+.product__link-block {
+  position: relative;
+  height: 100%;
+}
 .product__item-img {
   width: 100%;
   max-height: 200px;
@@ -2150,7 +2156,7 @@ page__event-item + page__event-item {
   font-family: ProximaNovaSemibold;
   font-size: 26px;
   height: 72px;
-  line-height: 72px;
+  /* line-height:@heightOneLine;*/
 }
 .single__price {
   font-size: 24px;

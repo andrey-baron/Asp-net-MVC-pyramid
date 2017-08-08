@@ -897,7 +897,14 @@ namespace DBFirstDAL.Repositories
                     searchParams.ExistProductsInBd = dbCategory.Products.Count > 0;
                     foreach (var item in dbCategory.Products)
                     {
-                        searchParams.OutEnumValueIds.AddRange(item.EnumValues.Select(s => s.Id));
+                        foreach (var eVal in item.EnumValues)
+                        {
+                            if (!searchParams.OutEnumValueIds.Contains(eVal.Id))
+                            {
+                                searchParams.OutEnumValueIds.Add(eVal.Id);
+                            }
+                        }
+                        
                     }
                     IEnumerable<Products> temp= dbCategory.Products.Where(i => i.TypeStatusProduct != (int)Common.TypeStatusProduct.Hide/*&& i.Price>0*/).ToList();
                     if (searchParams.MaxPrice.HasValue)
@@ -913,7 +920,10 @@ namespace DBFirstDAL.Repositories
                         List<IEnumerable<Products>> listProductsFromFilters = new List<IEnumerable<Products>>();
                         foreach (var item in searchParams.FiltersSearch)
                         {
-                            listProductsFromFilters.Add(temp.Where(i => i.EnumValues.Any(a=>item.EventValueIds.Contains(a.Id))));
+                            if (item.EventValueIds.Count()>0)
+                            {
+                                listProductsFromFilters.Add(temp.Where(i => i.EnumValues.Any(a => item.EventValueIds.Contains(a.Id))));
+                            }
                         }
                         foreach (var item in listProductsFromFilters)
                         {

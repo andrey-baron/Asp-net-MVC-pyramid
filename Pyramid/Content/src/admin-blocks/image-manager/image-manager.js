@@ -56,7 +56,7 @@
 
 function reloadData() {
    
-    this.selectorGaleryGrid = ".gallery-grid";
+    this.selectorGaleryGrid = ".box-typical-body>.gallery-grid";
     $.post("/ImageManager/GetImages", function (data) {
         $(selectorGaleryGrid).html(data);
     });

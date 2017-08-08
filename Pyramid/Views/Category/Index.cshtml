@@ -101,15 +101,17 @@
                 <div class="col-lg-3  col-md-4 col-xs-4">
                     <div class="product__item">
                         <a href="@Url.Action("Index","Product",new { id=item.Id})">
-                            <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
+                            <div class="product__link-block">
+                                <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
 
-                            <p class="product__item-title">@item.Title</p>
-                            <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
-                                <div class="triangle-up"></div>
-                                <div class="triangle-down"></div>
-                                <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
+                                <p class="product__item-title">@item.Title</p>
+                                <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
+                                    <div class="triangle-up"></div>
+                                    <div class="triangle-down"></div>
+                                    <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
+                                </div>
                             </div>
-                        </a>
+</a>
                         <div class="product__item__hover_block_wrapper">
                             
                             <div class="product__item__hover_block_wrapper__item product__in-stock">

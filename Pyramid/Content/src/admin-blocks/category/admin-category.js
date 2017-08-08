@@ -23,7 +23,7 @@
     });
     $(".js-recommendations").on("click", ".js-btn-category-recommendation-delete", function (e) {
         var id = $(this).data("ajaxid");
-        $.post("/Category/DeleteRecommendation?id=" + categoryId + "&filterid=" + id, function (t) {
+        $.post("/Category/DeleteRecommendation?id=" + categoryId + "&recommendationid=" + id, function (t) {
             $.post("/Category/GetAllRecommendation/" + categoryId, function (data) {
                 $(".js-recommendations").html(data); 
             });

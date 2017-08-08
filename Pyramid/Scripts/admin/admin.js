@@ -82,49 +82,6 @@
         })
     });*/
 })();
-;
-(function () {
-    /*question-answer function*/
-
-    var faqId = $("#Faq_Id").val();
-    
-    $(".js-btn-add-question-answer").on("click", function () {
-    var count = $(".admin-product__addition-value").length;
-        $.post("/Faq/AddNewDefault?id=" + faqId+"&count="+count, function (data) {
-            $(".faq__question-answer-values").append(data);
-        });
-        
-    });
-    $(".faq__question-answer-values").on("click", ".js-btn-QuestionAnswer-delete", function () {
-        var id = $(this).data("ajaxid");
-        $.post("/Faq/DeleteQuestionAnswer/" + id, function (data) {
-            $.post("/Faq/PartialGetAllQuestionAnswer/" + faqId, function (data) {
-                $(".faq__question-answer-values").html(data);
-            });
-            
-        });
-    });
-    
-
-})();
-; (function () {
-    /*filter function*/
-       var filterId = $("#Filter_Id").val();
-    $(".js-btn-filter-add-enumvalue").on("click", function () {
-        var count =$(".admin-filter__enum-value").length;
-        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId + "&count=" + count, function (data) {
-            $(".js-filter-all-enumvalues").append(data);
-        });
-    });
-    $(".js-filter-all-enumvalues").on("click", ".btn-filter-enum-value-delete", function (e) {
-        var id = $(this).data("ajaxid");
-        $.post("/Filter/DeleteEnumValue?id=" + filterId + "&enumValueId=" + id, function (t) {
-            $.post("/Filter/GetAllEnumValues?filterid=" + filterId, function (data) {
-                $(".js-filter-all-enumvalues").html(data);
-            });
-        });
-    })
-})();
 ;(function(){
     tinymce.init({
 
@@ -189,6 +146,144 @@
     })
 })();
 
+; (function () {
+     
+    var categoryId = $("#Category_Id").val();
+    $(".js-btn-category-add-filter").on("click", function () {
+        var count = $(".admin-category__filter").length;
+        $.post("/Category/GetTemplateFilter?id=" + categoryId+"&count="+count, function (data) {
+            $(".js-category-filters").append(data);
+        });
+    });
+    $(".js-category-filters").on("click", ".js-btn-category-filter-delete", function (e) {
+        var id = $(this).data("ajaxid");
+        $.post("/Category/DeleteFilter?id=" + categoryId + "&filterid=" + id, function (t) {
+            $.post("/Category/GetAllFilter/" + categoryId, function (data) {
+                $(".js-category-filters").html(data);
+            });
+        });
+    })
+    $(".btn-add-recommendations").on("click", function () {
+        var count = $(".admin-category__recommendation").length;
+        $.post("/Category/GetRecommendationTemplate?id=" + categoryId + "&count=" + count, function (data) {
+            $(".js-recommendations").append(data);
+        });
+    });
+    $(".js-recommendations").on("click", ".js-btn-category-recommendation-delete", function (e) {
+        var id = $(this).data("ajaxid");
+        $.post("/Category/DeleteRecommendation?id=" + categoryId + "&recommendationid=" + id, function (t) {
+            $.post("/Category/GetAllRecommendation/" + categoryId, function (data) {
+                $(".js-recommendations").html(data); 
+            });
+        });
+    })
+})();
+; (function () {
+    /*filter function*/
+       var filterId = $("#Filter_Id").val();
+    $(".js-btn-filter-add-enumvalue").on("click", function () {
+        var count =$(".admin-filter__enum-value").length;
+        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId + "&count=" + count, function (data) {
+            $(".js-filter-all-enumvalues").append(data);
+        });
+    });
+    $(".js-filter-all-enumvalues").on("click", ".btn-filter-enum-value-delete", function (e) {
+        var id = $(this).data("ajaxid");
+        $.post("/Filter/DeleteEnumValue?id=" + filterId + "&enumValueId=" + id, function (t) {
+            $.post("/Filter/GetAllEnumValues?filterid=" + filterId, function (data) {
+                $(".js-filter-all-enumvalues").html(data);
+            });
+        });
+    })
+})();
+;
+(function () {
+    /*question-answer function*/
+
+    var faqId = $("#Faq_Id").val();
+    
+    $(".js-btn-add-question-answer").on("click", function () {
+    var count = $(".admin-product__addition-value").length;
+        $.post("/Faq/AddNewDefault?id=" + faqId+"&count="+count, function (data) {
+            $(".faq__question-answer-values").append(data);
+        });
+        
+    });
+    $(".faq__question-answer-values").on("click", ".js-btn-QuestionAnswer-delete", function () {
+        var id = $(this).data("ajaxid");
+        $.post("/Faq/DeleteQuestionAnswer/" + id, function (data) {
+            $.post("/Faq/PartialGetAllQuestionAnswer/" + faqId, function (data) {
+                $(".faq__question-answer-values").html(data);
+            });
+            
+        });
+    });
+    
+
+})();
+;(function () {
+    
+
+    $(".gallery-grid").on("click", ".btn-ajax-delete", function (e) {
+        var id = $(this).data("ajaxid");
+        if (confirm("Вы уверены что хотите удалить эту картинку?")) {
+
+        
+        $.post("/ImageManager/delete/" + id, function () {
+            reloadData()
+        })
+        }
+    });
+
+    $(".gallery-grid").on("click", ".btn-ajax-edit", function (e) {
+        var id = $(this).data("ajaxid");
+        $.post("/ImageManager/PartialBodyModal/" + id, function (data) {
+            $('#edit-modal .modal-body').html(data);
+            $('#edit-modal').modal('show');
+        })
+    });
+
+    $('#edit-modal').on('hidden.bs.modal', function (e) {
+        
+        var th = this;
+        $(this).find(".modal-body").html("...");
+    })
+    $(".modal").on("click", ".btn-modal-save", function (e) {
+        var modal = $(this).closest(".modal");
+        var form = modal.find(".partial-form-im");
+        var id = form.find("input#Id").val();
+        
+        var data = $(this).closest(".modal").find(".partial-form-im").serialize();
+        $.post("/ImageManager/AddOrUpdate/" + id,data, function (data) {
+            $('#edit-modal .modal-body').html("...");
+            $('#edit-modal').modal('hide');
+            reloadData()
+        })
+    })
+  
+    $(".js-btn-thumbnail-edit").on("click", function () {
+        $.post("/ImageManager/PartialSelectImage", function (data) {
+            $('#edit-thumbnail-modal .modal-body').html(data);
+        })
+        $("#edit-thumbnail-modal").modal('show');
+    })
+    $("#edit-thumbnail-modal").on("click", ".btn-ajax-edit", function () {
+        $("#ThumbnailId").val($(this).data("ajaxid"));
+        $(".admin-product__thumbnail img").attr("src", $(this).data("url"));
+        $("#edit-thumbnail-modal").modal('hide');
+    })
+    //$(".qq-upload-list-selector")
+    
+
+})();
+
+function reloadData() {
+   
+    this.selectorGaleryGrid = ".box-typical-body>.gallery-grid";
+    $.post("/ImageManager/GetImages", function (data) {
+        $(selectorGaleryGrid).html(data);
+    });
+};
 (function () {
     /*function home-entity.js*/
     var id = $("#HomeEntity_Id").val();
@@ -309,98 +404,3 @@
         inputY.val(coordY);
     }
 })()
-;(function () {
-    
-
-    $(".gallery-grid").on("click", ".btn-ajax-delete", function (e) {
-        var id = $(this).data("ajaxid");
-        if (confirm("Вы уверены что хотите удалить эту картинку?")) {
-
-        
-        $.post("/ImageManager/delete/" + id, function () {
-            reloadData()
-        })
-        }
-    });
-
-    $(".gallery-grid").on("click", ".btn-ajax-edit", function (e) {
-        var id = $(this).data("ajaxid");
-        $.post("/ImageManager/PartialBodyModal/" + id, function (data) {
-            $('#edit-modal .modal-body').html(data);
-            $('#edit-modal').modal('show');
-        })
-    });
-
-    $('#edit-modal').on('hidden.bs.modal', function (e) {
-        
-        var th = this;
-        $(this).find(".modal-body").html("...");
-    })
-    $(".modal").on("click", ".btn-modal-save", function (e) {
-        var modal = $(this).closest(".modal");
-        var form = modal.find(".partial-form-im");
-        var id = form.find("input#Id").val();
-        
-        var data = $(this).closest(".modal").find(".partial-form-im").serialize();
-        $.post("/ImageManager/AddOrUpdate/" + id,data, function (data) {
-            $('#edit-modal .modal-body').html("...");
-            $('#edit-modal').modal('hide');
-            reloadData()
-        })
-    })
-  
-    $(".js-btn-thumbnail-edit").on("click", function () {
-        $.post("/ImageManager/PartialSelectImage", function (data) {
-            $('#edit-thumbnail-modal .modal-body').html(data);
-        })
-        $("#edit-thumbnail-modal").modal('show');
-    })
-    $("#edit-thumbnail-modal").on("click", ".btn-ajax-edit", function () {
-        $("#ThumbnailId").val($(this).data("ajaxid"));
-        $(".admin-product__thumbnail img").attr("src", $(this).data("url"));
-        $("#edit-thumbnail-modal").modal('hide');
-    })
-    //$(".qq-upload-list-selector")
-    
-
-})();
-
-function reloadData() {
-   
-    this.selectorGaleryGrid = ".gallery-grid";
-    $.post("/ImageManager/GetImages", function (data) {
-        $(selectorGaleryGrid).html(data);
-    });
-};
-; (function () {
-     
-    var categoryId = $("#Category_Id").val();
-    $(".js-btn-category-add-filter").on("click", function () {
-        var count = $(".admin-category__filter").length;
-        $.post("/Category/GetTemplateFilter?id=" + categoryId+"&count="+count, function (data) {
-            $(".js-category-filters").append(data);
-        });
-    });
-    $(".js-category-filters").on("click", ".js-btn-category-filter-delete", function (e) {
-        var id = $(this).data("ajaxid");
-        $.post("/Category/DeleteFilter?id=" + categoryId + "&filterid=" + id, function (t) {
-            $.post("/Category/GetAllFilter/" + categoryId, function (data) {
-                $(".js-category-filters").html(data);
-            });
-        });
-    })
-    $(".btn-add-recommendations").on("click", function () {
-        var count = $(".admin-category__recommendation").length;
-        $.post("/Category/GetRecommendationTemplate?id=" + categoryId + "&count=" + count, function (data) {
-            $(".js-recommendations").append(data);
-        });
-    });
-    $(".js-recommendations").on("click", ".js-btn-category-recommendation-delete", function (e) {
-        var id = $(this).data("ajaxid");
-        $.post("/Category/DeleteRecommendation?id=" + categoryId + "&filterid=" + id, function (t) {
-            $.post("/Category/GetAllRecommendation/" + categoryId, function (data) {
-                $(".js-recommendations").html(data); 
-            });
-        });
-    })
-})();

@@ -78,7 +78,7 @@ namespace WindowsServicePyramid
                     
                     XmlNode IdNode = ((XmlNode)product).SelectSingleNode("Ид");
                     prodModel.Id = IdNode.InnerText;
-                    XmlNode TitleNode = ((XmlNode)product).SelectSingleNode("Наименование");
+                    XmlNode TitleNode = ((XmlNode)product).SelectSingleNode("ПолноеНаименование");
                     prodModel.Title = TitleNode.InnerText;
 
                     XmlNode Amount = ((XmlNode)product).SelectSingleNode("Количество");

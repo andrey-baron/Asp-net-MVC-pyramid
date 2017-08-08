@@ -443,6 +443,7 @@ p.pmargin {
 }
 .home-entity__img-wrap {
   position: relative;
+  min-height: 500px;
 }
 .home-entity__view-img {
   height: 500px;

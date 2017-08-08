@@ -64,42 +64,47 @@
             {
                 <div class="col-f-lg-3 col-md-3 col-xs-3">
                     <div class="product__item">
-
-                        <a href="@Url.Action("Index","Product",new { id=item.Id })"><img src="@(item.ThumbnailImg!=null?item.ThumbnailImg.ServerPathImg:"")" alt="" class="product__item-img"></a>
-
                         <a href="@Url.Action("Index","Product",new { id=item.Id })">
-                            <p class="product__item-title">
-                                @item.Title
-                            </p>
-                        </a>
-                        <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
-                            <div class="triangle-up"></div>
-                            <div class="triangle-down"></div>
-                            <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
-                        </div>
-                        <div class="product__item__hover_block_wrapper">
-                            <div class="product__item__hover_block_wrapper__item product__in-stock">
-                                @if (item.TypeStatusProduct == Common.TypeStatusProduct.Normal)
-                                {
-                                    <p>в наличии</p>
-                                }
-                                @if (item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
-                                {
-                                    <p>Доступен для заказа</p>
-                                }
-                            </div>
-                            <a class="product__item__hover_block_wrapper__item" href="@Url.Action("CheckoutOneClick","Cart",new { id=item.Id})">
-                                <div class="product__buy product__buy_one-click">
-                                    <p>Купить в один клик</p>
+                            <div class="product__link-block">
+                                <img src="@(item.ThumbnailImg!=null?item.ThumbnailImg.ServerPathImg:"")" alt="" class="product__item-img">
+
+
+                                <p class="product__item-title">
+                                    @item.Title
+                                </p>
+
+
+                                <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
+                                    <div class="triangle-up"></div>
+                                    <div class="triangle-down"></div>
+                                    <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
                                 </div>
-                            </a>
-                            <span class="product__item__hover_block_wrapper__item js-add-to-cart" data-ajaxid="@item.Id">
-                                <span class="product__buy product__buy_add-to-cart">
-                                    Добавить в корзину
+
+                            </div>
+                        </a>
+                            <div class="product__item__hover_block_wrapper">
+                                <div class="product__item__hover_block_wrapper__item product__in-stock">
+                                    @if (item.TypeStatusProduct == Common.TypeStatusProduct.Normal)
+                                    {
+                                    <p>в наличии</p>
+                                    }
+                                    @if (item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
+                                    {
+                                    <p>Доступен для заказа</p>
+                                    }
+                                </div>
+                                <a class="product__item__hover_block_wrapper__item" href="@Url.Action("CheckoutOneClick","Cart",new { id=item.Id})">
+                                    <div class="product__buy product__buy_one-click">
+                                        <p>Купить в один клик</p>
+                                    </div>
+                                </a>
+                                <span class="product__item__hover_block_wrapper__item js-add-to-cart" data-ajaxid="@item.Id">
+                                    <span class="product__buy product__buy_add-to-cart">
+                                        Добавить в корзину
+                                    </span>
                                 </span>
-                            </span>
-                        </div>
-                    </div>
+                            </div>
+</div>
                 </div>
 
             }
@@ -204,44 +209,48 @@
                     {
                         <div class="col-f-lg-3 col-md-3 col-xs-3">
                             <div class="product__item">
-                                <a href="@Url.Action("Index","Product",new { id=itemProduct.Id})"><img src="@(itemProduct.ThumbnailImg.ServerPathImg!=null?itemProduct.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="@itemProduct.ThumbnailImg.ImgAlt" class="product__item-img"></a>
-                                <a href="@Url.Action("Index","Product",new { id=itemProduct.Id})">
-                                    <p class="product__item-title">
-                                        @itemProduct.Title
-                                    </p>
-                                </a>
-                                <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)itemProduct.TypePrice)">
-                                    <div class="triangle-up"></div>
-                                    <div class="triangle-down"></div>
-                                    <p class="product__item-price-inner"><span class="big-decimal">@itemProduct.Price</span> руб.</p>
-                                </div>
-                                <div class="product__item__hover_block_wrapper">
-                                    <div class="product__item__hover_block_wrapper__item product__in-stock">
-                                        @if (itemProduct.TypeStatusProduct == Common.TypeStatusProduct.Normal)
-                                        {
-                                            <p>в наличии</p>
-                                        }
-                                        @if (itemProduct.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
-                                        {
-                                            <p>Доступен для заказа</p>
-                                        }
-                                    </div>
+                                <a href="@Url.Action("Index","Product",new { id=itemProduct.Id })">
+                                    <div class="product__link-block">
+                                        <img src="@(itemProduct.ThumbnailImg.ServerPathImg!=null?itemProduct.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="@itemProduct.ThumbnailImg.ImgAlt" class="product__item-img">
 
+                                        <p class="product__item-title">
+                                            @itemProduct.Title
+                                        </p>
 
-                                    <a class="product__item__hover_block_wrapper__item" href="@Url.Action("CheckoutOneClick","Cart",new { id=itemProduct.Id})">
-                                        <div class="product__buy product__buy_one-click">
-                                            <p>Купить в один клик</p>
+                                        <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)itemProduct.TypePrice)">
+                                            <div class="triangle-up"></div>
+                                            <div class="triangle-down"></div>
+                                            <p class="product__item-price-inner"><span class="big-decimal">@itemProduct.Price</span> руб.</p>
                                         </div>
-                                    </a>
-                                    <span class="product__item__hover_block_wrapper__item js-add-to-cart" data-ajaxid="@itemProduct.Id">
-                                        <span class="product__buy product__buy_add-to-cart">
-                                            Добавить в корзину
-                                        </span>
-                                    </span>
+                                    </div>
+                                </a>
+                                        <div class="product__item__hover_block_wrapper">
+                                            <div class="product__item__hover_block_wrapper__item product__in-stock">
+                                                @if (itemProduct.TypeStatusProduct == Common.TypeStatusProduct.Normal)
+                                                {
+                                                    <p>в наличии</p>
+                                                }
+                                                @if (itemProduct.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
+                                                {
+                                                    <p>Доступен для заказа</p>
+                                                }
+                                            </div>
 
-                                </div>
+
+                                            <a class="product__item__hover_block_wrapper__item" href="@Url.Action("CheckoutOneClick","Cart",new { id=itemProduct.Id})">
+                                                <div class="product__buy product__buy_one-click">
+                                                    <p>Купить в один клик</p>
+                                                </div>
+                                            </a>
+                                            <span class="product__item__hover_block_wrapper__item js-add-to-cart" data-ajaxid="@itemProduct.Id">
+                                                <span class="product__buy product__buy_add-to-cart">
+                                                    Добавить в корзину
+                                                </span>
+                                            </span>
+
+                                        </div>
+                                    </div>
                             </div>
-                        </div>
                     }
                 }
                 @if (item.Categories != null && item.Categories.Count > 0)
