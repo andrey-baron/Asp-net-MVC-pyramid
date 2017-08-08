@@ -90,6 +90,16 @@ function ConsultantOpen() {
    
 }
 
+
+(function () {
+
+    $(".call-to-action__form-wrap").hide();
+    $(".call-to-action").on("click",function () {
+        $(this).next(".call-to-action__form-wrap").toggle( 400 );
+
+    });
+})();
+
 ;
 var isPartial = $(".cart__container").hasClass("cart__container_small") ? true : false;
 var isFullPage = $(".cart__container").hasClass("cart__container_full") ? true : false;
@@ -170,16 +180,6 @@ function SoccessAdd(response) {
     UpdateCartPoint(response);
   
 }
-
-
-(function () {
-
-    $(".call-to-action__form-wrap").hide();
-    $(".call-to-action").on("click",function () {
-        $(this).next(".call-to-action__form-wrap").toggle( 400 );
-
-    });
-})();
 ;(function () {
     var maxVal=$("#MaxPrice").val();
     var minVal = $("#MinPrice").val();

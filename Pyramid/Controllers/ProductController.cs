@@ -20,6 +20,7 @@ namespace Pyramid.Controllers
         EnumValueRepository _enumRepositopy;
         CategoryRepository _categoryRepository;
         RecommendationRepository _recommendationRepository;
+        FilterRepository _filterRepository;
         GlobalOptionRepository _globalOptionRepository;
         const string defaulProductLink = "/Product/index/";
         const string defaulCateggorytLink = "/Category/index/";
@@ -30,6 +31,7 @@ namespace Pyramid.Controllers
             _categoryRepository = new CategoryRepository();
             _recommendationRepository = new RecommendationRepository();
             _globalOptionRepository = new GlobalOptionRepository();
+            _filterRepository = new FilterRepository();
         }
         public ActionResult Index(int id)
         {
@@ -46,11 +48,20 @@ namespace Pyramid.Controllers
             //var existColer=viewModel.Product.Categories.e
 
             var category=viewModel.Product.Categories.FirstOrDefault();
-            var cat = _categoryRepository.Get(category.Id);
-            ViewBag.Recommendations = cat.Recommendations;
+            if (category!=null)
+            {
+                var cat = _categoryRepository.Get(category.Id);
+                ViewBag.Recommendations = cat.Recommendations;
+                ViewBag.IsFromParent = _categoryRepository.IsChildFromParent(category.Id, 1344);
+            }
+            else
+            {
+                ViewBag.IsFromParent = false;
+            }
+           
             ViewBag.MetaTitle = viewModel.Product.MetaTitle?? viewModel.Product.Title;
             ViewBag.Shipping = _globalOptionRepository.Get("shipping").OptionContent;
-            ViewBag.IsFromParent = _categoryRepository.IsChildFromParent(viewModel.Product.Categories.First().Id, 1213);
+           
             return View(viewModel);
 
             #region old
@@ -178,6 +189,28 @@ namespace Pyramid.Controllers
             return View(viewModel);
         }
         [Authorize]
+        public ActionResult GetProductTemplateDropDownListForFilterId(int id = 0,int indx=0)
+        {
+            var filter = _filterRepository.Get(id);
+            IEnumerable<SelectListItem> outEnumValues;
+            if (filter!=null)
+            {
+                outEnumValues= filter.EnumValues.Select(item => new SelectListItem
+                {
+                    Text = item.Key,
+                    Value = item.Id.ToString()
+                });
+            }
+            else
+            {
+                outEnumValues = new List<SelectListItem>();
+
+            }
+
+            ViewBag.EnumValuesSelectList = outEnumValues;
+            return PartialView(indx);
+        }
+        [Authorize]
         public ActionResult AddOrUpdate(int id = 0)
         {
             var model = _productRepository.Get(id);
@@ -201,6 +234,12 @@ namespace Pyramid.Controllers
             {
                 model = new Product();
             }
+
+            ViewBag.FiltersSelectList = _filterRepository.GetAll().ToList().Select(item => new SelectListItem
+            {
+                Text = item.Title,
+                Value = item.Id.ToString()
+            });
 
             ViewBag.EnumValuesSelectList = _enumRepositopy.GetAll().ToList().Select(item => new SelectListItem
             {
@@ -266,24 +305,15 @@ namespace Pyramid.Controllers
 
         public ActionResult GetAllEnumValues(int id)
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-         
-                cfg.CreateMap<DBFirstDAL.EnumValues,EnumValue >()
-               
-                ;
-               
-
-            });
-            config.AssertConfigurationIsValid();
-
-            var mapper = config.CreateMapper();
-
-            var efmodel = _productRepository.GetAllEnumValues(id);
-            var model = mapper.Map<IEnumerable<DBFirstDAL.EnumValues>, List<EnumValue>>(efmodel);
+            var model = _productRepository.GetAllEnumValues(id);
             ViewBag.EnumValuesSelectList = _enumRepositopy.GetAll().Select(item => new SelectListItem
             {
                 Text = item.Key,
+                Value = item.Id.ToString()
+            });
+            ViewBag.FiltersSelectList = _filterRepository.GetAll().ToList().Select(item => new SelectListItem
+            {
+                Text = item.Title,
                 Value = item.Id.ToString()
             });
             return PartialView("_PartialProductAllEnumValues", model);
@@ -293,6 +323,11 @@ namespace Pyramid.Controllers
             ViewBag.EnumValuesSelectList = _enumRepositopy.GetAll().Select(item => new SelectListItem
             {
                 Text = item.Key,
+                Value = item.Id.ToString()
+            });
+            ViewBag.FiltersSelectList = _filterRepository.GetAll().ToList().Select(item => new SelectListItem
+            {
+                Text = item.Title,
                 Value = item.Id.ToString()
             });
             var model = _productRepository.GetAllEnumValues(id).Count();

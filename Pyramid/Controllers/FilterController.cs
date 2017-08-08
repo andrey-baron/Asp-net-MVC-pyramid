@@ -84,5 +84,10 @@ namespace Pyramid.Controllers
             _filterRepository.DeleteEnumValue(id, enumValueId);
             return null;
         }
+        public ActionResult Delete(int id)
+        {
+            _filterRepository.Delete(id);
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -18,16 +18,20 @@ namespace DBFirstDAL.Repositories
     {
        const string defaulProductLink = "/Product/index/";
         const string defaulCateggorytLink = "/Category/index/";
-        public IEnumerable<EnumValues> GetAllEnumValues(int productId)
+        public IEnumerable<EnumValue> GetAllEnumValues(int productId)
         {
             using (PyramidFinalContext dbContext= new PyramidFinalContext())
             {
                 var product = dbContext.Products.Find(productId);
                 if (product != null)
                 {
-                    return product.EnumValues.ToList();
+                    return product.EnumValues.Select(s=>new EnumValue {
+                        Id=s.Id,
+                        Key=s.Key,
+                        TypeValue=(Common.TypeFromEnumValue)s.TypeValue
+                    }). ToList();
                 }
-                return new List<EnumValues>();
+                return new List<EnumValue>();
             }
             
         }
@@ -372,7 +376,7 @@ namespace DBFirstDAL.Repositories
 
                 }
             }
-
+            //переписать в allowable
             if (model.EnumValues != null)
             {
                 var firstEnumValue = model.EnumValues.FirstOrDefault();
@@ -660,10 +664,10 @@ namespace DBFirstDAL.Repositories
                 var curThumbnail = dbEntity.ProductImages.FirstOrDefault(i => i.ProductId == dbEntity.Id && i.TypeImage == (int)Pyramid.Entity.Enumerable.TypeImage.Thumbnail);
                 if (curThumbnail != null)
                 {
-                    var efThumbnail = dbContext.ProductImages.FirstOrDefault(i => i.ProductId == dbEntity.Id && i.ImageId == entity.ThumbnailId);
+                    var efThumbnail = dbContext.Images.FirstOrDefault(i => i.Id == entity.ThumbnailId);
                     if (efThumbnail != null)
                     {
-                        if (efThumbnail.ImageId!=entity.ThumbnailId)
+                        if (efThumbnail.Id!=curThumbnail.Id)
                         {
                             dbContext.ProductImages.Remove(curThumbnail);
                             dbContext.ProductImages.Add(new ProductImages()
@@ -705,16 +709,23 @@ namespace DBFirstDAL.Repositories
                     });
                     var flagstop = true;
                     var cat = efProduct.Categories.FirstOrDefault();
+                    var listIds = new List<int>();
                     while (flagstop)
                     {
 
                         if (cat != null)
                         {
+                            if (listIds.Contains(cat.Id))
+                            {
+                                break;
+                            }
                             breadcrumbs.Add(new BreadCrumbViewModel()
                             {
                                 Title = cat.Title,
                                 Link = defaulCateggorytLink + cat.Id.ToString()
                             });
+                            
+                            listIds.Add(cat.Id);
                             if (cat.ParentId == null)
                             {
 
@@ -742,7 +753,14 @@ namespace DBFirstDAL.Repositories
             {
                 var efProduct = dbContext.Products.Find(productId);
                 var cat = efProduct.Categories.FirstOrDefault();
-                return cat.Products.Where(i=>i.Id!=productId).Select(s=> ConvertDbObjectToEntityShort(dbContext,s)).ToList();
+                if (cat!=null)
+                {
+                    return cat.Products.Where(i => i.Id != productId).Select(s => ConvertDbObjectToEntityShort(dbContext, s)).ToList();
+                }
+                else
+                {
+                    return new List<Product>();
+                }
             }
         }
 

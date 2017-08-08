@@ -15,7 +15,7 @@
         });
     });
 
-
+     
     $(".js-btn-add-product-enumvalue").on("click", function () {
         var countEnumValue = $(".admin-product-enumvalue").length;
         $.post("/Product/GetTemplateEnumValue?id=" + productId + "&count=" + countEnumValue, function (data) {
@@ -57,7 +57,16 @@
              
         })
     });
-     
+
+
+    $(".js-admin-product-enumvalues").on("change", ".js-product-filter-control", function () {
+        var thisElem = $(this);
+        var pasteblock = thisElem.next(".js-product-insert-filter-enumval");
+        var indx = thisElem.data("index");
+        $.post("/Product/GetProductTemplateDropDownListForFilterId?id=" + thisElem.val() + "&indx=" + indx, function (data) {
+            pasteblock.html(data);
+        })
+    })
     /*recomendations 
     $(".js-btn-add-product-recommendation").on("click", function () {
         var countRecomendation = $(".admin-product-recommendation").length;

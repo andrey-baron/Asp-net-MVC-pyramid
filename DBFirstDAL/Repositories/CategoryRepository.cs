@@ -621,19 +621,49 @@ namespace DBFirstDAL.Repositories
         {
             using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
-                
-                
+               // переписать
+                var brandFilter= dbContext.Filters.FirstOrDefault(i => i.Title == "Бренд");
+                if (brandFilter==null)
+                {
+                    brandFilter = new Filters()
+                    {
+                        Title = "Бренд",
+                    };
+                    dbContext.Filters.Add(brandFilter);
+                    dbContext.SaveChanges();
+                }
                 foreach (var category in dbContext.Categories)
                 {
                     var dbFilterBrand = category.Filters.FirstOrDefault(i => i.Title == "Бренд");
                     if (dbFilterBrand == null)
                     {
-                        dbFilterBrand = new Filters()
-                        {
-                            Title = "Бренд",
+                        category.Filters.Add(brandFilter);
+                    }
+                        //dbFilterBrand = new Filters()
+                        //{
+                        //    Title = "Бренд",
 
-                        };
-                        var listEnumValuesBrand = new List<EnumValues>();
+                        //};
+                        //var listEnumValuesBrand = new List<EnumValues>();
+                        //foreach (var item in category.Products)
+                        //{
+                        //    var valueBrand = item.EnumValues.Where(w => w.TypeValue == (int)Common.TypeFromEnumValue.Brand);
+                        //    if (valueBrand != null && valueBrand.Count() > 0)
+                        //    {
+                        //        foreach (var value in valueBrand)
+                        //        {
+                        //            listEnumValuesBrand.Add(value);
+                        //        }
+                        //    }
+                        //}
+
+                        //if (listEnumValuesBrand.Count>0)
+                        //{
+                        //    dbFilterBrand.EnumValues = listEnumValuesBrand.Distinct().ToList();
+                        //    //dbContext.Filters.Add(dbFilterBrand);
+                        //    category.Filters.Add(dbFilterBrand);
+                        //}
+
                         foreach (var item in category.Products)
                         {
                             var valueBrand = item.EnumValues.Where(w => w.TypeValue == (int)Common.TypeFromEnumValue.Brand);
@@ -641,53 +671,50 @@ namespace DBFirstDAL.Repositories
                             {
                                 foreach (var value in valueBrand)
                                 {
-                                    listEnumValuesBrand.Add(value);
+                                    if (!brandFilter.EnumValues.Contains(value))
+                                    {
+                                        brandFilter.EnumValues.Add(value);
+                                    }
+                                   
                                 }
                             }
                         }
                         
-                        if (listEnumValuesBrand.Count>0)
-                        {
-                            dbFilterBrand.EnumValues = listEnumValuesBrand.Distinct().ToList();
-                            dbContext.Filters.Add(dbFilterBrand);
-                            category.Filters.Add(dbFilterBrand);
-                        }
-                       
-                    }
-                    else
-                    {
-                        var listEnumValuesBrand = new List<EnumValues>();
-                        foreach (var item in category.Products)
-                        {
-                            var valueBrand = item.EnumValues.Where(w => w.TypeValue == (int)Common.TypeFromEnumValue.Brand);
-                            if (valueBrand != null && valueBrand.Count() > 0)
-                            {
-                                foreach (var value in valueBrand)
-                                {
-                                    listEnumValuesBrand.Add(value);
-                                }
-                            }
-                        }
-                      var enumvalues= listEnumValuesBrand.Distinct().ToList();
-                        foreach (var item in enumvalues )
-                        {
-                            if (!dbFilterBrand.EnumValues.Contains(item))
-                            {
-                                dbFilterBrand.EnumValues.Add(item);
-                            }
-                        }
-                        //dbFilterBrand.EnumValues = 
-                    }
+                    //}
+                    //else
+                    //{
+                    //    var listEnumValuesBrand = new List<EnumValues>();
+                    //    foreach (var item in category.Products)
+                    //    {
+                    //        var valueBrand = item.EnumValues.Where(w => w.TypeValue == (int)Common.TypeFromEnumValue.Brand);
+                    //        if (valueBrand != null && valueBrand.Count() > 0)
+                    //        {
+                    //            foreach (var value in valueBrand)
+                    //            {
+                    //                listEnumValuesBrand.Add(value);
+                    //            }
+                    //        }
+                    //    }
+                    //  var enumvalues= listEnumValuesBrand.Distinct().ToList();
+                    //    foreach (var item in enumvalues )
+                    //    {
+                    //        if (!dbFilterBrand.EnumValues.Contains(item))
+                    //        {
+                    //            dbFilterBrand.EnumValues.Add(item);
+                    //        }
+                    //    }
+                    //    //dbFilterBrand.EnumValues = 
+                    //}
                     
                 }
-                var enumBrands = dbContext.EnumValues.Where(i => i.TypeValue == (int)Common.TypeFromEnumValue.Brand).ToList();
-                foreach (var enumVal in enumBrands)
-                {
-                    if (enumVal.Filters.Count==0)
-                    {
-                        dbContext.EnumValues.Remove(enumVal);
-                    }
-                }
+                //var enumBrands = dbContext.EnumValues.Where(i => i.TypeValue == (int)Common.TypeFromEnumValue.Brand).ToList();
+                //foreach (var enumVal in enumBrands)
+                //{
+                //    if (enumVal.Filters.Count==0)
+                //    {
+                //        dbContext.EnumValues.Remove(enumVal);
+                //    }
+                //}
                 dbContext.SaveChanges();
                 //dbContext.SaveChanges();
             }
@@ -727,7 +754,11 @@ namespace DBFirstDAL.Repositories
                 Price=s.Price,
                 TypePrice=(Common.TypeProductPrice) s.TypePrice,
                 Title=s.Title,
-                TypeStatusProduct=(Common.TypeStatusProduct)s.TypeStatusProduct
+                TypeStatusProduct=(Common.TypeStatusProduct)s.TypeStatusProduct,
+                EnumValues=s.EnumValues.Select(i=>new EnumValue {
+                    Id =i.Id,
+                Key=i.Key,
+                TypeValue=(Common.TypeFromEnumValue) i.TypeValue,}).ToList()
             }).ToList();
 
             cat.Id = dbObject.Id;
@@ -819,16 +850,22 @@ namespace DBFirstDAL.Repositories
                     });
                     var flagstop = true;
                     var cat = EfModel.Categories2;
+                    var listIds = new List<int>();
                     while (flagstop)
                     {
 
                         if (cat != null)
                         {
+                            if (listIds.Contains(cat.Id))
+                            {
+                                break;
+                            }
                             breadcrumbs.Add(new BreadCrumbViewModel()
                             {
                                 Title = cat.Title,
                                 Link = defaulCateggorytLink + cat.Id.ToString()
                             });
+
                             if (cat.ParentId == null)
                             {
 
@@ -858,6 +895,10 @@ namespace DBFirstDAL.Repositories
                 if (dbCategory!=null)
                 {
                     searchParams.ExistProductsInBd = dbCategory.Products.Count > 0;
+                    foreach (var item in dbCategory.Products)
+                    {
+                        searchParams.OutEnumValueIds.AddRange(item.EnumValues.Select(s => s.Id));
+                    }
                     IEnumerable<Products> temp= dbCategory.Products.Where(i => i.TypeStatusProduct != (int)Common.TypeStatusProduct.Hide/*&& i.Price>0*/).ToList();
                     if (searchParams.MaxPrice.HasValue)
                     {

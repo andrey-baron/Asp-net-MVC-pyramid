@@ -4,14 +4,22 @@
 {
     <div class="admin-product-enumvalue">
         <div class="row">
-            @Html.Hidden(String.Format("EnumValues[{0}].Id", i), Model[i].Id)
-            <div class="col-md-4">
-                @Html.Label("Допустимое значение", htmlAttributes: new { @class = "control-label" })
+           
+            <div class="col-md-8">
+                @Html.Label("Фильтр", htmlAttributes: new { @class = "control-label" })
 
-                @Html.DropDownList(String.Format("EnumValues[{0}].Id", i), new SelectList(ViewBag.EnumValuesSelectList, "Value", "Text", Model[i].Id), "Выбрать", new { @class = "form-control" })
+                @Html.DropDownList(String.Format("Filters[{0}].Id", i), new SelectList(ViewBag.FiltersSelectList, "Value", "Text", Model[i].Id), "Выбрать", new { @class = "form-control js-product-filter-control",data_index=i.ToString()})
 
+                <div class="js-product-insert-filter-enumval">
+                    @Html.Label("Допустимое значение", htmlAttributes: new { @class = "control-label" })
+                    @Html.Hidden(String.Format("EnumValues[{0}].Id", i), Model[i].Id)
+                    @Html.DropDownList(String.Format("EnumValues[{0}].Id", i), new SelectList(ViewBag.EnumValuesSelectList, "Value", "Text", Model[i].Id), "Выбрать", new { @class = "form-control" })
+                    
+
+                </div>
 
             </div>
+           
             <div class="col-md-1">
                 <label class="control-label">удалить</label>
                 <button type="button" class="tabledit-edit-button btn btn-sm btn-default btn-product-enum-value-delete" style="float: none;" data-ajaxid="@Model[i].Id">

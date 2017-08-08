@@ -18,15 +18,23 @@ namespace Common.SearchClasses
         public IEnumerable< FilterSearchModel> FiltersSearch { get; set; }
 
         public bool ExistProductsInBd { get; set; }
+        public List<int> OutEnumValueIds { get; set; }
 
-        public SearchParamsCategory(string searchString, int? id,int? maxPrice=null, int? minPrice=null, IEnumerable<FilterSearchModel> filtersSearch = null,
-             int startIndex = 0, int? objectsCount = null) :base(startIndex,objectsCount)
+        public SearchParamsCategory(
+            string searchString,
+            int? id,int? maxPrice=null,
+            int? minPrice=null,
+            IEnumerable<FilterSearchModel> filtersSearch = null,
+
+             int startIndex = 0, 
+             int? objectsCount = null) :base(startIndex,objectsCount)
         {
             Id = (int)id;
             MaxPrice = maxPrice;
             MinPrice = minPrice;
              FiltersSearch = filtersSearch;
             SearchString = searchString;
+            OutEnumValueIds = new List<int>();
         }
         public SearchParamsCategory(int? id=null,int startIndex = 0, int? objectsCount = null) : base(startIndex, objectsCount)
         {
@@ -34,7 +42,7 @@ namespace Common.SearchClasses
             {
                 Id = (int)id;
             }
-            
+            OutEnumValueIds = new List<int>();
         }
     }
 }

@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="PyramidModel.Events" Width="1.5" PointX="3.75" PointY="4.75" />
         <EntityTypeShape EntityType="PyramidModel.Faq" Width="1.5" PointX="3.75" PointY="2" />
         <EntityTypeShape EntityType="PyramidModel.FeedBackEmails" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="PyramidModel.Filters" Width="1.5" PointX="13.25" PointY="18.375" />
+        <EntityTypeShape EntityType="PyramidModel.Filters" Width="1.5" PointX="15.875" PointY="18.75" />
         <EntityTypeShape EntityType="PyramidModel.HomeEntity" Width="1.5" PointX="6" PointY="11.5" />
         <EntityTypeShape EntityType="PyramidModel.Images" Width="1.5" PointX="0.75" PointY="11.625" />
         <EntityTypeShape EntityType="PyramidModel.Orders" Width="1.5" PointX="8.25" PointY="21" />

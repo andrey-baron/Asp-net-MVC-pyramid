@@ -118,6 +118,7 @@ namespace Pyramid.Controllers
                 viewModel = CategoryViewModel.ToModel(_categoryRepository.GetBySearchParams(searchParamsCategory));
                 viewModel.CurrentMaxPrice = (int)jsonObj.MaxPrice;
                 viewModel.CurrentMinPrice = (int)jsonObj.MinPrice;
+               
                 foreach (var item in viewModel.Filters)
                 {
                     foreach (var enumVal in item.EnumValues)
@@ -136,7 +137,16 @@ namespace Pyramid.Controllers
                 viewModel = CategoryViewModel.ToModel(t);
                
             }
-            viewModel.ExistProducts = searchParamsCategory.ExistProductsInBd;
+            //var productsEnumValues = new List<int>();
+            //foreach (var item in viewModel.Products)
+            //{
+            //    productsEnumValues.AddRange(item.EnumValues.Select(s => s.Id));
+            //}
+            foreach (var item in viewModel.Filters)
+            {
+                item.EnumValues = (item.EnumValues).Where(w => searchParamsCategory.OutEnumValueIds.Contains(w.Id)).ToList();
+            }
+                viewModel.ExistProducts = searchParamsCategory.ExistProductsInBd;
             if (sortingOrder != 0)
             {
                 switch (sortingOrder)
@@ -199,6 +209,10 @@ namespace Pyramid.Controllers
             SearchParamsCategory searchParamsCategory= new SearchParamsCategory(null,model.Id, model.CurrentMaxPrice, model.CurrentMinPrice, filterSearchModel);
             var viewModel = CategoryViewModel.ToModel(_categoryRepository.GetBySearchParams(searchParamsCategory));
             viewModel.ExistProducts = searchParamsCategory.ExistProductsInBd;
+            foreach (var item in viewModel.Filters)
+            {
+                item.EnumValues = (item.EnumValues).Where(w => searchParamsCategory.OutEnumValueIds.Contains(w.Id)).ToList();
+            }
             if (sortingOrder != 0)
             {
                 switch (sortingOrder)

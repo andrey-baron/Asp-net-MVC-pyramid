@@ -1,0 +1,5 @@
+﻿@model int
+@Html.Label("Допустимое значение", htmlAttributes: new { @class = "control-label" })
+
+@Html.DropDownList(String.Format("EnumValues[{0}].Id", Model), new SelectList(ViewBag.EnumValuesSelectList, "Value", "Text",""), "Выбрать", new { @class = "form-control" })
+

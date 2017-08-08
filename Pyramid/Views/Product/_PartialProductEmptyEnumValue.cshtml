@@ -3,11 +3,19 @@
 <div class="admin-product-enumvalue">
     <div class="row">
         @*@Html.Hidden(String.Format("EnumValues[{0}].Id", Model) )*@
-        <div class="col-md-4">
-            @Html.Label("Допустимое значение", htmlAttributes: new { @class = "control-label" })
+        @*@Html.Hidden(String.Format("EnumValues[{0}].Id", Model), "")*@
+        <div class="col-md-8">
+            @Html.Label("Фильтр", htmlAttributes: new { @class = "control-label" })
 
-            @Html.DropDownList(String.Format("EnumValues[{0}].Id", Model), new SelectList(ViewBag.EnumValuesSelectList, "Value", "Text"), "Выбрать", new { @class = "form-control" })
+            @Html.DropDownList(String.Format("Filters[{0}].Id", Model), new SelectList(ViewBag.FiltersSelectList, "Value", "Text", ""), "Выбрать", new { @class = "form-control js-product-filter-control", data_index = Model.ToString() })
 
+            <div class="js-product-insert-filter-enumval">
+                @Html.Label("Допустимое значение", htmlAttributes: new { @class = "control-label" })
+
+                @Html.DropDownList(String.Format("EnumValues[{0}].Id", Model), new SelectList(ViewBag.EnumValuesSelectList, "Value", "Text"), "Выбрать", new { @class = "form-control" })
+
+
+            </div>
 
         </div>
         <div class="col-md-1">

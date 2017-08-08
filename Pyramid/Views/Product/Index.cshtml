@@ -62,6 +62,10 @@
                 </div>
 
             </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a href="@Url.Action("AddOrUpdate","Product",new { id=Model.Product.Id})">редактировать</a>
+            }
             <div class="price-block">
                 <span class="price-block__price"><span class="price-block__big-price">@Model.Product.Price</span>руб/шт.</span>
                 <input class="price-block__count-input js-single-spinner" value="1" />
@@ -268,50 +272,51 @@
 
    
 </div>
-
-<div class="single__related-products">
-    <div class="call-to-action call-to-action_single">
-        <div class="call-to-action__head-title">Сопутствующие товары</div>
-    </div>
-    <div class="single__bxslider">
-        @foreach (var item in Model.RelatedProducts)
+@if (Model.RelatedProducts.Count() > 0)
+{
+    <div class="single__related-products">
+        <div class="call-to-action call-to-action_single">
+            <div class="call-to-action__head-title">Сопутствующие товары</div>
+        </div>
+        <div class="single__bxslider">
+            @foreach (var item in Model.RelatedProducts)
             {
-            <div class="single__bxslider-item">
-                <div class="product__item">
-                    <a href="@Url.Action("Index","Product",new { id=item.Id})">
-                        <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
+                <div class="single__bxslider-item">
+                    <div class="product__item">
+                        <a href="@Url.Action("Index","Product",new { id=item.Id})">
+                            <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
 
-                        <p class="product__item-title">@item.Title</p>
-                        <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
-                            <div class="triangle-up"></div>
-                            <div class="triangle-down"></div>
-                            <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
-                        </div>
-                    </a>
-                    <div class="product__item__hover_block_wrapper">
-                        <div class="product__item__hover_block_wrapper__item product__in-stock">
-                            <p>в наличии</p>
-                        </div>
-                        <a class="product__item__hover_block_wrapper__item" href="">
-                            <div class="product__buy product__buy_one-click">
-                                <p>Купить в один клик</p>
+                            <p class="product__item-title">@item.Title</p>
+                            <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
+                                <div class="triangle-up"></div>
+                                <div class="triangle-down"></div>
+                                <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
                             </div>
                         </a>
+                        <div class="product__item__hover_block_wrapper">
+                            <div class="product__item__hover_block_wrapper__item product__in-stock">
+                                <p>в наличии</p>
+                            </div>
+                            <a class="product__item__hover_block_wrapper__item" href="">
+                                <div class="product__buy product__buy_one-click">
+                                    <p>Купить в один клик</p>
+                                </div>
+                            </a>
 
-                        <div class="product__buy product__buy_add-to-cart js-add-to-cart" data-ajaxid="@item.Id">
-                            <p>Добавить в корзину</p>
+                            <div class="product__buy product__buy_add-to-cart js-add-to-cart" data-ajaxid="@item.Id">
+                                <p>Добавить в корзину</p>
+                            </div>
+
                         </div>
-
                     </div>
+
                 </div>
 
-            </div>
+            }
 
-        }
+        </div>
 
-    </div>
-
-    <script>
+        <script>
         $(document).ready(function () {
             $('.single__bxslider').bxSlider({
                 slideWidth: 300,
@@ -323,8 +328,10 @@
                 auto: true
             });
         });
-    </script>
-</div>
+        </script>
+    </div>
+
+}
 
 
 <div class="modal fade" id="single-add-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
