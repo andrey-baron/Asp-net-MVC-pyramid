@@ -83,7 +83,7 @@
                             </div>
                         </a>
                             <div class="product__item__hover_block_wrapper">
-                                <div class="product__item__hover_block_wrapper__item product__in-stock">
+                                <div class="product__item__hover_block_wrapper__item product__in-stock @(item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded?"product__in-stock_willbeadded":"")">
                                     @if (item.TypeStatusProduct == Common.TypeStatusProduct.Normal)
                                     {
                                     <p>в наличии</p>
@@ -135,7 +135,7 @@
                             {
                                 <div class="decoration-work__point" style="top:@(point.CoordY)%; left:@(point.CoordX)%;">
                                     <div class="decoration-work__product">
-                                        <div class="decoration-work__product-btn-close"></div>
+                                        @*<div class="decoration-work__product-btn-close"></div>*@
                                         <a href="@Url.Action("Index","Product",new { id=point.Products.Id })"><img src="@(point.Products.ThumbnailImg!=null?point.Products.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="decoration-work__product-img"></a>
                                         <a href="@Url.Action("Index","Product",new { id=point.Products.Id })"><p class="decoration-work__product-title">@point.Products.Title</p></a>
                                         <div class="decoration-work__product-price product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)point.Products.TypePrice)">
@@ -225,7 +225,7 @@
                                     </div>
                                 </a>
                                         <div class="product__item__hover_block_wrapper">
-                                            <div class="product__item__hover_block_wrapper__item product__in-stock">
+                                            <div class="product__item__hover_block_wrapper__item product__in-stock @(itemProduct.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded?"product__in-stock_willbeadded":"")">
                                                 @if (itemProduct.TypeStatusProduct == Common.TypeStatusProduct.Normal)
                                                 {
                                                     <p>в наличии</p>

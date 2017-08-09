@@ -27,6 +27,8 @@ namespace Pyramid.Entity
         public Nullable<int> SeoId { get; set; }
 
         public  Seo Seo { get; set; }
+        [Display(Name = "Показывать на сайте")]
+        public bool ShowCategoryOnSite { get; set; }
 
         public Image Thumbnail { get; set; }
         public List<Product> Products { get; set; }

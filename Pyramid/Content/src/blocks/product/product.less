@@ -173,6 +173,14 @@
       vertical-align: middle;
     }
   }
+  &__in-stock_willbeadded{
+      
+       & :before{
+           content:"";
+        background: url("/Content/img/willbeadded.png")no-repeat;
+            background-size: 100%;
+      }
+  }
   &__buy{
     font-family: ProximaNovaSemibold;
     height: @heightOneLine;
@@ -233,6 +241,8 @@
     .product__item-img{
       width: 100px;
       display: inline-block;
+      //min-height:150px;
+      height:150px;
     }
 
     .product__item-title{

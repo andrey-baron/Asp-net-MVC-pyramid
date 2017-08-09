@@ -17,7 +17,8 @@ namespace DBFirstDAL.Repositories
             var banner = new EventBanner() {
                 Id=dbObject.Id,
                 Thumbnail= Convert.ConvertImageToEntity.Convert(dbObject.Images),
-                Title=dbObject.Title
+                Title=dbObject.Title,
+                Link= dbObject.Link,
             };
             return banner;
         }
@@ -25,6 +26,7 @@ namespace DBFirstDAL.Repositories
         public override void UpdateBeforeSaving(PyramidFinalContext dbContext, EventBanners dbEntity, EventBanner entity, bool exists)
         {
             dbEntity.Title = entity.Title;
+            dbEntity.Link = entity.Link;
         }
         public override void UpdateAfterSaving(PyramidFinalContext dbContext, EventBanners dbEntity, EventBanner entity, bool exists)
         {

@@ -11,6 +11,7 @@ namespace Common.SearchClasses
         public string SearchString { get; set; }
         public int? CategoryId { get; set; }
         public bool? Priority { get; set; }
+        public bool? IsSearchOnlyPublicProduct { get; set; }
 
         public SearchParamsProduct(string searchString, int? categoryId, bool? priority,
         int startIndex = 0, int? objectsCount = null):base(startIndex, objectsCount)
@@ -18,15 +19,19 @@ namespace Common.SearchClasses
             CategoryId = categoryId;
             Priority = priority;
             SearchString = searchString;
+            IsSearchOnlyPublicProduct = false;
         }
         public SearchParamsProduct(string searchString, 
         int startIndex = 0, int? objectsCount = null) : base(startIndex, objectsCount)
         {
             SearchString = searchString;
+            IsSearchOnlyPublicProduct = false;
+
         }
 
         public SearchParamsProduct(int startIndex = 0, int? objectsCount = null) : base(startIndex, objectsCount)
         {
+            IsSearchOnlyPublicProduct = false;
 
         }
     }

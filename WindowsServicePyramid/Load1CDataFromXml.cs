@@ -14,7 +14,7 @@ namespace WindowsServicePyramid
         public static string pathDirectoryFiles =  Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["FilesFolder"]);
 
             /*Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Content\\UserUploadXml\\");*/
-        public static AllEntity1CXMLModel GetXmlModel(out bool flagError)
+        public static AllEntity1CXMLModel GetXmlModel(out bool flagError,ref string pathFile)
         {
             List<string> stoplistTitleCategories = new List<string>(new string[] {
                 "Сайдинг и водосточная система",
@@ -36,6 +36,7 @@ namespace WindowsServicePyramid
 
                     return outModel;
                 }
+                pathFile = path.ToString();
                 xDoc.Load(path);
 
                 var XmlElement = xDoc.DocumentElement;
@@ -48,9 +49,9 @@ namespace WindowsServicePyramid
 
                 List<CategoryXMLModel> outCategoryModels = GetInnerCategories(categories, null);
 
-                var stoplistRootCategories=outCategoryModels.Where(i => stoplistTitleCategories.Any(a => a == i.Title)).ToList();
+                //var stoplistRootCategories=outCategoryModels.Where(i => stoplistTitleCategories.Any(a => a == i.Title)).ToList();
 
-                stoplistCategories = GetListCategoriesWithChildCategories(stoplistRootCategories, ref outCategoryModels);
+                //stoplistCategories = GetListCategoriesWithChildCategories(stoplistRootCategories, ref outCategoryModels);
                 #endregion
 
                 #region products
@@ -65,16 +66,7 @@ namespace WindowsServicePyramid
                     XmlNodeList Inners = ((XmlNode)product).SelectNodes("*");
                     ProductXMLModel prodModel = new ProductXMLModel();
 
-                    var notDisplayed = ((XmlNode)product).SelectSingleNode("ОтображатьНаСайте");
-                    if (notDisplayed.InnerText=="Нет")
-                    {
-                        prodModel.TypeStatusProduct = Common.TypeStatusProduct.Hide;
-                    }
-                    else
-                    {
-                        prodModel.TypeStatusProduct = Common.TypeStatusProduct.Normal;
-
-                    }
+                    
                     
                     XmlNode IdNode = ((XmlNode)product).SelectSingleNode("Ид");
                     prodModel.Id = IdNode.InnerText;
@@ -82,30 +74,41 @@ namespace WindowsServicePyramid
                     prodModel.Title = TitleNode.InnerText;
 
                     XmlNode Amount = ((XmlNode)product).SelectSingleNode("Количество");
-                    if (Amount.InnerText!="0")
+                    
+                    var notDisplayed = ((XmlNode)product).SelectSingleNode("ОтображатьНаСайте");
+                    if (notDisplayed.InnerText == "Нет")
                     {
-                        prodModel.TypeStatusProduct = Common.TypeStatusProduct.Normal;
+                        prodModel.TypeStatusProduct = Common.TypeStatusProduct.Hide;
                     }
                     else
                     {
-                        prodModel.TypeStatusProduct = Common.TypeStatusProduct.WillBeAdded;
+                        if (Amount.InnerText != "0")
+                        {
+                            prodModel.TypeStatusProduct = Common.TypeStatusProduct.Normal;
+                        }
+                        else
+                        {
+                            prodModel.TypeStatusProduct = Common.TypeStatusProduct.WillBeAdded;
+
+                        }
 
                     }
 
                     XmlNode GroupsNode = ((XmlNode)product).SelectSingleNode("Группы");
                     if (GroupsNode==null)
                     {
-                        continue;
-                    }
-                    foreach (var group in GroupsNode)
-                    {
-                        var idgroup = ((XmlNode)group).InnerText;
-                        if (stoplistCategories.Any(a=>a.Id==idgroup))
+                        /*continue;*/
+                        foreach (var group in GroupsNode)
                         {
-                            flagAdd = false;
+                            var idgroup = ((XmlNode)group).InnerText;
+                            if (stoplistCategories.Any(a => a.Id == idgroup))
+                            {
+                                flagAdd = false;
+                            }
+                            prodModel.CategoryTextIds.Add(((XmlNode)group).InnerText);
                         }
-                        prodModel.CategoryTextIds.Add(((XmlNode)group).InnerText);
                     }
+                    
 
                     XmlNode Brand = ((XmlNode)product).SelectSingleNode("Бренд");
                     if (Brand!=null)
@@ -151,7 +154,7 @@ namespace WindowsServicePyramid
                 
                 flagError = false;
 
-                ChangePathFile(path);
+                
                 return outModel;
             }
             catch (Exception ex)
@@ -175,7 +178,7 @@ namespace WindowsServicePyramid
             return Path.Combine(dirName, file);
         }
 
-        private static void ChangePathFile(string pathFile)
+        public static void ChangePathFile(string pathFile)
         {
             if (File.Exists(pathFile))
             {

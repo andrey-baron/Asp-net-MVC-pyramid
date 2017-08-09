@@ -979,6 +979,11 @@ label.error {
 .header__menu-item > a {
   font-size: 16px;
   color: #fff;
+  transition: 300ms linear;
+}
+.header__menu-item > a:focus,
+.header__menu-item > a:hover {
+  color: #ffe025;
 }
 .header__menu-item + .header__menu-item {
   margin-left: 40px;
@@ -1130,11 +1135,21 @@ label.error {
   margin-top: 5px;
   font-size: 14px;
   font-family: ProximaNovaSemibold;
+  transition: 300ms all linear;
 }
 .header__cat-item-inner > img {
   max-width: 100%;
-  max-height: 95px;
+  max-height: 85px;
   object-fit: contain;
+  transition: 300ms all linear;
+}
+.header__cat-item-inner:focus > img,
+.header__cat-item-inner:hover > img {
+  transform: scale(1.1);
+}
+.header__cat-item-inner:focus > p,
+.header__cat-item-inner:hover > p {
+  color: #67b23b;
 }
 .header__cat-item_view-all {
   background: #eaeaea;
@@ -1796,6 +1811,11 @@ page__event-item + page__event-item {
   display: inline-block;
   vertical-align: middle;
 }
+.product__in-stock_willbeadded :before {
+  content: "";
+  background: url("/Content/img/willbeadded.png") no-repeat;
+  background-size: 100%;
+}
 .product__buy {
   font-family: ProximaNovaSemibold;
   height: 72px;
@@ -1858,6 +1878,7 @@ page__event-item + page__event-item {
 .product__item:hover .product__item-img {
   width: 100px;
   display: inline-block;
+  height: 150px;
 }
 .product__item:focus .product__item-title,
 .product__item:hover .product__item-title {

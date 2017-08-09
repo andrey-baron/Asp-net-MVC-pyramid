@@ -262,7 +262,7 @@ namespace DBFirstDAL.Repositories
         {
             using (PyramidFinalContext dbContext= new PyramidFinalContext())
             {
-                return dbContext.Products.Where(i => i.SeasonOffer == true).ToList().Select(i => ConvertDbObjectToEntityShort(dbContext, i)).ToList();
+                return dbContext.Products.Where(i => i.SeasonOffer == true && i.TypeStatusProduct!=(int)Common.TypeStatusProduct.Hide ).ToList().Select(i => ConvertDbObjectToEntityShort(dbContext, i)).ToList();
             }
            
         }
@@ -326,6 +326,10 @@ namespace DBFirstDAL.Repositories
             using (PyramidFinalContext dbContext=new PyramidFinalContext())
             {
                 var dbProduct = dbContext.Products.FirstOrDefault(i => i.OneCId == product.OneCId);
+                if (dbProduct.Id== 24696||dbProduct.OneCId== "51174c64-2731-11e6-af4e-1c6f652b5ae3")
+                {
+                    var T = "sdfdsf";
+                }
                 var exist = dbProduct != null;
                 if (!exist)
                 {
@@ -571,6 +575,10 @@ namespace DBFirstDAL.Repositories
 
         protected override IQueryable<Products> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Products> dbObjects, SearchParamsProduct searchParams)
         {
+            if (searchParams.IsSearchOnlyPublicProduct!=null&& searchParams.IsSearchOnlyPublicProduct.Value)
+            {
+                dbObjects = dbObjects.Where(i => i.TypeStatusProduct!=(int)Common.TypeStatusProduct.Hide);
+            }
             if (searchParams.CategoryId!=null)
             {
                 dbObjects= dbObjects.Where(i => i.Categories.Any(a => a.Id == searchParams.CategoryId.Value));

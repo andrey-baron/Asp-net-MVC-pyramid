@@ -206,7 +206,7 @@
         </div>
        
         <div id="panely4" class="tab-pane fade">
-            <p>Отзывы</p>
+            <h3>Отзывы</h3>
             <div class="single__review-info">
                 <div class="row">
                     <div class="col-md-12 col-xs-12">
@@ -284,20 +284,29 @@
                 <div class="single__bxslider-item">
                     <div class="product__item">
                         <a href="@Url.Action("Index","Product",new { id=item.Id})">
-                            <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
+                            <div class="product__link-block">
+                                <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
 
-                            <p class="product__item-title">@item.Title</p>
-                            <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
-                                <div class="triangle-up"></div>
-                                <div class="triangle-down"></div>
-                                <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
+                                <p class="product__item-title">@item.Title</p>
+                                <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
+                                    <div class="triangle-up"></div>
+                                    <div class="triangle-down"></div>
+                                    <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
+                                </div>
                             </div>
                         </a>
                         <div class="product__item__hover_block_wrapper">
-                            <div class="product__item__hover_block_wrapper__item product__in-stock">
-                                <p>в наличии</p>
+                            <div class="product__item__hover_block_wrapper__item product__in-stock @(item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded?"product__in-stock_willbeadded":"")">
+                                @if (item.TypeStatusProduct == Common.TypeStatusProduct.Normal)
+                                {
+                                    <p>в наличии</p>
+                                }
+                                @if (item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
+                                {
+                                    <p>Доступен для заказа</p>
+                                }
                             </div>
-                            <a class="product__item__hover_block_wrapper__item" href="">
+                            <a class="product__item__hover_block_wrapper__item" href="@Url.Action("CheckoutOneClick","Cart",new { id=item.Id})">
                                 <div class="product__buy product__buy_one-click">
                                     <p>Купить в один клик</p>
                                 </div>

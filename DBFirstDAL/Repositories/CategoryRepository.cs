@@ -32,7 +32,7 @@ namespace DBFirstDAL.Repositories
             using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
                 
-                var rootCategories = dbContext.Categories.Where(i => i.ParentId == null && (i.Products.Count > 0 || i.Categories1.Count > 0)).ToList();
+                var rootCategories = dbContext.Categories.Where(i => i.ParentId == null&&i.ShowCategoryOnSite && (i.Products.Count > 0 || i.Categories1.Count > 0)).ToList();
                 var d = new List<RootCategory>();
                 foreach (var item in rootCategories)
                 {
@@ -47,7 +47,7 @@ namespace DBFirstDAL.Repositories
                         //    Title = item.Title,
                         //}
                         ,
-                        SubCategories = dbContext.Categories.Where(i => i.ParentId == item.Id).ToList().Select(s => ConvertDbObjectToEntityShort(dbContext, s)).ToList(),
+                        SubCategories = dbContext.Categories.Where(i => i.ParentId == item.Id && i.ShowCategoryOnSite).ToList().Select(s => ConvertDbObjectToEntityShort(dbContext, s)).ToList(),
                         //{
                         //    Id = s.Id,
                         //    Thumbnail = s.CategoryImages.FirstOrDefault(f => f.CategoryId == s.Id && f.TypeImage == 1) != null ?
@@ -109,8 +109,8 @@ namespace DBFirstDAL.Repositories
             using (PyramidFinalContext dbContext = new PyramidFinalContext())
             {
                 var rootCategories = dbContext.Categories
-                    .Where(i => i.ParentId == null && (i.Products.Count > 0 || i.Categories1.Count > 0))
-                    .ToList()
+                    .Where(i => i.ParentId == null && i.ShowCategoryOnSite && (i.Products.Count > 0 || i.Categories1.Count > 0))
+                    .ToList() 
                     .Select(i => ConvertDbObjectToEntityShort(dbContext,i))
                     .ToList();
 
@@ -264,6 +264,7 @@ namespace DBFirstDAL.Repositories
                     dbEntity.ParentId = entity.ParentId;
                 dbEntity.Title = entity.Title;
                 dbEntity.Content = entity.Content;
+                dbEntity.ShowCategoryOnSite = entity.ShowCategoryOnSite;
 
             }
             //dbContext.SaveChanges();
@@ -769,6 +770,7 @@ namespace DBFirstDAL.Repositories
             cat.OneCId = dbObject.OneCId;
             cat.ParentId = dbObject.ParentId;
             cat.Content = dbObject.Content;
+            cat.ShowCategoryOnSite = dbObject.ShowCategoryOnSite;
             if (dbObject.Seo!=null)
             {
                 cat.Seo = new Entity.Seo() {
@@ -798,6 +800,7 @@ namespace DBFirstDAL.Repositories
             var cat = new Category();
             cat.Id = dbObject.Id;
             cat.Title = dbObject.Title;
+            cat.ShowCategoryOnSite = dbObject.ShowCategoryOnSite;
             cat.Thumbnail = dbObject.CategoryImages.FirstOrDefault(f => f.CategoryId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
                 ConvertImageToEntity.Convert(dbObject.CategoryImages.FirstOrDefault(f => f.CategoryId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : new Pyramid.Entity.Image();
 
@@ -986,6 +989,22 @@ namespace DBFirstDAL.Repositories
                 }
                 return false;
             }
+        }
+
+        public void HideCategoryIfNotExistInCurrentUpdateFrom1C(IEnumerable<string> categoryIdStr)
+        {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                foreach (var item in dbContext.Categories)
+                {
+                    if (!categoryIdStr.Contains(item.OneCId))
+                    {
+                        item.ShowCategoryOnSite = false;
+                    }
+                }
+                dbContext.SaveChanges();
+            }
+            
         }
         //private bool BFSFromCategory(PyramidFinalContext dbContext,Categories currentCategory, List<int> visitedIds, int categoryParentId)
         //{

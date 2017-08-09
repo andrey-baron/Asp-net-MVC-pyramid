@@ -126,6 +126,14 @@ namespace DBFirstDAL.Repositories
 
             }
         }
+
+        public bool Exist(string FilterTitle)
+        {
+            using (PyramidFinalContext dbContext= new PyramidFinalContext())
+            {
+                return dbContext.Filters.FirstOrDefault(f => f.Title == FilterTitle)!=null;
+            }
+        }
     }
     
 }

@@ -300,6 +300,10 @@ p.pmargin {
 .js-filter-all-enumvalues {
   margin-bottom: 15px;
 }
+.filter__error {
+  color: red;
+  font-size: 22px;
+}
 
 .admin-product__thumbnail {
   max-width: 200px;

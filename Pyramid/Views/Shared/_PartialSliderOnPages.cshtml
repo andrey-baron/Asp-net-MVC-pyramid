@@ -6,7 +6,7 @@
            @foreach (var item in slides)
            {
             <li class="page__slide">
-                <img src="@(item.Thumbnail != null && item.Thumbnail.ServerPathImg != null? item.Thumbnail.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" />
+                <a href="@item.Link"><img src="@(item.Thumbnail != null && item.Thumbnail.ServerPathImg != null? item.Thumbnail.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" /></a>
             </li>
            }
             

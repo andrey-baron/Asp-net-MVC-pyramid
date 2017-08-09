@@ -315,6 +315,7 @@
     <Content Include="Content\img\trolley.png" />
     <Content Include="Content\img\v-baner.png" />
     <Content Include="Content\img\vk_icon.png" />
+    <Content Include="Content\img\willbeadded.png" />
     <Content Include="Content\img\декорацца.jpg" />
     <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-noscript.css" />
     <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-ui-noscript.css" />
@@ -765,7 +766,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\less\" />
+    <Folder Include="Content\jQuery.FileUpload\less\" />
     <Folder Include="Content\libs\images\" />
     <Folder Include="Content\src\admin-blocks\product\" />
     <Folder Include="Content\UserUpload\" />

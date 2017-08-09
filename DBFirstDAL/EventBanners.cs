@@ -17,6 +17,7 @@ namespace DBFirstDAL
         public int Id { get; set; }
         public Nullable<int> ImageId { get; set; }
         public string Title { get; set; }
+        public string Link { get; set; }
     
         public virtual Images Images { get; set; }
     }

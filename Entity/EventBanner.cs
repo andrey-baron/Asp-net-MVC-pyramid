@@ -13,7 +13,8 @@ namespace Pyramid. Entity
         public int Id { get; set; }
         [Display(Name ="Название")]
         public string Title { get; set; }
-
+        [Display(Name = "Ссылка")]
+        public string Link { get; set; }
         public Image Thumbnail { get; set; }
     }
 }

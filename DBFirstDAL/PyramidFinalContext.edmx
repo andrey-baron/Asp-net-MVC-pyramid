@@ -23,6 +23,7 @@
           <Property Name="OneCId" Type="nvarchar" MaxLength="100" />
           <Property Name="SeoId" Type="int" />
           <Property Name="Content" Type="nvarchar(max)" />
+          <Property Name="ShowCategoryOnSite" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="CategoryImages">
           <Key>
@@ -48,6 +49,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ImageId" Type="int" />
           <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Link" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="EventImages">
           <Key>
@@ -237,7 +239,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Title" Type="nvarchar" MaxLength="100" />
+          <Property Name="Title" Type="nvarchar" MaxLength="300" />
           <Property Name="Price" Type="float" Nullable="false" />
           <Property Name="TypePrice" Type="int" Nullable="false" />
           <Property Name="MetaDescription" Type="nvarchar" MaxLength="1000" />
@@ -1523,7 +1525,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Double" Nullable="false" />
           <Property Name="TypePrice" Type="Int32" Nullable="false" />
           <Property Name="MetaDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
@@ -1627,6 +1629,7 @@
           <Property Name="ImageId" Type="Int32" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Images" Relationship="PyramidModel.FK__EventBann__Image__2057CCD0" FromRole="EventBanners" ToRole="Images" />
+          <Property Name="Link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__EventBann__Image__2057CCD0">
           <End Type="PyramidModel.Images" Role="Images" Multiplicity="0..1" />
@@ -1659,6 +1662,7 @@
           <NavigationProperty Name="HomeEntity" Relationship="PyramidModel.HomeEntityCategories" FromRole="Categories" ToRole="HomeEntity" />
           <NavigationProperty Name="Products" Relationship="PyramidModel.ProductCategories" FromRole="Categories" ToRole="Products" />
           <NavigationProperty Name="Recommendations" Relationship="PyramidModel.RecommendationCategories" FromRole="Categories" ToRole="Recommendations" />
+          <Property Name="ShowCategoryOnSite" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK__Categorie__SeoId__09746778">
           <End Type="PyramidModel.Seo" Role="Seo" Multiplicity="0..1" />
@@ -2060,6 +2064,7 @@
           <EntitySetMapping Name="EventBanners">
             <EntityTypeMapping TypeName="PyramidModel.EventBanners">
               <MappingFragment StoreEntitySet="EventBanners">
+                <ScalarProperty Name="Link" ColumnName="Link" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ImageId" ColumnName="ImageId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -2069,6 +2074,7 @@
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="PyramidModel.Categories">
               <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="ShowCategoryOnSite" ColumnName="ShowCategoryOnSite" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="SeoId" ColumnName="SeoId" />
                 <ScalarProperty Name="OneCId" ColumnName="OneCId" />

@@ -889,3 +889,15 @@
    в DBFirstDAL.Repositories.ProductRepository.UpdateAfterSavingOneC(PyramidFinalContext dbContext, Products dbObjext, Products model, Boolean exist) в C:\git\Pyramid\DBFirstDAL\Repositories\ProductRepository.cs:строка 387
    в DBFirstDAL.Repositories.ProductRepository.AddOrUpdateFromOneC(Products product) в C:\git\Pyramid\DBFirstDAL\Repositories\ProductRepository.cs:строка 333
    в WindowsServicePyramid.ServicePyramid.ExecuteLogic()
+2017-08-09 16:16:39.8649|ERROR|WindowsServicePyramid.ServicePyramid|Ошибка при выгрузке информации на публичный сайт: System.Data.Entity.Validation.DbEntityValidationException: Сбой при проверке одной или нескольких сущностей. Более подробные сведения см. в свойстве "EntityValidationErrors".
+   в System.Data.Entity.Internal.InternalContext.SaveChanges()
+   в System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   в System.Data.Entity.DbContext.SaveChanges()
+   в DBFirstDAL.Repositories.ProductRepository.AddOrUpdateFromOneC(Products product) в C:\git\Pyramid\DBFirstDAL\Repositories\ProductRepository.cs:строка 335
+   в WindowsServicePyramid.ServicePyramid.ExecuteLogic() в C:\git\Pyramid\WindowsServicePyramid\ServicePyramid.cs:строка 100
+2017-08-09 16:18:43.8747|ERROR|WindowsServicePyramid.ServicePyramid|Ошибка при выгрузке информации на публичный сайт: System.Data.Entity.Validation.DbEntityValidationException: Сбой при проверке одной или нескольких сущностей. Более подробные сведения см. в свойстве "EntityValidationErrors".
+   в System.Data.Entity.Internal.InternalContext.SaveChanges()
+   в System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   в System.Data.Entity.DbContext.SaveChanges()
+   в DBFirstDAL.Repositories.ProductRepository.AddOrUpdateFromOneC(Products product) в C:\git\Pyramid\DBFirstDAL\Repositories\ProductRepository.cs:строка 335
+   в WindowsServicePyramid.ServicePyramid.ExecuteLogic() в C:\git\Pyramid\WindowsServicePyramid\ServicePyramid.cs:строка 100

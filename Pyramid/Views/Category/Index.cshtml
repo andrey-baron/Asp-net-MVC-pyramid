@@ -114,7 +114,7 @@
 </a>
                         <div class="product__item__hover_block_wrapper">
                             
-                            <div class="product__item__hover_block_wrapper__item product__in-stock">
+                            <div class="product__item__hover_block_wrapper__item product__in-stock @(item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded?"product__in-stock_willbeadded":"")">
                                 @if (item.TypeStatusProduct == Common.TypeStatusProduct.Normal)
                                 {
                                     <p>в наличии</p>

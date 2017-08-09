@@ -130,7 +130,7 @@ namespace DBFirstDAL.Repositories
                 }
                 else
                 {
-                    var entity= dbContext.HomeEntity
+                    var entity= BuildDbObjectsList(dbContext,dbContext.HomeEntity,new SearchParamsBase() { StartIndex=0,ObjectsCount=100})
                         .ToList()
                         .Select(s => ConvertDbObjectToEntity(dbContext, s))
                         .ToList();
@@ -532,6 +532,10 @@ namespace DBFirstDAL.Repositories
         }
         protected override IQueryable<HomeEntity> BuildDbObjectsList(PyramidFinalContext context, IQueryable<HomeEntity> dbObjects, SearchParamsBase searchParams)
         {
+            foreach (var item in dbObjects)
+            {
+                item.Products = item.Products.Where(i => i.TypeStatusProduct != (int)Common.TypeStatusProduct.Hide).ToList();
+            }
             dbObjects = dbObjects.OrderBy(item => item.Title).ThenBy(item => item.Id);
             return dbObjects;
         }

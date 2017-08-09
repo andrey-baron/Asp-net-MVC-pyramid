@@ -17,6 +17,10 @@
             <div class="box-typical box-typical-padding">
                 <div class="form-horizontal">
                     <h4>Фильтр</h4>
+                    @if (ViewBag.FilterError != null)
+                    {
+                        <p class="filter__error">@ViewBag.FilterError</p>
+                    }
                     <hr />
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @Html.HiddenFor(model => model.Id,new {id= "Filter_Id" })

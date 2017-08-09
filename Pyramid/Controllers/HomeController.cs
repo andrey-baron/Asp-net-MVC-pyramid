@@ -56,7 +56,8 @@ namespace Pyramid.Controllers
             var objectsPerPage = 20;
             var startIndex = (pageNumber - 1) * objectsPerPage;
 
-            SearchParamsProduct SearchParams = new SearchParamsProduct(searchString, startIndex, objectsPerPage);
+            SearchParamsProduct SearchParams = new SearchParamsProduct(searchString, startIndex, objectsPerPage)
+            { IsSearchOnlyPublicProduct=true};
             SearchResult<Product> searchResult;
             if (searchString==null)
             {

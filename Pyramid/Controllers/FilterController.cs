@@ -51,6 +51,11 @@ namespace Pyramid.Controllers
         [HttpPost]
         public ActionResult AddOrUpdate(Pyramid.Entity.Filter model)
         {
+            if (_filterRepository.Exist(model.Title))
+            {
+                ViewBag.FilterError = "Фильтер с таким названием уже существует";
+                return View(model);
+            }
             _filterRepository.AddOrUpdate(model);
             return RedirectToAction("index");
         }

@@ -51,7 +51,8 @@ namespace WindowsServicePyramid
             {
 
                 bool flagErr = false;
-                var xmlModel = Load1CDataFromXml.GetXmlModel(out flagErr);
+                string pathToChange="";
+                var xmlModel = Load1CDataFromXml.GetXmlModel(out flagErr,ref pathToChange);
                 if (xmlModel.Categories.Count()==0 && xmlModel.Products.Count()==0)
                 {
                     return;
@@ -70,6 +71,7 @@ namespace WindowsServicePyramid
                     }
 
 
+                    _categoryRepository.HideCategoryIfNotExistInCurrentUpdateFrom1C(xmlModel.Categories.Select(s => s.Id));
                     var efCatWithParent = xmlModel.Categories.Select(s => new Category1CIdWithParent1CId() { Id = s.Id, ParentId = s.ParentId }).ToList();
 
 
@@ -92,16 +94,26 @@ namespace WindowsServicePyramid
                        
                         TypeStatusProduct = (int)s.TypeStatusProduct,
                         Categories = s.CategoryTextIds.Select(i => new DBFirstDAL.Categories() { OneCId = i }).ToList()
-                    });
+                    }).ToList();
 
                     _categoryRepository.DeleteAllFilterBrands();
                     foreach (var item in efProducts)
-                    {
+                    {                       
+                        if (item.OneCId == "51174c64-2731-11e6-af4e-1c6f652b5ae3"||item.Title.Contains("Эмаль Расцвет"))
+                        {
+                            var T = 0;
+                        }
                         _productRepository.AddOrUpdateFromOneC(item);
                     }
 
 
                     _categoryRepository.AddOrUpdateFilterBrand();
+
+                    if (pathToChange!="")
+                    {
+                        Load1CDataFromXml.ChangePathFile(pathToChange);
+                    }
+                   
 
                 }
                 catch (Exception ex)

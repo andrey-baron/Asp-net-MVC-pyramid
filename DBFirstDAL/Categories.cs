@@ -32,6 +32,7 @@ namespace DBFirstDAL
         public string OneCId { get; set; }
         public Nullable<int> SeoId { get; set; }
         public string Content { get; set; }
+        public bool ShowCategoryOnSite { get; set; }
     
         public virtual Seo Seo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
