@@ -95,7 +95,7 @@ namespace WindowsServicePyramid
                     }
 
                     XmlNode GroupsNode = ((XmlNode)product).SelectSingleNode("Группы");
-                    if (GroupsNode==null)
+                    if (GroupsNode!=null)
                     {
                         /*continue;*/
                         foreach (var group in GroupsNode)

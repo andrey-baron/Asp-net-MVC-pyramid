@@ -901,3 +901,9 @@
    в System.Data.Entity.DbContext.SaveChanges()
    в DBFirstDAL.Repositories.ProductRepository.AddOrUpdateFromOneC(Products product) в C:\git\Pyramid\DBFirstDAL\Repositories\ProductRepository.cs:строка 335
    в WindowsServicePyramid.ServicePyramid.ExecuteLogic() в C:\git\Pyramid\WindowsServicePyramid\ServicePyramid.cs:строка 100
+2017-08-11 14:27:05.5340|ERROR|WindowsServicePyramid.ServicePyramid|Ошибка при выгрузке информации на публичный сайт: System.NullReferenceException: Ссылка на объект не указывает на экземпляр объекта.
+   в DBFirstDAL.Repositories.ProductRepository.AddOrUpdateFromOneC(Products product) в C:\git\Pyramid\DBFirstDAL\Repositories\ProductRepository.cs:строка 329
+   в WindowsServicePyramid.ServicePyramid.ExecuteLogic() в C:\git\Pyramid\WindowsServicePyramid\ServicePyramid.cs:строка 106
+2017-08-11 14:38:37.8407|ERROR|WindowsServicePyramid.ServicePyramid|Ошибка при выгрузке информации на публичный сайт: System.NullReferenceException: Ссылка на объект не указывает на экземпляр объекта.
+   в DBFirstDAL.Repositories.ProductRepository.AddOrUpdateFromOneC(Products product) в C:\git\Pyramid\DBFirstDAL\Repositories\ProductRepository.cs:строка 329
+   в WindowsServicePyramid.ServicePyramid.ExecuteLogic()

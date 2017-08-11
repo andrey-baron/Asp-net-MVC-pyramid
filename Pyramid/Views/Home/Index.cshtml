@@ -2,6 +2,10 @@
 @{
     ViewBag.Title = "Пирамида строй";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<Pyramid.Entity.Product>  offers = (IEnumerable<Pyramid.Entity.Product>)ViewBag.SeasonOffers;
+    bool WillBeAddedFlagHomeEntityProducts = Model.Any(i => i.Products.Where(w => w.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded).Count() > 0);
+    bool WillBeAddedFlagSeasonProducts = offers.Any(i => i.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded);
+    bool WillBeAddedFlag = WillBeAddedFlagSeasonProducts || WillBeAddedFlagHomeEntityProducts;
 }
 @Styles.Render("~/Content/magnificPopupcss")
 <div class="home-slider">
@@ -53,12 +57,11 @@
 <div class="season-offer">
     <div class="row no-gutter">
 
-        @{ IEnumerable<Pyramid.Entity.Product>
-                                              offers = (IEnumerable<Pyramid.Entity.Product>)ViewBag.SeasonOffers;}
+        
         @if (offers.Count() > 0)
         {
             <div class="col-f-lg-3 col-md-3 col-xs-3 season-offer__item_green-title">
-                <p class="season-offer__head-text">Сезонное предложение</p>
+                <p class="season-offer__head-text">Специальное предложение</p>
             </div>
             foreach (var item in offers)
             {
@@ -90,7 +93,7 @@
                                     }
                                     @if (item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
                                     {
-                                    <p>Доступен для заказа</p>
+                                    <p>Доступен для заказа*</p>
                                     }
                                 </div>
                                 <a class="product__item__hover_block_wrapper__item" href="@Url.Action("CheckoutOneClick","Cart",new { id=item.Id})">
@@ -232,7 +235,7 @@
                                                 }
                                                 @if (itemProduct.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
                                                 {
-                                                    <p>Доступен для заказа</p>
+                                                    <p>Доступен для заказа*</p>
                                                 }
                                             </div>
 
@@ -301,6 +304,7 @@
 
     }
 }
+
 <div class="rules-order">
     <p class="rules-order__head-title">ОСНОВНЫЕ ПРАВИЛА СОЗДАНИЯ<br>ЗАКАЗА НА САЙТЕ</p>
     <div class="row no-gutter">

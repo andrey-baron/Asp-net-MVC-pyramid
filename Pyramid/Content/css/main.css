@@ -148,6 +148,21 @@ ul {
 body div#jivo-iframe-container.jivo-state-widget {
   display: none!important;
 }
+.footnote {
+  display: table;
+  /* line-height: 100%; */
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.footnote > p {
+  display: table-cell;
+  vertical-align: middle;
+  border: 2px solid #ffe025;
+  padding: 0 12px;
+}
+.footnote_single {
+  height: 50px!important;
+}
 
 /* header variable*/
 /* header variable end*/
@@ -1065,7 +1080,7 @@ label.error {
   overflow: hidden;
 }
 .header__logo {
-  background: url("../img/logo.png") no-repeat center;
+  background: url("/Content/img/logo.png") no-repeat center;
   width: 354px;
   height: 180px;
   margin: 0 auto;
@@ -1112,6 +1127,7 @@ label.error {
   font-family: "ProximaNovaSemibold";
   font-size: 24px;
   text-align: center;
+  display: block;
 }
 .header__cat-item {
   height: 150px;
@@ -1312,6 +1328,14 @@ label.error {
   background-position: center center!important;
   background-size: cover!important;
   height: 100%;
+}
+.header__advertising {
+  background: url(/Content/img/btn-rem.png) no-repeat;
+  height: 100%;
+  width: 150px;
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
 }
 @media (min-width: 992px) and (max-width: 1200px) {
   .header__logo {

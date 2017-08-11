@@ -24,13 +24,14 @@ namespace Pyramid.Controllers
         CategoryRepository _categoryRepository;
         FilterRepository _filterRepository;
         RecommendationRepository _recommendationRepository;
+        GlobalOptionRepository _globalRepository;
         const string defaulCateggorytLink = "/Category/index/";
         public CategoryController()
         {
             _categoryRepository = new CategoryRepository();
             _filterRepository = new FilterRepository();
             _recommendationRepository = new RecommendationRepository();
-
+            _globalRepository = new DBFirstDAL.Repositories.GlobalOptionRepository();
         }
         [Authorize]
         public ActionResult AdminIndex(string currentFilter, string searchString, int? categoryId, int? page)
@@ -170,6 +171,12 @@ namespace Pyramid.Controllers
             viewModel.MaxPrice = _categoryRepository.GetMaxPriceFromCategory(id);
             viewModel.MinPrice = _categoryRepository.GetMinPriceFromCategory(id);
             ViewBag.MetaTitle = viewModel.Seo.MetaTitle;
+            bool WillBeAddedFlag = viewModel.Products.Any(i => i.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded);
+            ViewBag.WillBeAddedFlag = WillBeAddedFlag;
+            if (WillBeAddedFlag)
+            {
+                ViewBag.WillBeAddedFlagText = _globalRepository.Get("footnote");
+            }
             return View(viewModel);
 
         }
@@ -236,6 +243,12 @@ namespace Pyramid.Controllers
             viewModel.MinPrice = _categoryRepository.GetMinPriceFromCategory(model.Id);
             viewModel.CurrentMaxPrice = max;
             viewModel.CurrentMinPrice = min;
+            bool WillBeAddedFlag = viewModel.Products.Any(i => i.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded);
+            ViewBag.WillBeAddedFlag = WillBeAddedFlag;
+            if (WillBeAddedFlag)
+            {
+                ViewBag.WillBeAddedFlagText = _globalRepository.Get("footnote");
+            }
             return View(viewModel);
         }
         [Authorize]

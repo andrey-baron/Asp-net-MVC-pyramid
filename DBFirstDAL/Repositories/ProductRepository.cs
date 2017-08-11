@@ -326,10 +326,7 @@ namespace DBFirstDAL.Repositories
             using (PyramidFinalContext dbContext=new PyramidFinalContext())
             {
                 var dbProduct = dbContext.Products.FirstOrDefault(i => i.OneCId == product.OneCId);
-                if (dbProduct.Id== 24696||dbProduct.OneCId== "51174c64-2731-11e6-af4e-1c6f652b5ae3")
-                {
-                    var T = "sdfdsf";
-                }
+               
                 var exist = dbProduct != null;
                 if (!exist)
                 {
@@ -763,7 +760,7 @@ namespace DBFirstDAL.Repositories
                 var cat = efProduct.Categories.FirstOrDefault();
                 if (cat!=null)
                 {
-                    return cat.Products.Where(i => i.Id != productId).Select(s => ConvertDbObjectToEntityShort(dbContext, s)).ToList();
+                    return cat.Products.Where(i => i.Id != productId&& i.TypeStatusProduct!=(int)Common.TypeStatusProduct.Hide).Select(s => ConvertDbObjectToEntityShort(dbContext, s)).ToList();
                 }
                 else
                 {

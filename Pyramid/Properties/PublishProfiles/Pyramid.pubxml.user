@@ -16,13 +16,13 @@
       <publishTime>03/22/2017 07:11:18</publishTime>
     </File>
     <File Include="bin/Common.dll">
-      <publishTime>08/09/2017 17:27:28</publishTime>
+      <publishTime>08/11/2017 17:02:36</publishTime>
     </File>
     <File Include="bin/DBFirstDAL.dll">
-      <publishTime>08/09/2017 18:29:27</publishTime>
+      <publishTime>08/11/2017 17:02:36</publishTime>
     </File>
     <File Include="bin/Entity.dll">
-      <publishTime>08/09/2017 17:27:28</publishTime>
+      <publishTime>08/11/2017 17:02:36</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/02/2015 09:32:26</publishTime>
@@ -88,13 +88,13 @@
       <publishTime>09/30/2013 18:15:20</publishTime>
     </File>
     <File Include="bin/Pyramid.BLL.dll">
-      <publishTime>08/09/2017 18:29:27</publishTime>
+      <publishTime>08/11/2017 17:03:46</publishTime>
     </File>
     <File Include="bin/Pyramid.CodeFirstDAL.dll">
       <publishTime>05/17/2017 09:52:21</publishTime>
     </File>
     <File Include="bin/Pyramid.dll">
-      <publishTime>08/09/2017 18:29:31</publishTime>
+      <publishTime>08/11/2017 17:03:50</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/18/2015 20:19:46</publishTime>
@@ -241,7 +241,7 @@
       <publishTime>05/12/2017 11:31:03</publishTime>
     </File>
     <File Include="Content/css/main.css">
-      <publishTime>08/09/2017 18:25:08</publishTime>
+      <publishTime>08/11/2017 17:01:01</publishTime>
     </File>
     <File Include="Content/css/reset.css">
       <publishTime>05/09/2017 22:34:46</publishTime>
@@ -281,6 +281,9 @@
     </File>
     <File Include="Content/img/btn-play.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
+    </File>
+    <File Include="Content/img/btn-rem.png">
+      <publishTime>08/11/2017 16:17:59</publishTime>
     </File>
     <File Include="Content/img/bx_loader.gif">
       <publishTime>05/17/2017 23:51:08</publishTime>
@@ -332,6 +335,9 @@
     </File>
     <File Include="Content/img/logo.png">
       <publishTime>05/09/2017 22:20:21</publishTime>
+    </File>
+    <File Include="Content/img/logo.svg">
+      <publishTime>08/11/2017 14:58:48</publishTime>
     </File>
     <File Include="Content/img/logoSA.jpg">
       <publishTime>05/11/2017 15:51:17</publishTime>
@@ -544,7 +550,7 @@
       <publishTime>06/07/2017 15:20:29</publishTime>
     </File>
     <File Include="Content/src/blocks/header/header.less">
-      <publishTime>08/09/2017 15:29:40</publishTime>
+      <publishTime>08/11/2017 17:01:01</publishTime>
     </File>
     <File Include="Content/src/blocks/home-feedback/home-feedback.less">
       <publishTime>05/09/2017 22:29:07</publishTime>
@@ -559,7 +565,7 @@
       <publishTime>07/19/2017 14:42:10</publishTime>
     </File>
     <File Include="Content/src/blocks/other.less">
-      <publishTime>07/19/2017 17:41:05</publishTime>
+      <publishTime>08/11/2017 16:15:27</publishTime>
     </File>
     <File Include="Content/src/blocks/page/page.less">
       <publishTime>07/19/2017 15:02:24</publishTime>
@@ -886,7 +892,7 @@
       <publishTime>04/24/2017 12:25:52</publishTime>
     </File>
     <File Include="Scripts/main/main.js">
-      <publishTime>08/09/2017 14:09:53</publishTime>
+      <publishTime>08/11/2017 15:00:34</publishTime>
     </File>
     <File Include="Scripts/main/Mymfp-script.js">
       <publishTime>06/30/2017 13:14:35</publishTime>
@@ -1420,7 +1426,7 @@
       <publishTime>05/01/2017 00:09:36</publishTime>
     </File>
     <File Include="Views/Category/Index.cshtml">
-      <publishTime>08/09/2017 18:27:19</publishTime>
+      <publishTime>08/11/2017 16:49:50</publishTime>
     </File>
     <File Include="Views/Category/ViewNestedCategories.cshtml">
       <publishTime>06/27/2017 14:55:01</publishTime>
@@ -1528,7 +1534,7 @@
       <publishTime>07/24/2017 16:28:24</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>08/09/2017 18:27:00</publishTime>
+      <publishTime>08/11/2017 16:33:43</publishTime>
     </File>
     <File Include="Views/HomeEntity/AddOrUpdate.cshtml">
       <publishTime>07/10/2017 15:57:07</publishTime>
@@ -1624,7 +1630,7 @@
       <publishTime>08/08/2017 04:11:45</publishTime>
     </File>
     <File Include="Views/Product/Index.cshtml">
-      <publishTime>08/09/2017 18:28:32</publishTime>
+      <publishTime>08/11/2017 16:50:15</publishTime>
     </File>
     <File Include="Views/Product/_PartialAllProductCategories.cshtml">
       <publishTime>05/22/2017 12:03:17</publishTime>
@@ -1699,10 +1705,10 @@
       <publishTime>04/27/2017 23:51:43</publishTime>
     </File>
     <File Include="Views/Shared/_PartialHeaderHomePage.cshtml">
-      <publishTime>08/08/2017 21:22:46</publishTime>
+      <publishTime>08/11/2017 17:11:40</publishTime>
     </File>
     <File Include="Views/Shared/_PartialHeaderMenu.cshtml">
-      <publishTime>08/08/2017 13:38:14</publishTime>
+      <publishTime>08/11/2017 17:14:58</publishTime>
     </File>
     <File Include="Views/Shared/_PartialHeaderOtherPages.cshtml">
       <publishTime>07/19/2017 14:52:04</publishTime>
@@ -1732,7 +1738,7 @@
       <publishTime>04/24/2017 12:25:34</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/09/2017 18:29:32</publishTime>
+      <publishTime>08/11/2017 17:03:51</publishTime>
     </File>
   </ItemGroup>
 </Project>

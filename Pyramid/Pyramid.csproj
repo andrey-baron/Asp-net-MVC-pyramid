@@ -275,6 +275,7 @@
     <Content Include="Content\img\bg-rules-order.png" />
     <Content Include="Content\img\btn-play-video.svg" />
     <Content Include="Content\img\btn-play.png" />
+    <Content Include="Content\img\btn-rem.png" />
     <Content Include="Content\img\bx_loader.gif" />
     <Content Include="Content\img\cart.png" />
     <Content Include="Content\img\cat-btn.png" />
@@ -292,6 +293,7 @@
     <Content Include="Content\img\Layer-slider.png" />
     <Content Include="Content\img\Layer10.png" />
     <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\logo.svg" />
     <Content Include="Content\img\logoSA.jpg" />
     <Content Include="Content\img\mouse.png" />
     <Content Include="Content\img\Odnoklassniki_icon.png" />

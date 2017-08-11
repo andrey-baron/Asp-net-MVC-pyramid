@@ -256,6 +256,20 @@ function SoccessAdd(response) {
      });
 })();
 (function ($) {
+
+    $('.home-slider__wrap').bxSlider({
+        //mode: 'vertical',
+        controls: true,
+        auto: true, 
+        slideMargin: 0,
+        infiniteLoop: true,
+        /*nextText: '',
+        prevText: '',*/
+        pager: true,
+    });
+}($));
+
+(function ($) {
    /* $(".product__item").mouseover(function (e) {
 
         $(this).css({"text-align": "left"});
@@ -337,20 +351,6 @@ function showSubmitResult(form, wasError, message) {
         }, 5000);
     }
 }
-(function ($) {
-
-    $('.home-slider__wrap').bxSlider({
-        //mode: 'vertical',
-        controls: true,
-        auto: true, 
-        slideMargin: 0,
-        infiniteLoop: true,
-        /*nextText: '',
-        prevText: '',*/
-        pager: true,
-    });
-}($));
-
 ;(function () {
 $(".js-toggle-content").on("click", function (e) {
     var parent = $(this).parent();

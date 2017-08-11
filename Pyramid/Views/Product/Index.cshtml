@@ -42,22 +42,18 @@
 
                 <div class="single__b-last-additional">
 
-                    @if (Model.Product.TypeStatusProduct == Common.TypeStatusProduct.Normal)
-                    {
-                        <div class="single__dotted-line-right">
-                            <div class="single__dotted-line-content">
-                                <div class="single__in-stock">В наличии</div>
-                            </div>
-                        </div>
-                    }
-                    @if (Model.Product.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
-                    {
-                        <div class="single__dotted-line-right">
-                            <div class="single__dotted-line-content">
-                                <div class="single__in-stock">Ожидается поставка</div>
-                            </div>
-                        </div>
-                    }
+                    <div class="product__item__hover_block_wrapper__item product__in-stock single__dotted-line-right @(Model.Product.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded?"product__in-stock_willbeadded":"")">
+                        @if (Model.Product.TypeStatusProduct == Common.TypeStatusProduct.Normal)
+                        {
+                            <p>в наличии</p>
+                        }
+                        @if (Model.Product.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
+                        {
+                            <p>Доступен для заказа*</p>
+                        }
+                    </div>
+
+                   
 
                 </div>
 
@@ -106,6 +102,7 @@
 
     </div>
     <div class="single__last-menu">
+        
         <div class="row no-gutter">
             <div class="col-ten-lg-2 col-md-3 col-xs-3">
                 @*@Ajax.ActionLink("Добавить в корзину", "AddToCart", "Cart", new { productId = Model.Id, quantity = 1 }, new AjaxOptions { OnSuccess= "SoccessAdd" }, new { @class="product__buy product__buy_add-to-cart single__buy single__add-to-cart"})*@
@@ -303,7 +300,7 @@
                                 }
                                 @if (item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
                                 {
-                                    <p>Доступен для заказа</p>
+                                    <p>Доступен для заказа*</p>
                                 }
                             </div>
                             <a class="product__item__hover_block_wrapper__item" href="@Url.Action("CheckoutOneClick","Cart",new { id=item.Id})">
@@ -341,7 +338,19 @@
     </div>
 
 }
-
+@if ((bool)ViewBag.WillBeAddedFlag)
+{
+    <div class="single">
+        <div class="row no-gutter">
+            <div class="col-lg-12  col-md-12 col-xs-12">
+                <div class="header__line-one footnote">
+                    @MvcHtmlString.Create(ViewBag.WillBeAddedFlagText.OptionContent)
+                </div>
+            </div>
+        </div>
+    </div>
+    
+}
 
 <div class="modal fade" id="single-add-review" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">

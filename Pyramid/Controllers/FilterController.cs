@@ -51,9 +51,14 @@ namespace Pyramid.Controllers
         [HttpPost]
         public ActionResult AddOrUpdate(Pyramid.Entity.Filter model)
         {
-            if (_filterRepository.Exist(model.Title))
+            if (_filterRepository.Exist(model.Title)&&model.Id==0)
             {
                 ViewBag.FilterError = "Фильтер с таким названием уже существует";
+                ViewBag.EnumValuesSelectList = _enumRepositopy.GetAll().Select(item => new SelectListItem
+                {
+                    Text = item.Key,
+                    Value = item.Id.ToString()
+                });
                 return View(model);
             }
             _filterRepository.AddOrUpdate(model);

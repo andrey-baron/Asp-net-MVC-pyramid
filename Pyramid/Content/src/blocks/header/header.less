@@ -133,7 +133,7 @@
   &__logo-wrap{
   }
   &__logo {
-    background: url("../img/logo.png") no-repeat center;
+    background: url("/Content/img/logo.png") no-repeat center;
     width: 354px;
     height: @header-logo-size-large;
     margin: 0 auto;
@@ -180,6 +180,7 @@
     font-family: "ProximaNovaSemibold";
     font-size: 24px;
     text-align: center;
+    display:block;
   }
   &__cat-item{
     height: @header-cat-item-height;
@@ -392,6 +393,14 @@
       background-size:cover!important;
       height:100%;
   }
+     &__advertising{
+      background: url(/Content/img/btn-rem.png) no-repeat;
+    height: 100%;
+    width: 150px;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: middle;
+   }
 }
 
 @media (min-width: 992px) and (max-width:1200px){
@@ -446,6 +455,7 @@
     margin-top: 16px;
     }
    }
+
 }
 
 @media (min-width: 300px) and (max-width:991px){

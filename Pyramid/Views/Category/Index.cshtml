@@ -34,27 +34,30 @@
 
                     <div class="category__sidebar">
                         @for (int i = 0; i < Model.Filters.Count; i++)
-                    {
-
-                            @Html.HiddenFor(m => Model.Filters[i].Id)
-                            <div class="category__filter-block">
-                                @Html.HiddenFor(m => Model.Filters[i].Title)
-                                <p class="category__filter-title">@Model.Filters[i].Title</p>
-                                <div class="category__filter-block-controls">
-                                    @for (int j = 0; j < Model.Filters[i].EnumValues.Count; j++)
-                                    {
-
-                                        <div class="checkbox">
-                                            @Html.HiddenFor(m => Model.Filters[i].EnumValues[j].Id)
-                                            @Html.CheckBoxFor(m => Model.Filters[i].EnumValues[j].Checked, new { @class = "category__input-chekbox" })
-                                            <label>@Model.Filters[i].EnumValues[j].Key</label>
-                                        </div>
-                                    }
+                        {
+                            if (Model.Filters[i].EnumValues != null && Model.Filters[i].EnumValues.Count > 0)
+                            {
 
 
+                                @Html.HiddenFor(m => Model.Filters[i].Id)
+                                <div class="category__filter-block">
+                                    @Html.HiddenFor(m => Model.Filters[i].Title)
+                                    <p class="category__filter-title">@Model.Filters[i].Title</p>
+                                    <div class="category__filter-block-controls">
+                                        @for (int j = 0; j < Model.Filters[i].EnumValues.Count; j++)
+                                        {
+
+                                            <div class="checkbox">
+                                                @Html.HiddenFor(m => Model.Filters[i].EnumValues[j].Id)
+                                                @Html.CheckBoxFor(m => Model.Filters[i].EnumValues[j].Checked, new { @class = "category__input-chekbox" })
+                                                <label>@Model.Filters[i].EnumValues[j].Key</label>
+                                            </div>
+                                        }
+
+
+                                    </div>
                                 </div>
-                            </div>
-
+                            }
                         }
                         <div class="category__filter-block">
                             <p class="category__filter-title">Фильтр по цене</p>
@@ -82,81 +85,91 @@
 
                     @foreach (var item in Model.NestedCategories)
                 {
-                <div class="@(!flagExistProducts?"col-f-lg-3 col-md-3 col-xs-3":"col-md-3 col-xs-3")">
-                    <div class="subcategory subcategory_fixed-height subcategory_nested">
-                        <a href="@Url.Action("Index","Category",new { id=item.Id})">
-                            <div class="subcategory__wrap-img">
-                                <img src="@(item.Thumbnail!=null?item.Thumbnail.ServerPathImg:"")" alt="" />
+                        <div class="@(!flagExistProducts?"col-f-lg-3 col-md-3 col-xs-3":"col-md-3 col-xs-3")">
+                            <div class="subcategory subcategory_fixed-height subcategory_nested">
+                                <a href="@Url.Action("Index","Category",new { id=item.Id})">
+                                    <div class="subcategory__wrap-img">
+                                        <img src="@(item.Thumbnail!=null?item.Thumbnail.ServerPathImg:"")" alt="" />
+                                    </div>
+                                    <p class="subcategory__parent-title">@item.Title</p>
+                                </a>
                             </div>
-                            <p class="subcategory__parent-title">@item.Title</p>
-                        </a>
-                    </div>
-                </div>
+                        </div>
 
-                }
+                    }
                 </div>
                 <div class="row no-gutter">
                     @foreach (var item in Model.Products)
                 {
-                <div class="col-lg-3  col-md-4 col-xs-4">
-                    <div class="product__item">
-                        <a href="@Url.Action("Index","Product",new { id=item.Id})">
-                            <div class="product__link-block">
-                                <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
+                        <div class="col-lg-3  col-md-4 col-xs-4">
+                            <div class="product__item">
+                                <a href="@Url.Action("Index","Product",new { id=item.Id})">
+                                    <div class="product__link-block">
+                                        <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
 
-                                <p class="product__item-title">@item.Title</p>
-                                <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
-                                    <div class="triangle-up"></div>
-                                    <div class="triangle-down"></div>
-                                    <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
+                                        <p class="product__item-title">@item.Title</p>
+                                        <div class="product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)item.TypePrice)">
+                                            <div class="triangle-up"></div>
+                                            <div class="triangle-down"></div>
+                                            <p class="product__item-price-inner"><span class="big-decimal">@item.Price</span> руб.</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="product__item__hover_block_wrapper">
+
+                                    <div class="product__item__hover_block_wrapper__item product__in-stock @(item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded?"product__in-stock_willbeadded":"")">
+                                        @if (item.TypeStatusProduct == Common.TypeStatusProduct.Normal)
+                                        {
+                                            <p>в наличии</p>
+                                        }
+                                        @if (item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
+                                        {
+                                            <p>Доступен для заказа*</p>
+                                        }
+                                    </div>
+                                    <a class="product__item__hover_block_wrapper__item" href="@Url.Action("CheckoutOneClick","Cart",new { id=item.Id})">
+                                        <div class="product__buy product__buy_one-click">
+                                            <p>Купить в один клик</p>
+                                        </div>
+                                    </a>
+                                    <span class="product__item__hover_block_wrapper__item js-add-to-cart" data-ajaxid="@item.Id">
+                                        <span class="product__buy product__buy_add-to-cart">
+                                            Добавить в корзину
+                                        </span>
+                                    </span>
                                 </div>
                             </div>
-</a>
-                        <div class="product__item__hover_block_wrapper">
-                            
-                            <div class="product__item__hover_block_wrapper__item product__in-stock @(item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded?"product__in-stock_willbeadded":"")">
-                                @if (item.TypeStatusProduct == Common.TypeStatusProduct.Normal)
-                                {
-                                    <p>в наличии</p>
-                                }
-                                @if (item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
-                                {
-                                    <p>Доступен для заказа</p>
-                                }
-                            </div>
-                            <a class="product__item__hover_block_wrapper__item" href="@Url.Action("CheckoutOneClick","Cart",new { id=item.Id})">
-                                <div class="product__buy product__buy_one-click">
-                                    <p>Купить в один клик</p>
-                                </div>
-                            </a>
-                            <span class="product__item__hover_block_wrapper__item js-add-to-cart" data-ajaxid="@item.Id">
-                                <span class="product__buy product__buy_add-to-cart">
-                                    Добавить в корзину
-                                </span>
-                            </span>
                         </div>
-                    </div>
-                </div>
 
-                }
+                    }
+                    
+                    @if ((bool)ViewBag.WillBeAddedFlag)
+                    {
+                        <div class="col-lg-12  col-md-12 col-xs-12">
+                            <div class="header__line-one footnote">
+                                @MvcHtmlString.Create( ViewBag.WillBeAddedFlagText.OptionContent)
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
 
-            @if (Model.Content!=null)
+            @if (Model.Content != null)
             {
 
-            
-            <div class="col-md-12 col-xs-12">
-                <div class="seo__content-wrap">
-                    <div class="seo__content">
-                        @MvcHtmlString.Create(Model.Content)
-                       
+
+                <div class="col-md-12 col-xs-12">
+                    <div class="seo__content-wrap">
+                        <div class="seo__content">
+                            @MvcHtmlString.Create(Model.Content)
+
+                        </div>
+                        <button class="btn btn-link js-toggle-content" type="button">Подробнее</button>
                     </div>
-                    <button class="btn btn-link js-toggle-content" type="button">Подробнее</button>
+
                 </div>
-                
-            </div>
             }
         </div>
-                }
+                        }
 </div>
+

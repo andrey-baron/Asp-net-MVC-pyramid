@@ -41,6 +41,17 @@ namespace Pyramid
                 };
                 globRepo.AddOrUpdate(newEntityObj);
             }
+            if (!globRepo.isExist("footnote"))
+            {
+                var newEntityObj = new GlobalOptionEntity()
+                {
+                    StringKey = "footnote",
+                    IsHtml = true,
+                    Description = "Текст сноски когда товар доступен к заказу",
+                    OptionContent = ""
+                };
+                globRepo.AddOrUpdate(newEntityObj);
+            }
 
             //DBFirstDAL.Repositories.ProductRepository _productRepository = new DBFirstDAL.Repositories.ProductRepository();
             //var allProd = _productRepository.GetAllWithCategory();
@@ -51,21 +62,21 @@ namespace Pyramid
             //       // _productRepository.Delete(item.Id);
             //    }
             //}
-           //var _categoryRepository = new DBFirstDAL.Repositories.CategoryRepository();
-           // var catAll = _categoryRepository.GetAll().ToList();
+            //var _categoryRepository = new DBFirstDAL.Repositories.CategoryRepository();
+            // var catAll = _categoryRepository.GetAll().ToList();
 
-           // foreach (var item in catAll)
-           // {
-           //     var efCat = _categoryRepository.FindBy(i => i.Id == item.Id).SingleOrDefault();
-           //     if (efCat.Seo==null)
-           //     {
-           //         efCat.Seo = new DBFirstDAL.Seo()
-           //         {
-           //             Alias = item.Title,
-           //             MetaTitle = item.Title
-           //         };
-           //         _categoryRepository.Save();
-           //     }
+            // foreach (var item in catAll)
+            // {
+            //     var efCat = _categoryRepository.FindBy(i => i.Id == item.Id).SingleOrDefault();
+            //     if (efCat.Seo==null)
+            //     {
+            //         efCat.Seo = new DBFirstDAL.Seo()
+            //         {
+            //             Alias = item.Title,
+            //             MetaTitle = item.Title
+            //         };
+            //         _categoryRepository.Save();
+            //     }
             //}
         }
 
