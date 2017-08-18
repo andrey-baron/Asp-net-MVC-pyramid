@@ -85,8 +85,11 @@ namespace DBFirstDAL
         {
             Random r = new Random();
             var salt = r.Next(10000000).ToString();
-            var filename = DateTime.Now.ToString("d") + "_"+ salt + "_" + Path.GetFileName(file.FileName).Replace(" ","");
+            var translitTitle = Tools.Transliteration.Translit(Path.GetFileNameWithoutExtension(file.FileName));
+            var extention=Path.GetExtension(file.FileName);
+            var filename = DateTime.Now.ToString("d") + "_"+ salt + "_" + translitTitle+ extention;
             var title = Path.GetFileNameWithoutExtension(file.FileName);
+            
             var pathInFileSystem = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, pathDirectoryFilesImage,filename);
             var serverPath = Path.Combine(pathServerImg, filename);
             file.SaveAs(pathInFileSystem);

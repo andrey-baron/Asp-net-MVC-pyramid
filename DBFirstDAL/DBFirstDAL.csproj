@@ -227,6 +227,10 @@
       <Project>{2b605ef3-8de4-448a-a2cb-6534641b5a6b}</Project>
       <Name>Entity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tools\Tools.csproj">
+      <Project>{5c447c45-6634-49f2-9f4b-5b205158c332}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
