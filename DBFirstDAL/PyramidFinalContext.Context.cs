@@ -50,5 +50,6 @@ namespace DBFirstDAL
         public virtual DbSet<Recommendations> Recommendations { get; set; }
         public virtual DbSet<GlobalOption> GlobalOption { get; set; }
         public virtual DbSet<Reviews> Reviews { get; set; }
+        public virtual DbSet<BannersOnHomePage> BannersOnHomePage { get; set; }
     }
 }

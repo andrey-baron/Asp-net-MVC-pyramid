@@ -588,6 +588,18 @@ namespace DBFirstDAL.Repositories
             {
                 dbObjects = dbObjects.Where(i=>i.IsPriority==true && searchParams.Priority.Value);
             }
+            if (searchParams.Filled.HasValue && searchParams.Filled.Value!=0)
+            {
+                if (searchParams.Filled.Value==(int)Common.TypeFilledProduct.IsFilled)
+                {
+                    dbObjects = dbObjects.Where(i => i.IsFilled == true);
+                }
+                else
+                {
+                    dbObjects = dbObjects.Where(i => i.IsFilled == false);
+
+                }
+            }
             dbObjects = dbObjects.OrderByDescending(item => item.Id);
             return dbObjects;
         }

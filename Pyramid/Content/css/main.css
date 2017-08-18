@@ -163,6 +163,20 @@ body div#jivo-iframe-container.jivo-state-widget {
 .footnote_single {
   height: 50px!important;
 }
+.personal-data-comment {
+  font-size: 15px;
+}
+.personal-data-comment > a {
+  color: blue;
+}
+label[for="Confirm_terms"] {
+  position: absolute;
+  bottom: -20px;
+  width: 100%;
+  /* margin: 0; */
+  /* padding: 0; */
+  left: 0;
+}
 
 /* header variable*/
 /* header variable end*/
@@ -261,6 +275,7 @@ body div#jivo-iframe-container.jivo-state-widget {
 }
 .call-to-action__form-group {
   margin: 0;
+  position: relative;
 }
 .call-to-action__form-group + .call-to-action__form-group {
   margin-top: 20px;
@@ -1332,10 +1347,19 @@ label.error {
 .header__advertising {
   background: url(/Content/img/btn-rem.png) no-repeat;
   height: 100%;
-  width: 150px;
+  width: 80px;
   background-size: contain;
+  background-position: center;
   display: inline-block;
   vertical-align: middle;
+}
+.header__advertising_decorazza {
+  background: url(/Content/img/btn-decorazza.png) no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+.header__advertising_first {
+  margin-right: 10px;
 }
 @media (min-width: 992px) and (max-width: 1200px) {
   .header__logo {
@@ -1384,6 +1408,9 @@ label.error {
     position: absolute;
     margin-top: 16px;
   }
+  .header__advertising_first {
+    margin-right: 20px;
+  }
 }
 @media (min-width: 300px) and (max-width: 991px) {
   .header__consultant-text {
@@ -1416,6 +1443,9 @@ label.error {
     margin-left: 45px;
     position: absolute;
     margin-top: 16px;
+  }
+  .header__menu {
+    margin: 0 10px 0 20px;
   }
 }
 
@@ -1473,13 +1503,18 @@ label.error {
   height: 576px;
   width: 100%;
   padding-left: 385px;
-  padding-top: 100px;
+  background-size: contain!important;
+  display: inline-block;
+  line-height: 500px;
 }
 .home-slider__item-title {
   font-family: "ProximaNovaExtrabld";
-  font-size: 50px;
+  font-size: 30px;
   color: #fff;
   margin-bottom: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
 }
 .home-slider__item-btn {
   font-size: 24px;
@@ -1489,6 +1524,8 @@ label.error {
   color: #fff;
   transition: all 300ms linear;
   display: inline-block;
+  line-height: normal;
+  margin-top: 20px;
 }
 .home-slider__item-btn:hover,
 .home-slider__item-btn:focus {

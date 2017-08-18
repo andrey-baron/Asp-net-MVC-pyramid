@@ -49,6 +49,7 @@
     <Compile Include="SearchClasses\SearchParamsCategory.cs" />
     <Compile Include="SearchClasses\SearchParamsProduct.cs" />
     <Compile Include="SearchClasses\SearchResult.cs" />
+    <Compile Include="TypeFilledProduct.cs" />
     <Compile Include="TypeFromEnumValue.cs" />
     <Compile Include="TypeImage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

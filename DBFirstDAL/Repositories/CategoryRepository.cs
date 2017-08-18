@@ -538,7 +538,16 @@ namespace DBFirstDAL.Repositories
                         var efParent = context.Categories.FirstOrDefault(f => f.OneCId == entity.ParentId);
                         if (efParent!=null)
                         {
-                            efCat.ParentId = efParent.Id;
+                            if (efCat.OneCId != efParent.OneCId)
+                            {
+                                efCat.ParentId = efParent.Id;
+                            }
+                            else
+                            {
+                                efCat.ParentId = null;
+
+                            }
+                           
                             context.SaveChanges();
                         }
                        

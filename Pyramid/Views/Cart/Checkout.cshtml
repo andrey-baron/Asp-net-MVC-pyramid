@@ -11,7 +11,7 @@
                 <tr>
                     <th>Название</th>
                     <th>Количесво</th>
-                    <th>Цена</th>
+                    <th>Цена (В руб.)</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,7 +20,7 @@
                     <tr>
                         <td>@item.Product.Title</td>
                         <td>@item.Quantity</td>
-                        <td>@(item.Product.Price*item.Quantity)</td>
+                        <td>@(item.Product.Price*item.Quantity) Руб.</td>
                     </tr>
                     
                 }
@@ -29,7 +29,7 @@
             <tfoot>
                 <tr>
                     <td colspan="2">Итоговая стоимость</td>
-                    <td>@cart.ComputeTotalValue()</td>
+                    <td>@cart.ComputeTotalValue() Руб.</td>
                 </tr>
                 
             </tfoot>
@@ -64,6 +64,11 @@
 
 
                             @*<input type="text" class="form-control call-to-action__form-control" placeholder="Адрес доставки">*@
+                        </div>
+                        <div class="form-group call-to-action__form-group">
+                            <input class="" id="Confirm_terms" name="Confirm_terms" placeholder="Имя" type="checkbox" >
+                            <span class="personal-data-comment">Отправляя данную форму, я даю <a href="~/Content/Policy/pd_agreement_pyramid.pdf" target="_blank">согласие</a> на обработку моих персональных данных в соответствии с <a href="~/Content/Policy/pd_politics_pyramid.pdf" target="_blank">политикой обработки ПД</a>.</span>
+
                         </div>
                         <button class="call-to-action__btn">Отправить запрос</button>
                     }

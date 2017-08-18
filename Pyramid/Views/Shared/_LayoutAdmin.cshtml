@@ -15,6 +15,7 @@
 
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryui")
     @*@Scripts.Render("~/bundles/tinymce")*@
@@ -137,6 +138,13 @@
                                 <span class="lbl">Глобальные Опции</span>
                             </a>
                         </li>
+                        <li class="sidebar-menu__item sidebar-menu__item_green-icon">
+                            <a class="sidebar-menu__link" href="@Url.Action("Index","BannersOnHomePage")">
+                                <i class="font-icon glyphicon glyphicon-list-alt"></i>
+                                <span class="lbl">Банеры на главной</span>
+                            </a>
+                        </li>
+                        
                     </ul>
                 </div>
 

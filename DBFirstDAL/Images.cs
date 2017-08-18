@@ -24,6 +24,7 @@ namespace DBFirstDAL
             this.EventBanners = new HashSet<EventBanners>();
             this.EventImages = new HashSet<EventImages>();
             this.Recommendations = new HashSet<Recommendations>();
+            this.BannersOnHomePage = new HashSet<BannersOnHomePage>();
         }
     
         public int Id { get; set; }
@@ -46,5 +47,7 @@ namespace DBFirstDAL
         public virtual ICollection<EventImages> EventImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Recommendations> Recommendations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BannersOnHomePage> BannersOnHomePage { get; set; }
     }
 }

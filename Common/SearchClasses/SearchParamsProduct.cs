@@ -12,14 +12,16 @@ namespace Common.SearchClasses
         public int? CategoryId { get; set; }
         public bool? Priority { get; set; }
         public bool? IsSearchOnlyPublicProduct { get; set; }
+        public int? Filled { get; set; }
 
-        public SearchParamsProduct(string searchString, int? categoryId, bool? priority,
+        public SearchParamsProduct(string searchString, int? categoryId, bool? priority, int filled,
         int startIndex = 0, int? objectsCount = null):base(startIndex, objectsCount)
         {
             CategoryId = categoryId;
             Priority = priority;
             SearchString = searchString;
             IsSearchOnlyPublicProduct = false;
+            Filled = filled;
         }
         public SearchParamsProduct(string searchString, 
         int startIndex = 0, int? objectsCount = null) : base(startIndex, objectsCount)

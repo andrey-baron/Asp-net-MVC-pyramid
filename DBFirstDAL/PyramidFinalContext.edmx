@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Хранилище PyramidModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BannersOnHomePage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ImageId" Type="int" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" />
+          <Property Name="Link" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="BannerWithPoints">
           <Key>
             <PropertyRef Name="BannerId" />
@@ -536,6 +546,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_BannersOnHomePageImage_OtM">
+          <End Role="Images" Type="Self.Images" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BannersOnHomePage" Type="Self.BannersOnHomePage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BannersOnHomePage">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Categories">
           <End Role="Categories" Type="Self.Categories" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -871,6 +895,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище PyramidModelContainer">
+          <EntitySet Name="BannersOnHomePage" EntityType="Self.BannersOnHomePage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BannerWithPoints" EntityType="Self.BannerWithPoints" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryImages" EntityType="Self.CategoryImages" Schema="dbo" store:Type="Tables" />
@@ -965,6 +990,10 @@
           <AssociationSet Name="FK_Banner" Association="Self.FK_Banner">
             <End Role="HomeEntity" EntitySet="HomeEntity" />
             <End Role="BannerWithPoints" EntitySet="BannerWithPoints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BannersOnHomePageImage_OtM" Association="Self.FK_BannersOnHomePageImage_OtM">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="BannersOnHomePage" EntitySet="BannersOnHomePage" />
           </AssociationSet>
           <AssociationSet Name="FK_Categories" Association="Self.FK_Categories">
             <End Role="Categories" EntitySet="Categories" />
@@ -1209,6 +1238,11 @@
             <End Role="Products" EntitySet="Products" />
             <End Role="Reviews" EntitySet="Reviews" />
           </AssociationSet>
+          <EntitySet Name="BannersOnHomePage" EntityType="PyramidModel.BannersOnHomePage" />
+          <AssociationSet Name="FK_BannersOnHomePageImage_OtM" Association="PyramidModel.FK_BannersOnHomePageImage_OtM">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="BannersOnHomePage" EntitySet="BannersOnHomePage" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="BannerWithPoints">
           <Key>
@@ -1313,6 +1347,7 @@
           <NavigationProperty Name="EventBanners" Relationship="PyramidModel.FK__EventBann__Image__2057CCD0" FromRole="Images" ToRole="EventBanners" />
           <NavigationProperty Name="EventImages" Relationship="PyramidModel.FK_ImagesEvent_ForMTM" FromRole="Images" ToRole="EventImages" />
           <NavigationProperty Name="Recommendations" Relationship="PyramidModel.RecommendationImages" FromRole="Images" ToRole="Recommendations" />
+          <NavigationProperty Name="BannersOnHomePage" Relationship="PyramidModel.FK_BannersOnHomePageImage_OtM" FromRole="Images" ToRole="BannersOnHomePage" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -1808,6 +1843,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BannersOnHomePage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ImageId" Type="Int32" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Images" Relationship="PyramidModel.FK_BannersOnHomePageImage_OtM" FromRole="BannersOnHomePage" ToRole="Images" />
+          <Property Name="Link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_BannersOnHomePageImage_OtM">
+          <End Type="PyramidModel.Images" Role="Images" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PyramidModel.BannersOnHomePage" Role="BannersOnHomePage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BannersOnHomePage">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2164,6 +2224,17 @@
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BannersOnHomePage">
+            <EntityTypeMapping TypeName="PyramidModel.BannersOnHomePage">
+              <MappingFragment StoreEntitySet="BannersOnHomePage">
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

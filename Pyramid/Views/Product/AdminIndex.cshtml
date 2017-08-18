@@ -10,7 +10,19 @@
         priority = ViewBag.Priority,
         sortOrder = ViewBag.CurrentSort,
         currentFilter = ViewBag.CurrentFilter,
-        categoryId = ViewBag.CategoryId
+        categoryId = ViewBag.CategoryId,
+        filled= (int) ViewBag.Filled
+    });
+    var selectFilled = new List<SelectListItem>();
+    selectFilled.Add(new SelectListItem()
+    {
+        Text = "Заполнен",
+        Value = ((int)Common.TypeFilledProduct.IsFilled).ToString()
+    });
+    selectFilled.Add(new SelectListItem()
+    {
+        Text = "Не Заполнен",
+        Value = ((int)Common.TypeFilledProduct.NotFilled).ToString()
     });
 }
 <div class="section-header">
@@ -34,8 +46,14 @@
         </div>
         <div class="col-md-8">
             <div class="col-md-4">
-                <label>Приоритетные</label>
-                @Html.CheckBox("priority", (bool)ViewBag.Priority)
+                <div>
+                    <label>Приоритетные</label>
+                    @Html.CheckBox("priority", (bool)ViewBag.Priority)
+                </div>
+                <div>
+                    <label>Заполненость</label>
+                    @Html.DropDownList("filled", selectFilled,"Выбрать",new { data_val=false})
+                </div>
             </div>
             <div class="col-md-3">
                 <label>Выбор категории</label>
@@ -49,6 +67,7 @@
     </div>
    
 }
+<p>Найдено @Model.PagesInfo.ItemsCount товаров</p>
 <table class="table table-bordered table-hover">
     <thead>
         <tr>

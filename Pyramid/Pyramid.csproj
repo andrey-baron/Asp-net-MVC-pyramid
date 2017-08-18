@@ -184,6 +184,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BannersOnHomePageController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
@@ -269,10 +270,15 @@
     <Content Include="Content\img-file-uploader\waiting-generic.png" />
     <Content Include="Content\img\+.png" />
     <Content Include="Content\img\-.png" />
+    <Content Include="Content\img\1.jpg" />
+    <Content Include="Content\img\2.jpg" />
+    <Content Include="Content\img\3.jpg" />
+    <Content Include="Content\img\4.jpg" />
     <Content Include="Content\img\arrow-next.png" />
     <Content Include="Content\img\arrow-prev.png" />
     <Content Include="Content\img\arrow-right.png" />
     <Content Include="Content\img\bg-rules-order.png" />
+    <Content Include="Content\img\btn-decorazza.png" />
     <Content Include="Content\img\btn-play-video.svg" />
     <Content Include="Content\img\btn-play.png" />
     <Content Include="Content\img\btn-rem.png" />
@@ -436,6 +442,8 @@
     <Content Include="Content\src\blocks\page\page.less" />
     <Content Include="Content\src\blocks\search\search.less" />
     <Content Include="Content\src\blocks\seo\seo.less" />
+    <Content Include="Content\Policy\pd_agreement_pyramid.pdf" />
+    <Content Include="Content\Policy\pd_politics_pyramid.pdf" />
     <None Include="Properties\PublishProfiles\Pyramid.pubxml" />
     <Content Include="Scripts\dropzone\basic.css" />
     <Content Include="Scripts\dropzone\basic.min.css" />
@@ -765,6 +773,8 @@
     <Content Include="Views\Cart\ResultCheckoutOneClick.cshtml" />
     <Content Include="Views\Cart\_PartialNewOrderFromEmailSend.cshtml" />
     <Content Include="Views\Product\GetProductTemplateDropDownListForFilterId.cshtml" />
+    <Content Include="Views\BannersOnHomePage\Index.cshtml" />
+    <Content Include="Views\BannersOnHomePage\AddOrUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

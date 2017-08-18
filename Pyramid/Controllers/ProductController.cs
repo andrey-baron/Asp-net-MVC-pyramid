@@ -62,6 +62,8 @@ namespace Pyramid.Controllers
             ViewBag.MetaTitle = viewModel.Product.MetaTitle?? viewModel.Product.Title;
             ViewBag.Shipping = _globalOptionRepository.Get("shipping").OptionContent;
             bool WillBeAddedFlag = viewModel.Product.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded;
+            bool willbeRelatedFlag= viewModel.RelatedProducts.Any(i => i.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded);
+            WillBeAddedFlag = willbeRelatedFlag || willbeRelatedFlag;
             ViewBag.WillBeAddedFlag = WillBeAddedFlag;
             if (WillBeAddedFlag)
             {
@@ -71,7 +73,7 @@ namespace Pyramid.Controllers
 
         }
         [Authorize]
-        public ActionResult AdminIndex(string currentFilter, string searchString, int? categoryId, int? page, bool priority = false)
+        public ActionResult AdminIndex(string currentFilter, string searchString, int? categoryId, int? page, bool priority = false, int filled=0 )
         {
             var pageNumber = page ?? 1;
             if (searchString != null)
@@ -85,12 +87,13 @@ namespace Pyramid.Controllers
             var objectsPerPage = 20;
             var startIndex = (pageNumber - 1) * objectsPerPage;
 
-            SearchParamsProduct SearchParams = new SearchParamsProduct(searchString, categoryId, priority,  startIndex, objectsPerPage);
+            SearchParamsProduct SearchParams = new SearchParamsProduct(searchString, categoryId, priority, filled,  startIndex, objectsPerPage);
 
             var searchResult = _productRepository.Get(SearchParams);
 
             ViewBag.CurrentFilter = searchString;
             ViewBag.CategoryId = categoryId;
+            ViewBag.Filled = (Common.TypeFilledProduct) filled;
             ViewBag.Priority = priority;
             ViewBag.CategoriesSelectListItem = _categoryRepository.GetAll().Select(item => new SelectListItem
             {

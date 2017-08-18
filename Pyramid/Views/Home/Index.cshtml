@@ -3,37 +3,76 @@
     ViewBag.Title = "Пирамида строй";
     Layout = "~/Views/Shared/_Layout.cshtml";
     IEnumerable<Pyramid.Entity.Product>  offers = (IEnumerable<Pyramid.Entity.Product>)ViewBag.SeasonOffers;
-    bool WillBeAddedFlagHomeEntityProducts = Model.Any(i => i.Products.Where(w => w.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded).Count() > 0);
-    bool WillBeAddedFlagSeasonProducts = offers.Any(i => i.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded);
-    bool WillBeAddedFlag = WillBeAddedFlagSeasonProducts || WillBeAddedFlagHomeEntityProducts;
+    //bool WillBeAddedFlagHomeEntityProducts = Model.Any(i => i.Products.Where(w => w.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded).Count() > 0);
+    //bool WillBeAddedFlagSeasonProducts = offers.Any(i => i.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded);
+    //bool WillBeAddedFlag = WillBeAddedFlagSeasonProducts || WillBeAddedFlagHomeEntityProducts;
+    IEnumerable<Pyramid.Entity.BannersOnHomePage> homeBanners = (IEnumerable<Pyramid.Entity.BannersOnHomePage>)ViewBag.BannersOnHomePage;
 }
-@Styles.Render("~/Content/magnificPopupcss")
+            @Styles.Render("~/Content/magnificPopupcss")
 <div class="home-slider">
 
     <div class="row no-gutter">
         <div class="col-ten-md-6  col-xs-12">
             <ul class="home-slider__wrap">
+                                @foreach (var item in homeBanners)
+                                {
+                                    if (item.Thumbnail != null && item.Thumbnail.ServerPathImg != null)
+                                    {
+                                        <li>
+                                            @if (item.Content != null)
+                                            {
+                                                <div class="home-slider__item" style="background: url('@item.Thumbnail.ServerPathImg')no-repeat">
+                                                    <div class="home-slider__item-title">
+                                                        @MvcHtmlString.Create(item.Content);
+                                                        <a href="@item.Link" class="home-slider__item-btn">ознакомиться</a>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <a href="@item.Link">
+                                                    <div class="home-slider__item" style="background: url('@item.Thumbnail.ServerPathImg')no-repeat"></div>
+                                                </a>
 
-                <li>
-                    <div class="home-slider__item" style="background: url('/Content/img/Layer-slider.png')">
-                        <p class="home-slider__item-title">
-                            Отличные
-                            цены
-                            на сайдинг
-                        </p>
-                        <a href="" class="home-slider__item-btn">ознакомиться</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="home-slider__item" style="background: url('/Content/img/Layer-slider.png')">
-                        <p class="home-slider__item-title">
-                            Отличные
-                            цены
-                            на сайдинг
-                        </p>
-                        <a href="" class="home-slider__item-btn">ознакомиться</a>
-                    </div>
-                </li>
+
+                            }
+                            
+                        </li>
+                    }
+
+                }
+                @*<li>
+                <div class="home-slider__item" style="background: url('/Content/img/1.jpg')no-repeat">
+                    <p class="home-slider__item-title">
+
+                    </p>
+                    <a href="" class="home-slider__item-btn">ознакомиться</a>
+                </div>
+            </li>
+            <li>
+                <div class="home-slider__item" style="background: url('/Content/img/2.jpg')no-repeat">
+                    <p class="home-slider__item-title">
+
+                    </p>
+                    <a href="" class="home-slider__item-btn">ознакомиться</a>
+                </div>
+            </li>
+            <li>
+                <div class="home-slider__item" style="background: url('/Content/img/3.jpg')no-repeat">
+                    <p class="home-slider__item-title">
+
+                    </p>
+                    <a href="" class="home-slider__item-btn">ознакомиться</a>
+                </div>
+            </li>
+            <li>
+                <div class="home-slider__item" style="background: url('/Content/img/4.jpg')no-repeat">
+                    <p class="home-slider__item-title">
+
+                    </p>
+                    <a href="" class="home-slider__item-btn">ознакомиться</a>
+                </div>
+            </li>*@
             </ul>
         </div>
         <div class="col-ten-md-2 col-xs-6">
@@ -57,7 +96,8 @@
 <div class="season-offer">
     <div class="row no-gutter">
 
-        
+
+
         @if (offers.Count() > 0)
         {
             <div class="col-f-lg-3 col-md-3 col-xs-3 season-offer__item_green-title">
@@ -88,11 +128,11 @@
                             <div class="product__item__hover_block_wrapper">
                                 <div class="product__item__hover_block_wrapper__item product__in-stock @(item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded?"product__in-stock_willbeadded":"")">
                                     @if (item.TypeStatusProduct == Common.TypeStatusProduct.Normal)
-                                    {
+            {
                                     <p>в наличии</p>
                                     }
                                     @if (item.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded)
-                                    {
+            {
                                     <p>Доступен для заказа*</p>
                                     }
                                 </div>
@@ -111,7 +151,7 @@
                 </div>
 
             }
-        }
+    }
 
 
 
@@ -296,6 +336,11 @@
                         @Html.TextBoxFor(m => feedback.Phone, new { @class = "form-control call-to-action__form-control", placeholder = Html.DisplayNameFor(d => feedback.Phone) })
                         @Html.ValidationMessageFor(m => feedback.Phone)
                         @*<input type="text" class="form-control call-to-action__form-control" placeholder="Телефон">*@
+                    </div>
+                    <div class="form-group call-to-action__form-group">
+                        <input class="" id="Confirm_terms" name="Confirm_terms" placeholder="Имя" type="checkbox">
+                        <span class="personal-data-comment">Отправляя данную форму, я даю <a href="~/Content/Policy/pd_agreement_pyramid.pdf" target="_blank">согласие</a> на обработку моих персональных данных в соответствии с <a href="~/Content/Policy/pd_politics_pyramid.pdf" target="_blank">политикой обработки ПД</a>.</span>
+
                     </div>
                     <button class="call-to-action__btn">Отправить запрос</button>
                 </form>

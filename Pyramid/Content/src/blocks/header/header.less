@@ -37,6 +37,7 @@
     list-style: none;
     display: inline-block;
     margin: 0 40px;
+  
   }
   &__menu-item {
     display: inline-block;
@@ -396,11 +397,20 @@
      &__advertising{
       background: url(/Content/img/btn-rem.png) no-repeat;
     height: 100%;
-    width: 150px;
+     width: 80px;
     background-size: contain;
+    background-position: center;
     display: inline-block;
     vertical-align: middle;
    }
+    &__advertising_decorazza{
+        background: url(/Content/img/btn-decorazza.png) no-repeat;
+        background-size: contain;
+        background-position: center;
+    }
+    &__advertising_first{
+        margin-right:10px;
+    }
 }
 
 @media (min-width: 992px) and (max-width:1200px){
@@ -455,7 +465,9 @@
     margin-top: 16px;
     }
    }
-
+   .header__advertising_first{
+        margin-right:20px;
+    }
 }
 
 @media (min-width: 300px) and (max-width:991px){
@@ -490,4 +502,8 @@
     margin-top: 16px;
     }
    }
+    .header__menu{
+        margin: 0 10px 0 20px;
+    }
+     
 }

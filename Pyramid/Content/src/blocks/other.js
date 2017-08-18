@@ -7,6 +7,9 @@
             "feedback.Phone": {
                 required: true,
             },
+            Confirm_terms: {
+                required: true,
+            }
         },
         messages: {
             "feedback.Name": {
@@ -15,6 +18,9 @@
             "feedback.Phone": {
                 required: "Введите Телефон"
             },
+            Confirm_terms: {
+                    required: "Необходимо согласие"
+                }
         }
     
 
@@ -29,6 +35,9 @@
             Phone: {
                 required: true,
             },
+            Confirm_terms: {
+                required: true,
+            }
         },
             messages: {
                 Name: {
@@ -37,6 +46,9 @@
                 Phone: {
                     required: "Введите Телефон"
                 },
+                Confirm_terms: {
+                    required: "Необходимо согласие"
+                }
             }
 
     });

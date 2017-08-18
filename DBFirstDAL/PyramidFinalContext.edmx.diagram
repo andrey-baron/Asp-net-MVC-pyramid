@@ -59,6 +59,8 @@
         <EntityTypeShape EntityType="PyramidModel.GlobalOption" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="PyramidModel.Reviews" Width="1.5" PointX="10.5" PointY="19.375" />
         <AssociationConnector Association="PyramidModel.FK__Reviews__Product__65F62111" />
+        <EntityTypeShape EntityType="PyramidModel.BannersOnHomePage" Width="1.5" PointX="3" PointY="15.375" />
+        <AssociationConnector Association="PyramidModel.FK_BannersOnHomePageImage_OtM" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

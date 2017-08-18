@@ -22,7 +22,7 @@ namespace DBFirstDAL.Repositories
 
         protected override IQueryable<EnumValues> BuildDbObjectsList(PyramidFinalContext context, IQueryable<EnumValues> dbObjects, SearchParamsBase searchParams)
         {
-            dbObjects = dbObjects.OrderBy(item => item.Id);
+            dbObjects = dbObjects.OrderBy(item => item.Key);
             return dbObjects;
         }
 
@@ -44,6 +44,20 @@ namespace DBFirstDAL.Repositories
         protected override Expression<Func<EnumValues, int>> GetIdByDbObjectExpression()
         {
             return i => i.Id;
+        }
+
+        public override IEnumerable<EnumValue> GetAll()
+        {
+            using (PyramidFinalContext dbContext= new PyramidFinalContext())
+            {
+                var entityObjectList = dbContext.EnumValues
+                    .AsNoTracking()
+                    .OrderBy(i=>i.Key)
+                    .ToList()
+                    .Select(s => ConvertDbObjectToEntityShort(dbContext, s))
+                    .ToList();
+                return entityObjectList;
+            }
         }
     }
 }

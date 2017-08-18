@@ -7,6 +7,9 @@
             "feedback.Phone": {
                 required: true,
             },
+            Confirm_terms: {
+                required: true,
+            }
         },
         messages: {
             "feedback.Name": {
@@ -15,6 +18,9 @@
             "feedback.Phone": {
                 required: "Введите Телефон"
             },
+            Confirm_terms: {
+                    required: "Необходимо согласие"
+                }
         }
     
 
@@ -29,6 +35,9 @@
             Phone: {
                 required: true,
             },
+            Confirm_terms: {
+                required: true,
+            }
         },
             messages: {
                 Name: {
@@ -37,6 +46,9 @@
                 Phone: {
                     required: "Введите Телефон"
                 },
+                Confirm_terms: {
+                    required: "Необходимо согласие"
+                }
             }
 
     });
@@ -89,15 +101,18 @@ function ConsultantOpen() {
    // $("div#jivo-iframe-container").css({ "display": "block!important" })
    
 }
-
-
 (function () {
 
-    $(".call-to-action__form-wrap").hide();
-    $(".call-to-action").on("click",function () {
-        $(this).next(".call-to-action__form-wrap").toggle( 400 );
-
+    $('.ft-grid').masonry({
+        itemSelector: '.ft-item',
+        columnWidth: '.grid-sizer',
+        percentPosition: true
     });
+
+     //$(".footer__catalog-products").hide();
+     $(".footer__switch").on("click",function () {
+     $(".footer__catalog-products").toggle( 400 );
+     });
 })();
 
 ;
@@ -242,18 +257,15 @@ function SoccessAdd(response) {
 
    
 })();
+
+
 (function () {
 
-    $('.ft-grid').masonry({
-        itemSelector: '.ft-item',
-        columnWidth: '.grid-sizer',
-        percentPosition: true
-    });
+    $(".call-to-action__form-wrap").hide();
+    $(".call-to-action").on("click",function () {
+        $(this).next(".call-to-action__form-wrap").toggle( 400 );
 
-     //$(".footer__catalog-products").hide();
-     $(".footer__switch").on("click",function () {
-     $(".footer__catalog-products").toggle( 400 );
-     });
+    });
 })();
 (function ($) {
 
@@ -269,6 +281,18 @@ function SoccessAdd(response) {
     });
 }($));
 
+;(function () {
+$(".js-toggle-content").on("click", function (e) {
+    var parent = $(this).parent();
+    var isOpenClass = "seo__content-wrap_is-open";
+    if (parent.hasClass(isOpenClass)) {
+        parent.removeClass(isOpenClass);
+    } else {
+        parent.addClass(isOpenClass);
+    }
+})
+
+})();
 (function ($) {
    /* $(".product__item").mouseover(function (e) {
 
@@ -351,15 +375,3 @@ function showSubmitResult(form, wasError, message) {
         }, 5000);
     }
 }
-;(function () {
-$(".js-toggle-content").on("click", function (e) {
-    var parent = $(this).parent();
-    var isOpenClass = "seo__content-wrap_is-open";
-    if (parent.hasClass(isOpenClass)) {
-        parent.removeClass(isOpenClass);
-    } else {
-        parent.addClass(isOpenClass);
-    }
-})
-
-})();

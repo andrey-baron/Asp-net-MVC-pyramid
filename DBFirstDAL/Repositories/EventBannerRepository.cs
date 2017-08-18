@@ -35,7 +35,8 @@ namespace DBFirstDAL.Repositories
 
         protected override IQueryable<EventBanners> BuildDbObjectsList(PyramidFinalContext context, IQueryable<EventBanners> dbObjects, SearchParamsBase searchParams)
         {
-            throw new NotImplementedException();
+            dbObjects = dbObjects.OrderBy(item => item.Id);
+            return dbObjects;
         }
 
         protected override EventBanners GetDbObjectByEntity(DbSet<EventBanners> objects, EventBanner entity)

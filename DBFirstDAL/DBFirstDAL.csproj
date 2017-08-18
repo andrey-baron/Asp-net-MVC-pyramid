@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BannersOnHomePage.cs">
+      <DependentUpon>PyramidFinalContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="BannerWithPoints.cs">
       <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
@@ -153,6 +156,7 @@
     <Compile Include="Recommendations.cs">
       <DependentUpon>PyramidFinalContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\BannersOnHomePageRepository.cs" />
     <Compile Include="Repositories\EnumValueRepository.cs" />
     <Compile Include="Repositories\EventBannerRepository.cs" />
     <Compile Include="Repositories\EventRepository.cs" />

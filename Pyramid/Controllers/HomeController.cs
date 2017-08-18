@@ -19,12 +19,14 @@ namespace Pyramid.Controllers
         CategoryRepository _categoryRepository;
         HomeEntityRepository _homeEntityRepository;
         ProductRepository _productRepository;
+        BannersOnHomePageRepository _bannersOnHomePageRepository;
 
         public HomeController()
         {
             _categoryRepository = new CategoryRepository();
             _homeEntityRepository = new HomeEntityRepository();
             _productRepository = new ProductRepository();
+            _bannersOnHomePageRepository = new BannersOnHomePageRepository();
         }
         public ActionResult Index()
         {
@@ -33,6 +35,8 @@ namespace Pyramid.Controllers
             var homeModels = _homeEntityRepository.GetModels(false);
             var products = _productRepository.GetSeasonOffers((int)Entity.Enumerable.TypeImage.Thumbnail);
 
+            var banners = _bannersOnHomePageRepository.GetAll();
+            ViewBag.BannersOnHomePage = banners;
             ViewBag.SeasonOffers = products;
             ViewBag.MetaTitle = "Пирамида строй";
             return View(homeModels);

@@ -38,5 +38,10 @@ namespace Pyramid.Controllers
             return RedirectToAction("Index");
 
         }
+        public ActionResult Delete(int id)
+        {
+            _eventBannerRepository.Delete(id);
+            return RedirectToAction("Index");
+        }
     }
 }
