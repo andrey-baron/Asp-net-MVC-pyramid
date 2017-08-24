@@ -11,7 +11,8 @@
         sortOrder = ViewBag.CurrentSort,
         currentFilter = ViewBag.CurrentFilter,
         categoryId = ViewBag.CategoryId,
-        filled= (int) ViewBag.Filled
+        filled= (int) ViewBag.Filled,
+        isNotUnloading1C = ViewBag.IsNotUnloading1C
     });
     var selectFilled = new List<SelectListItem>();
     selectFilled.Add(new SelectListItem()
@@ -53,6 +54,10 @@
                 <div>
                     <label>Заполненость</label>
                     @Html.DropDownList("filled", selectFilled,"Выбрать",new { data_val=false})
+                </div>
+                <div>
+                    <label>Нет в выгрузке</label>
+                    @Html.CheckBox("isNotUnloading1C", (bool)ViewBag.IsNotUnloading1C)
                 </div>
             </div>
             <div class="col-md-3">

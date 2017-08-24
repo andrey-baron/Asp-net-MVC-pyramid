@@ -352,7 +352,7 @@ namespace DBFirstDAL.Repositories
             dbObjext.OneCId = model.OneCId;
             dbObjext.Price = model.Price;
             dbObjext.TypeStatusProduct = model.TypeStatusProduct;
-
+            dbObjext.IsNotUnloading1C = model.IsNotUnloading1C;
             if (!exist)
             {
                 dbContext.Products.Add(dbObjext);
@@ -479,6 +479,7 @@ namespace DBFirstDAL.Repositories
                 Title=dbObject.Title,
                 TypePrice=(Common.TypeProductPrice) dbObject.TypePrice,
                 Content = dbObject.Content,
+                IsNotUnloading1C=dbObject.IsNotUnloading1C,
                 Categories =dbObject.Categories.Select(s=>new Category() {
                     Title=s.Title,
                     Id=s.Id
@@ -600,6 +601,10 @@ namespace DBFirstDAL.Repositories
 
                 }
             }
+            if (searchParams.IsNotUnloading1C.HasValue&& searchParams.IsNotUnloading1C.Value)
+            {
+                dbObjects = dbObjects.Where(s => s.IsNotUnloading1C == searchParams.IsNotUnloading1C.Value);
+            }
             dbObjects = dbObjects.OrderByDescending(item => item.Id);
             return dbObjects;
         }
@@ -622,6 +627,7 @@ namespace DBFirstDAL.Repositories
             dbEntity.TypePrice = (int)entity.TypePrice;
             dbEntity.TypeStatusProduct = (int)entity.TypeStatusProduct;
             dbEntity.Content = entity.Content;
+            dbEntity.IsNotUnloading1C = entity.IsNotUnloading1C;
         }
         public override void UpdateAfterSaving(PyramidFinalContext dbContext, Products dbEntity, Product entity, bool exists)
         {
@@ -788,6 +794,25 @@ namespace DBFirstDAL.Repositories
                 IQueryable<Products> query = data.Set<Products>().AsNoTracking();
                 var entityObjectList = query.ToList().Select(s => ConvertDbObjectToEntityShortWithCategory(data, s)).ToList();
                 return entityObjectList;
+            }
+        }
+
+        public void SetIsNotUnloading(ICollection<Products> xmlproducts)
+        {
+            using (PyramidFinalContext dbContext =new PyramidFinalContext())
+            {
+                var xmlIds1c = xmlproducts.Select(s => s.OneCId);
+                var objects = dbContext.Products;
+                foreach (var item in objects)
+                {
+                    if (!xmlIds1c.Contains(item.OneCId))
+                    {
+                        item.IsNotUnloading1C = true;
+                       
+                    }
+                }
+                dbContext.SaveChanges();
+
             }
         }
     }

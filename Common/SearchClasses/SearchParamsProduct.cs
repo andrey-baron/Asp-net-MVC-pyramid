@@ -13,6 +13,7 @@ namespace Common.SearchClasses
         public bool? Priority { get; set; }
         public bool? IsSearchOnlyPublicProduct { get; set; }
         public int? Filled { get; set; }
+        public bool? IsNotUnloading1C { get; set; }
 
         public SearchParamsProduct(string searchString, int? categoryId, bool? priority, int filled,
         int startIndex = 0, int? objectsCount = null):base(startIndex, objectsCount)

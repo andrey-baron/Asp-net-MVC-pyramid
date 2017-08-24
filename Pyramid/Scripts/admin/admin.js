@@ -84,10 +84,25 @@
 })();
 ;(function(){
     tinymce.init({
-
-
+        language: "ru",
+        selector: ".adminTextareaCommon",
+        plugins: [
+			"advlist autolink lists link image charmap hr anchor pagebreak",
+			"searchreplace wordcount visualblocks visualchars",
+			"insertdatetime media nonbreaking save table contextmenu directionality",
+			"template paste textcolor code spellchecker"
+        ],
+        toolbar1: "insertfile undo redo | styleselect fontsizeselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | spellchecker | forecolor backcolor",
+        fontsize_formats: "8px 10px 12px 14px 18px 24px 36px",
+        convert_urls: false,
+        allow_script_urls: true,
+        extended_valid_elements: "a[*]",
+        spellchecker_languages: "Russian=ru,English=en",
+        spellchecker_language: "ru",
+        spellchecker_rpc_url: "http://speller.yandex.net/services/tinyspell?options=12",
+         
         // General options
-        elements: "content_editor",
+        /*elements: "content_editor",
         language: "ru",
         plugins: "code,autolink,lists,spellchecker,pagebreak,table,save,,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,template",
         menu: {
@@ -98,7 +113,7 @@
             format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript | formats | removeformat' },
             tools: { title: 'Tools', items: 'code' }
         },
-        selector: '.adminTextareaCommon',
+        selector: '.adminTextareaCommon',*/
     });
 
     $(".datepickerCommon").datepicker({
@@ -107,45 +122,6 @@
     });
 
 })();
-
-; (function () {
-    var id = $("#Event_Id").val();
-
-    $(".btn-add-event-product").on("click", function () {
-        var count = $(".event__product").length;
-        $.post("/Event/TemplateCategoryFromEventProduct?eventId=" + id + "&count=" + count, function (data) {
-            $(".event__products").append(data);
-        })
-    });
-    $(".event__products").on("change", ".js-category-from-event-product", function () {
-        var thisElem = $(this);
-        var pasteblock = thisElem.next(".js-product-select");
-        $.post("/HomeEntity/GetProductTemplateDropDownListForCategoryId?id=" + thisElem.val() + "&index=" + thisElem.data("ajaxindex"), function (data) {
-            pasteblock.html(data);
-        })
-    });
-    $(".btn-update-event-image").on("click", function () {
-        $.post("/ImageManager/PartialSelectImage", function (data) {
-            $('#edit-event-image-modal .modal-body').html(data);
-        })
-        $("#edit-event-image-modal").modal('show');
-    })
-    $("#edit-event-image-modal").on("click", ".btn-ajax-edit", function () {
-        $("#EventImage_Id").val($(this).data("ajaxid"));
-        $(".event__img-wrap img").attr("src", $(this).data("url"));
-        $("#edit-event-image-modal").modal('hide');
-    })
-    $(".btn-remove-event-product").on("click", function () {
-        var url = $(this).data("actionurl");
-        var elem = $(this);
-        $.post(url, function (data) {
-            if (data.Result == true) {
-                elem.parent().remove();
-            }
-        })
-    })
-})();
-
 ; (function () {
      
     var categoryId = $("#Category_Id").val();
@@ -177,49 +153,6 @@
             });
         });
     })
-})();
-; (function () {
-    /*filter function*/
-       var filterId = $("#Filter_Id").val();
-    $(".js-btn-filter-add-enumvalue").on("click", function () {
-        var count =$(".admin-filter__enum-value").length;
-        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId + "&count=" + count, function (data) {
-            $(".js-filter-all-enumvalues").append(data);
-        });
-    });
-    $(".js-filter-all-enumvalues").on("click", ".btn-filter-enum-value-delete", function (e) {
-        var id = $(this).data("ajaxid");
-        $.post("/Filter/DeleteEnumValue?id=" + filterId + "&enumValueId=" + id, function (t) {
-            $.post("/Filter/GetAllEnumValues?filterid=" + filterId, function (data) {
-                $(".js-filter-all-enumvalues").html(data);
-            });
-        });
-    })
-})();
-;
-(function () {
-    /*question-answer function*/
-
-    var faqId = $("#Faq_Id").val();
-    
-    $(".js-btn-add-question-answer").on("click", function () {
-    var count = $(".admin-product__addition-value").length;
-        $.post("/Faq/AddNewDefault?id=" + faqId+"&count="+count, function (data) {
-            $(".faq__question-answer-values").append(data);
-        });
-        
-    });
-    $(".faq__question-answer-values").on("click", ".js-btn-QuestionAnswer-delete", function () {
-        var id = $(this).data("ajaxid");
-        $.post("/Faq/DeleteQuestionAnswer/" + id, function (data) {
-            $.post("/Faq/PartialGetAllQuestionAnswer/" + faqId, function (data) {
-                $(".faq__question-answer-values").html(data);
-            });
-            
-        });
-    });
-    
-
 })();
 ;(function () {
     
@@ -284,6 +217,49 @@ function reloadData() {
         $(selectorGaleryGrid).html(data);
     });
 };
+; (function () {
+    /*filter function*/
+       var filterId = $("#Filter_Id").val();
+    $(".js-btn-filter-add-enumvalue").on("click", function () {
+        var count =$(".admin-filter__enum-value").length;
+        $.post("/Filter/GetTemplateEnumValue?filterid=" + filterId + "&count=" + count, function (data) {
+            $(".js-filter-all-enumvalues").append(data);
+        });
+    });
+    $(".js-filter-all-enumvalues").on("click", ".btn-filter-enum-value-delete", function (e) {
+        var id = $(this).data("ajaxid");
+        $.post("/Filter/DeleteEnumValue?id=" + filterId + "&enumValueId=" + id, function (t) {
+            $.post("/Filter/GetAllEnumValues?filterid=" + filterId, function (data) {
+                $(".js-filter-all-enumvalues").html(data);
+            });
+        });
+    })
+})();
+;
+(function () {
+    /*question-answer function*/
+
+    var faqId = $("#Faq_Id").val();
+    
+    $(".js-btn-add-question-answer").on("click", function () {
+    var count = $(".admin-product__addition-value").length;
+        $.post("/Faq/AddNewDefault?id=" + faqId+"&count="+count, function (data) {
+            $(".faq__question-answer-values").append(data);
+        });
+        
+    });
+    $(".faq__question-answer-values").on("click", ".js-btn-QuestionAnswer-delete", function () {
+        var id = $(this).data("ajaxid");
+        $.post("/Faq/DeleteQuestionAnswer/" + id, function (data) {
+            $.post("/Faq/PartialGetAllQuestionAnswer/" + faqId, function (data) {
+                $(".faq__question-answer-values").html(data);
+            });
+            
+        });
+    });
+    
+
+})();
 (function () {
     /*function home-entity.js*/
     var id = $("#HomeEntity_Id").val();
@@ -404,3 +380,41 @@ function reloadData() {
         inputY.val(coordY);
     }
 })()
+
+; (function () {
+    var id = $("#Event_Id").val();
+
+    $(".btn-add-event-product").on("click", function () {
+        var count = $(".event__product").length;
+        $.post("/Event/TemplateCategoryFromEventProduct?eventId=" + id + "&count=" + count, function (data) {
+            $(".event__products").append(data);
+        })
+    });
+    $(".event__products").on("change", ".js-category-from-event-product", function () {
+        var thisElem = $(this);
+        var pasteblock = thisElem.next(".js-product-select");
+        $.post("/HomeEntity/GetProductTemplateDropDownListForCategoryId?id=" + thisElem.val() + "&index=" + thisElem.data("ajaxindex"), function (data) {
+            pasteblock.html(data);
+        })
+    });
+    $(".btn-update-event-image").on("click", function () {
+        $.post("/ImageManager/PartialSelectImage", function (data) {
+            $('#edit-event-image-modal .modal-body').html(data);
+        })
+        $("#edit-event-image-modal").modal('show');
+    })
+    $("#edit-event-image-modal").on("click", ".btn-ajax-edit", function () {
+        $("#EventImage_Id").val($(this).data("ajaxid"));
+        $(".event__img-wrap img").attr("src", $(this).data("url"));
+        $("#edit-event-image-modal").modal('hide');
+    })
+    $(".btn-remove-event-product").on("click", function () {
+        var url = $(this).data("actionurl");
+        var elem = $(this);
+        $.post(url, function (data) {
+            if (data.Result == true) {
+                elem.parent().remove();
+            }
+        })
+    })
+})();

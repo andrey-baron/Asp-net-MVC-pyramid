@@ -31,6 +31,8 @@ namespace Pyramid.Entity
         public bool IsPriority { get; set; }
         [Display(Name = "Заполнен")]
         public bool IsFilled { get; set; }
+        [Display(Name = "Нет в выгрузке")]
+        public bool IsNotUnloading1C { get; set; }
 
         [Display(Name = "Статус товара")]
         public Common.TypeStatusProduct TypeStatusProduct { get; set; }

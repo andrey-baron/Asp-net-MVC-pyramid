@@ -73,7 +73,7 @@ namespace Pyramid.Controllers
 
         }
         [Authorize]
-        public ActionResult AdminIndex(string currentFilter, string searchString, int? categoryId, int? page, bool priority = false, int filled=0 )
+        public ActionResult AdminIndex(string currentFilter, string searchString, int? categoryId, int? page, bool priority = false, int filled=0,bool isNotUnloading1C=false)
         {
             var pageNumber = page ?? 1;
             if (searchString != null)
@@ -88,6 +88,7 @@ namespace Pyramid.Controllers
             var startIndex = (pageNumber - 1) * objectsPerPage;
 
             SearchParamsProduct SearchParams = new SearchParamsProduct(searchString, categoryId, priority, filled,  startIndex, objectsPerPage);
+            SearchParams.IsNotUnloading1C = isNotUnloading1C;
 
             var searchResult = _productRepository.Get(SearchParams);
 
@@ -95,6 +96,7 @@ namespace Pyramid.Controllers
             ViewBag.CategoryId = categoryId;
             ViewBag.Filled = (Common.TypeFilledProduct) filled;
             ViewBag.Priority = priority;
+            ViewBag.IsNotUnloading1C = isNotUnloading1C;
             ViewBag.CategoriesSelectListItem = _categoryRepository.GetAll().Select(item => new SelectListItem
             {
                 Text = item.Title,

@@ -127,6 +127,13 @@
                             @Html.ValidationMessageFor(model => model.IsFilled, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IsNotUnloading1C, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(model => model.IsNotUnloading1C, htmlAttributes: new { })
+                            @Html.ValidationMessageFor(model => model.IsNotUnloading1C, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                     
                 </div>
             

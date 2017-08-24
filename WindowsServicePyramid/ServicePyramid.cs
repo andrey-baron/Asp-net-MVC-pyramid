@@ -80,7 +80,7 @@ namespace WindowsServicePyramid
                     _categoryRepository.UpdateParentCategory(efCatWithParent);
 
 
-                    var efProducts = xmlModel.Products.Select(s => new DBFirstDAL.Products()
+                    var xmlProducts = xmlModel.Products.Select(s => new DBFirstDAL.Products()
                     {
                         Title = s.Title,
                         Price = s.Price,
@@ -99,21 +99,9 @@ namespace WindowsServicePyramid
                     }).ToList();
 
                     _categoryRepository.DeleteAllFilterBrands();
-                    foreach (var item in efProducts)
+                    foreach (var item in xmlProducts)
                     {
-                        if (item.OneCId == "51174c64-2731-11e6-af4e-1c6f652b5ae3")
-                        {
-                            var T = 0;
-                        }
-                        try
-                        {
                             _productRepository.AddOrUpdateFromOneC(item);
-                        }
-                        catch (Exception test)
-                        {
-                            throw;
-                        }
-
                     }
 
 
@@ -124,7 +112,7 @@ namespace WindowsServicePyramid
                         Load1CDataFromXml.ChangePathFile(pathToChange);
                     }
 
-
+                    _productRepository.SetIsNotUnloading(xmlProducts);
                 }
                 catch (Exception ex)
                 {

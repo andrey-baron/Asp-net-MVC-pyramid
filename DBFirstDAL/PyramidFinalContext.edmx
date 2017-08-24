@@ -267,6 +267,7 @@
           <Property Name="IsFilled" Type="bit" Nullable="false" />
           <Property Name="TypeStatusProduct" Type="int" Nullable="false" />
           <Property Name="Content" Type="nvarchar(max)" />
+          <Property Name="IsNotUnloading1C" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ProductValues">
           <Key>
@@ -1155,35 +1156,6 @@
             <End Role="Faq" EntitySet="Faq" />
             <End Role="HomeEntity" EntitySet="HomeEntity" />
           </AssociationSet>
-          <EntitySet Name="Products" EntityType="PyramidModel.Products" />
-          <AssociationSet Name="FK__PointOnIm__Refer__5E8A0973" Association="PyramidModel.FK__PointOnIm__Refer__5E8A0973">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="PointOnImgs" EntitySet="PointOnImgs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProductImages_ForMTM" Association="PyramidModel.FK_ProductImages_ForMTM">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="ProductImages" EntitySet="ProductImages" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ProductOr__Produ__32AB8735" Association="PyramidModel.FK__ProductOr__Produ__32AB8735">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="ProductOrders" EntitySet="ProductOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ProductVa__Produ__5AEE82B9" Association="PyramidModel.FK__ProductVa__Produ__5AEE82B9">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="ProductValues" EntitySet="ProductValues" />
-          </AssociationSet>
-          <AssociationSet Name="EventProducts" Association="PyramidModel.EventProducts">
-            <End Role="Events" EntitySet="Events" />
-            <End Role="Products" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="HomeEntityWithProducts" Association="PyramidModel.HomeEntityWithProducts">
-            <End Role="HomeEntity" EntitySet="HomeEntity" />
-            <End Role="Products" EntitySet="Products" />
-          </AssociationSet>
-          <AssociationSet Name="ProductEnumValues" Association="PyramidModel.ProductEnumValues">
-            <End Role="EnumValues" EntitySet="EnumValues" />
-            <End Role="Products" EntitySet="Products" />
-          </AssociationSet>
           <EntitySet Name="EventBanners" EntityType="PyramidModel.EventBanners" />
           <AssociationSet Name="FK__EventBann__Image__2057CCD0" Association="PyramidModel.FK__EventBann__Image__2057CCD0">
             <End Role="Images" EntitySet="Images" />
@@ -1210,10 +1182,6 @@
             <End Role="Categories" EntitySet="Categories" />
             <End Role="HomeEntity" EntitySet="HomeEntity" />
           </AssociationSet>
-          <AssociationSet Name="ProductCategories" Association="PyramidModel.ProductCategories">
-            <End Role="Categories" EntitySet="Categories" />
-            <End Role="Products" EntitySet="Products" />
-          </AssociationSet>
           <EntitySet Name="EventImages" EntityType="PyramidModel.EventImages" />
           <AssociationSet Name="FK_EventImages_" Association="PyramidModel.FK_EventImages_">
             <End Role="Events" EntitySet="Events" />
@@ -1234,14 +1202,47 @@
           </AssociationSet>
           <EntitySet Name="GlobalOption" EntityType="PyramidModel.GlobalOption" />
           <EntitySet Name="Reviews" EntityType="PyramidModel.Reviews" />
-          <AssociationSet Name="FK__Reviews__Product__65F62111" Association="PyramidModel.FK__Reviews__Product__65F62111">
-            <End Role="Products" EntitySet="Products" />
-            <End Role="Reviews" EntitySet="Reviews" />
-          </AssociationSet>
           <EntitySet Name="BannersOnHomePage" EntityType="PyramidModel.BannersOnHomePage" />
           <AssociationSet Name="FK_BannersOnHomePageImage_OtM" Association="PyramidModel.FK_BannersOnHomePageImage_OtM">
             <End Role="Images" EntitySet="Images" />
             <End Role="BannersOnHomePage" EntitySet="BannersOnHomePage" />
+          </AssociationSet>
+          <EntitySet Name="Products" EntityType="PyramidModel.Products" />
+          <AssociationSet Name="FK__PointOnIm__Refer__693CA210" Association="PyramidModel.FK__PointOnIm__Refer__693CA210">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="PointOnImgs" EntitySet="PointOnImgs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductImages_ForMTM" Association="PyramidModel.FK_ProductImages_ForMTM">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductImages" EntitySet="ProductImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductOr__Produ__10566F31" Association="PyramidModel.FK__ProductOr__Produ__10566F31">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductOrders" EntitySet="ProductOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductVa__Produ__71D1E811" Association="PyramidModel.FK__ProductVa__Produ__71D1E811">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductValues" EntitySet="ProductValues" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reviews__Product__03F0984C" Association="PyramidModel.FK__Reviews__Product__03F0984C">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Reviews" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="EventProducts" Association="PyramidModel.EventProducts">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="HomeEntityWithProducts" Association="PyramidModel.HomeEntityWithProducts">
+            <End Role="HomeEntity" EntitySet="HomeEntity" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="ProductCategories" Association="PyramidModel.ProductCategories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="ProductEnumValues" Association="PyramidModel.ProductEnumValues">
+            <End Role="EnumValues" EntitySet="EnumValues" />
+            <End Role="Products" EntitySet="Products" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="BannerWithPoints">
@@ -1286,8 +1287,8 @@
           <Property Name="DateEventStart" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateEventEnd" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="isActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Products" Relationship="PyramidModel.EventProducts" FromRole="Events" ToRole="Products" />
           <NavigationProperty Name="EventImages" Relationship="PyramidModel.FK_EventImages_" FromRole="Events" ToRole="EventImages" />
+          <NavigationProperty Name="Products" Relationship="PyramidModel.EventProducts" FromRole="Events" ToRole="Products" />
         </EntityType>
         <EntityType Name="Faq">
           <Key>
@@ -1328,8 +1329,8 @@
           <NavigationProperty Name="BannerWithPoints" Relationship="PyramidModel.FK_Banner" FromRole="HomeEntity" ToRole="BannerWithPoints" />
           <NavigationProperty Name="Images" Relationship="PyramidModel.FK__HomeEntit__Thumb__4BAC3F29" FromRole="HomeEntity" ToRole="Images" />
           <NavigationProperty Name="Faq" Relationship="PyramidModel.HomeEntityFaq" FromRole="HomeEntity" ToRole="Faq" />
-          <NavigationProperty Name="Products" Relationship="PyramidModel.HomeEntityWithProducts" FromRole="HomeEntity" ToRole="Products" />
           <NavigationProperty Name="Categories" Relationship="PyramidModel.HomeEntityCategories" FromRole="HomeEntity" ToRole="Categories" />
+          <NavigationProperty Name="Products" Relationship="PyramidModel.HomeEntityWithProducts" FromRole="HomeEntity" ToRole="Products" />
         </EntityType>
         <EntityType Name="Images">
           <Key>
@@ -1380,7 +1381,7 @@
           <Property Name="BannerId" Type="Int32" Nullable="false" />
           <Property Name="ReferenceProductId" Type="Int32" />
           <NavigationProperty Name="BannerWithPoints" Relationship="PyramidModel.FK__PointOnIm__Banne__59FA5E80" FromRole="PointOnImgs" ToRole="BannerWithPoints" />
-          <NavigationProperty Name="Products" Relationship="PyramidModel.FK__PointOnIm__Refer__5E8A0973" FromRole="PointOnImgs" ToRole="Products" />
+          <NavigationProperty Name="Products" Relationship="PyramidModel.FK__PointOnIm__Refer__693CA210" FromRole="PointOnImgs" ToRole="Products" />
         </EntityType>
         <EntityType Name="ProductImages">
           <Key>
@@ -1402,7 +1403,7 @@
           <Property Name="OrderId" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Orders" Relationship="PyramidModel.FK__ProductOr__Order__60A75C0F" FromRole="ProductOrders" ToRole="Orders" />
-          <NavigationProperty Name="Products" Relationship="PyramidModel.FK__ProductOr__Produ__32AB8735" FromRole="ProductOrders" ToRole="Products" />
+          <NavigationProperty Name="Products" Relationship="PyramidModel.FK__ProductOr__Produ__10566F31" FromRole="ProductOrders" ToRole="Products" />
         </EntityType>
         <EntityType Name="ProductValues">
           <Key>
@@ -1412,7 +1413,7 @@
           <Property Name="ProductId" Type="Int32" Nullable="false" />
           <Property Name="Key" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Products" Relationship="PyramidModel.FK__ProductVa__Produ__5AEE82B9" FromRole="ProductValues" ToRole="Products" />
+          <NavigationProperty Name="Products" Relationship="PyramidModel.FK__ProductVa__Produ__71D1E811" FromRole="ProductValues" ToRole="Products" />
         </EntityType>
         <EntityType Name="QuestionAnswer">
           <Key>
@@ -1555,107 +1556,6 @@
           <End Type="PyramidModel.Faq" Role="Faq" Multiplicity="0..1" />
           <End Type="PyramidModel.HomeEntity" Role="HomeEntity" Multiplicity="*" />
         </Association>
-        <EntityType Name="Products">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Price" Type="Double" Nullable="false" />
-          <Property Name="TypePrice" Type="Int32" Nullable="false" />
-          <Property Name="MetaDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="MetaTitle" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="MetaKeywords" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="IsSEOReady" Type="Boolean" Nullable="false" />
-          <Property Name="Alias" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="DateCreation" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DateChange" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="PointOnImg_Id" Type="Int32" />
-          <Property Name="SeasonOffer" Type="Boolean" />
-          <Property Name="OneCId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="PopularCount" Type="Int32" />
-          <Property Name="IsPriority" Type="Boolean" Nullable="false" />
-          <Property Name="IsFilled" Type="Boolean" Nullable="false" />
-          <Property Name="TypeStatusProduct" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="PointOnImgs" Relationship="PyramidModel.FK__PointOnIm__Refer__5E8A0973" FromRole="Products" ToRole="PointOnImgs" />
-          <NavigationProperty Name="ProductImages" Relationship="PyramidModel.FK_ProductImages_ForMTM" FromRole="Products" ToRole="ProductImages" />
-          <NavigationProperty Name="ProductOrders" Relationship="PyramidModel.FK__ProductOr__Produ__32AB8735" FromRole="Products" ToRole="ProductOrders" />
-          <NavigationProperty Name="ProductValues" Relationship="PyramidModel.FK__ProductVa__Produ__5AEE82B9" FromRole="Products" ToRole="ProductValues" />
-          <NavigationProperty Name="Events" Relationship="PyramidModel.EventProducts" FromRole="Products" ToRole="Events" />
-          <NavigationProperty Name="HomeEntity" Relationship="PyramidModel.HomeEntityWithProducts" FromRole="Products" ToRole="HomeEntity" />
-          <NavigationProperty Name="EnumValues" Relationship="PyramidModel.ProductEnumValues" FromRole="Products" ToRole="EnumValues" />
-          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Categories" Relationship="PyramidModel.ProductCategories" FromRole="Products" ToRole="Categories" />
-          <NavigationProperty Name="Reviews" Relationship="PyramidModel.FK__Reviews__Product__65F62111" FromRole="Products" ToRole="Reviews" />
-        </EntityType>
-        <Association Name="FK__PointOnIm__Refer__5E8A0973">
-          <End Type="PyramidModel.Products" Role="Products" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="PyramidModel.PointOnImgs" Role="PointOnImgs" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="PointOnImgs">
-              <PropertyRef Name="ReferenceProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProductImages_ForMTM">
-          <End Type="PyramidModel.Products" Role="Products" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="PyramidModel.ProductImages" Role="ProductImages" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProductImages">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ProductOr__Produ__32AB8735">
-          <End Type="PyramidModel.Products" Role="Products" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="PyramidModel.ProductOrders" Role="ProductOrders" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProductOrders">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__ProductVa__Produ__5AEE82B9">
-          <End Type="PyramidModel.Products" Role="Products" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="PyramidModel.ProductValues" Role="ProductValues" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ProductValues">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="EventProducts">
-          <End Type="PyramidModel.Events" Role="Events" Multiplicity="*" />
-          <End Type="PyramidModel.Products" Role="Products" Multiplicity="*" />
-        </Association>
-        <Association Name="HomeEntityWithProducts">
-          <End Type="PyramidModel.HomeEntity" Role="HomeEntity" Multiplicity="*" />
-          <End Type="PyramidModel.Products" Role="Products" Multiplicity="*" />
-        </Association>
-        <Association Name="ProductEnumValues">
-          <End Type="PyramidModel.EnumValues" Role="EnumValues" Multiplicity="*" />
-          <End Type="PyramidModel.Products" Role="Products" Multiplicity="*" />
-        </Association>
         <EntityType Name="EventBanners">
           <Key>
             <PropertyRef Name="Id" />
@@ -1695,9 +1595,9 @@
           <NavigationProperty Name="CategoryImages" Relationship="PyramidModel.FK_CategoryImages_ForMTM" FromRole="Categories" ToRole="CategoryImages" />
           <NavigationProperty Name="Filters" Relationship="PyramidModel.FilterCategories" FromRole="Categories" ToRole="Filters" />
           <NavigationProperty Name="HomeEntity" Relationship="PyramidModel.HomeEntityCategories" FromRole="Categories" ToRole="HomeEntity" />
-          <NavigationProperty Name="Products" Relationship="PyramidModel.ProductCategories" FromRole="Categories" ToRole="Products" />
           <NavigationProperty Name="Recommendations" Relationship="PyramidModel.RecommendationCategories" FromRole="Categories" ToRole="Recommendations" />
           <Property Name="ShowCategoryOnSite" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="PyramidModel.ProductCategories" FromRole="Categories" ToRole="Products" />
         </EntityType>
         <Association Name="FK__Categorie__SeoId__09746778">
           <End Type="PyramidModel.Seo" Role="Seo" Multiplicity="0..1" />
@@ -1744,10 +1644,6 @@
         <Association Name="HomeEntityCategories">
           <End Type="PyramidModel.Categories" Role="Categories" Multiplicity="*" />
           <End Type="PyramidModel.HomeEntity" Role="HomeEntity" Multiplicity="*" />
-        </Association>
-        <Association Name="ProductCategories">
-          <End Type="PyramidModel.Categories" Role="Categories" Multiplicity="*" />
-          <End Type="PyramidModel.Products" Role="Products" Multiplicity="*" />
         </Association>
         <EntityType Name="EventImages">
           <Key>
@@ -1827,22 +1723,8 @@
           <Property Name="DateCreation" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsRead" Type="Boolean" Nullable="false" />
           <Property Name="IsApproved" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Products" Relationship="PyramidModel.FK__Reviews__Product__65F62111" FromRole="Reviews" ToRole="Products" />
+          <NavigationProperty Name="Products" Relationship="PyramidModel.FK__Reviews__Product__03F0984C" FromRole="Reviews" ToRole="Products" />
         </EntityType>
-        <Association Name="FK__Reviews__Product__65F62111">
-          <End Type="PyramidModel.Products" Role="Products" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="PyramidModel.Reviews" Role="Reviews" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Products">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Reviews">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="BannersOnHomePage">
           <Key>
             <PropertyRef Name="Id" />
@@ -1867,6 +1749,126 @@
               <PropertyRef Name="ImageId" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="TypePrice" Type="Int32" Nullable="false" />
+          <Property Name="MetaDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MetaTitle" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MetaKeywords" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IsSEOReady" Type="Boolean" Nullable="false" />
+          <Property Name="Alias" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreation" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateChange" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PointOnImg_Id" Type="Int32" />
+          <Property Name="SeasonOffer" Type="Boolean" />
+          <Property Name="OneCId" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PopularCount" Type="Int32" />
+          <Property Name="IsPriority" Type="Boolean" Nullable="false" />
+          <Property Name="IsFilled" Type="Boolean" Nullable="false" />
+          <Property Name="TypeStatusProduct" Type="Int32" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsNotUnloading1C" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PointOnImgs" Relationship="PyramidModel.FK__PointOnIm__Refer__693CA210" FromRole="Products" ToRole="PointOnImgs" />
+          <NavigationProperty Name="ProductImages" Relationship="PyramidModel.FK_ProductImages_ForMTM" FromRole="Products" ToRole="ProductImages" />
+          <NavigationProperty Name="ProductOrders" Relationship="PyramidModel.FK__ProductOr__Produ__10566F31" FromRole="Products" ToRole="ProductOrders" />
+          <NavigationProperty Name="ProductValues" Relationship="PyramidModel.FK__ProductVa__Produ__71D1E811" FromRole="Products" ToRole="ProductValues" />
+          <NavigationProperty Name="Reviews" Relationship="PyramidModel.FK__Reviews__Product__03F0984C" FromRole="Products" ToRole="Reviews" />
+          <NavigationProperty Name="Events" Relationship="PyramidModel.EventProducts" FromRole="Products" ToRole="Events" />
+          <NavigationProperty Name="HomeEntity" Relationship="PyramidModel.HomeEntityWithProducts" FromRole="Products" ToRole="HomeEntity" />
+          <NavigationProperty Name="Categories" Relationship="PyramidModel.ProductCategories" FromRole="Products" ToRole="Categories" />
+          <NavigationProperty Name="EnumValues" Relationship="PyramidModel.ProductEnumValues" FromRole="Products" ToRole="EnumValues" />
+        </EntityType>
+        <Association Name="FK__PointOnIm__Refer__693CA210">
+          <End Type="PyramidModel.Products" Role="Products" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PyramidModel.PointOnImgs" Role="PointOnImgs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PointOnImgs">
+              <PropertyRef Name="ReferenceProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductImages_ForMTM">
+          <End Type="PyramidModel.Products" Role="Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PyramidModel.ProductImages" Role="ProductImages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductImages">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductOr__Produ__10566F31">
+          <End Type="PyramidModel.Products" Role="Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PyramidModel.ProductOrders" Role="ProductOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductOrders">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductVa__Produ__71D1E811">
+          <End Type="PyramidModel.Products" Role="Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PyramidModel.ProductValues" Role="ProductValues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductValues">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reviews__Product__03F0984C">
+          <End Type="PyramidModel.Products" Role="Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="PyramidModel.Reviews" Role="Reviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Reviews">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EventProducts">
+          <End Type="PyramidModel.Events" Role="Events" Multiplicity="*" />
+          <End Type="PyramidModel.Products" Role="Products" Multiplicity="*" />
+        </Association>
+        <Association Name="HomeEntityWithProducts">
+          <End Type="PyramidModel.HomeEntity" Role="HomeEntity" Multiplicity="*" />
+          <End Type="PyramidModel.Products" Role="Products" Multiplicity="*" />
+        </Association>
+        <Association Name="ProductCategories">
+          <End Type="PyramidModel.Categories" Role="Categories" Multiplicity="*" />
+          <End Type="PyramidModel.Products" Role="Products" Multiplicity="*" />
+        </Association>
+        <Association Name="ProductEnumValues">
+          <End Type="PyramidModel.EnumValues" Role="EnumValues" Multiplicity="*" />
+          <End Type="PyramidModel.Products" Role="Products" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -2072,55 +2074,6 @@
             </EndProperty>
             <Condition ColumnName="FaqId" IsNull="false" />
           </AssociationSetMapping>
-          <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="PyramidModel.Products">
-              <MappingFragment StoreEntitySet="Products">
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="TypeStatusProduct" ColumnName="TypeStatusProduct" />
-                <ScalarProperty Name="IsFilled" ColumnName="IsFilled" />
-                <ScalarProperty Name="IsPriority" ColumnName="IsPriority" />
-                <ScalarProperty Name="PopularCount" ColumnName="PopularCount" />
-                <ScalarProperty Name="OneCId" ColumnName="OneCId" />
-                <ScalarProperty Name="SeasonOffer" ColumnName="SeasonOffer" />
-                <ScalarProperty Name="PointOnImg_Id" ColumnName="PointOnImg_Id" />
-                <ScalarProperty Name="DateChange" ColumnName="DateChange" />
-                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
-                <ScalarProperty Name="Alias" ColumnName="Alias" />
-                <ScalarProperty Name="IsSEOReady" ColumnName="IsSEOReady" />
-                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
-                <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
-                <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
-                <ScalarProperty Name="TypePrice" ColumnName="TypePrice" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="EventProducts" TypeName="PyramidModel.EventProducts" StoreEntitySet="EventProducts">
-            <EndProperty Name="Products">
-              <ScalarProperty Name="Id" ColumnName="ProductId" />
-            </EndProperty>
-            <EndProperty Name="Events">
-              <ScalarProperty Name="Id" ColumnName="EventId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="HomeEntityWithProducts" TypeName="PyramidModel.HomeEntityWithProducts" StoreEntitySet="HomeEntityWithProducts">
-            <EndProperty Name="Products">
-              <ScalarProperty Name="Id" ColumnName="ProductId" />
-            </EndProperty>
-            <EndProperty Name="HomeEntity">
-              <ScalarProperty Name="Id" ColumnName="HomeEntityId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="ProductEnumValues" TypeName="PyramidModel.ProductEnumValues" StoreEntitySet="ProductEnumValues">
-            <EndProperty Name="Products">
-              <ScalarProperty Name="Id" ColumnName="ProductId" />
-            </EndProperty>
-            <EndProperty Name="EnumValues">
-              <ScalarProperty Name="Id" ColumnName="EnumValueId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="EventBanners">
             <EntityTypeMapping TypeName="PyramidModel.EventBanners">
               <MappingFragment StoreEntitySet="EventBanners">
@@ -2156,14 +2109,6 @@
           <AssociationSetMapping Name="HomeEntityCategories" TypeName="PyramidModel.HomeEntityCategories" StoreEntitySet="HomeEntityCategories">
             <EndProperty Name="HomeEntity">
               <ScalarProperty Name="Id" ColumnName="HomeEntityId" />
-            </EndProperty>
-            <EndProperty Name="Categories">
-              <ScalarProperty Name="Id" ColumnName="CategoryId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="ProductCategories" TypeName="PyramidModel.ProductCategories" StoreEntitySet="ProductCategories">
-            <EndProperty Name="Products">
-              <ScalarProperty Name="Id" ColumnName="ProductId" />
             </EndProperty>
             <EndProperty Name="Categories">
               <ScalarProperty Name="Id" ColumnName="CategoryId" />
@@ -2239,6 +2184,64 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="PyramidModel.Products">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="IsNotUnloading1C" ColumnName="IsNotUnloading1C" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="TypeStatusProduct" ColumnName="TypeStatusProduct" />
+                <ScalarProperty Name="IsFilled" ColumnName="IsFilled" />
+                <ScalarProperty Name="IsPriority" ColumnName="IsPriority" />
+                <ScalarProperty Name="PopularCount" ColumnName="PopularCount" />
+                <ScalarProperty Name="OneCId" ColumnName="OneCId" />
+                <ScalarProperty Name="SeasonOffer" ColumnName="SeasonOffer" />
+                <ScalarProperty Name="PointOnImg_Id" ColumnName="PointOnImg_Id" />
+                <ScalarProperty Name="DateChange" ColumnName="DateChange" />
+                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
+                <ScalarProperty Name="Alias" ColumnName="Alias" />
+                <ScalarProperty Name="IsSEOReady" ColumnName="IsSEOReady" />
+                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
+                <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
+                <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
+                <ScalarProperty Name="TypePrice" ColumnName="TypePrice" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="EventProducts" TypeName="PyramidModel.EventProducts" StoreEntitySet="EventProducts">
+            <EndProperty Name="Products">
+              <ScalarProperty Name="Id" ColumnName="ProductId" />
+            </EndProperty>
+            <EndProperty Name="Events">
+              <ScalarProperty Name="Id" ColumnName="EventId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="HomeEntityWithProducts" TypeName="PyramidModel.HomeEntityWithProducts" StoreEntitySet="HomeEntityWithProducts">
+            <EndProperty Name="Products">
+              <ScalarProperty Name="Id" ColumnName="ProductId" />
+            </EndProperty>
+            <EndProperty Name="HomeEntity">
+              <ScalarProperty Name="Id" ColumnName="HomeEntityId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ProductCategories" TypeName="PyramidModel.ProductCategories" StoreEntitySet="ProductCategories">
+            <EndProperty Name="Products">
+              <ScalarProperty Name="Id" ColumnName="ProductId" />
+            </EndProperty>
+            <EndProperty Name="Categories">
+              <ScalarProperty Name="Id" ColumnName="CategoryId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ProductEnumValues" TypeName="PyramidModel.ProductEnumValues" StoreEntitySet="ProductEnumValues">
+            <EndProperty Name="Products">
+              <ScalarProperty Name="Id" ColumnName="ProductId" />
+            </EndProperty>
+            <EndProperty Name="EnumValues">
+              <ScalarProperty Name="Id" ColumnName="EnumValueId" />
+            </EndProperty>
+          </AssociationSetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
