@@ -532,10 +532,10 @@ namespace DBFirstDAL.Repositories
 
                 foreach (var entity in entities)
                 {
-                    var efCat = context.Categories.FirstOrDefault(f => f.OneCId == entity.Id);
+                    var efCat = context.Categories.FirstOrDefault(f => !string.IsNullOrEmpty(entity.Id)&& !string.IsNullOrEmpty(f.OneCId) && f.OneCId == entity.Id);
                     if (efCat != null)
                     {
-                        var efParent = context.Categories.FirstOrDefault(f => f.OneCId == entity.ParentId);
+                        var efParent = context.Categories.FirstOrDefault(f => !string.IsNullOrEmpty(entity.Id) && !string.IsNullOrEmpty(f.OneCId) && f.OneCId == entity.ParentId);
                         if (efParent!=null)
                         {
                             if (efCat.OneCId != efParent.OneCId)
