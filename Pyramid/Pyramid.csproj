@@ -241,6 +241,7 @@
     <Compile Include="Tools\1CToolModels\ProductXMLModel.cs" />
     <Compile Include="Tools\Breadcrumb.cs" />
     <Compile Include="Tools\Cart.cs" />
+    <Compile Include="Tools\Compare\CompareCategoryEnumValueViewModel.cs" />
     <Compile Include="Tools\Compare\ProductCompareByPopular.cs" />
     <Compile Include="Tools\Compare\ProductCompareByPrice.cs" />
     <Compile Include="Tools\Compare\ProductCompareByTitle.cs" />
@@ -287,6 +288,7 @@
     <Content Include="Content\img\cat-btn.png" />
     <Content Include="Content\img\click-hand.png" />
     <Content Include="Content\img\consultant.png" />
+    <Content Include="Content\img\consultant2.jpg" />
     <Content Include="Content\img\controls.png" />
     <Content Include="Content\img\done.png" />
     <Content Include="Content\img\dotted-line-dot.gif" />

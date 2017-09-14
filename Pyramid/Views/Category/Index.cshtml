@@ -58,6 +58,10 @@
                                     </div>
                                 </div>
                             }
+                            else
+                            {
+                                @Html.HiddenFor(m => Model.Filters[i].Id)
+                            }
                         }
                         <div class="category__filter-block">
                             <p class="category__filter-title">Фильтр по цене</p>
@@ -91,7 +95,7 @@
                                     <div class="subcategory__wrap-img">
                                         <img src="@(item.Thumbnail!=null?item.Thumbnail.ServerPathImg:"")" alt="" />
                                     </div>
-                                    <p class="subcategory__parent-title">@item.Title</p>
+                                    <p class="subcategory__parent-title_center">@item.Title</p>
                                 </a>
                             </div>
                         </div>
@@ -142,12 +146,12 @@
                         </div>
 
                     }
-                    
+
                     @if ((bool)ViewBag.WillBeAddedFlag)
                     {
                         <div class="col-lg-12  col-md-12 col-xs-12">
                             <div class="header__line-one footnote">
-                                @MvcHtmlString.Create( ViewBag.WillBeAddedFlagText.OptionContent)
+                                @MvcHtmlString.Create(ViewBag.WillBeAddedFlagText.OptionContent)
                             </div>
                         </div>
                     }
@@ -170,6 +174,6 @@
                 </div>
             }
         </div>
-                        }
+                }
 </div>
 

@@ -145,7 +145,7 @@ namespace Pyramid.Controllers
             //}
             foreach (var item in viewModel.Filters)
             {
-                item.EnumValues = (item.EnumValues).Where(w => searchParamsCategory.OutEnumValueIds.Contains(w.Id)).ToList();
+                item.EnumValues = (item.EnumValues).Where(w => searchParamsCategory.OutEnumValueIds.Contains(w.Id)).OrderBy(o=>o,new Tools.Compare.CompareCategoryEnumValueViewModel()).ToList();
             }
                 viewModel.ExistProducts = searchParamsCategory.ExistProductsInBd;
             if (sortingOrder != 0)
