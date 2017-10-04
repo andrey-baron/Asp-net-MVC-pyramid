@@ -1,4 +1,56 @@
-﻿; (function () {
+﻿var jivoCustom = (function ($) {
+    // приватная переменная
+    var jivoWindow = $("#jivo-iframe-container", "body");
+    var jivoPreview = $(".globalClass_ET", "body");
+    jivoPreview.hide();
+    var openFlag = false;
+    return { // методы доступные извне
+        closeWindow: function () {
+            jivoWindow.css({
+                "z-index": "-100",
+                opacity: 0
+            });
+            openFlag = false;
+            jivo_api.close();
+            jivoPreview.hide();
+        },
+        open: function () {
+            jivoWindow.show();
+            jivo_api.open();
+            openFlag = true;
+            jivoWindow.css({
+                "z-index": "1",
+                opacity: 1
+            });
+        },
+        isOpen: function () {
+            return openFlag;
+        },
+        init: function () {
+            jivoWindow = $("#jivo-iframe-container", "body");
+            jivoPreview = $(".globalClass_ET", "body");
+            jivoPreview.hide();
+            openFlag = false;
+        }
+
+    }
+}($));
+
+var jivo_onLoadCallback = function () {
+    jivoCustom.init();
+    $(".header__consultant").on("click", function () {
+        if (jivoCustom.isOpen() == true) {
+            jivoCustom.closeWindow();
+        } else {
+            jivoCustom.open();
+        }
+    });
+};
+var jivo_onClose = function () {
+    jivoCustom.closeWindow();
+};
+; (function () {
+
     $(".feedback-form").validate({
         rules: {
             "feedback.Name": {
@@ -93,11 +145,4 @@
         }
 
     })
-
 })();
-
-function ConsultantOpen() {
-    var block = $("div#jivo-iframe-container");
-   // $("div#jivo-iframe-container").css({ "display": "block!important" })
-   
-}

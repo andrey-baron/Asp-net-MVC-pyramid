@@ -3,15 +3,16 @@
 .home-slider-base-height{
   height: @lgEntityFromHomeHeigth;
 }
-
-
-.home-slider:extend(.home-slider-base-height){
+.home-slider{
   background: #666666;
   overflow: hidden;
   &__shipping-wrap:extend(.home-slider-base-height){
     background: @yellowGreenColor;
     line-height: @lgEntityFromHomeHeigth;
     text-align: center;
+  }
+  &__slider-obj:extend(.home-slider-base-height){
+
   }
   &__shipping{
     display: inline-block;
@@ -32,7 +33,7 @@
     margin-bottom: 15px;
   }
   &__map:extend(.home-slider-base-height){
-    background: url("../img/slider-map.png");
+    background: url(/Content/img/slider-map.png);
     width: 100%;
     background-size: cover;
     background-position: center center;
@@ -77,6 +78,7 @@
   }
   .bx-wrapper{
     border: none;
+    margin:0;
   }
   .bx-wrapper .bx-pager-item{
     display: block;

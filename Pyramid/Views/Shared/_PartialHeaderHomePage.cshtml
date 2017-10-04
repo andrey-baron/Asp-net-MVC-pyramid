@@ -5,15 +5,23 @@
         <div class="col-ten-lg-3 col-ten-md-2 col-ten-xs-2 header__line-one">
             <div class="header__wrap header__wrap_text-center">
                 <div class="header__social-links">
-                    <a href="https://www.facebook.com/piramidastroi/" class="header__social-link">
-                        <img src="~/Content/img/FB_icon.png" alt=""
-                             class="header__social-link-img">
-                    </a><a href="https://ok.ru/group/52305667752150" class="header__social-link">
-                        <img src="~/Content/img/Odnoklassniki_icon.png" alt=""
-                             class="header__social-link-img">
-                    </a><a href="https://vk.com/pyramidastroyru" class="header__social-link">
-                        <img src="~/Content/img/vk_icon.png" alt=""
-                             class="header__social-link-img">
+                    <a href="https://www.facebook.com/piramidastroi/" class="header__social-link" target="_blank">
+                        <div class="header__social-fb">
+                            <div class="header__social-fb_hover"></div>
+                        </div>
+                        @*<img src="~/Content/img/FB_icon.png" alt="" class="header__social-link-img">*@
+                    </a><a href="https://ok.ru/group/52305667752150" class="header__social-link" target="_blank">
+                            <div class="header__social-ok">
+                                <div class="header__social-ok_hover"></div>
+                            </div>
+                        @*<img src="~/Content/img/Odnoklassniki_icon.png" alt=""
+                             class="header__social-link-img">*@
+                    </a><a href="https://vk.com/pyramidastroyru" class="header__social-link" target="_blank">
+                            <div class="header__social-vk">
+                                <div class="header__social-vk_hover"></div>
+                            </div>
+                        @*<img src="~/Content/img/vk_icon.png" alt=""
+                             class="header__social-link-img">*@
                     </a>
                 </div>
             </div>
@@ -96,7 +104,7 @@
     </div>
     <div class="row no-gutter">
         <div class="col-md-4 col-xs-4 header__line-one">
-            <div class="header__consultant" onclick="jivo_api.open();">
+            <div class="header__consultant">
                 <p class="header__consultant-text">Задать вопрос нашему консультанту</p>
 
                 <img class="header__consultant-img" src="~/Content/img/consultant2.jpg" alt="">

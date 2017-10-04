@@ -147,7 +147,10 @@ gulp.task('less-admin', function () {
 
 gulp.task('js', function () {
     return gulp.src('./Content/src/blocks/**/*.js')
-
+        //.pipe(order([
+        //    "jivosite/jivosite.js",
+        //    "*.js"
+        //]))
         .pipe(concat('main.js'))
         .pipe(gulp.dest('./Scripts/main/'));
 });

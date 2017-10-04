@@ -12,70 +12,42 @@
 <div class="home-slider">
 
     <div class="row no-gutter">
-        <div class="col-ten-md-6  col-xs-12">
-            <ul class="home-slider__wrap">
-                                @foreach (var item in homeBanners)
+        <div class="col-ten-md-6 col-sm-12 col-xs-12">
+            <div class="home-slider__slider-obj">
+                <ul class="home-slider__wrap">
+                    @foreach (var item in homeBanners)
+                    {
+                        if (item.Thumbnail != null && item.Thumbnail.ServerPathImg != null)
+                        {
+                            <li>
+                                @if (item.Content != null)
                                 {
-                                    if (item.Thumbnail != null && item.Thumbnail.ServerPathImg != null)
-                                    {
-                                        <li>
-                                            @if (item.Content != null)
-                                            {
-                                                <div class="home-slider__item" style="background: url('@item.Thumbnail.ServerPathImg')no-repeat">
-                                                    <div class="home-slider__item-title">
-                                                        @MvcHtmlString.Create(item.Content);
-                                                        <a href="@item.Link" class="home-slider__item-btn">ознакомиться</a>
-                                                    </div>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <a href="@item.Link">
-                                                    <div class="home-slider__item" style="background: url('@item.Thumbnail.ServerPathImg')no-repeat"></div>
-                                                </a>
+                                    <div class="home-slider__item" style="background: url('@item.Thumbnail.ServerPathImg')no-repeat">
+                                        <div class="home-slider__item-title">
+                                            @MvcHtmlString.Create(item.Content);
+                                            <a href="@item.Link" class="home-slider__item-btn">ознакомиться</a>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <a href="@item.Link">
+                                        <div class="home-slider__item" style="background: url('@item.Thumbnail.ServerPathImg')no-repeat"></div>
+                                    </a>
 
 
-                            }
-                            
-                        </li>
+                                }
+
+                            </li>
+                        }
+
                     }
 
-                }
-                @*<li>
-                <div class="home-slider__item" style="background: url('/Content/img/1.jpg')no-repeat">
-                    <p class="home-slider__item-title">
+                </ul>
+            </div>
 
-                    </p>
-                    <a href="" class="home-slider__item-btn">ознакомиться</a>
-                </div>
-            </li>
-            <li>
-                <div class="home-slider__item" style="background: url('/Content/img/2.jpg')no-repeat">
-                    <p class="home-slider__item-title">
-
-                    </p>
-                    <a href="" class="home-slider__item-btn">ознакомиться</a>
-                </div>
-            </li>
-            <li>
-                <div class="home-slider__item" style="background: url('/Content/img/3.jpg')no-repeat">
-                    <p class="home-slider__item-title">
-
-                    </p>
-                    <a href="" class="home-slider__item-btn">ознакомиться</a>
-                </div>
-            </li>
-            <li>
-                <div class="home-slider__item" style="background: url('/Content/img/4.jpg')no-repeat">
-                    <p class="home-slider__item-title">
-
-                    </p>
-                    <a href="" class="home-slider__item-btn">ознакомиться</a>
-                </div>
-            </li>*@
-            </ul>
         </div>
-        <div class="col-ten-md-2 col-xs-6">
+        <div class="col-ten-md-2 col-sm-6 col-xs-6">
             <a href="@Url.Action("Index","Page",new {id= 3 })">
                 <div class="home-slider__shipping-wrap">
                     <div class="home-slider__shipping">
@@ -86,7 +58,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-ten-md-2  col-xs-6">
+        <div class="col-ten-md-2 col-sm-6 col-xs-6">
             <a href="@Url.Action("Index","Page",new {id= 8 })">
                 <div class="home-slider__map"></div>
             </a>

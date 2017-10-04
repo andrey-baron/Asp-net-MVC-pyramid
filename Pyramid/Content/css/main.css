@@ -145,9 +145,6 @@ ul {
   min-width: 1000px;
   max-width: none !important;
 }
-body div#jivo-iframe-container.jivo-state-widget {
-  display: none!important;
-}
 .footnote {
   display: table;
   /* line-height: 100%; */
@@ -181,6 +178,9 @@ label[for="Confirm_terms"] {
   margin-bottom: 20px;
   margin-left: 20px;
   max-width: 300px;
+}
+body div#jivo-iframe-container {
+  display: none!important;
 }
 
 /* header variable*/
@@ -1002,6 +1002,78 @@ label.error {
 .header__social-links .header__social-link:nth-of-type(2) {
   margin: 0 50px 0 60px;
 }
+.header__social-fb {
+  width: 12px;
+  height: 24px;
+  background: url(/Content/img/FB_icon.png) no-repeat;
+  vertical-align: middle;
+  display: inline-block;
+  position: relative;
+}
+.header__social-fb:hover .header__social-fb_hover,
+.header__social-fbfocus .header__social-fb_hover {
+  opacity: 1;
+}
+.header__social-fb_hover {
+  width: 12px;
+  height: 24px;
+  background: url(/Content/img/FB_icon_hover.png) no-repeat;
+  vertical-align: middle;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: 200ms linear all;
+}
+.header__social-vk {
+  width: 24px;
+  height: 14px;
+  background: url(/Content/img/vk_icon.png) no-repeat;
+  vertical-align: middle;
+  display: inline-block;
+  position: relative;
+}
+.header__social-vk:hover .header__social-vk_hover,
+.header__social-vkfocus .header__social-vk_hover {
+  opacity: 1;
+}
+.header__social-vk_hover {
+  width: 24px;
+  height: 14px;
+  background: url(/Content/img/vk_icon_hover.png) no-repeat;
+  vertical-align: middle;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: 200ms linear all;
+}
+.header__social-ok {
+  width: 14px;
+  height: 24px;
+  background: url(/Content/img/Odnoklassniki_icon.png) no-repeat;
+  vertical-align: middle;
+  display: inline-block;
+  position: relative;
+}
+.header__social-ok:hover .header__social-ok_hover,
+.header__social-okfocus .header__social-ok_hover {
+  opacity: 1;
+}
+.header__social-ok_hover {
+  width: 14px;
+  height: 24px;
+  background: url(/Content/img/Odnoklassniki_icon_hover.png) no-repeat;
+  vertical-align: middle;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: 200ms linear all;
+}
 .header__line-one {
   height: 72px;
   position: relative;
@@ -1470,8 +1542,8 @@ label.error {
 /*forms variable*/
 /*forms variable end*/
 .home-slider-base-height,
-.home-slider,
 .home-slider__shipping-wrap,
+.home-slider__slider-obj,
 .home-slider__map {
   height: 450px;
 }
@@ -1502,7 +1574,7 @@ label.error {
   margin-bottom: 15px;
 }
 .home-slider__map {
-  background: url("../img/slider-map.png");
+  background: url(/Content/img/slider-map.png);
   width: 100%;
   background-size: cover;
   background-position: center center;
@@ -1543,6 +1615,7 @@ label.error {
 }
 .home-slider .bx-wrapper {
   border: none;
+  margin: 0;
 }
 .home-slider .bx-wrapper .bx-pager-item {
   display: block;
@@ -1563,8 +1636,8 @@ label.error {
 }
 @media (min-width: 992px) and (max-width: 1200px) {
   .home-slider-base-height,
-  .home-slider,
   .home-slider__shipping-wrap,
+  .home-slider__slider-obj,
   .home-slider__map {
     height: 450px;
   }
@@ -1762,6 +1835,7 @@ page__event-item + page__event-item {
   display: inline-block;
   vertical-align: top;
   transition: all 0.45s;
+  font-family: 'object-fit: contain; object-position: bottom;';
 }
 .product__item-title {
   text-align: center;
@@ -1791,7 +1865,7 @@ page__event-item + page__event-item {
 }
 .product__item-price {
   width: calc(100% - 32px);
-  top: 316px;
+  top: 306px;
   transition: all 0.45s;
   height: 128px;
   position: absolute;
@@ -1829,7 +1903,7 @@ page__event-item + page__event-item {
 }
 .product__item-price-inner > .big-decimal {
   font-family: "ProximaNovaExtrabld";
-  font-size: 48px;
+  font-size: 40px;
 }
 .product__item-price_limited {
   background: #333;
@@ -1961,7 +2035,7 @@ page__event-item + page__event-item {
 }
 .product__item:focus .product__item-price,
 .product__item:hover .product__item-price {
-  height: 90px;
+  height: 80px;
   margin-top: 0;
   top: 160px;
   text-align: right;

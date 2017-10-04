@@ -100,6 +100,13 @@ namespace Pyramid
             bundles.Add(new StyleBundle("~/Content/dropzonescss").Include(
                      "~/Scripts/dropzone/basic.css",
                      "~/Scripts/dropzone/dropzone.css"));
+
+            bundles.Add(new ScriptBundle("~/bundle/polyfill-object-fit").Include(
+               "~/Scripts/main/ofi.min.js"
+               ));
+            bundles.Add(new ScriptBundle("~/bundle/main").Include(
+               "~/Scripts/main/main.js"
+               ));
         }
     }
 }

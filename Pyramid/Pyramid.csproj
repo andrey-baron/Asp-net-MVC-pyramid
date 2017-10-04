@@ -293,7 +293,9 @@
     <Content Include="Content\img\done.png" />
     <Content Include="Content\img\dotted-line-dot.gif" />
     <Content Include="Content\img\eventbanner.png" />
+    <Content Include="Content\img\fb.svg" />
     <Content Include="Content\img\FB_icon.png" />
+    <Content Include="Content\img\FB_icon_hover.png" />
     <Content Include="Content\img\home-shipping.png" />
     <Content Include="Content\img\home-shipping.svg" />
     <Content Include="Content\img\home.png" />
@@ -305,6 +307,7 @@
     <Content Include="Content\img\logoSA.jpg" />
     <Content Include="Content\img\mouse.png" />
     <Content Include="Content\img\Odnoklassniki_icon.png" />
+    <Content Include="Content\img\Odnoklassniki_icon_hover.png" />
     <Content Include="Content\img\phone.png" />
     <Content Include="Content\img\placeholder.png" />
     <Content Include="Content\img\plus.png" />
@@ -324,7 +327,9 @@
     <Content Include="Content\img\testslide.png" />
     <Content Include="Content\img\trolley.png" />
     <Content Include="Content\img\v-baner.png" />
+    <Content Include="Content\img\vk-social.svg" />
     <Content Include="Content\img\vk_icon.png" />
+    <Content Include="Content\img\vk_icon_hover.png" />
     <Content Include="Content\img\willbeadded.png" />
     <Content Include="Content\img\декорацца.jpg" />
     <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-noscript.css" />
@@ -356,6 +361,7 @@
     <Content Include="Content\src\blocks\category\category.js" />
     <Content Include="Content\src\blocks\footer\footer.js" />
     <Content Include="Content\src\blocks\home-slider\home-slider.js" />
+    <Content Include="Content\libs\jivosite\jivosite.js" />
     <Content Include="Content\src\blocks\other.js" />
     <Content Include="Content\src\blocks\product\product.js" />
     <Content Include="Content\src\blocks\seo\seo.js" />
@@ -486,6 +492,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\main\main.js" />
     <Content Include="Scripts\main\Mymfp-script.js" />
+    <Content Include="Scripts\main\ofi.min.js" />
     <Content Include="Scripts\main\single.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
