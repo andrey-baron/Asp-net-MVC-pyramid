@@ -18,6 +18,21 @@ namespace Pyramid
                         "~/Scripts/jquery.unobtrusive-ajax.js"
                         ));
 
+            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
+            "~/Scripts/jquery.validate.js",
+            //"~/Scripts/jquery.validate.min.js",
+            "~/Scripts/jquery.validate.unobtrusive.js",
+            //"~/Scripts/jquery.validate.unobtrusive.min.js",
+            "~/Scripts/jquery.unobtrusive-ajax.js"));
+
+
+        bundles.Add(new ScriptBundle("~/bundles/global").Include(
+                    "~/Scripts/globalize/globalize.js",
+"~/Scripts/globalize/cultures/globalize.culture.ru-RU.js"));
+
+        bundles.Add(new ScriptBundle("~/bundles/globalLastFile").Include(
+         "~/Scripts/jquery.validate.globalize*"));
+
             // Используйте версию Modernizr для разработчиков, чтобы учиться работать. Когда вы будете готовы перейти к работе,
             // используйте средство сборки на сайте http://modernizr.com, чтобы выбрать только нужные тесты.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(

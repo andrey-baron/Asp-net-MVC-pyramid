@@ -41,14 +41,14 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.DateEventStart, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.DateEventStart, new { htmlAttributes = new { @class = "form-control datepickerCommon" } })
+                            @Html.EditorFor(model => model.DateEventStart, new { htmlAttributes = new { @class = "form-control dateTimePicker", data_val_date="false"} })
                             @Html.ValidationMessageFor(model => model.DateEventStart, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.DateEventEnd, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.DateEventEnd, new { htmlAttributes = new { @class = "form-control datepickerCommon" } })
+                            @Html.EditorFor(model => model.DateEventEnd, new { htmlAttributes = new { @class = "form-control dateTimePicker" } })
                             @Html.ValidationMessageFor(model => model.DateEventEnd, "", new { @class = "text-danger" })
                         </div>
                     </div>

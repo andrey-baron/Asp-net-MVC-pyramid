@@ -7,8 +7,8 @@
     <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     @Styles.Render("~/Content/cssreset")
     @Styles.Render("~/Content/bootstrap")
-    @Styles.Render("~/Content/cssreset")
     @Styles.Render("~/bundles/jquery-ui")
+    <link href="/Scripts/jquery.datetimepicker/jquery.datetimepicker.min.css" rel="stylesheet">
 
     @Styles.Render("~/Content/admincss")
 
@@ -16,15 +16,21 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/global")
+    @Scripts.Render("~/bundles/globalLastFile")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryui")
     @*@Scripts.Render("~/bundles/tinymce")*@
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     @*<script src="~/Scripts/fine-uploader.js"></script>*@
-
+    <script src="/Scripts/jquery.datetimepicker/jquery.datetimepicker.full.min.js"></script>
     
     
-   
+    <script>
+    Globalize.culture("ru-RU");
+    // автоматическое определение культуры:
+    //Globalize.culture('@System.Threading.Thread.CurrentThread.CurrentCulture');
+    </script>
 
 
 

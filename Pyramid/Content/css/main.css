@@ -2135,6 +2135,9 @@ page__event-item + page__event-item {
 
 .search-item__img {
   max-height: 200px;
+  max-width: 100%;
+  object-fit: contain;
+  font-family: 'object-fit: contain;';
 }
 .search__result {
   margin: 20px;

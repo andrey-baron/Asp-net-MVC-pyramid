@@ -89,7 +89,7 @@ namespace WindowsServicePyramid
                         OneCId = s.Id,
                         TypePrice = (int)s.TypePrice,
                         IsPriority = s.Priority,
-                        IsFilled = false,
+                        //IsFilled = false,
                         EnumValues = new List<DBFirstDAL.EnumValues>(new DBFirstDAL.EnumValues[]{ new DBFirstDAL.EnumValues() {
                     Key =s.Brand,
                     TypeValue =(int)Common.TypeFromEnumValue.Brand} }),

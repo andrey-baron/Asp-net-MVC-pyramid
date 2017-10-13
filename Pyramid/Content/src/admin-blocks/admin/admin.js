@@ -31,10 +31,16 @@
         },
         selector: '.adminTextareaCommon',*/
     });
+    jQuery.validator.methods["date"] = function (value, element) { return true; }
+    //$('form .dateTimePicker, form .datePicker').each(function (index, element) {
+    //    $(element).rules("remove");
+    //});
+    $.datetimepicker.setLocale('ru');
+    $('.dateTimePicker').datetimepicker({/* format: 'd.m.Y',*/lang: 'ru', step: 5, dayOfWeekStart: 1, defaultDate: new Date() });
 
     $(".datepickerCommon").datepicker({
         gotoCurrent: true,
-        dateFormat: "dd.mm.yy"
+        dateFormat: 'dd.mm.yy'
     });
 
 })();
