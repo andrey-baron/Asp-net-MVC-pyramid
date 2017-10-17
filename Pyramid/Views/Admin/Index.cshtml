@@ -1,6 +1,13 @@
 ﻿@{
-    ViewBag.Title = "Admin Page";
+    ViewBag.Title = "Начальная страница";
 
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-<div id="app">{{ message }}</div>
+
+<div class="section-header">
+    <h2>@ViewBag.Title</h2>
+    <div class="subtitle">информация</div>
+</div>
+<div class="box-typical box-typical-padding">
+    <a href="@Url.Action("UsersGuide")">Руководство пользователя</a>
+</div>

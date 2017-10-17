@@ -475,6 +475,7 @@
     <Content Include="Scripts\globalize\number.js" />
     <Content Include="Scripts\globalize\plural.js" />
     <Content Include="Scripts\globalize\relative-time.js" />
+    <Content Include="Scripts\globalize\unit.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
@@ -801,9 +802,11 @@
     <Content Include="Views\Product\GetProductTemplateDropDownListForFilterId.cshtml" />
     <Content Include="Views\BannersOnHomePage\Index.cshtml" />
     <Content Include="Views\BannersOnHomePage\AddOrUpdate.cshtml" />
+    <Content Include="Views\Admin\UsersGuide.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\img-users-guide\" />
     <Folder Include="Content\jQuery.FileUpload\less\" />
     <Folder Include="Content\libs\images\" />
     <Folder Include="Content\src\admin-blocks\product\" />

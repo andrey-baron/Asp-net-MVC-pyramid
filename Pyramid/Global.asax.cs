@@ -78,6 +78,17 @@ namespace Pyramid
             //         _categoryRepository.Save();
             //     }
             //}
+
+            //var repoProducts = new DBFirstDAL.Repositories.ProductRepository();
+            //var all=repoProducts.GetAll();
+            //foreach (var item in all)
+            //{
+                
+            //    if (!string.IsNullOrEmpty(item.Content)&& item.ThumbnailImg!=null && item.ThumbnailImg.Id!=0)
+            //    {
+            //        repoProducts.SetTrueIsFilled(item.Id);
+            //    }
+            //}
         }
 
     }

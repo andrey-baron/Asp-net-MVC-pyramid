@@ -15,5 +15,9 @@ namespace Pyramid.Controllers
         {
             return View();
         }
+        [Authorize]
+        public ActionResult UsersGuide() {
+            return View();
+        }
     }
 }

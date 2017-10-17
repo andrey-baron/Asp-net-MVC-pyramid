@@ -345,7 +345,7 @@ namespace DBFirstDAL.Repositories
         {
             dbObjext.DateChange = DateTime.Now;
             dbObjext.DateCreation = DateTime.Now;
-            dbObjext.IsFilled = model.IsFilled;
+            
             dbObjext.IsPriority = model.IsPriority;
             dbObjext.Title = model.Title;
             dbObjext.TypePrice = model.TypePrice;
@@ -355,6 +355,7 @@ namespace DBFirstDAL.Repositories
             dbObjext.IsNotUnloading1C = model.IsNotUnloading1C;
             if (!exist)
             {
+                dbObjext.IsFilled = model.IsFilled;
                 dbContext.Products.Add(dbObjext);
             }
            
@@ -539,6 +540,7 @@ namespace DBFirstDAL.Repositories
                 Price = dbObject.Price,
                 SeasonOffer = dbObject.SeasonOffer.HasValue ? dbObject.SeasonOffer.Value : false,
                 Title = dbObject.Title,
+                Content=dbObject.Content,
                 TypePrice = (Common.TypeProductPrice)dbObject.TypePrice,
                 ThumbnailImg = dbObject.ProductImages.FirstOrDefault(f => f.ProductId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
                Convert.ConvertImageToEntity.Convert(dbObject.ProductImages.FirstOrDefault(f => f.ProductId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : new Image()
@@ -815,5 +817,15 @@ namespace DBFirstDAL.Repositories
 
             }
         }
+
+        //public void SetTrueIsFilled(int productId)
+        //{
+        //    using (PyramidFinalContext dbContext=new PyramidFinalContext())
+        //    {
+        //        var product=dbContext.Products.Find(productId);
+        //        product.IsFilled = true;
+        //        dbContext.SaveChanges();
+        //    }
+        //}
     }
 }
