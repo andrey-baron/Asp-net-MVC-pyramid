@@ -1,4 +1,11 @@
-﻿    @model ICollection<Pyramid.Entity.Image>
+﻿@model SearchResultViewModel<Pyramid.Entity.Image>
+@{
+    var pagedList = Html.PagedList(Model.PagesInfo.ItemsCount, Model.PagesInfo.ItemsPerPage, Model.PagesInfo.CurrentPage, Model.PagesInfo.DisplayedPages, Url.GetAction(), Url.GetController(), pageNumber => new
+    {
+        page = pageNumber
+    });
+
+}
 
 <!-- Fine Uploader New/Modern CSS file
 ====================================================================== -->
@@ -185,7 +192,7 @@
     </div>
     <div class="box-typical-body">
         <div class="gallery-grid">
-            @foreach (var itemImage in Model)
+            @foreach (var itemImage in Model.Objects)
             {
                 <div class="gallery-col">
                     <article class="gallery-item" style="height: 158px;">
@@ -206,6 +213,13 @@
                     </article>
                 </div>
             }
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ajax-paging-container">
+                        @pagedList
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

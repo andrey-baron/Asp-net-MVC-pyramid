@@ -1,7 +1,12 @@
-﻿@model ICollection<Pyramid.Entity.Image>
+﻿@model SearchResultViewModel<Pyramid.Entity.Image>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var pagedList = Html.PagedList(Model.PagesInfo.ItemsCount, Model.PagesInfo.ItemsPerPage, Model.PagesInfo.CurrentPage, Model.PagesInfo.DisplayedPages, Url.GetAction(), Url.GetController(), pageNumber => new
+    {
+        page = pageNumber
+    });
+
 }
 
 <!-- Fine Uploader New/Modern CSS file
@@ -104,8 +109,6 @@
 
 <!-- End Fine Uploader
 ====================================================================== -->
-
-
 <!-- Fine Uploader DOM Element
    ====================================================================== -->
 <div id="fine-uploader-manual-trigger" class="file-uploader"></div>
@@ -123,29 +126,35 @@
         </div>
     </div>
     <div class="box-typical-body">
-        <div class="gallery-grid">
-@foreach (var itemImage in Model)
-{
-    <div class="gallery-col">
-        <article class="gallery-item" style="height: 158px;">
-            <img class="gallery-picture" src="@itemImage.ServerPathImg" alt="" height="158">
-            <div class="gallery-hover-layout">
-                <div class="gallery-hover-layout-in">
-                    <p class="gallery-item-title">@itemImage.Title</p>
-                    @*<p>by Alban Wamigo</p>*@
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-ajax-edit" data-ajaxid="@itemImage.Id" data-toggle="modal" data-target="#edit-modal">
-                            <i class="font-icon font-icon-btn_white glyphicon glyphicon-pencil"></i>
-                        </button>
-                        <button type="button" class="btn btn-ajax-delete" data-ajaxid="@itemImage.Id">
-                            <i class="font-icon font-icon-btn_white glyphicon glyphicon-trash"></i>
-                        </button>
-                    </div>
+        <div class="gallery-grid js-gallery-grid">
+            @foreach (var itemImage in Model.Objects)
+            {
+                <div class="gallery-col">
+                    <article class="gallery-item" style="height: 158px;">
+                        <img class="gallery-picture" src="@itemImage.ServerPathImg" alt="" height="158">
+                        <div class="gallery-hover-layout">
+                            <div class="gallery-hover-layout-in">
+                                <p class="gallery-item-title">@itemImage.Title</p>
+                                @*<p>by Alban Wamigo</p>*@
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-ajax-edit" data-ajaxid="@itemImage.Id" data-toggle="modal" data-target="#edit-modal">
+                                        <i class="font-icon font-icon-btn_white glyphicon glyphicon-pencil"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-ajax-delete" data-ajaxid="@itemImage.Id">
+                                        <i class="font-icon font-icon-btn_white glyphicon glyphicon-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            }
+            <div class="row">
+                <div class="col-md-12">
+                    @pagedList
                 </div>
             </div>
-        </article>
-    </div>
-}        </div>
+        </div>
     </div>
 </div>
 <!-- Your code to create an instance of Fine Uploader and bind to the DOM/template
@@ -165,8 +174,8 @@
         autoUpload: true,
         interceptSubmit: false,
         allowXdr: true,
-        debug:false,
-       // multiple: false
+        debug: false,
+        // multiple: false
     }).on('complete', function (event, id, name, responseJSON) {
         var tmp = responseJSON;
         reloadData();
@@ -180,7 +189,7 @@
         $('#fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
     });
 
-   
+
 </script>
 
 <!-- Modal -->

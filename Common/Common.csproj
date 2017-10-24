@@ -45,6 +45,7 @@
     <Compile Include="Models\BreadCrumbViewModel.cs" />
     <Compile Include="Models\FilterSearchModel.cs" />
     <Compile Include="SearchClasses\SearchParamsBase.cs" />
+    <Compile Include="SearchClasses\SearchParamsImage.cs" />
     <Compile Include="SearchClasses\SearchParamsReview.cs" />
     <Compile Include="SearchClasses\SearchParamsCategory.cs" />
     <Compile Include="SearchClasses\SearchParamsProduct.cs" />

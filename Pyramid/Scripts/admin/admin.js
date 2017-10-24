@@ -128,37 +128,30 @@
     });
 
 })();
-; (function () {
-     
-    var categoryId = $("#Category_Id").val();
-    $(".js-btn-category-add-filter").on("click", function () {
-        var count = $(".admin-category__filter").length;
-        $.post("/Category/GetTemplateFilter?id=" + categoryId+"&count="+count, function (data) {
-            $(".js-category-filters").append(data);
+;
+(function () {
+    /*question-answer function*/
+
+    var faqId = $("#Faq_Id").val();
+    
+    $(".js-btn-add-question-answer").on("click", function () {
+    var count = $(".admin-product__addition-value").length;
+        $.post("/Faq/AddNewDefault?id=" + faqId+"&count="+count, function (data) {
+            $(".faq__question-answer-values").append(data);
+        });
+        
+    });
+    $(".faq__question-answer-values").on("click", ".js-btn-QuestionAnswer-delete", function () {
+        var id = $(this).data("ajaxid");
+        $.post("/Faq/DeleteQuestionAnswer/" + id, function (data) {
+            $.post("/Faq/PartialGetAllQuestionAnswer/" + faqId, function (data) {
+                $(".faq__question-answer-values").html(data);
+            });
+            
         });
     });
-    $(".js-category-filters").on("click", ".js-btn-category-filter-delete", function (e) {
-        var id = $(this).data("ajaxid");
-        $.post("/Category/DeleteFilter?id=" + categoryId + "&filterid=" + id, function (t) {
-            $.post("/Category/GetAllFilter/" + categoryId, function (data) {
-                $(".js-category-filters").html(data);
-            });
-        });
-    })
-    $(".btn-add-recommendations").on("click", function () {
-        var count = $(".admin-category__recommendation").length;
-        $.post("/Category/GetRecommendationTemplate?id=" + categoryId + "&count=" + count, function (data) {
-            $(".js-recommendations").append(data);
-        });
-    });
-    $(".js-recommendations").on("click", ".js-btn-category-recommendation-delete", function (e) {
-        var id = $(this).data("ajaxid");
-        $.post("/Category/DeleteRecommendation?id=" + categoryId + "&recommendationid=" + id, function (t) {
-            $.post("/Category/GetAllRecommendation/" + categoryId, function (data) {
-                $(".js-recommendations").html(data); 
-            });
-        });
-    })
+    
+
 })();
 
 ; (function () {
@@ -199,30 +192,37 @@
     })
 })();
 
-;
-(function () {
-    /*question-answer function*/
-
-    var faqId = $("#Faq_Id").val();
-    
-    $(".js-btn-add-question-answer").on("click", function () {
-    var count = $(".admin-product__addition-value").length;
-        $.post("/Faq/AddNewDefault?id=" + faqId+"&count="+count, function (data) {
-            $(".faq__question-answer-values").append(data);
+; (function () {
+     
+    var categoryId = $("#Category_Id").val();
+    $(".js-btn-category-add-filter").on("click", function () {
+        var count = $(".admin-category__filter").length;
+        $.post("/Category/GetTemplateFilter?id=" + categoryId+"&count="+count, function (data) {
+            $(".js-category-filters").append(data);
         });
-        
     });
-    $(".faq__question-answer-values").on("click", ".js-btn-QuestionAnswer-delete", function () {
+    $(".js-category-filters").on("click", ".js-btn-category-filter-delete", function (e) {
         var id = $(this).data("ajaxid");
-        $.post("/Faq/DeleteQuestionAnswer/" + id, function (data) {
-            $.post("/Faq/PartialGetAllQuestionAnswer/" + faqId, function (data) {
-                $(".faq__question-answer-values").html(data);
+        $.post("/Category/DeleteFilter?id=" + categoryId + "&filterid=" + id, function (t) {
+            $.post("/Category/GetAllFilter/" + categoryId, function (data) {
+                $(".js-category-filters").html(data);
             });
-            
+        });
+    })
+    $(".btn-add-recommendations").on("click", function () {
+        var count = $(".admin-category__recommendation").length;
+        $.post("/Category/GetRecommendationTemplate?id=" + categoryId + "&count=" + count, function (data) {
+            $(".js-recommendations").append(data);
         });
     });
-    
-
+    $(".js-recommendations").on("click", ".js-btn-category-recommendation-delete", function (e) {
+        var id = $(this).data("ajaxid");
+        $.post("/Category/DeleteRecommendation?id=" + categoryId + "&recommendationid=" + id, function (t) {
+            $.post("/Category/GetAllRecommendation/" + categoryId, function (data) {
+                $(".js-recommendations").html(data); 
+            });
+        });
+    })
 })();
 ; (function () {
     /*filter function*/
@@ -415,6 +415,47 @@
     })
     //$(".qq-upload-list-selector")
     
+    $("#edit-gallery-modal").on("click", ".ajax-paging-container>.pager>a", function (e) {
+        e.preventDefault();
+        var target = $(e.target);
+        var link = target.attr("href");
+        $.post(link, function (data) { 
+            $('#edit-gallery-modal .modal-body').html(data);
+        })
+    });
+    $("#edit-thumbnail-modal").on("click", ".ajax-paging-container>.pager>a", function (e) {
+        e.preventDefault();
+        var target = $(e.target);
+        var link = target.attr("href");
+        $.post(link, function (data) {
+            $('#edit-thumbnail-modal .modal-body').html(data);
+        })
+    });
+
+    $("#banner-edit-modal").on("click", ".ajax-paging-container>.pager>a", function (e) {
+        e.preventDefault();
+        var target = $(e.target);
+        var link = target.attr("href");
+        $.post(link, function (data) {
+            $('#banner-edit-modal .modal-body').html(data);
+        })
+    });
+    $("#videoguide-edit-modal").on("click", ".ajax-paging-container>.pager>a", function (e) {
+        e.preventDefault();
+        var target = $(e.target);
+        var link = target.attr("href");
+        $.post(link, function (data) {
+            $('#videoguide-edit-modal .modal-body').html(data);
+        })
+    });
+    $("#edit-event-image-modal").on("click", ".ajax-paging-container>.pager>a", function (e) {
+        e.preventDefault();
+        var target = $(e.target);
+        var link = target.attr("href");
+        $.post(link, function (data) {
+            $('#edit-event-image-modal .modal-body').html(data);
+        })
+    });
 
 })();
 

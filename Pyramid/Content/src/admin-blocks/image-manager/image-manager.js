@@ -51,6 +51,47 @@
     })
     //$(".qq-upload-list-selector")
     
+    $("#edit-gallery-modal").on("click", ".ajax-paging-container>.pager>a", function (e) {
+        e.preventDefault();
+        var target = $(e.target);
+        var link = target.attr("href");
+        $.post(link, function (data) { 
+            $('#edit-gallery-modal .modal-body').html(data);
+        })
+    });
+    $("#edit-thumbnail-modal").on("click", ".ajax-paging-container>.pager>a", function (e) {
+        e.preventDefault();
+        var target = $(e.target);
+        var link = target.attr("href");
+        $.post(link, function (data) {
+            $('#edit-thumbnail-modal .modal-body').html(data);
+        })
+    });
+
+    $("#banner-edit-modal").on("click", ".ajax-paging-container>.pager>a", function (e) {
+        e.preventDefault();
+        var target = $(e.target);
+        var link = target.attr("href");
+        $.post(link, function (data) {
+            $('#banner-edit-modal .modal-body').html(data);
+        })
+    });
+    $("#videoguide-edit-modal").on("click", ".ajax-paging-container>.pager>a", function (e) {
+        e.preventDefault();
+        var target = $(e.target);
+        var link = target.attr("href");
+        $.post(link, function (data) {
+            $('#videoguide-edit-modal .modal-body').html(data);
+        })
+    });
+    $("#edit-event-image-modal").on("click", ".ajax-paging-container>.pager>a", function (e) {
+        e.preventDefault();
+        var target = $(e.target);
+        var link = target.attr("href");
+        $.post(link, function (data) {
+            $('#edit-event-image-modal .modal-body').html(data);
+        })
+    });
 
 })();
 

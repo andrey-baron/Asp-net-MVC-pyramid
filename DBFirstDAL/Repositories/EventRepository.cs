@@ -110,17 +110,29 @@ namespace DBFirstDAL.Repositories
 
         public override Event ConvertDbObjectToEntity(PyramidFinalContext context, Events dbObject)
         {
+           
             var entity = new Event() {
                 Content= dbObject.Content,
                 Id=dbObject.Id,
                 DateEventEnd=dbObject.DateEventEnd,
                 DateEventStart=dbObject.DateEventStart,
-                //Image=dbObject.EventImages
+                //Image=dbObject.EventImages.
                 isActive=dbObject.isActive,
                 Products=dbObject.Products.Select(s=>new ProductRepository().ConvertDbObjectToEntity(context,s)).ToList(),
                 ShortContent=dbObject.ShortContent,
                 Title= dbObject.Title
             };
+            if (dbObject.EventImages!=null && dbObject.EventImages.ImageId.HasValue && dbObject.EventImages.Images != null)
+            {
+                var img = new Image()
+                {
+                    Id = dbObject.EventImages.Images.Id,
+                    ImgAlt = dbObject.EventImages.Images.ImgAlt,
+                    ServerPathImg = dbObject.EventImages.Images.ServerPathImg,
+                    Title = dbObject.EventImages.Images.Title
+                };
+                entity.Image = img;
+            }
             return entity;
         }
 

@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Common.SearchClasses;
+using DBFirstDAL.Repositories;
+using Pyramid.Entity;
+using Pyramid.Models.CommonViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,12 +14,27 @@ namespace Pyramid.Controllers
     [Authorize]
     public class ImageManagerController : Controller
     {
+        ImageRepository _imageRepository;
         // GET: ImageManager
+        public ImageManagerController() {
+            _imageRepository = new ImageRepository();
+        }
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var model = DBFirstDAL.ImageDAL.GetAll();
-            return View(model);
+            var pageNumber = page ?? 1;
+            
+            var objectsPerPage = 20;
+            var searchResult = _imageRepository.Get(new SearchParamsImage
+            {
+                StartIndex = (pageNumber - 1) * objectsPerPage,
+                ObjectsCount = objectsPerPage,
+            });
+            var viewModel = SearchResultViewModel<Image>.CreateFromSearchResult(searchResult, i => i, 10);
+
+            return View(viewModel);
+            //var model = DBFirstDAL.ImageDAL.GetAll();
+            //return View(model);
         }
         [HttpPost]
         public ActionResult Upload(HttpPostedFileWrapper qqfile)
@@ -55,11 +74,21 @@ namespace Pyramid.Controllers
             DBFirstDAL.ImageDAL.Delete(id);
             return null;
         }
-        public ActionResult PartialSelectImage()
+        public ActionResult PartialSelectImage(int? page)
         {
-            var model = DBFirstDAL.ImageDAL.GetAll();
-           
-            return PartialView("_PartialSelectImage", model);
+            var pageNumber = page ?? 1;
+
+            var objectsPerPage = 20;
+            var searchResult = _imageRepository.Get(new SearchParamsImage
+            {
+                StartIndex = (pageNumber - 1) * objectsPerPage,
+                ObjectsCount = objectsPerPage,
+            });
+            var viewModel = SearchResultViewModel<Image>.CreateFromSearchResult(searchResult, i => i, 10);
+
+           // return View(viewModel);
+
+            return PartialView("_PartialSelectImage", viewModel);
         }
 
 

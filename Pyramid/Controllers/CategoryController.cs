@@ -56,29 +56,6 @@ namespace Pyramid.Controllers
             var viewModel = SearchResultViewModel<Category>.CreateFromSearchResult(searchResult, i=>i, 10);
 
             return View(viewModel);
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<DBFirstDAL.Categories, Pyramid.Entity.Category>()
-            //    .ForMember(d => d.Thumbnail, o => o.Ignore())
-            //    .ForMember(d => d.Checked, o => o.Ignore())
-            //    .ForMember(d => d.Filters, o => o.Ignore())
-            //    .ForMember(d => d.Products, o => o.Ignore())
-            //    .ForMember(d => d.Seo, o => o.Ignore())
-            //    ;
-
-            //    //cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
-            //    //.ForAllMembers(i => i.Ignore());
-            //});
-
-
-            //config.AssertConfigurationIsValid();
-
-            //var mapper = config.CreateMapper();
-            //var model = mapper.Map<IEnumerable<DBFirstDAL.Categories>, List<Pyramid.Entity.Category>>(_categoryRepository.GetAll().ToList());
-
-
-            //model.Reverse();
-            //return View(model);
         }
         [AllowAnonymous]
         public ActionResult Index(int id=0, int sortingOrder=0)

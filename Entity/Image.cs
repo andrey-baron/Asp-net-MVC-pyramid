@@ -13,5 +13,16 @@ namespace Pyramid.Entity
         public string ServerPathImg { get; set; }
         public string ImgAlt { get; set; }
         public string Title { get; set; }
+        public Image() { }
+
+        public Image(int id,string pathInFileSystem, string serverPathImg,string imgAlt,string title)
+        {
+            Id = id;
+            PathInFileSystem = pathInFileSystem;
+            ServerPathImg = serverPathImg;
+            ImgAlt = imgAlt;
+            Title = title;
+
+        }
     }
 }
