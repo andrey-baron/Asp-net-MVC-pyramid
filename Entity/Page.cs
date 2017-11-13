@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,5 +17,11 @@ namespace Pyramid.Entity
         public string Title { get; set; }
         [Display(Name = "Содержимое страницы")]
         public string Content { get; set; }
+
+        public int? SeoId { get; set; }
+
+        public Seo Seo { get; set; }
+
+        public string FriendlyUrl { get; set; }
     }
 }

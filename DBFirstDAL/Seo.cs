@@ -18,6 +18,8 @@ namespace DBFirstDAL
         public Seo()
         {
             this.Categories = new HashSet<Categories>();
+            this.Pages = new HashSet<Pages>();
+            this.Products = new HashSet<Products>();
         }
     
         public int Id { get; set; }
@@ -28,5 +30,9 @@ namespace DBFirstDAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Categories> Categories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Pages> Pages { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Products> Products { get; set; }
     }
 }

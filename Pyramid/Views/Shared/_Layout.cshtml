@@ -10,6 +10,14 @@
     <link rel="stylesheet" href="~/Content/css/bootstrap-grid15.css">
     <link rel="stylesheet" href="~/Content/css/main.css">
     <title>@ViewBag.MetaTitle</title>
+    @if (!string.IsNullOrEmpty( ViewBag.Keywords))
+    {
+        <meta name="keywords" content="@ViewBag.Keywords">
+    }
+    @if (!string.IsNullOrEmpty(ViewBag.Description ))
+    {
+        <meta name="description" content="@ViewBag.Description">
+    }
     <link rel="stylesheet" href="~/Content/libs/jquery.bxslider.min.css">
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
@@ -19,12 +27,12 @@
     @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>*@
     <script src="~/Content/libs/jquery.bxslider.min.js"></script>
     @*<script src="~/Content/libs/jquery-ui.min.js"></script>
-    <script src="~/Content/scr/jquery-ui.min.js"></script>*@
+        <script src="~/Content/scr/jquery-ui.min.js"></script>*@
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    
+    <meta name="yandex-verification" content="61a9c06b59bd1c63" />
 </head>
 <body>
     <div class="wrapper">
@@ -41,37 +49,37 @@
             <div id="notifies"></div>
             <script>
 
-        Notify = {
-            TYPE_INFO: 0,
-            TYPE_SUCCESS: 1,
-            TYPE_WARNING: 2,
-            TYPE_DANGER: 3,
+                Notify = {
+                    TYPE_INFO: 0,
+                    TYPE_SUCCESS: 1,
+                    TYPE_WARNING: 2,
+                    TYPE_DANGER: 3,
 
-            generate: function (aText, aOptHeader, aOptType_int) {
-                var lTypeIndexes = [this.TYPE_INFO, this.TYPE_SUCCESS, this.TYPE_WARNING, this.TYPE_DANGER];
-                var ltypes = ['alert-info', 'alert-success', 'alert-warning', 'alert-danger'];
-                var ltype = ltypes[this.TYPE_INFO];
+                    generate: function (aText, aOptHeader, aOptType_int) {
+                        var lTypeIndexes = [this.TYPE_INFO, this.TYPE_SUCCESS, this.TYPE_WARNING, this.TYPE_DANGER];
+                        var ltypes = ['alert-info', 'alert-success', 'alert-warning', 'alert-danger'];
+                        var ltype = ltypes[this.TYPE_INFO];
 
-                if (aOptType_int !== undefined && lTypeIndexes.indexOf(aOptType_int) !== -1) {
-                    ltype = ltypes[aOptType_int];
-                }
+                        if (aOptType_int !== undefined && lTypeIndexes.indexOf(aOptType_int) !== -1) {
+                            ltype = ltypes[aOptType_int];
+                        }
 
-                var lText = '';
-                if (aOptHeader) {
-                    lText += "<h4>"+aOptHeader+"</h4>";
-                }
-                lText += "<p>"+aText+"</p>";
-                var lNotify_e = $("<div class='alert "+ltype+"'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>"+lText+"</div>");
+                        var lText = '';
+                        if (aOptHeader) {
+                            lText += "<h4>" + aOptHeader + "</h4>";
+                        }
+                        lText += "<p>" + aText + "</p>";
+                        var lNotify_e = $("<div class='alert " + ltype + "'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button>" + lText + "</div>");
 
-                setTimeout(function () {
-                    lNotify_e.alert('close');
-                }, 3000);
-                lNotify_e.appendTo($("#notifies"));
-            }
-        };
-            </script>	
-          
-           
+                        setTimeout(function () {
+                            lNotify_e.alert('close');
+                        }, 3000);
+                        lNotify_e.appendTo($("#notifies"));
+                    }
+                };
+            </script>
+
+
             @RenderBody()
         </div>
     </div>
@@ -91,21 +99,21 @@
 
                         foreach (var item in footerCategories)
                         {
-                    <div class="col-md-3 col-xs-6 grid-sizer ft-item">
-                        <div class="footer__catalog-item">
-                            <a href="@Url.Action("Index","Category",new { id=item.Category.Id})"><p class="footer__catalog-item-title">@item.Category.Title</p></a>
-                            <ul class="footer__catalog-list">
-                                @foreach (var subs in item.SubCategories)
+                            <div class="col-md-3 col-xs-6 grid-sizer ft-item">
+                                <div class="footer__catalog-item">
+                                    <a href="@(!string.IsNullOrEmpty(item.Category.FriendlyUrl)?item.Category.FriendlyUrl:Url.Action("Index","Category",new { id=item.Category.Id}))"><p class="footer__catalog-item-title">@item.Category.Title</p></a>
+                                    <ul class="footer__catalog-list">
+                                        @foreach (var subs in item.SubCategories)
                                         {
-                                        <li class="footer__catalog-list-item"><a href="@Url.Action("Index","Category",new { id=subs.Id})">@subs.Title</a></li>
+                                            <li class="footer__catalog-list-item"><a href="@(!string.IsNullOrEmpty(subs.FriendlyUrl)?subs.FriendlyUrl:Url.Action("Index","Category",new { id=subs.Id}))">@subs.Title</a></li>
 
                                         }
 
 
 
-                            </ul>
-                        </div>
-                    </div>
+                                    </ul>
+                                </div>
+                            </div>
                         }
                     }
 
@@ -137,15 +145,18 @@
         </div>
     </div>
     @*<!-- BEGIN JIVOSITE CODE {literal} -->
-    <script type='text/javascript'>
-(function(){ var widget_id = 'V8V10cNP4b';var d=document;var w=window;function l(){
-var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = '//code.jivosite.com/script/widget/'+widget_id; var ss = document.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss);}if(d.readyState=='complete'){l();}else{if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();</script>
-    <!-- {/literal} END JIVOSITE CODE -->*@
+            <script type='text/javascript'>
+        (function(){ var widget_id = 'V8V10cNP4b';var d=document;var w=window;function l(){
+        var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = '//code.jivosite.com/script/widget/'+widget_id; var ss = document.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss);}if(d.readyState=='complete'){l();}else{if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();</script>
+            <!-- {/literal} END JIVOSITE CODE -->*@
 
     <!-- BEGIN JIVOSITE CODE {literal} -->
     <script id="jivo-loader" type='text/javascript'>
-(function(){ var widget_id = '9uCy0xMccc';var d=document;var w=window;function l(){
-var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = '//code.jivosite.com/script/widget/'+widget_id; var ss = document.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss);}if(d.readyState=='complete'){l();}else{if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();</script>
+        (function () {
+            var widget_id = '9uCy0xMccc'; var d = document; var w = window; function l() {
+                var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = '//code.jivosite.com/script/widget/' + widget_id; var ss = document.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss);
+            } if (d.readyState == 'complete') { l(); } else { if (w.attachEvent) { w.attachEvent('onload', l); } else { w.addEventListener('load', l, false); } }
+        })();</script>
     <!-- {/literal} END JIVOSITE CODE -->
 
 
@@ -160,7 +171,7 @@ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = 
             objectFitImages('img.product__item-img', { watchMQ: true });
             objectFitImages('img.search-item__img', { watchMQ: true });
         })()
-        
+
     </script>
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript">

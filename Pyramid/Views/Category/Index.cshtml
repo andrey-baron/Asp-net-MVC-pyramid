@@ -17,9 +17,9 @@
                 <div class="category__sort">
                     <ul class="category__sort-list">
                         <li class="category__sort-list-item">Сортировать по:</li>
-                        <li class="category__sort-list-item"><a href="@Url.Action("Index","Category",new {id=Model.Id, sortingOrder=(int)Common.TypeSort.Price })">цене</a></li>
-                        <li class="category__sort-list-item"><a href="@Url.Action("Index", "Category", new {id=Model.Id, sortingOrder=(int)Common.TypeSort.Name })">названию</a></li>
-                        <li class="category__sort-list-item"><a href="@Url.Action("Index", "Category", new {id=Model.Id, sortingOrder=(int)Common.TypeSort.Popular })">популярности</a></li>
+                        <li class="category__sort-list-item"><a href="@(!(string.IsNullOrEmpty(Model.FriendlyUrl))?Model.FriendlyUrl+"?sortingOrder="+((int)Common.TypeSort.Price).ToString():Url.Action("Index","Category",new {id=Model.Id, sortingOrder=(int)Common.TypeSort.Price }))">цене</a></li>
+                        <li class="category__sort-list-item"><a href="@(!(string.IsNullOrEmpty(Model.FriendlyUrl))?Model.FriendlyUrl+"?sortingOrder="+((int)Common.TypeSort.Name).ToString():Url.Action("Index", "Category", new {id=Model.Id, sortingOrder=(int)Common.TypeSort.Name }))">названию</a></li>
+                        <li class="category__sort-list-item"><a href="@(!(string.IsNullOrEmpty(Model.FriendlyUrl))?Model.FriendlyUrl+"?sortingOrder="+((int)Common.TypeSort.Popular).ToString():Url.Action("Index", "Category", new {id=Model.Id, sortingOrder=(int)Common.TypeSort.Popular }))">популярности</a></li>
                     </ul>
                 </div>
             </div>
@@ -91,7 +91,7 @@
                 {
                         <div class="@(!flagExistProducts?"col-f-lg-3 col-md-3 col-xs-3":"col-md-3 col-xs-3")">
                             <div class="subcategory subcategory_fixed-height subcategory_nested">
-                                <a href="@Url.Action("Index","Category",new { id=item.Id})">
+                                <a href="@(!(string.IsNullOrEmpty(item.FriendlyUrl))?item.FriendlyUrl:Url.Action("Index","Category",new { id=item.Id}))">
                                     <div class="subcategory__wrap-img">
                                         <img src="@(item.Thumbnail!=null?item.Thumbnail.ServerPathImg:"")" alt="" />
                                     </div>
@@ -107,7 +107,7 @@
                 {
                         <div class="col-lg-3  col-md-4 col-xs-4">
                             <div class="product__item">
-                                <a href="@Url.Action("Index","Product",new { id=item.Id})">
+                                <a href="@(!(string.IsNullOrEmpty(item.FriendlyUrl))? item.FriendlyUrl: Url.Action("Index","Product",new { id=item.Id}))">
                                     <div class="product__link-block">
                                         <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
 

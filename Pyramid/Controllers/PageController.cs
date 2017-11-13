@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Common.Models;
-using DBFirstDAL;
 using DBFirstDAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Entity;
+
 
 namespace Pyramid.Controllers
 {
@@ -15,11 +16,13 @@ namespace Pyramid.Controllers
     {
         PageRepository _pageRepo;
         EventBannerRepository _eventBannerRepository;
-
+        RouteItemRepository _routeItemRepository;
         public PageController()
         {
             _pageRepo = new PageRepository();
             _eventBannerRepository = new EventBannerRepository();
+            _routeItemRepository = new RouteItemRepository();
+
         }
 
         public ActionResult AdminIndex()
@@ -49,13 +52,14 @@ namespace Pyramid.Controllers
         [ValidateInput(false)]
         public ActionResult AddOrUpdate(Entity.Page model)
         {
-            //Mapper.Initialize(cfg => cfg.CreateMap<Pages, Entity.Page>());
-            //var efTest = Mapper.Map<Pages, Entity.Page>(_pageRepo.FindBy(p => p.Id == model.Id).SingleOrDefault());
-            //Mapper.Initialize(cfg => cfg.CreateMap< Entity.Page, Pages>());
-            //var efmodel = Mapper.Map<Entity.Page, Pages>(model);
+            
 
             _pageRepo.AddOrUpdate(model);
-
+            var routeItem = new RouteItem(0, null, (string)ControllerContext.RequestContext.RouteData.Values["controller"],
+               "Index",
+               (int)ControllerContext.RequestContext.RouteData.Values["id"])
+            { Type = Common.TypeEntityFromRouteEnum.PageType };
+            _routeItemRepository.AddOrUpdate(routeItem);
             return RedirectToAction("AdminIndex");
            
         }

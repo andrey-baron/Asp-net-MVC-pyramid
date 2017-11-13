@@ -51,5 +51,6 @@ namespace DBFirstDAL
         public virtual DbSet<Reviews> Reviews { get; set; }
         public virtual DbSet<BannersOnHomePage> BannersOnHomePage { get; set; }
         public virtual DbSet<Products> Products { get; set; }
+        public virtual DbSet<RouteItem> RouteItems { get; set; }
     }
 }

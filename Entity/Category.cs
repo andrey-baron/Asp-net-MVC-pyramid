@@ -30,6 +30,8 @@ namespace Pyramid.Entity
         [Display(Name = "Показывать на сайте")]
         public bool ShowCategoryOnSite { get; set; }
 
+        public string FriendlyUrl { get; set; }
+
         public Image Thumbnail { get; set; }
         public List<Product> Products { get; set; }
         public ICollection<Filter> Filters { get; set; }

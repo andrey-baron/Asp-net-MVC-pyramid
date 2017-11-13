@@ -11,9 +11,9 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ImageId" Type="int" />
+          <Property Name="Link" Type="nvarchar(max)" />
           <Property Name="Title" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Content" Type="nvarchar(max)" />
-          <Property Name="Link" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="BannerWithPoints">
           <Key>
@@ -31,9 +31,9 @@
           <Property Name="ParentId" Type="int" />
           <Property Name="FlagRoot" Type="bit" Nullable="false" />
           <Property Name="OneCId" Type="nvarchar" MaxLength="100" />
-          <Property Name="SeoId" Type="int" />
           <Property Name="Content" Type="nvarchar(max)" />
           <Property Name="ShowCategoryOnSite" Type="bit" Nullable="false" />
+          <Property Name="SeoId" Type="int" />
         </EntityType>
         <EntityType Name="CategoryImages">
           <Key>
@@ -199,6 +199,7 @@
           <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Content" Type="nvarchar(max)" />
           <Property Name="ImageId" Type="int" />
+          <Property Name="SeoId" Type="int" />
         </EntityType>
         <EntityType Name="PointOnImgs">
           <Key>
@@ -252,11 +253,7 @@
           <Property Name="Title" Type="nvarchar" MaxLength="300" />
           <Property Name="Price" Type="float" Nullable="false" />
           <Property Name="TypePrice" Type="int" Nullable="false" />
-          <Property Name="MetaDescription" Type="nvarchar" MaxLength="1000" />
-          <Property Name="MetaTitle" Type="nvarchar" MaxLength="1000" />
-          <Property Name="MetaKeywords" Type="nvarchar" MaxLength="1000" />
           <Property Name="IsSEOReady" Type="bit" Nullable="false" />
-          <Property Name="Alias" Type="nvarchar" MaxLength="1000" />
           <Property Name="DateCreation" Type="datetime" Nullable="false" />
           <Property Name="DateChange" Type="datetime" Nullable="false" />
           <Property Name="PointOnImg_Id" Type="int" />
@@ -268,6 +265,7 @@
           <Property Name="TypeStatusProduct" Type="int" Nullable="false" />
           <Property Name="Content" Type="nvarchar(max)" />
           <Property Name="IsNotUnloading1C" Type="bit" Nullable="false" />
+          <Property Name="SeoId" Type="int" />
         </EntityType>
         <EntityType Name="ProductValues">
           <Key>
@@ -325,6 +323,17 @@
           <Property Name="IsRead" Type="bit" Nullable="false" />
           <Property Name="IsApproved" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="RouteItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FriendlyUrl" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="ControllerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContentId" Type="int" />
+          <Property Name="TypeEntity" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Seo">
           <Key>
             <PropertyRef Name="Id" />
@@ -357,7 +366,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Categorie__SeoId__5535A963">
+        <Association Name="FK__Categorie__SeoId__339FAB6E">
           <End Role="Seo" Type="Self.Seo" Multiplicity="0..1" />
           <End Role="Categories" Type="Self.Categories" Multiplicity="*" />
           <ReferentialConstraint>
@@ -437,6 +446,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Pages__SeoId__2A164134">
+          <End Role="Seo" Type="Self.Seo" Multiplicity="0..1" />
+          <End Role="Pages" Type="Self.Pages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pages">
+              <PropertyRef Name="SeoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__PointOnIm__Banne__68487DD7">
           <End Role="BannerWithPoints" Type="Self.BannerWithPoints" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -490,6 +511,18 @@
             </Principal>
             <Dependent Role="ProductOrders">
               <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Products__SeoId__2B0A656D">
+          <End Role="Seo" Type="Self.Seo" Multiplicity="0..1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="SeoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -930,13 +963,14 @@
           <EntitySet Name="RecommendationImages" EntityType="Self.RecommendationImages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Recommendations" EntityType="Self.Recommendations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reviews" EntityType="Self.Reviews" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RouteItems" EntityType="Self.RouteItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Seo" EntityType="Self.Seo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__BannerWit__Image__534D60F1" Association="Self.FK__BannerWit__Image__534D60F1">
             <End Role="Images" EntitySet="Images" />
             <End Role="BannerWithPoints" EntitySet="BannerWithPoints" />
           </AssociationSet>
-          <AssociationSet Name="FK__Categorie__SeoId__5535A963" Association="Self.FK__Categorie__SeoId__5535A963">
+          <AssociationSet Name="FK__Categorie__SeoId__339FAB6E" Association="Self.FK__Categorie__SeoId__339FAB6E">
             <End Role="Seo" EntitySet="Seo" />
             <End Role="Categories" EntitySet="Categories" />
           </AssociationSet>
@@ -960,6 +994,10 @@
             <End Role="Images" EntitySet="Images" />
             <End Role="HomeEntity" EntitySet="HomeEntity" />
           </AssociationSet>
+          <AssociationSet Name="FK__Pages__SeoId__2A164134" Association="Self.FK__Pages__SeoId__2A164134">
+            <End Role="Seo" EntitySet="Seo" />
+            <End Role="Pages" EntitySet="Pages" />
+          </AssociationSet>
           <AssociationSet Name="FK__PointOnIm__Banne__68487DD7" Association="Self.FK__PointOnIm__Banne__68487DD7">
             <End Role="BannerWithPoints" EntitySet="BannerWithPoints" />
             <End Role="PointOnImgs" EntitySet="PointOnImgs" />
@@ -975,6 +1013,10 @@
           <AssociationSet Name="FK__ProductOr__Produ__10566F31" Association="Self.FK__ProductOr__Produ__10566F31">
             <End Role="Products" EntitySet="Products" />
             <End Role="ProductOrders" EntitySet="ProductOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Products__SeoId__2B0A656D" Association="Self.FK__Products__SeoId__2B0A656D">
+            <End Role="Seo" EntitySet="Seo" />
+            <End Role="Products" EntitySet="Products" />
           </AssociationSet>
           <AssociationSet Name="FK__ProductVa__Produ__71D1E811" Association="Self.FK__ProductVa__Produ__71D1E811">
             <End Role="Products" EntitySet="Products" />
@@ -1244,6 +1286,15 @@
             <End Role="EnumValues" EntitySet="EnumValues" />
             <End Role="Products" EntitySet="Products" />
           </AssociationSet>
+          <AssociationSet Name="FK__Pages__SeoId__2A164134" Association="PyramidModel.FK__Pages__SeoId__2A164134">
+            <End Role="Seo" EntitySet="Seo" />
+            <End Role="Pages" EntitySet="Pages" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Products__SeoId__29221CFB" Association="PyramidModel.FK__Products__SeoId__29221CFB">
+            <End Role="Seo" EntitySet="Seo" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <EntitySet Name="RouteItems" EntityType="PyramidModel.RouteItem" />
           </EntityContainer>
         <EntityType Name="BannerWithPoints">
           <Key>
@@ -1370,6 +1421,8 @@
           <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ImageId" Type="Int32" />
+          <Property Name="SeoId" Type="Int32" />
+          <NavigationProperty Name="Seo" Relationship="PyramidModel.FK__Pages__SeoId__2A164134" FromRole="Pages" ToRole="Seo" />
         </EntityType>
         <EntityType Name="PointOnImgs">
           <Key>
@@ -1435,6 +1488,8 @@
           <Property Name="MetaKeywords" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Alias" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Categories" Relationship="PyramidModel.FK__Categorie__SeoId__09746778" FromRole="Seo" ToRole="Categories" />
+          <NavigationProperty Name="Pages" Relationship="PyramidModel.FK__Pages__SeoId__2A164134" FromRole="Seo" ToRole="Pages" />
+          <NavigationProperty Name="Products" Relationship="PyramidModel.FK__Products__SeoId__29221CFB" FromRole="Seo" ToRole="Products" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -1758,11 +1813,7 @@
           <Property Name="Title" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Double" Nullable="false" />
           <Property Name="TypePrice" Type="Int32" Nullable="false" />
-          <Property Name="MetaDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="MetaTitle" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="MetaKeywords" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="IsSEOReady" Type="Boolean" Nullable="false" />
-          <Property Name="Alias" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="DateCreation" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DateChange" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="PointOnImg_Id" Type="Int32" />
@@ -1783,6 +1834,8 @@
           <NavigationProperty Name="HomeEntity" Relationship="PyramidModel.HomeEntityWithProducts" FromRole="Products" ToRole="HomeEntity" />
           <NavigationProperty Name="Categories" Relationship="PyramidModel.ProductCategories" FromRole="Products" ToRole="Categories" />
           <NavigationProperty Name="EnumValues" Relationship="PyramidModel.ProductEnumValues" FromRole="Products" ToRole="EnumValues" />
+          <Property Name="SeoId" Type="Int32" />
+          <NavigationProperty Name="Seo" Relationship="PyramidModel.FK__Products__SeoId__29221CFB" FromRole="Products" ToRole="Seo" />
         </EntityType>
         <Association Name="FK__PointOnIm__Refer__693CA210">
           <End Type="PyramidModel.Products" Role="Products" Multiplicity="0..1">
@@ -1870,6 +1923,41 @@
           <End Type="PyramidModel.EnumValues" Role="EnumValues" Multiplicity="*" />
           <End Type="PyramidModel.Products" Role="Products" Multiplicity="*" />
         </Association>
+        <Association Name="FK__Pages__SeoId__2A164134">
+          <End Type="PyramidModel.Seo" Role="Seo" Multiplicity="0..1" />
+          <End Type="PyramidModel.Pages" Role="Pages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pages">
+              <PropertyRef Name="SeoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Products__SeoId__29221CFB">
+          <End Type="PyramidModel.Seo" Role="Seo" Multiplicity="0..1" />
+          <End Type="PyramidModel.Products" Role="Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="SeoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="RouteItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FriendlyUrl" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ControllerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContentId" Type="Int32" />
+          <Property Name="TypeEntity" Type="Int32" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1978,6 +2066,7 @@
           <EntitySetMapping Name="Pages">
             <EntityTypeMapping TypeName="PyramidModel.Pages">
               <MappingFragment StoreEntitySet="Pages">
+                <ScalarProperty Name="SeoId" ColumnName="SeoId" />
                 <ScalarProperty Name="ImageId" ColumnName="ImageId" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -2187,6 +2276,7 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="PyramidModel.Products">
               <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="SeoId" ColumnName="SeoId" />
                 <ScalarProperty Name="IsNotUnloading1C" ColumnName="IsNotUnloading1C" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="TypeStatusProduct" ColumnName="TypeStatusProduct" />
@@ -2198,11 +2288,7 @@
                 <ScalarProperty Name="PointOnImg_Id" ColumnName="PointOnImg_Id" />
                 <ScalarProperty Name="DateChange" ColumnName="DateChange" />
                 <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
-                <ScalarProperty Name="Alias" ColumnName="Alias" />
                 <ScalarProperty Name="IsSEOReady" ColumnName="IsSEOReady" />
-                <ScalarProperty Name="MetaKeywords" ColumnName="MetaKeywords" />
-                <ScalarProperty Name="MetaTitle" ColumnName="MetaTitle" />
-                <ScalarProperty Name="MetaDescription" ColumnName="MetaDescription" />
                 <ScalarProperty Name="TypePrice" ColumnName="TypePrice" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -2242,6 +2328,18 @@
               <ScalarProperty Name="Id" ColumnName="EnumValueId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="RouteItems">
+            <EntityTypeMapping TypeName="PyramidModel.RouteItem">
+              <MappingFragment StoreEntitySet="RouteItems">
+                <ScalarProperty Name="TypeEntity" ColumnName="TypeEntity" />
+                <ScalarProperty Name="ContentId" ColumnName="ContentId" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="FriendlyUrl" ColumnName="FriendlyUrl" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -45,11 +45,14 @@
     <Compile Include="Models\BreadCrumbViewModel.cs" />
     <Compile Include="Models\FilterSearchModel.cs" />
     <Compile Include="SearchClasses\SearchParamsBase.cs" />
+    <Compile Include="SearchClasses\SearchParamsEnumValue.cs" />
     <Compile Include="SearchClasses\SearchParamsImage.cs" />
     <Compile Include="SearchClasses\SearchParamsReview.cs" />
     <Compile Include="SearchClasses\SearchParamsCategory.cs" />
     <Compile Include="SearchClasses\SearchParamsProduct.cs" />
+    <Compile Include="SearchClasses\SearchParamsRouteItem.cs" />
     <Compile Include="SearchClasses\SearchResult.cs" />
+    <Compile Include="TypeEntityFromRouteEnum.cs" />
     <Compile Include="TypeFilledProduct.cs" />
     <Compile Include="TypeFromEnumValue.cs" />
     <Compile Include="TypeImage.cs" />

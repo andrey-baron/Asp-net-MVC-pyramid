@@ -32,11 +32,7 @@ namespace DBFirstDAL
         public string Title { get; set; }
         public double Price { get; set; }
         public int TypePrice { get; set; }
-        public string MetaDescription { get; set; }
-        public string MetaTitle { get; set; }
-        public string MetaKeywords { get; set; }
         public bool IsSEOReady { get; set; }
-        public string Alias { get; set; }
         public System.DateTime DateCreation { get; set; }
         public System.DateTime DateChange { get; set; }
         public Nullable<int> PointOnImg_Id { get; set; }
@@ -48,6 +44,7 @@ namespace DBFirstDAL
         public int TypeStatusProduct { get; set; }
         public string Content { get; set; }
         public bool IsNotUnloading1C { get; set; }
+        public Nullable<int> SeoId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PointOnImgs> PointOnImgs { get; set; }
@@ -67,5 +64,6 @@ namespace DBFirstDAL
         public virtual ICollection<Categories> Categories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EnumValues> EnumValues { get; set; }
+        public virtual Seo Seo { get; set; }
     }
 }

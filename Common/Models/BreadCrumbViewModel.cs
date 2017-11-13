@@ -10,5 +10,6 @@ namespace Common.Models
     {
         public string Title { get; set; }
         public string Link { get; set; }
+        public string FriendlyUrl { get; set; }
     }
 }

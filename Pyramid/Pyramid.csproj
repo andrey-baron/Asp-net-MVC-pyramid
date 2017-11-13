@@ -246,6 +246,7 @@
     <Compile Include="Tools\Compare\ProductCompareByPrice.cs" />
     <Compile Include="Tools\Compare\ProductCompareByTitle.cs" />
     <Compile Include="Tools\Cryptography.cs" />
+    <Compile Include="Tools\FriendlyUrlRouteHandler.cs" />
     <Compile Include="Tools\Load1CDataFromXml.cs" />
     <Compile Include="Tools\Mailer.cs" />
     <Compile Include="Tools\ProductTool.cs" />
@@ -406,6 +407,10 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\users-guide-imgs\category.jpg" />
+    <Content Include="Content\users-guide-imgs\file-manager.jpg" />
+    <Content Include="Content\users-guide-imgs\filter.jpg" />
+    <Content Include="Content\users-guide-imgs\shema.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -806,7 +811,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\img-users-guide\" />
     <Folder Include="Content\jQuery.FileUpload\less\" />
     <Folder Include="Content\libs\images\" />
     <Folder Include="Content\src\admin-blocks\product\" />

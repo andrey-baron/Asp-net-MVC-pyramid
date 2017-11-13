@@ -14,7 +14,10 @@ namespace Common.SearchClasses
         public IEnumerable<int> EnumValueIds { get; set; }
         public int Id { get; set; }
         public string SearchString { get; set; }
+        public int? ProductId { get; set; }
+        public bool? IsSearchOnlyPublicProduct { get; set; }
 
+        public bool? IsShowCategoryOnSite { get; set; }
         public IEnumerable< FilterSearchModel> FiltersSearch { get; set; }
 
         public bool ExistProductsInBd { get; set; }

@@ -14,11 +14,19 @@
         list-style: decimal;
     list-style-position: inside;
     }
+    .guide-inner ul{
+        list-style: disc;
+    list-style-position: inside;
+    }
 </style>
+<div class="guide-inner">
 
-<div class="col-md-12">
-    <div class="box-typical box-typical-padding">
-        
+
+    <div class="col-md-12">
+        <div class="box-typical box-typical-padding">
+            <p>Схема связей</p>
+            <img src="~/Content/users-guide-imgs/shema.jpg" alt="" class="screen-img" />
+            <br />
             <p>Работа с:</p>
             <ol class="guide__labels">
                 <li><a href="#file-manager">файловый менеджер</a></li>
@@ -38,172 +46,250 @@
                 <li><a href="#global-options">глобальные опции</a></li>
                 <li><a href="#banners-from-home">баннеры на главной</a></li>
             </ol>
-          
-    </div>
-    <a name="file-manager"></a>
-    <div class="card" >
-        <div class="card-header card-header-lg">
-            <p>Файловый менеджер</p>
+
         </div>
-        <div class="card-block">
-            <p>содержание</p>
+        <a name="file-manager"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Файловый менеджер</p>
+            </div>
+            <div class="card-block">
+                <p>Файловый менеджер представляет из себя хранилище фотографий</p>
+                <p>Здесь происходит добавление и удаление фотографий</p>
+                <p>перейти можно по <a href="@Url.Action("Index","ImageManager")">ссылке</a></p>
+                <img src="~/Content/users-guide-imgs/file-manager.jpg" alt="" class="screen-img" />
+            </div>
+
+        </div>
+        <a name="filters"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Фильтры</p>
+            </div>
+            <div class="card-block">
+                <p>"Фильтр" используется для поиска товаров в категориях по различным критериям</p>
+                <p>Чтобы создать фильтр нужно задать ему название и значения фильтра из списка допустимых <a href="#enum-values">значений</a></p>
+                <p>Чтобы применить фильтр, его нужно задать в <a href="#categories">категории</a></p>
+                <p><a href="@Url.Action("Index","Filter")">Текущие фильтры на сайте</a></p>
+                <img src="~/Content/users-guide-imgs/filter.jpg" alt="" class="screen-img" />
+
+            </div>
+
+        </div>
+        <a name="categories"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Категории</p>
+            </div>
+            <div class="card-block">
+                <p>Категории служат контейнером для товаров</p>
+                <p>В категории можно редактировать следующие параметры</p>
+                <ul>
+                    <li>Название</li>
+                    <li>Показывать на сайте</li>
+                    <li>Указывать иерархию категорий(Родительская категория)</li>
+                    <li>Описание</li>
+                    <li>Seo параметры</li>
+                    <li>миниатюру</li>
+                    <li><a href="#filters">фильтры</a></li>
+                    <li><a href="#recommendation">советы</a></li>
+                </ul>
+                <img src="~/Content/users-guide-imgs/category.jpg" alt="" class="screen-img" />
+                <br />
+
+                <p><a href="@Url.Action("AdminIndex","Category")">список категорий</a></p>
+
+            </div>
+
+        </div>
+        <a name="products"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Товары</p>
+            </div>
+            <div class="card-block">
+                <p>Товар можно настраивать по следующим параметрам</p>
+                <ul>
+                    <li>Название</li>
+                    <li>Цена</li>
+                    <li>Статус</li>
+                    <li>Показывать ли в разделе сезонное предложение</li>
+                    <li>Приоритет</li>
+                    <li>Описание товара</li>
+                    <li>Seo параметры</li>
+                    <li>Указывать <a href="#categories">категории</a> товара</li>
+                    <li>Миниатюру товара</li>
+                    <li>Значения доп. параметров</li>
+                    <li>Допустимые <a href="#enum-values">значение</a> для фильтров</li>
+                    <li>Добавление картинок галереи</li>
+                </ul>
+            </div>
+
+        </div>
+        <a name="enum-values"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Допустимые значения фильтров</p>
+            </div>
+            <div class="card-block">
+                <p>Значения необходимы для того чтобы связывать фильтр с товаром, а фильтр связывается непосредственно с категорией</p>
+                <p><a href="@Url.Action("Index","EnumValue")">список значений</a></p>
+            </div>
+
+        </div>
+        <a name="pages"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Страницы</p>
+            </div>
+            <div class="card-block">
+                <p>Страницы это отдельные разделы с информацией</p>
+                <img src="" alt="" title="Страницы на сайте" />
+                <p>Содержит 2 поля</p>
+                <ul>
+                    <li>Название</li>
+                    <li>Содержимое страницы</li>
+                </ul>
+                <p><a href="@Url.Action("AdminIndex","Page")">ссылка на страницы</a></p>
+            </div>
+
         </div>
 
-    </div>
-    <a name="filters"></a>
-    <div class="card">
-        <div class="card-header card-header-lg">
-            <p>Фильтры</p>
-        </div>
-        <div class="card-block">
-            <p>содержание</p>
-        </div>
+        <a name="answer-question"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Вопрос-ответ</p>
+            </div>
+            <div class="card-block">
+                <p>Вопрос ответ это разделы с информацией для покупателей</p>
+                <p>Содержит поля название и вопросы с ответами</p>
+                <p>Вопрос-ответ привязывается в <a href="#categories">категориях</a></p>
+            </div>
 
-    </div>
-    <a name="categories"></a>
-    <div class="card">
-        <div class="card-header card-header-lg">
-            <p>Категории</p>
         </div>
-        <div class="card-block">
-            <p>содержание</p>
-        </div>
+        <a name="parts-home"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Части главной</p>
+            </div>
+            <div class="card-block">
+                <p>Часть главной это отдельная сущьность для главной страницы их может быть несколько</p>
+                <p>включает в себя </p>
+                <ul>
+                    <li>Название</li>
+                    <li>текст на слайде(картинке)</li>
+                    <li>фоновая картинка</li>
+                    <li>призыв к действию для формы обратной связи</li>
+                    <li>категории</li>
+                    <li>товары</li>
+                    <li>Вопрос-ответ</li>
+                    <li>Видео гид, указывается ссылка видео на видеохостинге YouTobe, надвание и фоновую картинку</li>
+                    <li>Конфигуратор точек, точки рассполагаются на фоновой картинке, фоновая картинка также меняется отдельно, у точке привязывается товар</li>
+                </ul>
+            </div>
 
-    </div>
-    <a name="products"></a>
-    <div class="card">
-        <div class="card-header card-header-lg">
-            <p>Товары</p>
         </div>
-        <div class="card-block">
-            <p>содержание</p>
-        </div>
+        <a name="reviews-product"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Отзывы на товар</p>
+            </div>
+            <div class="card-block">
+                <p>Содержит отзывы на товар</p>
+            </div>
 
-    </div>
-    <a name="enum-values"></a>
-    <div class="card">
-        <div class="card-header card-header-lg">
-            <p>значение фильтров</p>
         </div>
-        <div class="card-block">
-            <p>содержание</p>
-        </div>
+        <a name="orders"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Заказы</p>
+            </div>
+            <div class="card-block">
+                <p>В этом разделе отображаются заказы пользователей, у заказа можно менять статус(новый заказ, подтвержденный заказ)</p>
+            </div>
 
-    </div>
-    <a name="pages"></a>
-    <div class="card">
-        <div class="card-header card-header-lg">
-            <p>Страницы</p>
         </div>
-        <div class="card-block">
-            <p>содержание</p>
-        </div>
+        <a name="emails"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Список почт для рассылки</p>
+            </div>
+            <div class="card-block">
+                <p>В этом разделе указывается список почт на которые приходят электронные письма, когда пользователь сайта делает "заказ" и заявки с форм обратной связи</p>
+            </div>
 
-    </div>
+        </div>
+        <a name="banners-on-pages"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Список банеров на страницах</p>
+            </div>
+            <div class="card-block">
+                <p>В этом разделе указываются баннеры на <a href="#pages">страницах</a></p>
+            </div>
 
-    <a name="answer-question"></a>
-    <div class="card">
-        <div class="card-header card-header-lg">
-            <p>Вопрос-ответ</p>
         </div>
-        <div class="card-block">
-            <p>содержание</p>
-        </div>
+        <a name="recommendation"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Советы</p>
+            </div>
+            <div class="card-block">
+                <p>Советы содержат следующие параметры</p>
+                <ul>
+                    <li>Название</li>
+                    <li>Описание</li>
+                    <li>Краткое описание</li>
+                    <li>Картинка</li>
+                </ul>
+                <p>Советы указываются в категория и применяются к товару из этой категории</p>
+            </div>
 
-    </div>
-    <a name="parts-home"></a>
-    <div class="card">
-        <div class="card-header card-header-lg">
-            <p>Части главной</p>
         </div>
-        <div class="card-block">
-            <p>содержание</p>
-        </div>
+        <a name="events"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Акции</p>
+            </div>
+            <div class="card-block">
+                <p>Акция содержит следующие параметры</p>
+                <ul>
+                    <li>Название</li>
+                    <li>Краткое описание</li>
+                    <li>Описание</li>
+                    <li>Начало срока акции</li>
+                    <li>Конец скрока акции</li>
+                    <li>Активность акции</li>
+                    <li>Баннер</li>
+                </ul>
+            </div>
 
-    </div>
-    <a name="reviews-product"></a>
-    <div class="card">
-        <div class="card-header card-header-lg">
-            <p>Отзывы на товар</p>
         </div>
-        <div class="card-block">
-            <p>содержание</p>
-        </div>
+        <a name="global-options"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Глобальные Опции</p>
+            </div>
+            <div class="card-block">
+                <p>Содержит 2 опции</p>
+                <p>Информация о доставке</p>
+                <p>Текст сноски когда товар доступен к заказу</p>
+            </div>
 
-    </div>
-    <a name="orders"></a>
-    <div class="card">
-        <div class="card-header card-header-lg">
-            <p>Заказы</p>
         </div>
-        <div class="card-block">
-            <p>содержание</p>
-        </div>
+        <a name="banners-from-home"></a>
+        <div class="card">
+            <div class="card-header card-header-lg">
+                <p>Банеры на главной</p>
+            </div>
+            <div class="card-block">
+                <p>Указываются картинки для слайдера на главной</p>
+            </div>
 
-    </div>
-    <a name="emails"></a>
-    <div class="card">
-        <div class="card-header card-header-lg">
-            <p>Список почт для рассылки</p>
-        </div>
-        <div class="card-block">
-            <p>содержание</p>
-        </div>
-
-    </div>
-    <a name="banners-on-pages"></a>
-    <div class="card">
-        <div class="card-header card-header-lg">
-            <p>Список банеров на страницах</p>
-        </div>
-        <div class="card-block">
-            <p>содержание</p>
-        </div>
-
-    </div>
-    <a name="recommendation"></a>
-    <div class="card">
-        <div class="card-header card-header-lg">
-            <p>Советы</p>
-        </div>
-        <div class="card-block">
-            <p>содержание</p>
-        </div>
-
-    </div>
-    <a name="events"></a>
-    <div class="card">
-        <div class="card-header card-header-lg">
-            <p>Акции</p>
-        </div>
-        <div class="card-block">
-            <p>содержание</p>
-        </div>
-
-    </div>
-    <a name="global-options"></a>
-    <div class="card">
-        <div class="card-header card-header-lg">
-            <p>Глобальные Опции</p>
-        </div>
-        <div class="card-block">
-            <p>содержание</p>
-        </div>
-
-    </div>
-    <a name="banners-from-home"></a>
-    <div class="card">
-        <div class="card-header card-header-lg">
-            <p>Банеры на главной</p>
-        </div>
-        <div class="card-block">
-            <p>содержание</p>
         </div>
 
     </div>
 
 </div>
-
-
 
 

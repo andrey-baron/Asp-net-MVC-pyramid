@@ -18,5 +18,8 @@ namespace DBFirstDAL
         public string Title { get; set; }
         public string Content { get; set; }
         public Nullable<int> ImageId { get; set; }
+        public Nullable<int> SeoId { get; set; }
+    
+        public virtual Seo Seo { get; set; }
     }
 }

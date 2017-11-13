@@ -179,9 +179,9 @@ label[for="Confirm_terms"] {
   margin-left: 20px;
   max-width: 300px;
 }
-body div#jivo-iframe-container {
-  display: none!important;
-}
+/*body div#jivo-iframe-container{
+   display:none!important;
+}*/
 
 /* header variable*/
 /* header variable end*/

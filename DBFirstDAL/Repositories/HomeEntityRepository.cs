@@ -467,7 +467,8 @@ namespace DBFirstDAL.Repositories
                             Id = p.Products.Id,
                             Title = p.Products.Title,
                             Price = p.Products.Price,
-                            TypePrice = (Common.TypeProductPrice)p.Products.TypePrice
+                            TypePrice = (Common.TypeProductPrice)p.Products.TypePrice,
+                            FriendlyUrl= new RouteItemRepository(context).GetFriendlyUrl(p.Products.Id,Common.TypeEntityFromRouteEnum.ProductType)
                         }
                     }).ToList()
                 };
@@ -483,6 +484,8 @@ namespace DBFirstDAL.Repositories
             {
                 Id = s.Id,
                 Title = s.Title,
+                FriendlyUrl = new RouteItemRepository(context).GetFriendlyUrl(s.Id, Common.TypeEntityFromRouteEnum.CategoryType)
+
             }).ToList();
 
             hEntity.Images = ConvertImageToEntity.Convert(dbObject.Images);
@@ -495,7 +498,9 @@ namespace DBFirstDAL.Repositories
                 Title = p.Title,
                 Price = p.Price,
                 TypePrice = (Common.TypeProductPrice)p.TypePrice,
-                TypeStatusProduct=( Common.TypeStatusProduct)p.TypeStatusProduct
+                TypeStatusProduct=( Common.TypeStatusProduct)p.TypeStatusProduct,
+                FriendlyUrl = new RouteItemRepository(context).GetFriendlyUrl(p.Id, Common.TypeEntityFromRouteEnum.ProductType)
+
             }).ToList();
 
             if (dbObject.Faq!=null)

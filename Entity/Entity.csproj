@@ -69,6 +69,7 @@
     <Compile Include="QuestionAnswer.cs" />
     <Compile Include="Recomendation.cs" />
     <Compile Include="Review.cs" />
+    <Compile Include="RouteItem.cs" />
     <Compile Include="Seo.cs" />
     <Compile Include="User.cs" />
     <Compile Include="VideoGuide.cs" />

@@ -10,8 +10,11 @@ using System.Linq.Expressions;
 
 namespace DBFirstDAL.Repositories
 {
-    public class EnumValueRepository : GenericRepository<EnumValues, PyramidFinalContext, Pyramid.Entity.EnumValue, SearchParamsBase, int>
+    public class EnumValueRepository : GenericRepository<EnumValues, PyramidFinalContext, Pyramid.Entity.EnumValue, SearchParamsEnumValue, int>
     {
+        public EnumValueRepository(PyramidFinalContext context) : base(context) { }
+        public EnumValueRepository(){ }
+
         public override void UpdateBeforeSaving(PyramidFinalContext dbContext, EnumValues dbEntity, EnumValue entity, bool exists)
         {
             dbEntity.Key = entity.Key;
@@ -20,8 +23,12 @@ namespace DBFirstDAL.Repositories
             
         }
 
-        protected override IQueryable<EnumValues> BuildDbObjectsList(PyramidFinalContext context, IQueryable<EnumValues> dbObjects, SearchParamsBase searchParams)
+        protected override IQueryable<EnumValues> BuildDbObjectsList(PyramidFinalContext context, IQueryable<EnumValues> dbObjects, SearchParamsEnumValue searchParams)
         {
+            if (searchParams.ProductId.HasValue)
+            {
+                dbObjects = dbObjects.Where(w => w.Products.Any(a => a.Id == searchParams.ProductId.Value));
+            }
             dbObjects = dbObjects.OrderBy(item => item.Key);
             return dbObjects;
         }

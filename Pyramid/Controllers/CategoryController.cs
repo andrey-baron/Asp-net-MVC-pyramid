@@ -25,6 +25,7 @@ namespace Pyramid.Controllers
         FilterRepository _filterRepository;
         RecommendationRepository _recommendationRepository;
         GlobalOptionRepository _globalRepository;
+        RouteItemRepository _routeItemRepository;
         const string defaulCateggorytLink = "/Category/index/";
         public CategoryController()
         {
@@ -32,6 +33,7 @@ namespace Pyramid.Controllers
             _filterRepository = new FilterRepository();
             _recommendationRepository = new RecommendationRepository();
             _globalRepository = new DBFirstDAL.Repositories.GlobalOptionRepository();
+            _routeItemRepository = new RouteItemRepository();
         }
         [Authorize]
         public ActionResult AdminIndex(string currentFilter, string searchString, int? categoryId, int? page)
@@ -110,7 +112,7 @@ namespace Pyramid.Controllers
             }
             else
             {
-                searchParamsCategory = new SearchParamsCategory(id);
+                searchParamsCategory = new SearchParamsCategory(id) { IsSearchOnlyPublicProduct=true};
                 var t = _categoryRepository.GetBySearchParams(searchParamsCategory);
                 viewModel = CategoryViewModel.ToModel(t);
                
@@ -147,7 +149,10 @@ namespace Pyramid.Controllers
             viewModel.NestedCategories = _categoryRepository.GetNestedCategories(id).Select(s=> CategoryShortViewModel.ToModel(s)).ToList();
             viewModel.MaxPrice = _categoryRepository.GetMaxPriceFromCategory(id);
             viewModel.MinPrice = _categoryRepository.GetMinPriceFromCategory(id);
-            ViewBag.MetaTitle = viewModel.Seo.MetaTitle;
+            ViewBag.MetaTitle = viewModel.Seo != null ? viewModel.Seo.MetaTitle : viewModel.Title;
+            ViewBag.Keywords = viewModel.Seo != null ? viewModel.Seo.MetaKeywords : null;
+            ViewBag.Description = viewModel.Seo != null ? viewModel.Seo.MetaDescription : null;
+
             bool WillBeAddedFlag = viewModel.Products.Any(i => i.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded);
             ViewBag.WillBeAddedFlag = WillBeAddedFlag;
             if (WillBeAddedFlag)
@@ -215,7 +220,10 @@ namespace Pyramid.Controllers
                 }
             }
             ViewBag.BredCrumbs = _categoryRepository.GetBreadCrumbs(model.Id);
-            ViewBag.MetaTitle = viewModel.Seo.MetaTitle;
+            ViewBag.MetaTitle = viewModel.Seo != null ? viewModel.Seo.MetaTitle : viewModel.Title;
+            ViewBag.Keywords = viewModel.Seo != null ? viewModel.Seo.MetaKeywords : null;
+            ViewBag.Description = viewModel.Seo != null ? viewModel.Seo.MetaDescription : null;
+
             viewModel.MaxPrice = _categoryRepository.GetMaxPriceFromCategory(model.Id);
             viewModel.MinPrice = _categoryRepository.GetMinPriceFromCategory(model.Id);
             viewModel.CurrentMaxPrice = max;
@@ -241,52 +249,18 @@ namespace Pyramid.Controllers
                 category= _categoryRepository.Get(id);
             }
 
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.CreateMap<DBFirstDAL.Categories, Pyramid.Entity.Category>()
-            //    .ForMember(d => d.Thumbnail, o => o.Ignore())
-            //    .ForMember(d => d.Checked, o => o.Ignore());
-
-            //    cfg.CreateMap<DBFirstDAL.Products, Pyramid.Entity.Product>()
-            //    .ForAllMembers(i => i.Ignore());
-
-            //    cfg.CreateMap<DBFirstDAL.Filters, Pyramid.Entity.Filter>()
-            //     .ForMember(d => d.EnumValues, o => o.Ignore())
-            //     .ForMember(d => d.Categories, o => o.Ignore());
-
-            //    cfg.CreateMap<DBFirstDAL.Images, Pyramid.Entity.Image>()
-            //    ;
-
-            //    cfg.CreateMap<DBFirstDAL.Seo, Seo>()
-            //    ;
-            //});
-
-
-            //config.AssertConfigurationIsValid();
-
-            //var mapper = config.CreateMapper();
-
-            //var efmodel=_categoryRepository.FindBy(i => i.Id == id).SingleOrDefault();
-            
-            //var model = mapper.Map<DBFirstDAL.Categories, Pyramid.Entity.Category>(efmodel);
-            
-            //if (model == null)
-            //{
-            //    model = new Entity.Category();
-            //}
-            //else
-            //{
-            //   var efImage= _categoryRepository.GetThumbnail(efmodel.Id, (int)Entity.Enumerable.TypeImage.Thumbnail);
-            //   model.Thumbnail= mapper.Map<DBFirstDAL.Images, Pyramid.Entity.Image>(efImage);
-            //}
-            ViewBag.CategoriesSelectListItem = DBFirstDAL.CategoryDAL.GetAllWithoutCategoryId(id).Select(item => new SelectListItem
+         
+            ViewBag.CategoriesSelectListItem = CategoryRepository.GetAllWithoutCategoryId(id).Select(item => new SelectListItem
             {
                 Text = item.Title,
                 Value = item.Id.ToString()
             }); ;
-            
 
-            
+            var routeItem = _routeItemRepository.Get((string)ControllerContext.RequestContext.RouteData.Values["controller"],
+               "Index",
+               (int)ControllerContext.RequestContext.RouteData.Values["id"]);
+            ViewBag.CurrentFriendlyUrl = routeItem != null ? routeItem.FriendlyUrl : null;
+
             return View(category);
         }
         [Authorize]
@@ -295,6 +269,11 @@ namespace Pyramid.Controllers
         public ActionResult AddOrUpdate(Pyramid.Entity.Category model)
         {
             _categoryRepository.AddOrUpdate(model);
+            var routeItem = new RouteItem(0, null, (string)ControllerContext.RequestContext.RouteData.Values["controller"],
+               "Index",
+               model.Id)
+            { Type=Common.TypeEntityFromRouteEnum.CategoryType};
+            _routeItemRepository.AddOrUpdate(routeItem);
             return RedirectToAction("AdminIndex");
         }
 

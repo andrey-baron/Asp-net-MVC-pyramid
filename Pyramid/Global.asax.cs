@@ -1,4 +1,5 @@
-﻿using Pyramid.Entity;
+﻿using Entity;
+using Pyramid.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,42 +54,63 @@ namespace Pyramid
                 globRepo.AddOrUpdate(newEntityObj);
             }
 
-            //DBFirstDAL.Repositories.ProductRepository _productRepository = new DBFirstDAL.Repositories.ProductRepository();
-            //var allProd = _productRepository.GetAllWithCategory();
-            //foreach (var item in allProd)
-            //{
-            //    if (item.Categories.Count==0)
-            //    {
-            //       // _productRepository.Delete(item.Id);
-            //    }
-            //}
-            //var _categoryRepository = new DBFirstDAL.Repositories.CategoryRepository();
-            // var catAll = _categoryRepository.GetAll().ToList();
 
-            // foreach (var item in catAll)
-            // {
-            //     var efCat = _categoryRepository.FindBy(i => i.Id == item.Id).SingleOrDefault();
-            //     if (efCat.Seo==null)
-            //     {
-            //         efCat.Seo = new DBFirstDAL.Seo()
-            //         {
-            //             Alias = item.Title,
-            //             MetaTitle = item.Title
-            //         };
-            //         _categoryRepository.Save();
-            //     }
+
+            //var _categoryRepository = new DBFirstDAL.Repositories.CategoryRepository();
+            //var catAll = _categoryRepository.GetAll().ToList();
+
+            //foreach (var item in catAll)
+            //{
+            //    _categoryRepository.InitSeo(item.Id);
             //}
 
             //var repoProducts = new DBFirstDAL.Repositories.ProductRepository();
-            //var all=repoProducts.GetAll();
-            //foreach (var item in all)
+            //var products = repoProducts.GetAll();
+            //foreach (var item in products)
             //{
-                
-            //    if (!string.IsNullOrEmpty(item.Content)&& item.ThumbnailImg!=null && item.ThumbnailImg.Id!=0)
-            //    {
-            //        repoProducts.SetTrueIsFilled(item.Id);
-            //    }
+            //    repoProducts.InitSeo(item.Id);
             //}
+
+            var repoRoute = new DBFirstDAL.Repositories.RouteItemRepository();
+            //foreach (var item in catAll)
+            //{
+            //    repoRoute.AddOrUpdate(new RouteItem() {
+            //        ActionName="Index",
+            //        ControllerName="Category",
+            //        ContentId=item.Id,
+            //        Type= Common.TypeEntityFromRouteEnum.CategoryType,
+
+            //    });
+            //}
+            //foreach (var item in products)
+            //{
+            //    repoRoute.AddOrUpdate(new RouteItem()
+            //    {
+            //        ActionName = "Index",
+            //        ControllerName = "Product",
+            //        ContentId = item.Id,
+            //        Type = Common.TypeEntityFromRouteEnum.ProductType,
+
+            //    });
+            //}
+
+            var pageRepo = new DBFirstDAL.Repositories.PageRepository();
+            var allPages = pageRepo.GetAll();
+            //foreach (var item in allPages)
+            //{
+            //    pageRepo.InitSeo(item.Id);
+            //}
+            foreach (var item in allPages)
+            {
+                repoRoute.AddOrUpdate(new RouteItem()
+                {
+                    ActionName = "Index",
+                    ControllerName = "Page",
+                    ContentId = item.Id,
+                    Type = Common.TypeEntityFromRouteEnum.PageType,
+
+                });
+            }
         }
 
     }

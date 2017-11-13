@@ -353,6 +353,11 @@ p.pmargin {
   position: relative;
   top: -5px;
 }
+.screen-img {
+  max-width: 100%;
+  padding: 10px;
+  border: 1px solid #999;
+}
 
 .sidebar {
   width: 240px;

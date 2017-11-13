@@ -16,8 +16,76 @@ namespace DBFirstDAL.Repositories
 {
     public class ProductRepository: GenericRepository<Products,PyramidFinalContext,Pyramid.Entity.Product, SearchParamsProduct,int>
     {
+        public ProductRepository(PyramidFinalContext context) : base(context){ }
+        public ProductRepository() { }
        const string defaulProductLink = "/Product/index/";
         const string defaulCateggorytLink = "/Category/index/";
+
+        public string GetChainFrendlyUrlByAlias(int productId)
+        {
+            var data = _entities ?? new PyramidFinalContext();
+            try
+            {
+                var productDb=data.Products.Find(productId);
+                if (productDb != null && productDb.Seo != null && !string.IsNullOrEmpty(productDb.Seo.Alias))
+                {
+                    List<string> aliass = new List<string>();
+                    
+                    if (productDb.Categories != null && productDb.Categories.Count > 0)
+                    {
+                        List<string> categoriesAliass = new List<string>();
+                        bool isExistCategoryAliasFlag = true;
+                        List<int> usedIds = new List<int>();
+                        var cat = productDb.Categories.First();
+                        if (cat.Seo == null|| string.IsNullOrEmpty(cat.Seo.Alias))
+                        {
+                            isExistCategoryAliasFlag = false;
+                        }
+                        else
+                        {
+                            categoriesAliass.Add(cat.Seo.Alias);
+                        }
+                        usedIds.Add(cat.Id);
+                        while (cat.Categories2!=null&& isExistCategoryAliasFlag)
+                        {
+                            cat = cat.Categories2;
+                            if (cat.Seo == null || string.IsNullOrEmpty(cat.Seo.Alias) || usedIds.Contains(cat.Id))
+                            {
+                                isExistCategoryAliasFlag = false;
+                                break;
+                            }
+                            else
+                            {
+                                categoriesAliass.Add(cat.Seo.Alias);
+                            }
+                            usedIds.Add(cat.Id);
+                        }
+                        if (isExistCategoryAliasFlag)
+                        {
+
+                            categoriesAliass.Reverse();
+                            aliass.AddRange(categoriesAliass);
+                        }
+                    }
+                    aliass.Add(productDb.Seo.Alias);
+
+                    var sw = new StringBuilder();
+                    foreach (var item in aliass)
+                    {
+                        sw.Append("/");
+                        sw.Append(item.ToLower());
+                    }
+
+                    return sw.ToString();
+                }
+                return null;
+            }
+            finally
+            {
+                if (_entities == null)
+                    data.Dispose();
+            }
+        }
         public IEnumerable<EnumValue> GetAllEnumValues(int productId)
         {
             using (PyramidFinalContext dbContext= new PyramidFinalContext())
@@ -460,19 +528,24 @@ namespace DBFirstDAL.Repositories
 
         public override Product ConvertDbObjectToEntity(PyramidFinalContext context, Products dbObject)
         {
+            var seo = new SeoRepository(context).Get(dbObject.SeoId.Value);
+            var categories = new CategoryRepository(context).Get(new SearchParamsCategory() {ProductId=dbObject.Id });
+            var enumValues = new EnumValueRepository(context).Get(new SearchParamsEnumValue() { ProductId = dbObject.Id });
+            var images = new ImageRepository(context).Get(new SearchParamsImage() { ProductId = dbObject.Id,TypeImage=(int)Common.TypeImage.GalleryItem });
+            var thumbnailImg = new ImageRepository(context).Get(dbObject.Id, (int)Common.TypeImage.Thumbnail);
+            var friedlyUrl = new RouteItemRepository(context).GetFriendlyUrl(dbObject.Id, Common.TypeEntityFromRouteEnum.ProductType);
             var product = new Product()
             {
-                Alias=dbObject.Alias,
-                TypeStatusProduct=(Common.TypeStatusProduct) dbObject.TypeStatusProduct,
+                Seo = seo,
+                SeoId=dbObject.SeoId,
+                TypeStatusProduct =(Common.TypeStatusProduct) dbObject.TypeStatusProduct,
                 Id=dbObject.Id,
                 DateChange=dbObject.DateChange,
                 DateCreation=dbObject.DateCreation,
                 IsFilled=dbObject.IsFilled,
                 IsPriority=dbObject.IsPriority,
                 IsSEOReady= dbObject.IsSEOReady,
-                MetaDescription=dbObject.MetaDescription,
-                MetaKeywords=dbObject.MetaKeywords,
-                MetaTitle=dbObject.MetaTitle,
+             
                 PopularCount=dbObject.PopularCount.HasValue ? dbObject.PopularCount.Value : 0,
                 OneCId=dbObject.OneCId,
                 Price=dbObject.Price,
@@ -481,24 +554,9 @@ namespace DBFirstDAL.Repositories
                 TypePrice=(Common.TypeProductPrice) dbObject.TypePrice,
                 Content = dbObject.Content,
                 IsNotUnloading1C=dbObject.IsNotUnloading1C,
-                Categories =dbObject.Categories.Select(s=>new Category() {
-                    Title=s.Title,
-                    Id=s.Id
-                }).ToList(),
-                EnumValues=dbObject.EnumValues.Select(s => new EnumValue()
-                {
-                    Key = s.Key,
-                    TypeValue=(Common.TypeFromEnumValue) s.TypeValue,
-                    Id = s.Id,
-                    
-                }).ToList(),
-               Images=dbObject.ProductImages.Where(w=>w.TypeImage==(int)Common.TypeImage.GalleryItem&&w.ProductId==dbObject.Id).Select(i=>i.Images).Select(i=>new Image {
-                   Id=i.Id,
-                   ImgAlt=i.ImgAlt,
-                   PathInFileSystem=i.PathInFileSystem,
-                   ServerPathImg=i.ServerPathImg,
-                   Title=i.Title
-               }).ToList() ,
+                Categories =categories.Objects,
+                EnumValues= enumValues.Objects,
+               Images=images.Objects,
                ProductValues=dbObject.ProductValues.Select(i=>new ProductValue
                {
                    Id=i.Id,
@@ -513,14 +571,9 @@ namespace DBFirstDAL.Repositories
                    Name=i.Name,
                    Rating=i.Rating
                }).ToList(),
-               //Recommendations=dbObject.Recommendations.Select(i=>new Recommendation
-               //{
-               //    Id=i.Id,
-               //    Title=i.Title
-               //}).ToList(),
-               ThumbnailImg=dbObject.ProductImages.FirstOrDefault(f=>f.ProductId==dbObject.Id&&f.TypeImage==(int)Common.TypeImage.Thumbnail)!=null?
-               Convert.ConvertImageToEntity.Convert(dbObject.ProductImages.FirstOrDefault(f => f.ProductId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images):new Image()
                
+               ThumbnailImg= thumbnailImg
+
             };
             return product;
 
@@ -528,6 +581,9 @@ namespace DBFirstDAL.Repositories
 
         protected override Product ConvertDbObjectToEntityShort(PyramidFinalContext context, Products dbObject)
         {
+            var friendlyUrl = new RouteItemRepository(context).GetFriendlyUrl(dbObject.Id, Common.TypeEntityFromRouteEnum.ProductType);
+            var thumbnailImg = new ImageRepository(context).Get(dbObject.Id, (int)Common.TypeImage.Thumbnail);
+
             var product = new Product()
             {
                 TypeStatusProduct = (Common.TypeStatusProduct)dbObject.TypeStatusProduct,
@@ -542,8 +598,8 @@ namespace DBFirstDAL.Repositories
                 Title = dbObject.Title,
                 Content=dbObject.Content,
                 TypePrice = (Common.TypeProductPrice)dbObject.TypePrice,
-                ThumbnailImg = dbObject.ProductImages.FirstOrDefault(f => f.ProductId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
-               Convert.ConvertImageToEntity.Convert(dbObject.ProductImages.FirstOrDefault(f => f.ProductId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : new Image()
+                ThumbnailImg = thumbnailImg,
+                FriendlyUrl= friendlyUrl
             };
             return product;
         }
@@ -614,15 +670,11 @@ namespace DBFirstDAL.Repositories
        
         public override void UpdateBeforeSaving(PyramidFinalContext dbContext, Products dbEntity, Product entity, bool exists)
         {
-            dbEntity.Alias = entity.Alias;
             dbEntity.DateChange = entity.DateChange;
             dbEntity.DateCreation = entity.DateCreation;
             dbEntity.IsFilled = entity.IsFilled;
             dbEntity.IsPriority = entity.IsPriority;
             dbEntity.IsSEOReady = entity.IsSEOReady;
-            dbEntity.MetaDescription = entity.MetaDescription;
-            dbEntity.MetaKeywords = entity.MetaKeywords;
-            dbEntity.MetaTitle = entity.MetaTitle;
             dbEntity.Price = entity.Price;
             dbEntity.SeasonOffer = entity.SeasonOffer;
             dbEntity.Title = entity.Title;
@@ -633,11 +685,14 @@ namespace DBFirstDAL.Repositories
         }
         public override void UpdateAfterSaving(PyramidFinalContext dbContext, Products dbEntity, Product entity, bool exists)
         {
-            dbEntity.Categories.Clear();
-            foreach (var item in entity.Categories)
+            if (entity.Categories != null && entity.Categories.Count > 0)
             {
-                var efCategory = dbContext.Categories.Find(item.Id);
-                dbEntity.Categories.Add(efCategory);
+                dbEntity.Categories.Clear();
+                foreach (var item in entity.Categories)
+                {
+                    var efCategory = dbContext.Categories.Find(item.Id);
+                    dbEntity.Categories.Add(efCategory);
+                }
             }
             //dbEntity.Recommendations.Clear();
             //foreach (var item in entity.Recommendations)
@@ -646,40 +701,42 @@ namespace DBFirstDAL.Repositories
             //    dbEntity.Recommendations.Add(efRecommendation);
             //}
             //Context.SaveChanges();
-            dbEntity.EnumValues.Clear();
-
-            foreach (var item in entity.EnumValues)
+            if (entity.EnumValues != null && entity.EnumValues.Count > 0)
             {
-                var efEnumValues = dbContext.EnumValues.Find(item.Id);
-                if (efEnumValues != null)
-                {
-                    dbEntity.EnumValues.Add(efEnumValues);
-                }
+                dbEntity.EnumValues.Clear();
 
-            }
-           // Context.SaveChanges();
-
-            foreach (var item in entity.ProductValues)
-            {
-                var efprval = dbContext.ProductValues.FirstOrDefault(i => i.Id == item.Id);
-                if (efprval == null)
+                foreach (var item in entity.EnumValues)
                 {
-                    efprval = new ProductValues()
+                    var efEnumValues = dbContext.EnumValues.Find(item.Id);
+                    if (efEnumValues != null)
                     {
-                        Key = item.Key,
-                        Value = item.Value,
-                        ProductId = dbEntity.Id
-                    };
-                    dbContext.ProductValues.Add(efprval);
+                        dbEntity.EnumValues.Add(efEnumValues);
+                    }
+
                 }
-                else
+            }
+            // Context.SaveChanges();
+            if (entity.ProductValues != null && entity.ProductValues.Count > 0)
+            {
+                foreach (var item in entity.ProductValues)
                 {
-                    efprval.Key = item.Key;
-                    efprval.Value = item.Value;
+                    var efprval = dbContext.ProductValues.FirstOrDefault(i => i.Id == item.Id);
+                    if (efprval == null)
+                    {
+                        efprval = new ProductValues()
+                        {
+                            Key = item.Key,
+                            Value = item.Value,
+                            ProductId = dbEntity.Id
+                        };
+                        dbContext.ProductValues.Add(efprval);
+                    }
+                    else
+                    {
+                        efprval.Key = item.Key;
+                        efprval.Value = item.Value;
+                    }
                 }
-
-
-
             }
            // dbContext.SaveChanges();
 
@@ -716,6 +773,18 @@ namespace DBFirstDAL.Repositories
                 }
 
             }
+            if (entity.Seo!=null)
+            {
+                if (dbEntity.Seo==null)
+                {
+                    dbEntity.Seo = new Seo();
+                }
+                dbEntity.Seo.Alias = entity.Seo.Alias;
+                dbEntity.Seo.MetaTitle = entity.Seo.MetaTitle;
+                dbEntity.Seo.MetaKeywords = entity.Seo.MetaKeywords;
+                dbEntity.Seo.MetaDescription = entity.Seo.MetaDescription;
+
+            }
         }
 
         public IEnumerable<Common.Models.BreadCrumbViewModel> GetBreadCrumbs(int productId)
@@ -747,7 +816,8 @@ namespace DBFirstDAL.Repositories
                             breadcrumbs.Add(new BreadCrumbViewModel()
                             {
                                 Title = cat.Title,
-                                Link = defaulCateggorytLink + cat.Id.ToString()
+                                Link = defaulCateggorytLink + cat.Id.ToString(),
+                                FriendlyUrl = new RouteItemRepository(dbContext).GetFriendlyUrl(cat.Id, Common.TypeEntityFromRouteEnum.CategoryType)
                             });
                             
                             listIds.Add(cat.Id);
@@ -827,5 +897,50 @@ namespace DBFirstDAL.Repositories
         //        dbContext.SaveChanges();
         //    }
         //}
+        public void InitSeo(int productId)
+        {
+            using (PyramidFinalContext context = new PyramidFinalContext())
+            {
+                var productDb = context.Products.Find(productId);
+                if (productDb!=null)
+                {
+                    if (productDb.Seo==null)
+                    {
+                        productDb.Seo = new Seo();
+                       
+                    }
+                    productDb.Seo.Alias = Tools.Transliteration.Translit(productDb.Title);
+                    productDb.Seo.MetaTitle = productDb.Title;
+                    context.SaveChanges();
+
+                }
+            }
+
+        }
+
+        public override bool Delete(int id)
+        {
+            var data = _entities ?? new PyramidFinalContext();
+            try
+            {
+                var objects = data.Set<Products>();
+                var dbObject = GetDbObjectById(objects, id);
+                if (dbObject == null)
+                    return false;
+                var seo = data.Seo.Find(dbObject.SeoId);
+                if (seo != null)
+                {
+                    data.Seo.Remove(seo);
+                }
+                objects.Remove(dbObject);
+                data.SaveChanges();
+                return true;
+            }
+            finally
+            {
+                if (_entities == null)
+                    data.Dispose();
+            }
+        }
     }
 }

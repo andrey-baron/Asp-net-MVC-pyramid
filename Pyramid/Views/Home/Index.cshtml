@@ -79,7 +79,7 @@
             {
                 <div class="col-f-lg-3 col-md-3 col-xs-3">
                     <div class="product__item">
-                        <a href="@Url.Action("Index","Product",new { id=item.Id })">
+                        <a href="@(!string.IsNullOrEmpty(item.FriendlyUrl)?item.FriendlyUrl: Url.Action("Index","Product",new { id=item.Id }))">
                             <div class="product__link-block">
                                 <img src="@(item.ThumbnailImg!=null?item.ThumbnailImg.ServerPathImg:"")" alt="" class="product__item-img">
 
@@ -151,8 +151,8 @@
                                 <div class="decoration-work__point" style="top:@(point.CoordY)%; left:@(point.CoordX)%;">
                                     <div class="decoration-work__product">
                                         @*<div class="decoration-work__product-btn-close"></div>*@
-                                        <a href="@Url.Action("Index","Product",new { id=point.Products.Id })"><img src="@(point.Products.ThumbnailImg!=null?point.Products.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="decoration-work__product-img"></a>
-                                        <a href="@Url.Action("Index","Product",new { id=point.Products.Id })"><p class="decoration-work__product-title">@point.Products.Title</p></a>
+                                        <a href="@(!string.IsNullOrEmpty(point.Products.FriendlyUrl)? point.Products.FriendlyUrl: Url.Action("Index","Product",new { id=point.Products.Id }))"><img src="@(point.Products.ThumbnailImg!=null?point.Products.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="decoration-work__product-img"></a>
+                                        <a href="@(!string.IsNullOrEmpty(point.Products.FriendlyUrl)? point.Products.FriendlyUrl:Url.Action("Index","Product",new { id=point.Products.Id }))"><p class="decoration-work__product-title">@point.Products.Title</p></a>
                                         <div class="decoration-work__product-price product__item-price @Pyramid.Tools.ProductTool.GetClassByTypePrice((int)point.Products.TypePrice)">
                                             <p class="product__item-price-inner"><span class="big-decimal">@point.Products.Price</span> руб.</p>
                                         </div>
@@ -224,7 +224,7 @@
                     {
                         <div class="col-f-lg-3 col-md-3 col-xs-3">
                             <div class="product__item">
-                                <a href="@Url.Action("Index","Product",new { id=itemProduct.Id })">
+                                <a href="@(!string.IsNullOrEmpty(itemProduct.FriendlyUrl)? itemProduct.FriendlyUrl:Url.Action("Index","Product",new { id=itemProduct.Id }))">
                                     <div class="product__link-block">
                                         <img src="@(itemProduct.ThumbnailImg.ServerPathImg!=null?itemProduct.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="@itemProduct.ThumbnailImg.ImgAlt" class="product__item-img">
 
@@ -274,7 +274,8 @@
                         <div class="decoration-work__categories">
                             @foreach (var category in item.Categories)
                             {
-                                @Html.ActionLink(category.Title, "Index", "Category", new { id = category.Id }, new { @class = "decoration-work__category-link" })
+                                <a href="@(!string.IsNullOrEmpty(category.FriendlyUrl)?category.FriendlyUrl:Url.Action("Index", "Category", new { id = category.Id }))" class = "decoration-work__category-link">@category.Title</a>
+                               
                             }
                         </div>
 

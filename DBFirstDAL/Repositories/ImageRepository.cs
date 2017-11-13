@@ -12,6 +12,8 @@ namespace DBFirstDAL.Repositories
 {
     public class ImageRepository : GenericRepository<Images, PyramidFinalContext, Pyramid.Entity.Image, SearchParamsImage, int>
     {
+        public ImageRepository(PyramidFinalContext context) : base(context) { }
+        public ImageRepository() { }
         public override Image ConvertDbObjectToEntity(PyramidFinalContext context, Images dbObject)
         {
             return new Image(dbObject.Id,dbObject.PathInFileSystem,dbObject.ServerPathImg,dbObject.ImgAlt,dbObject.Title);
@@ -32,6 +34,10 @@ namespace DBFirstDAL.Repositories
 
         protected override IQueryable<Images> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Images> dbObjects, SearchParamsImage searchParams)
         {
+            if (searchParams.ProductId.HasValue && searchParams.TypeImage.HasValue)
+            {
+                dbObjects = dbObjects.Where(w => w.ProductImages.Any(a => a.TypeImage == searchParams.TypeImage.Value && a.ProductId == searchParams.ProductId.Value));
+            }
             return dbObjects = dbObjects.OrderByDescending(o => o.Id);
         }
 
@@ -44,5 +50,22 @@ namespace DBFirstDAL.Repositories
         {
             return i => i.Id;
         }
+
+        public  Image Get(int ProductId,int TypeImage)
+        {
+            var data = _entities ?? new PyramidFinalContext();
+            try
+            {
+                var dbObject = data.ProductImages.FirstOrDefault(i => i.TypeImage == TypeImage && i.ProductId == ProductId);
+
+                return dbObject != null ? ConvertDbObjectToEntity(data, dbObject.Images) : new Image();
+            }
+            finally
+            {
+                if (_entities == null)
+                    data.Dispose();
+            }
+        }
+
     }
 }

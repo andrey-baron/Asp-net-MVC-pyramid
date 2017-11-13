@@ -58,14 +58,14 @@
                             foreach (var item in dropdownCategories)
                             {
                                 <li class="header__catalog-list-item">
-                                    <a class="header__catalog-item-link" href="@Url.Action("Index","Category",new { id = item.Category.Id })">@item.Category.Title</a>
+                                    <a class="header__catalog-item-link" href="@(!string.IsNullOrEmpty(item.Category.FriendlyUrl)?item.Category.FriendlyUrl: Url.Action("Index","Category",new { id = item.Category.Id }))">@item.Category.Title</a>
                                     @if (item.SubCategories != null && item.SubCategories.Count() > 0)
                                     {
                                         <ul class="header__catalog-list-inner-level">
                                             @foreach (var subs in item.SubCategories)
                                             {
                                                 <li class="header__catalog-list-item">
-                                                    <a class="header__catalog-item-link" href="@Url.Action("Index","Category",new { id = subs.Id })">@subs.Title</a>
+                                                    <a class="header__catalog-item-link" href="@(!string.IsNullOrEmpty(subs.FriendlyUrl)?subs.FriendlyUrl:Url.Action("Index","Category",new { id = subs.Id }))">@subs.Title</a>
                                                 </li>
                                             }
                                         </ul>
@@ -74,26 +74,7 @@
                                 </li>
                             }
                         }
-                            @*<li class="header__catalog-list-item">
-                                <a class="header__catalog-item-link" href="#">content</a>
-                                <ul class="header__catalog-list-inner-level">
-                                    <li class="header__catalog-list-item">
-                                        <a class="header__catalog-item-link" href="#">content2</a>
-                                    </li>
-                                    <li class="header__catalog-list-item">
-                                        <a class="header__catalog-item-link" href="#">content2</a>
-
-                                    </li>
-                                    <li class="header__catalog-list-item">
-                                        <a class="header__catalog-item-link" href="#">content2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="header__catalog-list-item"><a class="header__catalog-item-link" href="#">content</a></li>
-                            <li class="header__catalog-list-item"><a class="header__catalog-item-link" href="#">content</a></li>
-                            <li class="header__catalog-list-item"><a class="header__catalog-item-link" href="#">content</a></li>
-                            <li class="header__catalog-list-item"><a class="header__catalog-item-link" href="#">content</a></li>
-                            <li class="header__catalog-list-item"><a class="header__catalog-item-link" href="#">content</a></li>*@
+                           
                         </ul>
                     </div>
                 </div>
@@ -123,7 +104,7 @@
             int breadIndx = 0;
             foreach (var item in breadcrumbs)
             {
-                <li class="breadcrumbs__list-item"><a @((breadcrumbs.Count - 1 != breadIndx) ? MvcHtmlString.Create("href=" + item.Link).ToHtmlString() : "")>@item.Title</a></li>
+                <li class="breadcrumbs__list-item"><a @(!string.IsNullOrEmpty(item.FriendlyUrl)?  MvcHtmlString.Create("href=" + item.FriendlyUrl).ToHtmlString(): (breadcrumbs.Count - 1 != breadIndx) ? MvcHtmlString.Create("href=" + item.Link).ToHtmlString() : "")>@item.Title</a></li>
                 breadIndx++;
             }
         }

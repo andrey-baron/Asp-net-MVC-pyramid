@@ -61,6 +61,9 @@
         <AssociationConnector Association="PyramidModel.HomeEntityWithProducts" />
         <AssociationConnector Association="PyramidModel.ProductCategories" />
         <AssociationConnector Association="PyramidModel.ProductEnumValues" />
+        <AssociationConnector Association="PyramidModel.FK__Pages__SeoId__2A164134" />
+        <AssociationConnector Association="PyramidModel.FK__Products__SeoId__29221CFB" />
+        <EntityTypeShape EntityType="PyramidModel.RouteItem" Width="1.5" PointX="8.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

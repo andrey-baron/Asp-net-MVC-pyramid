@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -37,14 +38,17 @@ namespace Pyramid.Entity
         [Display(Name = "Статус товара")]
         public Common.TypeStatusProduct TypeStatusProduct { get; set; }
 
+        public Nullable<int> SeoId { get; set; }
+        public  Seo Seo { get; set; }
+
         public Image ThumbnailImg { get; set; }
         public ICollection<Image> Images { get; set; }
         public ICollection<Category> Categories { get; set; }
         public ICollection<ProductValue> ProductValues { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public ICollection<EnumValue> EnumValues { get; set; }
-
-       // public ICollection<Recommendation> Recommendations { get; set; }
+        public string FriendlyUrl { get; set; }
+                                           // public ICollection<Recommendation> Recommendations { get; set; }
 
         public int PopularCount { get; set; }
 

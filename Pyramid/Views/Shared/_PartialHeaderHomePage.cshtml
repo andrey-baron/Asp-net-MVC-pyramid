@@ -72,7 +72,7 @@
         }
         @foreach (var item in HeaderCategories)
         {
-            <a href="@Url.Action("Index","Category",new { id=item.Id})">
+            <a href="@(!string.IsNullOrEmpty(item.FriendlyUrl)?item.FriendlyUrl: Url.Action("Index","Category",new { id=item.Id}))">
                 <div class="col-ten-lg-1 col-ten-md-2 col-ten-xs-2 header__cat-item">
                     <div class="header__cat-item-inner">
                         <img src="@((item.Thumbnail!=null)? item.Thumbnail.ServerPathImg:"")" alt="">

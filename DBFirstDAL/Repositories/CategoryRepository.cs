@@ -26,6 +26,67 @@ namespace DBFirstDAL.Repositories
         public CategoryRepository() 
         {
         }
+        public string GetChainFrendlyUrlByAlias(int categoryId)
+        {
+            var data = _entities ?? new PyramidFinalContext();
+            try
+            {
+                List<string> categoriesAliass = new List<string>();
+                bool isExistCategoryAliasFlag = true;
+                List<int> usedIds = new List<int>();
+                var cat = data.Categories.Find(categoryId);
+                if (cat != null)
+                {
+                    if (cat.Seo == null || string.IsNullOrEmpty(cat.Seo.Alias))
+                    {
+                        isExistCategoryAliasFlag = false;
+                        return null;
+                    }
+                    else
+                    {
+                        categoriesAliass.Add(cat.Seo.Alias);
+                    }
+                    usedIds.Add(cat.Id);
+                    while (cat.Categories2 != null && isExistCategoryAliasFlag)
+                    {
+                        cat = cat.Categories2;
+                        if (cat.Seo == null || string.IsNullOrEmpty(cat.Seo.Alias)||usedIds.Contains(cat.Id))
+                        {
+                            isExistCategoryAliasFlag = false;
+                            break;
+                        }
+                        else
+                        {
+                            categoriesAliass.Add(cat.Seo.Alias);
+                        }
+                        usedIds.Add(cat.Id);
+                    }
+                    if (isExistCategoryAliasFlag)
+                    {
+
+                        categoriesAliass.Reverse();
+                    }
+
+
+
+                    var sw = new StringBuilder();
+                    foreach (var item in categoriesAliass)
+                    {
+                        sw.Append("/");
+                        sw.Append(item.ToLower());
+                    }
+
+                    return sw.ToString();
+                }
+                return null;
+            }
+            finally
+            {
+                if (_entities == null)
+                    data.Dispose();
+            }
+        }
+
 
         public IEnumerable<RootCategory> GetRootCategoriesWithSubs()
         {
@@ -198,57 +259,7 @@ namespace DBFirstDAL.Repositories
                 if (_entities == null)
                     data.Dispose();
             }
-
-
-            //var prop = entity.GetType().GetProperty("Id");
-            //int id = (int)prop.GetValue(entity, null);
-
-            //var efEntity = FindBy(i => i.Id == id).SingleOrDefault();
-            //if (efEntity == null)
-            //{
-            //    var tmp = new List<Filters>(entity.Filters);
-            //    entity.Filters.Clear();
-            //    Context.Categories.Add(entity);
-            //    //Context.SaveChanges();
-            //    foreach (var item in tmp)
-            //    {
-            //        var effilter = Context.Filters.Find(item.Id);
-            //        if (effilter != null)
-            //        {
-            //            entity.Filters.Add(effilter);
-            //        }
-            //    }
-            //    //Context.SaveChanges();
-
-
-            //}
-            //else
-            //{
-            //    if (entity.Filters != null)
-            //    {
-            //        efEntity.Filters.Clear();
-            //        foreach (var item in entity.Filters)
-            //        {
-            //            var efFilter = Context.Filters.Find(item.Id);
-            //            efEntity.Filters.Add(efFilter);
-            //        }
-            //    }
-            //    Context.Entry(efEntity).CurrentValues.SetValues(entity);
-            //    Context.Entry(efEntity).State = System.Data.Entity.EntityState.Modified;
-
-            //    if (efEntity.Seo == null)
-            //    {
-            //        efEntity.Seo = entity.Seo;
-            //    }
-            //    else
-            //    {
-            //        efEntity.Seo.MetaDescription = entity.Seo.MetaDescription;
-            //        efEntity.Seo.MetaKeywords = entity.Seo.MetaKeywords;
-            //        efEntity.Seo.MetaTitle = efEntity.Seo.MetaTitle;
-            //        efEntity.Seo.Alias = efEntity.Seo.Alias;
-            //    }
-            //}
-
+            
         }
 
         public override void UpdateBeforeSaving(PyramidFinalContext dbContext, Categories dbEntity, Category entity, bool exists)
@@ -321,32 +332,17 @@ namespace DBFirstDAL.Repositories
             }
             if (dbEntity.Seo == null)
             {
-                if (entity.Seo!=null)
-                {
-                    dbEntity.Seo = new Seo()
-                    {
-                        Alias = entity.Seo.Alias,
-                        MetaDescription = entity.Seo.MetaDescription,
-                        MetaKeywords = entity.Seo.MetaKeywords,
-                        MetaTitle = entity.Seo.MetaTitle
-                    };
-                }
-                else
-                {
-                    dbEntity.Seo = new Seo()
-                    {
-                        MetaTitle = dbEntity.Title,
-                    };
-                }
-               
+                dbEntity.Seo = new Seo();
             }
-            else
+
+            if (entity.Seo!=null)
             {
                 dbEntity.Seo.MetaDescription = entity.Seo.MetaDescription;
                 dbEntity.Seo.MetaKeywords = entity.Seo.MetaKeywords;
                 dbEntity.Seo.MetaTitle = entity.Seo.MetaTitle;
                 dbEntity.Seo.Alias = entity.Seo.Alias;
             }
+
 
            
             if (entity.Recommendations!=null)
@@ -743,7 +739,11 @@ namespace DBFirstDAL.Repositories
 
         public override Category ConvertDbObjectToEntity(PyramidFinalContext context, Categories dbObject)
         {
+            var seo = new SeoRepository(context).Get(dbObject.SeoId.Value);
+            var products = new ProductRepository(context).Get(new SearchParamsProduct() { CategoryId = dbObject.Id, IsSearchOnlyPublicProduct = true });
+            var friendlyUrl = new RouteItemRepository(context).GetFriendlyUrl(dbObject.Id, Common.TypeEntityFromRouteEnum.CategoryType);
             var cat = new Category();
+            cat.FriendlyUrl = friendlyUrl;
             cat.Filters = dbObject.Filters.Select(s => new Pyramid.Entity.Filter() {
                 Id = s.Id,
                 Title = s.Title,
@@ -756,20 +756,7 @@ namespace DBFirstDAL.Repositories
               }).ToList();
 
 
-            cat.Products = dbObject.Products.Select(s => new Pyramid.Entity.Product()
-            {
-                Id=s.Id,
-                ThumbnailImg=s.ProductImages.FirstOrDefault(f => f.ProductId == s.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
-                ConvertImageToEntity.Convert(s.ProductImages.FirstOrDefault(f => f.ProductId == s.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : new Pyramid.Entity.Image(),
-                Price=s.Price,
-                TypePrice=(Common.TypeProductPrice) s.TypePrice,
-                Title=s.Title,
-                TypeStatusProduct=(Common.TypeStatusProduct)s.TypeStatusProduct,
-                EnumValues=s.EnumValues.Select(i=>new EnumValue {
-                    Id =i.Id,
-                Key=i.Key,
-                TypeValue=(Common.TypeFromEnumValue) i.TypeValue,}).ToList()
-            }).ToList();
+            cat.Products = products.Objects.ToList();
 
             cat.Id = dbObject.Id;
             cat.Title = dbObject.Title;
@@ -812,7 +799,8 @@ namespace DBFirstDAL.Repositories
             cat.ShowCategoryOnSite = dbObject.ShowCategoryOnSite;
             cat.Thumbnail = dbObject.CategoryImages.FirstOrDefault(f => f.CategoryId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
                 ConvertImageToEntity.Convert(dbObject.CategoryImages.FirstOrDefault(f => f.CategoryId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : new Pyramid.Entity.Image();
-
+            var friendlyUrl = new RouteItemRepository(context).GetFriendlyUrl(dbObject.Id, Common.TypeEntityFromRouteEnum.CategoryType);
+            cat.FriendlyUrl = friendlyUrl;
 
             return cat;
         }
@@ -823,6 +811,15 @@ namespace DBFirstDAL.Repositories
             {
                 dbObjects = dbObjects.Where(i => i.Title.Contains(searchParams.SearchString));
 
+            }
+            if (searchParams.ProductId.HasValue)
+            {
+                dbObjects = dbObjects.Where(w =>  w.Products.Any(a => a.Id == searchParams.ProductId.Value));
+
+            }
+            if (searchParams.IsShowCategoryOnSite.HasValue && searchParams.IsShowCategoryOnSite.Value)
+            {
+                dbObjects.Where(w => w.ShowCategoryOnSite == searchParams.IsShowCategoryOnSite.Value);
             }
             return dbObjects;
         }
@@ -858,7 +855,8 @@ namespace DBFirstDAL.Repositories
                     {
                         Title = EfModel.Title
                     ,
-                        Link = defaulCateggorytLink + EfModel.Id.ToString()
+                        Link = defaulCateggorytLink + EfModel.Id.ToString(),
+                        FriendlyUrl= new RouteItemRepository(dbContext).GetFriendlyUrl(EfModel.Id,Common.TypeEntityFromRouteEnum.CategoryType)
                     });
                     var flagstop = true;
                     var cat = EfModel.Categories2;
@@ -875,7 +873,8 @@ namespace DBFirstDAL.Repositories
                             breadcrumbs.Add(new BreadCrumbViewModel()
                             {
                                 Title = cat.Title,
-                                Link = defaulCateggorytLink + cat.Id.ToString()
+                                Link = defaulCateggorytLink + cat.Id.ToString(),
+                                FriendlyUrl = new RouteItemRepository(dbContext).GetFriendlyUrl(EfModel.Id, Common.TypeEntityFromRouteEnum.CategoryType)
                             });
 
                             if (cat.ParentId == null)
@@ -967,7 +966,11 @@ namespace DBFirstDAL.Repositories
                         item.ParentId = null;
                     }
                     dbContext.SaveChanges();
-
+                    var seo=dbContext.Seo.Find(dbObject.SeoId);
+                    if (seo!=null)
+                    {
+                        dbContext.Seo.Remove(seo);
+                    }
                     dbContext.Categories.Remove(dbObject);
                 }
 
@@ -1037,5 +1040,38 @@ namespace DBFirstDAL.Repositories
         //        return false;
         //    }
         //}
+        public static IEnumerable<Pyramid.Entity.Category> GetAllWithoutCategoryId(int catId)
+        {
+            using (PyramidFinalContext dbContext = new PyramidFinalContext())
+            {
+                return dbContext.Categories.Where(c => c.Id != catId).Select(c => new Pyramid.Entity.Category()
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                }).ToList(); ;
+            }
+        }
+
+        public void InitSeo(int categoryId)
+        {
+            using (PyramidFinalContext context = new PyramidFinalContext())
+            {
+                var categoryDb = context.Categories.Find(categoryId);
+                if (categoryDb != null)
+                {
+                    if (categoryDb.Seo == null)
+                    {
+                        categoryDb.Seo = new Seo();
+
+                    }
+                    categoryDb.Seo.Alias = Tools.Transliteration.Translit(categoryDb.Title);
+                    categoryDb.Seo.MetaTitle = categoryDb.Title;
+                    context.SaveChanges();
+
+                }
+            }
+
+        }
+
     }
 }

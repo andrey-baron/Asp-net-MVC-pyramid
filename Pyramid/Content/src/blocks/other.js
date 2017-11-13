@@ -2,26 +2,26 @@
     // приватная переменная
     var jivoWindow = $("#jivo-iframe-container", "body");
     var jivoPreview = $(".globalClass_ET", "body");
-    jivoPreview.hide();
+    //jivoPreview.hide();
     var openFlag = false;
     return { // методы доступные извне
         closeWindow: function () {
-            jivoWindow.css({
-                "z-index": "-100",
-                opacity: 0
-            });
+            //jivoWindow.css({
+            //    "z-index": "-100",
+            //    opacity: 0
+            //});
             openFlag = false;
             jivo_api.close();
-            jivoPreview.hide();
+            //jivoPreview.hide();
         },
         open: function () {
-            jivoWindow.show();
+            //jivoWindow.show();
             jivo_api.open();
             openFlag = true;
-            jivoWindow.css({
-                "z-index": "1",
-                opacity: 1
-            });
+            //jivoWindow.css({
+            //    "z-index": "1",
+            //    opacity: 1
+            //});
         },
         isOpen: function () {
             return openFlag;
@@ -29,7 +29,7 @@
         init: function () {
             jivoWindow = $("#jivo-iframe-container", "body");
             jivoPreview = $(".globalClass_ET", "body");
-            jivoPreview.hide();
+            //jivoPreview.hide();
             openFlag = false;
         }
 
@@ -47,7 +47,7 @@ var jivo_onLoadCallback = function () {
     });
 };
 var jivo_onClose = function () {
-    jivoCustom.closeWindow();
+    //jivoCustom.closeWindow();
 };
 ; (function () {
 

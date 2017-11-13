@@ -25,7 +25,7 @@ namespace Pyramid.Models.CategoryModels
         public int CurrentMinPrice { get; set; }
         public string Content { get; set; }
         public Seo Seo { get; set; }
-
+        public string FriendlyUrl { get; set; }
         public bool ExistProducts { get; set; }
 
         public CategoryViewModel()
@@ -41,6 +41,7 @@ namespace Pyramid.Models.CategoryModels
                 MaxPrice = category.Products.Count>0?(int)category.Products.Max(m=>m.Price):0,
                 MinPrice = category.Products.Count > 0 ? (int)category.Products.Min(m => m.Price):0,
                 Products=category.Products,
+                FriendlyUrl=category.FriendlyUrl,
                 Filters=category.Filters.Select(s=>new CategoryFilterViewModel()
                 {
                     Id =s.Id,

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common.SearchClasses;
 using DBFirstDAL.Repositories;
+using Entity;
 using PagedList;
 using Pyramid.Entity;
 using Pyramid.Global;
@@ -22,6 +23,7 @@ namespace Pyramid.Controllers
         RecommendationRepository _recommendationRepository;
         FilterRepository _filterRepository;
         GlobalOptionRepository _globalOptionRepository;
+        RouteItemRepository _routeItemRepository;
         const string defaulProductLink = "/Product/index/";
         const string defaulCateggorytLink = "/Category/index/";
         public ProductController()
@@ -32,6 +34,7 @@ namespace Pyramid.Controllers
             _recommendationRepository = new RecommendationRepository();
             _globalOptionRepository = new GlobalOptionRepository();
             _filterRepository = new FilterRepository();
+            _routeItemRepository = new RouteItemRepository();
         }
         public ActionResult Index(int id)
         {
@@ -59,7 +62,9 @@ namespace Pyramid.Controllers
                 ViewBag.IsFromParent = false;
             }
            
-            ViewBag.MetaTitle = viewModel.Product.MetaTitle?? viewModel.Product.Title;
+            ViewBag.MetaTitle = viewModel.Product.Seo!=null? viewModel.Product.Seo.MetaTitle : viewModel.Product.Title;
+            ViewBag.Keywords = viewModel.Product.Seo != null ? viewModel.Product.Seo.MetaKeywords : null;
+            ViewBag.Description = viewModel.Product.Seo != null ? viewModel.Product.Seo.MetaDescription : null;
             ViewBag.Shipping = _globalOptionRepository.Get("shipping").OptionContent;
             bool WillBeAddedFlag = viewModel.Product.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded;
             bool willbeRelatedFlag= viewModel.RelatedProducts.Any(i => i.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded);
@@ -171,7 +176,11 @@ namespace Pyramid.Controllers
                 Text = item.Title,
                 Value = item.Id.ToString()
             });
-
+            var test = ControllerContext.RequestContext.RouteData.Values["controller"];
+           var routeItem= _routeItemRepository.Get((string)ControllerContext.RequestContext.RouteData.Values["controller"],
+                "Index",
+                (int)ControllerContext.RequestContext.RouteData.Values["id"]);
+            ViewBag.CurrentFriendlyUrl = routeItem != null ? routeItem.FriendlyUrl : null;
             return View(model);
         }
         [Authorize]
@@ -188,6 +197,12 @@ namespace Pyramid.Controllers
             model.Categories= model.Categories.Where(i => i.Checked == true).ToList();
 
             _productRepository.AddOrUpdate(model);
+            var routeItem = new RouteItem(0, null, (string)ControllerContext.RequestContext.RouteData.Values["controller"],
+                "Index",
+                (int)ControllerContext.RequestContext.RouteData.Values["id"])
+            { Type=Common.TypeEntityFromRouteEnum.ProductType};
+            _routeItemRepository.AddOrUpdate(routeItem);
+            
             return RedirectToAction("AdminIndex");
         }
         [Authorize]
