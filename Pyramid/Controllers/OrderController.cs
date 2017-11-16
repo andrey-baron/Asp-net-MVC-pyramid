@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Common.SearchClasses;
 using DBFirstDAL.Repositories;
 using PagedList;
 using Pyramid.Global;
+using Pyramid.Models.CommonViewModels;
 using Pyramid.Models.Order;
 using System;
 using System.Collections.Generic;
@@ -22,13 +24,17 @@ namespace Pyramid.Controllers
         }
         public ActionResult Index(int? page)
         {
-            var orders = _orederRepository.GetAll().ToList();
-           
-            int pageNumber = (page ?? 1);
-            var modelList = new PagedList<Entity.Order>(
-            orders,
-            pageNumber, Config.PageSize);
-            return View(modelList);
+          var pageNumber = page ?? 1;
+
+            var objectsPerPage = Config.PageSize;
+            var startIndex = (pageNumber - 1) * objectsPerPage;
+
+
+            var searchResult = _orederRepository.Get(new SearchParamsOrder(startIndex,objectsPerPage) {SortByDate =true });
+
+            var viewModel = SearchResultViewModel<Pyramid.Entity.Order>.CreateFromSearchResult(searchResult, i => i, 10);
+
+            return View(viewModel);
         }
         public ActionResult Update(int id)
         {

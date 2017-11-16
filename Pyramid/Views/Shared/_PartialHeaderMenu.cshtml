@@ -1,9 +1,9 @@
-﻿
+﻿@{var modelFriendlyUrlBase = (FriendlyUrlBaseModel)ViewBag.FriendlyUrlBase; }
 <ul class="header__menu">
-    <li class="header__menu-item"><a href="/faq">Актуальные вопросы</a></li>
-    <li class="header__menu-item"><a href="@Url.Action("Index","Page",new { id = 3 } )">Доставка</a></li>
-    <li class="header__menu-item"><a href="@Url.Action("Index","Page",new { id = 2 } )" >Колеровка</a></li>
-    <li class="header__menu-item"><a href="@Url.Action("Index","Event")">Акции</a></li>
+    <li class="header__menu-item"><a href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.FaqBaseFriendlyUrl)? modelFriendlyUrlBase.FaqBaseFriendlyUrl: "/faq")">Актуальные вопросы</a></li>
+    <li class="header__menu-item"><a href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.ShippingFriendlyUrl)? modelFriendlyUrlBase.ShippingFriendlyUrl:Url.Action("Index","Page",new { id = 3 } ))">Доставка</a></li>
+    <li class="header__menu-item"><a href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.ColoringFriendlyUrl)? modelFriendlyUrlBase.ColoringFriendlyUrl:Url.Action("Index","Page",new { id = 2 } ))" >Колеровка</a></li>
+    <li class="header__menu-item"><a href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.EventBaseFriendlyUrl)? modelFriendlyUrlBase.EventBaseFriendlyUrl :Url.Action("Index","Event"))">Акции</a></li>
 </ul>
 
 <a href="http://remontlife.com/" target="_blank">

@@ -35,6 +35,12 @@ namespace DBFirstDAL.Repositories
                 UpdateBeforeSaving(data, dbObject, entity, exists);
                 if (!exists)
                 {
+                    var obj = data.RouteItems.FirstOrDefault(f => f.FriendlyUrl == dbObject.FriendlyUrl);
+                    if (obj!=null)
+                    {
+                        data.RouteItems.Remove(obj);
+                        data.SaveChanges();
+                    }
                     objects.Add(dbObject);
                 }
                
@@ -42,6 +48,10 @@ namespace DBFirstDAL.Repositories
                 ReBuildRelatedFriendlyUrl(data, friendlyUrl);
                 UpdateAfterSaving(data, dbObject, entity, exists);
                 data.SaveChanges();
+
+            }
+            catch( Exception ex)
+            {
 
             }
             finally
@@ -52,7 +62,7 @@ namespace DBFirstDAL.Repositories
         }
         public override Entity.RouteItem ConvertDbObjectToEntity(PyramidFinalContext context, RouteItem dbObject)
         {
-            return new Entity.RouteItem(dbObject.Id,dbObject.FriendlyUrl,dbObject.ControllerName,dbObject.ActionName,(int)dbObject.ContentId);
+            return new Entity.RouteItem(dbObject.Id,dbObject.FriendlyUrl,dbObject.ControllerName,dbObject.ActionName,dbObject.ContentId.HasValue?dbObject.ContentId.Value:0);
         }
 
         public override void UpdateBeforeSaving(PyramidFinalContext dbContext, RouteItem dbEntity, Entity.RouteItem entity, bool exists)
@@ -61,7 +71,7 @@ namespace DBFirstDAL.Repositories
             dbEntity.TypeEntity = (int)entity.Type;
             dbEntity.ControllerName = entity.ControllerName;
             dbEntity.ActionName = entity.ActionName;
-            dbEntity.ContentId = entity.ContentId;
+            dbEntity.ContentId = entity.ContentId==0?(int?)null:entity.ContentId;
             switch (entity.Type)
             {
                 case Common.TypeEntityFromRouteEnum.ProductType:
@@ -84,6 +94,63 @@ namespace DBFirstDAL.Repositories
                     {
                         dbEntity.FriendlyUrl = string.Format("/{0}", page.Seo.Alias.Replace("/",""));
 
+                    }
+                    break;
+                case Common.TypeEntityFromRouteEnum.Faq:
+                    var fq = new FaqRepository(dbContext).Get(entity.ContentId);
+                    var globPrefixFaq = new GlobalOptionRepository().Get(Common.Constant.KeyFaq);
+                    if (fq != null && fq.Seo != null)
+                    {
+                        dbEntity.FriendlyUrl = string.Format("/{0}/{1}", globPrefixFaq.OptionContent, fq.Seo.Alias.Replace("/", ""));
+
+                    }
+                    else
+                    {
+                        if (dbEntity.ActionName == Common.Constant.ValFaqAction &&
+                            dbEntity.ControllerName == Common.Constant.ValFaqController &&
+                            dbEntity.ContentId == null)
+                        {
+                            dbEntity.FriendlyUrl = string.Format("/{0}", globPrefixFaq.OptionContent);
+
+                        }
+                    }
+                    break;
+                case Common.TypeEntityFromRouteEnum.Event:
+                    var evnt = new EventRepository(dbContext).Get(entity.ContentId);
+                    var globPrefixEvent = new GlobalOptionRepository().Get(Common.Constant.KeyEvent);
+                    if (evnt != null && evnt.Seo != null)
+                    {
+                        dbEntity.FriendlyUrl = string.Format("/{0}/{1}", globPrefixEvent.OptionContent, evnt.Seo.Alias.Replace("/", ""));
+
+                    }
+                    else
+                    {
+                        if (dbEntity.ActionName==Common.Constant.ValEventAction && 
+                            dbEntity.ControllerName==Common.Constant.ValEventController&&
+                            dbEntity.ContentId==null)
+                        {
+                            dbEntity.FriendlyUrl = string.Format("/{0}", globPrefixEvent.OptionContent);
+
+                        }
+                    }
+                    break;
+                case Common.TypeEntityFromRouteEnum.RecommendationType:
+                    var recommend = new RecommendationRepository(dbContext).Get(entity.ContentId);
+                    var globPrefixRecommend = new GlobalOptionRepository().Get(Common.Constant.KeyRecommendation);
+                    if (recommend != null && recommend.Seo != null)
+                    {
+                        dbEntity.FriendlyUrl = string.Format("/{0}/{1}", globPrefixRecommend.OptionContent, recommend.Seo.Alias.Replace("/", ""));
+
+                    }
+                    else
+                    {
+                        if (dbEntity.ActionName == Common.Constant.ValRecommendationAction &&
+                            dbEntity.ControllerName == Common.Constant.ValRecommendationController &&
+                            dbEntity.ContentId == null)
+                        {
+                            dbEntity.FriendlyUrl = string.Format("/{0}", globPrefixRecommend.OptionContent);
+
+                        }
                     }
                     break;
                 default:
@@ -141,13 +208,23 @@ namespace DBFirstDAL.Repositories
             }
         }
 
-        public Entity.RouteItem Get(string controllerName, string actionName,int contentId) {
+        public Entity.RouteItem Get(string controllerName, string actionName,int? contentId) {
             using (PyramidFinalContext data= new PyramidFinalContext())
             {
-                var item = data.RouteItems.FirstOrDefault(f => f.ControllerName.ToLower() == controllerName.ToLower() &&
+                RouteItem item=null;
+                if (contentId.HasValue&& contentId.Value!=0)
+                {
+                    item = data.RouteItems.FirstOrDefault(f => f.ControllerName.ToLower() == controllerName.ToLower() &&
                  f.ActionName.ToLower() == actionName.ToLower() &&
-                 f.ContentId == contentId);
-                return item != null ? ConvertDbObjectToEntity(data,item) : null;
+                 f.ContentId == contentId.Value);
+                }
+                else
+                {
+                    item = data.RouteItems.FirstOrDefault(f => f.ControllerName.ToLower() == controllerName.ToLower() &&
+                f.ActionName.ToLower() == actionName.ToLower() &&
+                f.ContentId == null);
+                }
+                return item != null ? ConvertDbObjectToEntity(data, item) : null;
             }
         }
 
@@ -162,14 +239,14 @@ namespace DBFirstDAL.Repositories
                     switch ((Common.TypeEntityFromRouteEnum)item.TypeEntity)
                     {
                         case Common.TypeEntityFromRouteEnum.ProductType:
-                            var friendlyUrlProduct = new ProductRepository(dbContext).GetChainFrendlyUrlByAlias(item.ContentId.Value);
+                            var friendlyUrlProduct = new ProductRepository(dbContext).GetChainFrendlyUrlByAlias(item.ContentId.HasValue ? item.ContentId.Value : 0);
                             if (friendlyUrlProduct != null)
                             {
                                 item.FriendlyUrl = friendlyUrlProduct;
                             }
                             break;
                         case Common.TypeEntityFromRouteEnum.CategoryType:
-                            var friendlyUrlCategory = new CategoryRepository(dbContext).GetChainFrendlyUrlByAlias(item.ContentId.Value);
+                            var friendlyUrlCategory = new CategoryRepository(dbContext).GetChainFrendlyUrlByAlias(item.ContentId.HasValue ? item.ContentId.Value : 0);
                             if (friendlyUrlCategory != null)
                             {
                                 item.FriendlyUrl = friendlyUrlCategory;
@@ -177,6 +254,34 @@ namespace DBFirstDAL.Repositories
                             break;
 
                         case Common.TypeEntityFromRouteEnum.PageType:
+                            break;
+                        case Common.TypeEntityFromRouteEnum.Faq:
+                            var fq = new FaqRepository(dbContext).Get(item.ContentId.HasValue? item.ContentId.Value:0);
+                            var globPrefixFaq = new GlobalOptionRepository().Get(Common.Constant.KeyFaq);
+                            if (fq != null && fq.Seo != null)
+                            {
+                                item.FriendlyUrl = string.Format("/{0}/{1}", globPrefixFaq.OptionContent, fq.Seo.Alias.Replace("/", ""));
+
+                            }
+                            break;
+                        case Common.TypeEntityFromRouteEnum.Event:
+                            var evnt = new EventRepository(dbContext).Get(item.ContentId.HasValue ? item.ContentId.Value : 0);
+                            var globPrefixEvent = new GlobalOptionRepository().Get(Common.Constant.KeyEvent);
+                            if (evnt != null && evnt.Seo != null)
+                            {
+                                item.FriendlyUrl = string.Format("/{0}/{1}", globPrefixEvent.OptionContent, evnt.Seo.Alias.Replace("/", ""));
+
+                            }
+                            break;
+                        case Common.TypeEntityFromRouteEnum.RecommendationType:
+                            var recommend = new RecommendationRepository(dbContext).Get(item.ContentId.HasValue ? item.ContentId.Value : 0);
+                            var globPrefixRecommend = new GlobalOptionRepository().Get(Common.Constant.KeyRecommendation);
+                            if (recommend != null && recommend.Seo != null)
+                            {
+                                item.FriendlyUrl = string.Format("/{0}/{1}", globPrefixRecommend.OptionContent, recommend.Seo.Alias.Replace("/", ""));
+
+                            }
+                            
                             break;
                         default:
                             break;

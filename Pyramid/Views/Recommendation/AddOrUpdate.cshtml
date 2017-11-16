@@ -61,6 +61,51 @@
 
             </div>
 
+            <div class="card">
+                <div class="card-header card-header-lg">
+                    <p>Значение SEO параметров</p>
+                </div>
+                <div class="card-block">
+                    <div class="form-horizontal">
+                        @if (!string.IsNullOrEmpty(ViewBag.CurrentFriendlyUrl))
+                {
+                            <p style="color:gray">текущая ссылка: @ViewBag.CurrentFriendlyUrl</p>
+
+                        }
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Seo.Alias, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Seo.Alias, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Seo.Alias, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Seo.MetaDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(model => model.Seo.MetaDescription, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Seo.MetaDescription, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Seo.MetaTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Seo.MetaTitle, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Seo.MetaTitle, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Seo.MetaKeywords, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Seo.MetaKeywords, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Seo.MetaKeywords, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
 
         </div>
 

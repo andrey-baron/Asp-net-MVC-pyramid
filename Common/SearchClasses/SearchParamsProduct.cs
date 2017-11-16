@@ -15,6 +15,8 @@ namespace Common.SearchClasses
         public int? Filled { get; set; }
         public bool? IsNotUnloading1C { get; set; }
 
+        public int? EventId { get; set; }
+
         public SearchParamsProduct(string searchString, int? categoryId, bool? priority, int filled,
         int startIndex = 0, int? objectsCount = null):base(startIndex, objectsCount)
         {

@@ -1580,10 +1580,11 @@ label.error {
   background-position: center center;
 }
 .home-slider__item {
-  height: 576px;
+  height: 450px;
   width: 100%;
   padding-left: 385px;
-  background-size: contain!important;
+  background-size: cover!important;
+  background-position: center center!important;
   display: inline-block;
   line-height: 500px;
 }

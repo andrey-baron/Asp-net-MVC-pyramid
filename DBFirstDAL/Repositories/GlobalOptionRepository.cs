@@ -13,6 +13,37 @@ namespace DBFirstDAL.Repositories
     public class GlobalOptionRepository : GenericRepository<GlobalOption, PyramidFinalContext, Pyramid.Entity.GlobalOptionEntity, SearchParamsBase, int>
     {
 
+        //public override void AddOrUpdate(GlobalOptionEntity entity)
+        //{
+        //    var data = _entities ?? new PyramidFinalContext();
+        //    try
+        //    {
+        //        var objects = data.Set<GlobalOption>();
+        //        var dbObject = GetDbObjectByEntity(objects, entity);
+        //        bool exists = dbObject != null;
+        //        if (!exists)
+        //        {
+        //            dbObject = new GlobalOption();
+        //        }
+        //        string urlForEntities = "";
+                
+        //        UpdateBeforeSaving(data, dbObject, entity, exists);
+        //        if (!exists)
+        //        {
+        //            objects.Add(dbObject);
+        //        }
+        //        data.SaveChanges();
+            
+        //        UpdateAfterSaving(data, dbObject, entity, exists);
+        //        data.SaveChanges();
+
+        //    }
+        //    finally
+        //    {
+        //        if (_entities == null)
+        //            data.Dispose();
+        //    }
+        //}
         public GlobalOptionEntity Get(string key)
         {
             using (PyramidFinalContext dbContext = new PyramidFinalContext())
@@ -36,16 +67,56 @@ namespace DBFirstDAL.Repositories
 
         public override void UpdateBeforeSaving(PyramidFinalContext dbContext, GlobalOption dbEntity, GlobalOptionEntity entity, bool exists)
         {
-            dbEntity.OptionContent = entity.OptionContent;
+            if (dbEntity.StringKey==Common.Constant.KeyEvent||
+                dbEntity.StringKey == Common.Constant.KeyFaq||
+                dbEntity.StringKey==Common.Constant.KeyRecommendation)
+            {
+                dbEntity.OptionContent = entity.OptionContent.Replace("/","");
+            }
+            else
+            {
+                dbEntity.OptionContent = entity.OptionContent;
+            }
             if (!exists)
             {
                 dbEntity.DescriptionKey = entity.Description;
                 dbEntity.IsHtml = entity.IsHtml;
                 dbEntity.StringKey = entity.StringKey;
             }
-           
-            
-           
+        }
+        public override void UpdateAfterSaving(PyramidFinalContext dbContext, GlobalOption dbEntity, GlobalOptionEntity entity, bool exists)
+        {
+            switch (dbEntity.StringKey)
+            {
+                case Common.Constant.KeyEvent:
+                    new RouteItemRepository(dbContext).AddOrUpdate(new Entity.RouteItem() {
+                        ActionName=Common.Constant.ValEventAction,
+                        ControllerName=Common.Constant.ValEventController,
+                        Type=Common.TypeEntityFromRouteEnum.Event
+                    });
+
+                    break;
+                case Common.Constant.KeyRecommendation:
+                    new RouteItemRepository(dbContext).AddOrUpdate(new Entity.RouteItem()
+                    {
+                        ActionName = Common.Constant.ValRecommendationAction,
+                        ControllerName = Common.Constant.ValRecommendationController,
+                        Type = Common.TypeEntityFromRouteEnum.RecommendationType
+                    });
+
+                    break;
+                case Common.Constant.KeyFaq:
+
+                    new RouteItemRepository(dbContext).AddOrUpdate(new Entity.RouteItem()
+                    {
+                        ActionName = Common.Constant.ValFaqAction,
+                        ControllerName = Common.Constant.ValFaqController,
+                        Type = Common.TypeEntityFromRouteEnum.Faq
+                    });
+                    break;
+                default:
+                    break;
+            }
         }
 
         protected override IQueryable<GlobalOption> BuildDbObjectsList(PyramidFinalContext context, IQueryable<GlobalOption> dbObjects, SearchParamsBase searchParams)

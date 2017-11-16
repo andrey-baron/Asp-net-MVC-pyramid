@@ -23,10 +23,12 @@ namespace DBFirstDAL
     
         public int Id { get; set; }
         public string Title { get; set; }
+        public Nullable<int> SeoId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<QuestionAnswer> QuestionAnswer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HomeEntity> HomeEntity { get; set; }
+        public virtual Seo Seo { get; set; }
     }
 }

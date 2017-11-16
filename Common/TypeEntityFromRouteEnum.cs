@@ -11,5 +11,8 @@ namespace Common
         ProductType = 0,
         CategoryType = 1,
         PageType = 3,
+        Faq=4,
+        Event=5,
+        RecommendationType=6
     }
 }

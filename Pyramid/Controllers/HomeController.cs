@@ -8,9 +8,11 @@ using Pyramid.Global;
 using Pyramid.Models.CommonViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Tools;
 
 namespace Pyramid.Controllers
 {
@@ -88,6 +90,24 @@ namespace Pyramid.Controllers
             ViewBag.BredCrumbs = breadcrumbs;
             ViewBag.MetaTitle = "Поиск: " + searchString;
             return View(viewModel);
+        }
+
+        public FileResult xmlMap() {
+            SiteMapGenerator generator = new SiteMapGenerator("http://pyramidastroy.com", AppDomain.CurrentDomain.BaseDirectory);
+            var _routeItemRepository = new RouteItemRepository();
+            var items = _routeItemRepository.GetAll().Select(s => new SiteMapGenerator.SiteMapNode(s.FriendlyUrl, DateTime.Now, SiteMapGenerator.ChangeFrequency.Monthly));
+            try
+            {
+                generator.SaveMap(items);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
+            return File(generator.SiteMapPath, "text/xml");
+           
         }
     }
 }

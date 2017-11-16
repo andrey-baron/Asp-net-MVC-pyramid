@@ -505,18 +505,21 @@ namespace DBFirstDAL.Repositories
 
             if (dbObject.Faq!=null)
             {
-                hEntity.Faq = new FAQ()
-                {
-                    Id = dbObject.Faq.Id,
-                    Title = dbObject.Faq.Title,
-                    QuestionAnswer = dbObject.Faq.QuestionAnswer.Select(s => new Pyramid.Entity.QuestionAnswer()
-                    {
-                        Id = s.Id,
-                        Answer = s.Answer,
-                        Question = s.Question
+                var faq = new FaqRepository(context).Get(dbObject.Faq.Id);
+                hEntity.Faq = faq; 
+               // new FAQ()
+                //{
+                //    Id = dbObject.Faq.Id,
+                //    Title = dbObject.Faq.Title,
+                //    FriendlyUrl
+                //    QuestionAnswer = dbObject.Faq.QuestionAnswer.Select(s => new Pyramid.Entity.QuestionAnswer()
+                //    {
+                //        Id = s.Id,
+                //        Answer = s.Answer,
+                //        Question = s.Question
 
-                    }).ToList()
-                };
+                //    }).ToList()
+                //};
             }
             
 

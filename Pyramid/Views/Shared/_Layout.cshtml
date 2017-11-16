@@ -38,7 +38,10 @@
     <div class="wrapper">
         <div class="container-fluid container_no-pad">
 
-            @if (ViewBag.Controller != null && ViewBag.Action != null && ((string)ViewBag.Controller).ToLower() == "home" && ((string)ViewBag.Action).ToLower() == "index")
+            @if (ViewBag.Controller != null && ViewBag.Action != null &&
+                ((string)ViewBag.Controller).ToLower() == "home" &&
+                ((string)ViewBag.Action).ToLower() == "index" ||
+                ((string)ViewBag.Controller).ToLower() == "error")
             {
                 Html.RenderPartial("_PartialHeaderHomePage");
             }
@@ -129,14 +132,15 @@
                     </div>
                     <div class="col-md-9 col-xs-9">
                         <div class="footer__menu-wrap">
+                            @{var modelFriendlyUrlBase = (FriendlyUrlBaseModel)ViewBag.FriendlyUrlBase;}
                             <ul class="footer__menu">
-                                <li class="footer__menu-item"><a class="footer__menu-item-link" href="@Url.Action("Index","Page",new { id = 4 })">Наша компания</a></li>
-                                <li class="footer__menu-item"><a class="footer__menu-item-link" href="@Url.Action("Index","Page",new { id = 5 })">Наши марки</a></li>
-                                <li class="footer__menu-item"><a class="footer__menu-item-link" href="@Url.Action("Index","Page",new { id = 6 })">Сотрудничество</a></li>
-                                <li class="footer__menu-item"><a class="footer__menu-item-link" href="@Url.Action("Index","Page",new { id = 7 })">Наши вакансии</a></li>
-                                <li class="footer__menu-item"><a class="footer__menu-item-link" href="@Url.Action("Index","Page",new { id = 8 })">Контакты</a></li>
+                                <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.CompanyFriendlyUrl)?modelFriendlyUrlBase.CompanyFriendlyUrl:Url.Action("Index","Page",new { id = 4 }))">Наша компания</a></li>
+                                <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.MarksFriendlyUrl)?modelFriendlyUrlBase.MarksFriendlyUrl:Url.Action("Index","Page",new { id = 5 }))">Наши марки</a></li>
+                                <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.CooperationFriendlyUrl)?modelFriendlyUrlBase.CooperationFriendlyUrl:Url.Action("Index","Page",new { id = 6 }))">Сотрудничество</a></li>
+                                <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.JobsFriendlyUrl)?modelFriendlyUrlBase.JobsFriendlyUrl:Url.Action("Index","Page",new { id = 7 }))">Наши вакансии</a></li>
+                                <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.ContactsFriendlyUrl)?modelFriendlyUrlBase.ContactsFriendlyUrl:Url.Action("Index","Page",new { id = 8 }))">Контакты</a></li>
 
-                                <li class="footer__menu-item"><a class="footer__menu-item-link" href="@Url.Action("Index","Event")">Акции</a></li>
+                                <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.EventBaseFriendlyUrl)?modelFriendlyUrlBase.EventBaseFriendlyUrl:Url.Action("Index","Event"))">Акции</a></li>
                             </ul>
                         </div>
                     </div>
@@ -215,4 +219,5 @@
         });
     </script>
 </body>
+
 </html>

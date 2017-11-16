@@ -2,6 +2,7 @@
 using Common.Models;
 using Common.SearchClasses;
 using DBFirstDAL.Repositories;
+using Entity;
 using Pyramid.Models.CommonViewModels;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,12 @@ namespace Pyramid.Controllers
     {
         FaqRepository _faqRepository;
         QuestionAnswerRepository _questionAnswerRepository;
+        RouteItemRepository _routeItemRepository;
         public FAQController()
         {
             _faqRepository = new FaqRepository();
             _questionAnswerRepository = new QuestionAnswerRepository();
+            _routeItemRepository = new RouteItemRepository();
         }
         // GET: FAQ
         public ActionResult Index()
@@ -46,16 +49,16 @@ namespace Pyramid.Controllers
         }
         public ActionResult Get(int id)
         {
-            var efFaqs = _faqRepository.GetAllWithQuestionAnswer().ToList();
+            //var efFaqs = _faqRepository.GetAllWithQuestionAnswer().ToList();
             var faqlist = _faqRepository.GetAll();
-            var faqSingle = faqlist.FirstOrDefault(i => i.Id == id);
+            var faqSingle = _faqRepository.Get(id);
             Models.Faq.FaqViewModel model = new Models.Faq.FaqViewModel();
             model.AllFaq = faqlist;
             if (faqSingle!=null)
             {
                 model.CurrentFaq = faqSingle;
             }
-            if (model.CurrentFaq == null)
+            else
             {
                 model.CurrentFaq = new Entity.FAQ();
             }
@@ -63,6 +66,8 @@ namespace Pyramid.Controllers
 
             breadcrumbs.Add(new BreadCrumbViewModel()
             {
+                Link="/faq",
+                FriendlyUrl= string.Format("/{0}", new GlobalOptionRepository().Get(Common.Constant.KeyFaq).OptionContent),
                 Title = "Актуальные вопросы"
             });
             breadcrumbs.Add(new BreadCrumbViewModel()
@@ -72,6 +77,9 @@ namespace Pyramid.Controllers
             ViewBag.BredCrumbs = breadcrumbs;
 
             ViewBag.MetaTitle = model.CurrentFaq.Title;
+            ViewBag.MetaTitle = model.CurrentFaq.Seo != null ? model.CurrentFaq.Seo.MetaTitle : model.CurrentFaq.Title;
+            ViewBag.Keywords = model.CurrentFaq.Seo != null ? model.CurrentFaq.Seo.MetaKeywords : null;
+            ViewBag.Description = model.CurrentFaq.Seo != null ? model.CurrentFaq.Seo.MetaDescription : null;
             return View("Index",model);
         }
         [Authorize]
@@ -98,6 +106,8 @@ namespace Pyramid.Controllers
             {
                 model = new Entity.FAQ();
             }
+            var friendlyUrl = _routeItemRepository.GetFriendlyUrl(model.Id,Common.TypeEntityFromRouteEnum.Faq);
+            ViewBag.CurrentFriendlyUrl = friendlyUrl;
             return View(model);
         }
         [Authorize]
@@ -105,6 +115,12 @@ namespace Pyramid.Controllers
         public ActionResult AddOrUpdate(Pyramid.Entity.FAQ model)
         {
             _faqRepository.AddOrUpdate(model);
+            var routeItem = new RouteItem(0, null, (string)ControllerContext.RequestContext.RouteData.Values["controller"],
+              "Get",
+              model.Id)
+            { Type = Common.TypeEntityFromRouteEnum.Faq };
+
+            _routeItemRepository.AddOrUpdate(routeItem);
             return RedirectToActionPermanent("ManageIndex");
         }
 

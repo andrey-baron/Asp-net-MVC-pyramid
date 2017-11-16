@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -27,5 +28,11 @@ namespace Pyramid.Entity
         // public ICollection<Category> Categories { get; set; }
         [Display(Name = "Картинка")]
         public Image Image { get; set; }
+
+        public int? SeoId { get; set; }
+
+        public Seo Seo { get; set; }
+
+        public string FriendlyUrl { get; set; }
     }
 }

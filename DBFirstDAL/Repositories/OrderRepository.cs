@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace DBFirstDAL.Repositories
 {
-    public class OrderRepository : GenericRepository<Orders,PyramidFinalContext,Pyramid.Entity.Order, SearchParamsBase,int>
+    public class OrderRepository : GenericRepository<Orders,PyramidFinalContext,Pyramid.Entity.Order, SearchParamsOrder,int>
     {
         public override void UpdateBeforeSaving(PyramidFinalContext dbContext, Orders dbEntity, Order entity, bool exists)
         {
@@ -35,7 +35,7 @@ namespace DBFirstDAL.Repositories
                     Phone = entity.Phone,
                     TypeProgressOrder = (int)entity.TypeProgressOrder,
                     UserName = entity.UserName,
-                    
+                    DateTimeOrder=entity.DateOrder
                 };
                 if (dbEntity.Email==null)
                 {
@@ -69,11 +69,7 @@ namespace DBFirstDAL.Repositories
             }
         }
 
-        protected override IQueryable<Orders> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Orders> dbObjects, SearchParamsBase searchParams)
-        {
-            throw new NotImplementedException();
-        }
-
+       
         public override Order ConvertDbObjectToEntity(PyramidFinalContext context, Orders dbObject)
         {
             var order = new Order() {
@@ -86,7 +82,8 @@ namespace DBFirstDAL.Repositories
                 Id=dbObject.Id,
                 Phone=dbObject.Phone,
                 TypeProgressOrder= (Pyramid.Entity.Enumerable.TypeProgressOrder) dbObject.TypeProgressOrder,
-                UserName=dbObject.UserName
+                UserName=dbObject.UserName,
+                DateOrder=dbObject.DateTimeOrder
             };
             return order;
         }
@@ -99,6 +96,15 @@ namespace DBFirstDAL.Repositories
         protected override Expression<Func<Orders, int>> GetIdByDbObjectExpression()
         {
             return r => r.Id;
+        }
+
+        protected override IQueryable<Orders> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Orders> dbObjects, SearchParamsOrder searchParams)
+        {
+            if (searchParams.SortByDate.HasValue &&searchParams.SortByDate.Value)
+            {
+                dbObjects = dbObjects.OrderByDescending(o => o.DateTimeOrder);
+            }
+            return dbObjects;
         }
 
         //public override bool Delete(int id)

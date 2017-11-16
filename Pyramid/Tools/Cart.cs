@@ -64,6 +64,11 @@ namespace Pyramid.Tools
 
         public Cart() {
         }
+        public Cart(Cart obj)
+        {
+            this.lineCollection = new List<CartLine>();
+            this.lineCollection.AddRange(obj.Lines);
+        }
         public Cart(List<CartLine> lines)
         {
             lineCollection = lines;

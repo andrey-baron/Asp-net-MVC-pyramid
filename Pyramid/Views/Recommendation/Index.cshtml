@@ -8,6 +8,7 @@
     {
         page = pageNumber
     });
+   
 }
 <div class="page">
     <div class="page__title">@ViewBag.Title</div>
@@ -29,7 +30,7 @@
                                 </div>                                
                                 <div class="page__content page__content_for-list">@MvcHtmlString.Create(item.ShortContent)</div>
 
-                                <a href="@Url.Action("Get","Recommendation",new { id=item.Id})" class="page__link-event page__link-event_for-list">Подробней</a>
+                                <a href="@(!string.IsNullOrEmpty(item.FriendlyUrl)?item.FriendlyUrl : Url.Action("Get","Recommendation",new { id=item.Id}))" class="page__link-event page__link-event_for-list">Подробней</a>
                             </div>
 
                         </div>

@@ -1,4 +1,5 @@
 ﻿
+using Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +15,11 @@ namespace Pyramid.Entity
         [Display(Name ="Название")]
         public string Title { get; set; }
         public ICollection<QuestionAnswer> QuestionAnswer { get; set; }
+        public int? SeoId { get; set; }
 
+        public Seo Seo { get; set; }
+
+        public string FriendlyUrl { get; set; }
         public FAQ()
         {
             QuestionAnswer = new List<QuestionAnswer>();

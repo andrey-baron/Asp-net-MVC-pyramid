@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = Model.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var modelFriendlyUrlBase = (FriendlyUrlBaseModel)ViewBag.FriendlyUrlBase;
 }
 <div class="page">
     <div class="page__title">@Model.Title</div>
@@ -31,7 +32,7 @@
                 
                 <div class="col-lg-12">
 
-                    <a href="@Url.Action("Index","Recommendation")" class="page__link-event">Все советы</a>
+                    <a href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.RecommendationBaseFriendlyUrl)? modelFriendlyUrlBase.RecommendationBaseFriendlyUrl: Url.Action("Index","Recommendation"))" class="page__link-event">Все советы</a>
 
 
                 </div>

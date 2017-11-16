@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DBFirstDAL.Repositories;
+using Pyramid.Models;
 using Pyramid.Tools;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,10 @@ namespace Pyramid.Controllers
     public abstract class BaseController : Controller
     {
         CategoryRepository _categoryRepository;
+        RouteItemRepository _routeItemRepository;
         public BaseController() {
             _categoryRepository = new CategoryRepository();
+            _routeItemRepository = new RouteItemRepository();
         }
         public string HostName { get; protected set; }
 
@@ -74,6 +77,18 @@ namespace Pyramid.Controllers
                 Category=s.Category,
                 SubCategories=s.SubCategories
             });
+            var modelBaseFriendlyUrl = new FriendlyUrlBaseModel();
+            modelBaseFriendlyUrl.ColoringFriendlyUrl = _routeItemRepository.GetFriendlyUrl(2,Common.TypeEntityFromRouteEnum.PageType);
+            modelBaseFriendlyUrl.CompanyFriendlyUrl= _routeItemRepository.GetFriendlyUrl(4, Common.TypeEntityFromRouteEnum.PageType);
+            modelBaseFriendlyUrl.ContactsFriendlyUrl = _routeItemRepository.GetFriendlyUrl(8, Common.TypeEntityFromRouteEnum.PageType);
+            modelBaseFriendlyUrl.CooperationFriendlyUrl = _routeItemRepository.GetFriendlyUrl(6, Common.TypeEntityFromRouteEnum.PageType);
+            modelBaseFriendlyUrl.EventBaseFriendlyUrl = _routeItemRepository.Get("Event", "Index", null).FriendlyUrl;
+            modelBaseFriendlyUrl.FaqBaseFriendlyUrl= _routeItemRepository.Get("Faq", "Index", null).FriendlyUrl;
+            modelBaseFriendlyUrl.JobsFriendlyUrl = _routeItemRepository.GetFriendlyUrl(7, Common.TypeEntityFromRouteEnum.PageType);
+            modelBaseFriendlyUrl.MarksFriendlyUrl = _routeItemRepository.GetFriendlyUrl(5, Common.TypeEntityFromRouteEnum.PageType);
+            modelBaseFriendlyUrl.ShippingFriendlyUrl= _routeItemRepository.GetFriendlyUrl(3, Common.TypeEntityFromRouteEnum.PageType);
+            modelBaseFriendlyUrl.RecommendationBaseFriendlyUrl = _routeItemRepository.Get("Recommendation", "Index", null).FriendlyUrl;
+            ViewBag.FriendlyUrlBase = modelBaseFriendlyUrl;
 
             ViewBag.FooterCategories = modelRootCategories;
             base.Initialize(requestContext);

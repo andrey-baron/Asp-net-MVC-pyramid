@@ -56,7 +56,7 @@
                                             Добавить в корзину
                                         </span>
                                     </span>
-                                    <a class="" href="/Cart/CheckoutOneClick/@item.Id">
+                                    <a href="/Cart/CheckoutOneClick/@item.Id">
                                         <div class="product__buy product__buy_one-click product__buy_from-search">
                                             <p>Купить в один клик</p>
                                         </div>
@@ -67,7 +67,7 @@
                             <div class="col-md-2 col-xs-2">
                                 <div class="search-item__actions-block">
                                     <div class="search-item__product-deteil">
-                                        <a href="@Url.Action("Index","Product",new { id=item.Id})" class="btn btn-green search-item__link">Подробней</a>
+                                        <a href="@(!string.IsNullOrEmpty(item.FriendlyUrl)?item.FriendlyUrl: Url.Action("Index","Product",new { id=item.Id}))" class="btn btn-green search-item__link">Подробней</a>
                                     </div>
                                 </div>
                             </div>

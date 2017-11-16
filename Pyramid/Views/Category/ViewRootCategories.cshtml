@@ -17,7 +17,7 @@
                 <ul class="category__catalog-left-menu">
                     @foreach (var item in Model)
                     {
-                        <li><a href="@Url.Action("Index", "Category", new { id = item.Category.Id })">@item.Category.Title</a></li>
+                        <li><a href="@(!string.IsNullOrEmpty(item.Category.FriendlyUrl)?item.Category.FriendlyUrl: Url.Action("Index", "Category", new { id = item.Category.Id }))">@item.Category.Title</a></li>
                     }
                 </ul>
 
@@ -39,13 +39,13 @@
                                         <div class="subcategory__wrap-img">
                                             <img src="@(item.Category.Thumbnail!=null?item.Category.Thumbnail.ServerPathImg:"")" alt="" />
                                         </div>
-                                        <a href="@Url.Action("Index","Category",new { id = item.Category.Id })"><p class="subcategory__parent-title">@item.Category.Title</p></a>
+                                        <a href="@(!string.IsNullOrEmpty(item.Category.FriendlyUrl)?item.Category.FriendlyUrl:Url.Action("Index","Category",new { id = item.Category.Id }))"><p class="subcategory__parent-title">@item.Category.Title</p></a>
                                         <ul class="subcategory__list">
                                             @{ var countSubCat = 0;}
                                             @foreach (var subCategory in item.SubCategories)
                                             {
                                                 <li class="subcategory__list-item @(countSubCat>4?"subcategory__list-item_additional subcategory__list-item_hide":"")">
-                                                    <a href="@Url.Action("","Category",new { id = subCategory.Id })" class="subcategory__list-item-link">
+                                                    <a href="@(!string.IsNullOrEmpty(subCategory.FriendlyUrl)?subCategory.FriendlyUrl:Url.Action("","Category",new { id = subCategory.Id }))" class="subcategory__list-item-link">
                                                         <div class="subcategory__title">@subCategory.Title</div>
                                                         @*<div class="subcategory__list-item-cnt">@subCategory.Products.Count</div>*@
                                                     </a>

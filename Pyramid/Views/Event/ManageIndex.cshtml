@@ -1,11 +1,14 @@
-﻿@model PagedList.IPagedList<Pyramid.Entity.Event>
-@using PagedList.Mvc;
+﻿@model SearchResultViewModel<Pyramid.Entity.Event>
 
 @{
     ViewBag.Title = "Акции";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-}
+    var pagedList = Html.PagedList(Model.PagesInfo.ItemsCount, Model.PagesInfo.ItemsPerPage, Model.PagesInfo.CurrentPage, Model.PagesInfo.DisplayedPages, Url.GetAction(), Url.GetController(), pageNumber => new
+    {
+        page = pageNumber
+    });
 
+}
 <div class="section-header">
     <h2>@ViewBag.Title</h2>
     <div class="subtitle">информация</div>
@@ -33,7 +36,7 @@
         </tr>
     </thead>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Objects)
     {
         <tr>
             <td>
@@ -62,7 +65,8 @@
 
 </table>
 
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("AdminIndex",
-    new { page}))
+<div class="row">
+    <div class="col-md-12">
+        @pagedList
+    </div>
+</div>

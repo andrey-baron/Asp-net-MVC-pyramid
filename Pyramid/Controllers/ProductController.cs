@@ -179,7 +179,7 @@ namespace Pyramid.Controllers
             var test = ControllerContext.RequestContext.RouteData.Values["controller"];
            var routeItem= _routeItemRepository.Get((string)ControllerContext.RequestContext.RouteData.Values["controller"],
                 "Index",
-                (int)ControllerContext.RequestContext.RouteData.Values["id"]);
+                id);
             ViewBag.CurrentFriendlyUrl = routeItem != null ? routeItem.FriendlyUrl : null;
             return View(model);
         }
@@ -199,7 +199,7 @@ namespace Pyramid.Controllers
             _productRepository.AddOrUpdate(model);
             var routeItem = new RouteItem(0, null, (string)ControllerContext.RequestContext.RouteData.Values["controller"],
                 "Index",
-                (int)ControllerContext.RequestContext.RouteData.Values["id"])
+                model.Id)
             { Type=Common.TypeEntityFromRouteEnum.ProductType};
             _routeItemRepository.AddOrUpdate(routeItem);
             

@@ -26,6 +26,7 @@ namespace DBFirstDAL
         public string Email { get; set; }
         public string Adress { get; set; }
         public int TypeProgressOrder { get; set; }
+        public System.DateTime DateTimeOrder { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductOrders> ProductOrders { get; set; }

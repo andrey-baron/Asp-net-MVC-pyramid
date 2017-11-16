@@ -48,20 +48,24 @@
                         <div class="form-group call-to-action__form-group">
                             @Html.TextBoxFor(m => Model.Name, new {@class="form-control call-to-action__form-control", placeholder="Имя" })
                             @*<input type="text" class="form-control call-to-action__form-control" placeholder="Имя">*@
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+
                         </div>
                         <div class="form-group call-to-action__form-group">
                             @Html.TextBoxFor(m => Model.Email, new { @class = "form-control call-to-action__form-control", placeholder = "E-mail" })
                             @*<input type="text" class="form-control call-to-action__form-control" placeholder="E-mail">*@
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group call-to-action__form-group">
                             @Html.TextBoxFor(m => Model.Phone, new { @class = "form-control call-to-action__form-control", placeholder = "Телефон" })
-
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
 
                             @*<input type="text" class="form-control call-to-action__form-control" placeholder="Телефон">*@
                         </div>
                         <div class="form-group call-to-action__form-group">
                             @Html.TextBoxFor(m => Model.Adress, new { @class = "form-control call-to-action__form-control", placeholder = "Адрес доставки" })
-
+                            @Html.ValidationMessageFor(model => model.Adress, "", new { @class = "text-danger" })
 
                             @*<input type="text" class="form-control call-to-action__form-control" placeholder="Адрес доставки">*@
                         </div>

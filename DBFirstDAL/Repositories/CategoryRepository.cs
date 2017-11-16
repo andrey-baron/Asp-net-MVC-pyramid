@@ -264,20 +264,17 @@ namespace DBFirstDAL.Repositories
 
         public override void UpdateBeforeSaving(PyramidFinalContext dbContext, Categories dbEntity, Category entity, bool exists)
         {
-            if (exists)
+            dbEntity.FlagRoot = entity.FlagRoot;
+            dbEntity.ParentId = entity.ParentId;
+            dbEntity.Title = entity.Title;
+            dbEntity.Content = entity.Content;
+            dbEntity.ShowCategoryOnSite = entity.ShowCategoryOnSite;
+            dbEntity.Id = entity.Id;
+            if (entity.OneCId!=null)
             {
-                dbContext.Entry(dbEntity).CurrentValues.SetValues(entity);
+                dbEntity.OneCId = entity.OneCId;
             }
-            else
-            {
 
-                dbEntity.FlagRoot = entity.FlagRoot;
-                    dbEntity.ParentId = entity.ParentId;
-                dbEntity.Title = entity.Title;
-                dbEntity.Content = entity.Content;
-                dbEntity.ShowCategoryOnSite = entity.ShowCategoryOnSite;
-
-            }
             //dbContext.SaveChanges();
         }
         public override void UpdateAfterSaving(PyramidFinalContext dbContext, Categories dbEntity, Category entity, bool exists)
@@ -343,8 +340,9 @@ namespace DBFirstDAL.Repositories
                 dbEntity.Seo.Alias = entity.Seo.Alias;
             }
 
+            //dbContext.SaveChanges();
+            //dbEntity.SeoId = dbEntity.Seo.Id;
 
-           
             if (entity.Recommendations!=null)
             {
                 dbEntity.Recommendations.Clear();
@@ -784,7 +782,8 @@ namespace DBFirstDAL.Repositories
                     ShortContent=s.ShortContent,
                     Title=s.Title,
                     Id=s.Id,
-                    Image=ConvertImageToEntity.Convert( s.Images.FirstOrDefault())
+                    Image=ConvertImageToEntity.Convert( s.Images.FirstOrDefault()),
+                    FriendlyUrl=new RouteItemRepository(context).GetFriendlyUrl(s.Id,Common.TypeEntityFromRouteEnum.RecommendationType)
                 }).ToList();
             }
             return cat;

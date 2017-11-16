@@ -88,7 +88,8 @@ namespace Pyramid.Controllers
         public ActionResult Checkout(CheckoutModel model)
         {
             ValidateModel(model);
-            var cart = GetCart();
+            var cart = new Cart( GetCart());
+            
             var emailModel = new CartOrderFromEmailSendModel()
             {
                 Cart=cart,
@@ -108,9 +109,10 @@ namespace Pyramid.Controllers
                 {
                     Product = new Product() { Id = i.Product.Id },
                     Quantity = i.Quantity
-                }).ToList()
+                }).ToList(),
+                DateOrder=DateTime.Now
             };
-
+            
             MailerMessage mailerMessage = new MailerMessage();
             mailerMessage.Body = message;
             mailerMessage.Subject = "Заказ с сайта Пирамида строй";
@@ -121,7 +123,7 @@ namespace Pyramid.Controllers
             {
                 Mailer.Send(mailerMessage);
             }
-
+            
             GetCart().Clear();
             bool flagErr = false;
             try

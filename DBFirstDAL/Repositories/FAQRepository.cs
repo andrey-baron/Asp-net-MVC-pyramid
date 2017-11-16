@@ -12,6 +12,8 @@ namespace DBFirstDAL.Repositories
 {
     public class FaqRepository : GenericRepository<Faq,PyramidFinalContext,Pyramid.Entity.FAQ, SearchParamsBase,int>
     {
+        public FaqRepository(PyramidFinalContext context):base(context) { }
+        public FaqRepository() { }
         public void AddEmptyQuestionAnswer(int faqId)
         {
             using (PyramidFinalContext dbContext = new PyramidFinalContext())
@@ -29,46 +31,6 @@ namespace DBFirstDAL.Repositories
             }
         }
 
-        //public override void AddOrUpdate(Faq entity)
-        //{
-        //    var prop = entity.GetType().GetProperty("Id");
-        //    int id = (int)prop.GetValue(entity, null);
-        //    using (PyramidFinalContext dbContext= new PyramidFinalContext())
-        //    {
-        //        var efEntity = dbContext.Faq.Find(id);
-
-        //        if (efEntity == null)
-        //        {
-        //            bool flagQA = false;
-        //            List<QuestionAnswer> tempQA = new List<QuestionAnswer>();;
-        //            if (entity.QuestionAnswer != null)
-        //            {
-        //                flagQA = true;
-        //                 tempQA = new List<QuestionAnswer>(entity.QuestionAnswer);
-        //                entity.QuestionAnswer.Clear();
-        //            }
-        //            dbContext.Faq.Add(entity);
-        //            dbContext.Entry(entity).State = System.Data.Entity.EntityState.Added;
-        //            dbContext.SaveChanges();
-        //            if (flagQA)
-        //            {
-        //                entity.QuestionAnswer = tempQA;
-        //            }
-        //            dbContext.SaveChanges();
-        //        }
-        //        else
-        //        {
-        //            dbContext.Entry(efEntity).CurrentValues.SetValues(entity);
-        //            efEntity.QuestionAnswer.Clear();
-        //            efEntity.QuestionAnswer = entity.QuestionAnswer;
-
-        //            dbContext.SaveChanges();
-
-        //        }
-        //    }
-
-
-        //}
 
         public  IEnumerable<FAQ> GetAllWithQuestionAnswer()
         {
@@ -96,6 +58,18 @@ namespace DBFirstDAL.Repositories
                     Id=item.Id
                 });
             }
+            if (entity.Seo != null)
+            {
+                if (dbEntity.Seo == null)
+                {
+                    dbEntity.Seo = new Seo();
+                }
+                dbEntity.Seo.Alias = entity.Seo.Alias;
+                dbEntity.Seo.MetaTitle = entity.Seo.MetaTitle;
+                dbEntity.Seo.MetaKeywords = entity.Seo.MetaKeywords;
+                dbEntity.Seo.MetaDescription = entity.Seo.MetaDescription;
+
+            }
         }
 
         protected override IQueryable<Faq> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Faq> dbObjects, SearchParamsBase searchParams)
@@ -106,10 +80,16 @@ namespace DBFirstDAL.Repositories
 
         public override FAQ ConvertDbObjectToEntity(PyramidFinalContext context, Faq dbObject)
         {
+            var seo = new SeoRepository(context).Get(dbObject.SeoId.HasValue ? dbObject.SeoId.Value : 0);
+
             var faq = new FAQ() {
                 Id=dbObject.Id,
                Title=dbObject.Title,
-               QuestionAnswer=dbObject.QuestionAnswer.Select(s=>new Pyramid.Entity.QuestionAnswer()
+                FriendlyUrl = new RouteItemRepository(context).GetFriendlyUrl(dbObject.Id, Common.TypeEntityFromRouteEnum.Faq),
+                Seo=seo,
+                SeoId=dbObject.SeoId,
+
+               QuestionAnswer = dbObject.QuestionAnswer.Select(s=>new Pyramid.Entity.QuestionAnswer()
                {
                    Answer=s.Answer,
                    Id=s.Id,
@@ -118,7 +98,20 @@ namespace DBFirstDAL.Repositories
             };
             return faq;
         }
+        protected override FAQ ConvertDbObjectToEntityShort(PyramidFinalContext context, Faq dbObject)
+        {
+            var seo = new SeoRepository(context).Get(dbObject.SeoId.HasValue ? dbObject.SeoId.Value : 0);
 
+            var faq = new FAQ()
+            {
+                Id = dbObject.Id,
+                Title = dbObject.Title,
+                FriendlyUrl = new RouteItemRepository(context).GetFriendlyUrl(dbObject.Id, Common.TypeEntityFromRouteEnum.Faq),
+                Seo=seo,
+                SeoId=dbObject.SeoId
+            };
+            return faq;
+        }
         protected override Faq GetDbObjectByEntity(DbSet<Faq> objects, FAQ entity)
         {
             return objects.FirstOrDefault(i => i.Id == entity.Id);
@@ -127,6 +120,52 @@ namespace DBFirstDAL.Repositories
         protected override Expression<Func<Faq, int>> GetIdByDbObjectExpression()
         {
             return i => i.Id;
+        }
+
+        public override bool Delete(int id)
+        {
+            var data = _entities ?? new PyramidFinalContext();
+            try
+            {
+                var objects = data.Set<Faq>();
+                var dbObject = GetDbObjectById(objects, id);
+                if (dbObject == null)
+                    return false;
+                var seo = data.Seo.Find(dbObject.SeoId);
+                if (seo != null)
+                {
+                    data.Seo.Remove(seo);
+                }
+                objects.Remove(dbObject);
+                data.SaveChanges();
+                return true;
+            }
+            finally
+            {
+                if (_entities == null)
+                    data.Dispose();
+            }
+        }
+
+        public void InitSeo(int fqId)
+        {
+            using (PyramidFinalContext context = new PyramidFinalContext())
+            {
+                var fqDb = context.Faq.Find(fqId);
+                if (fqDb != null)
+                {
+                    if (fqDb.Seo == null)
+                    {
+                        fqDb.Seo = new Seo();
+
+                    }
+                    fqDb.Seo.Alias = Tools.Transliteration.Translit(fqDb.Title);
+                    fqDb.Seo.MetaTitle = fqDb.Title;
+                    context.SaveChanges();
+
+                }
+            }
+
         }
     }
 }

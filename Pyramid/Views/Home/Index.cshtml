@@ -2,11 +2,12 @@
 @{
     ViewBag.Title = "Пирамида строй";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    IEnumerable<Pyramid.Entity.Product>  offers = (IEnumerable<Pyramid.Entity.Product>)ViewBag.SeasonOffers;
+    IEnumerable<Pyramid.Entity.Product> offers = (IEnumerable<Pyramid.Entity.Product>)ViewBag.SeasonOffers;
     //bool WillBeAddedFlagHomeEntityProducts = Model.Any(i => i.Products.Where(w => w.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded).Count() > 0);
     //bool WillBeAddedFlagSeasonProducts = offers.Any(i => i.TypeStatusProduct == Common.TypeStatusProduct.WillBeAdded);
     //bool WillBeAddedFlag = WillBeAddedFlagSeasonProducts || WillBeAddedFlagHomeEntityProducts;
     IEnumerable<Pyramid.Entity.BannersOnHomePage> homeBanners = (IEnumerable<Pyramid.Entity.BannersOnHomePage>)ViewBag.BannersOnHomePage;
+    var modelFriendlyUrlBase = (FriendlyUrlBaseModel)ViewBag.FriendlyUrlBase;
 }
             @Styles.Render("~/Content/magnificPopupcss")
 <div class="home-slider">
@@ -48,7 +49,7 @@
 
         </div>
         <div class="col-ten-md-2 col-sm-6 col-xs-6">
-            <a href="@Url.Action("Index","Page",new {id= 3 })">
+            <a href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.ShippingFriendlyUrl)? modelFriendlyUrlBase.ShippingFriendlyUrl:Url.Action("Index","Page",new {id= 3 }))">
                 <div class="home-slider__shipping-wrap">
                     <div class="home-slider__shipping">
                         <div class="home-slider__shipping-img"></div>
@@ -59,7 +60,7 @@
             </a>
         </div>
         <div class="col-ten-md-2 col-sm-6 col-xs-6">
-            <a href="@Url.Action("Index","Page",new {id= 8 })">
+            <a href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.ContactsFriendlyUrl)?modelFriendlyUrlBase.ContactsFriendlyUrl:Url.Action("Index","Page",new {id= 8 }))">
                 <div class="home-slider__map"></div>
             </a>
         </div>
@@ -178,7 +179,7 @@
                         foreach (var itemQuestion in item.Faq.QuestionAnswer)
                         {
                             <p class="decoration-work__question-text">
-                                <a href="@Url.Action("Get", "Faq" , new { id=item.Faq.Id })">
+                                <a href="@(!string.IsNullOrEmpty(item.Faq.FriendlyUrl)?item.Faq.FriendlyUrl: Url.Action("Get", "Faq" , new { id=item.Faq.Id }))">
                                     @itemQuestion.Question
                                 </a>
                             </p>
@@ -192,7 +193,7 @@
                         }
                         <div class="decoration-work__question-wrap-all-link">
                             <a class="decoration-work__question-all-link"
-                               href="@Url.Action("Get","Faq",new {id=item.Faq.Id })">
+                               href="@(!string.IsNullOrEmpty(item.Faq.FriendlyUrl)?item.Faq.FriendlyUrl: Url.Action("Get","Faq",new {id=item.Faq.Id }))">
                                 Смотреть
                                 все вопросы
                             </a>

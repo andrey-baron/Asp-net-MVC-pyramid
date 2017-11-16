@@ -20,6 +20,9 @@ namespace Pyramid.Entity
         public string Adress { get; set; }
         [Display(Name = "Состояние заказа")]
         public Enumerable.TypeProgressOrder TypeProgressOrder { get; set; }
+        [Display(Name ="Время заказа")]
+        public DateTime DateOrder { get; set; }
+
 
         public  IEnumerable<OrderProduct> Products { get; set; }
 

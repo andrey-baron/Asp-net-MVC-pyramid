@@ -87,6 +87,7 @@
           <Property Name="DateEventStart" Type="datetime" Nullable="false" />
           <Property Name="DateEventEnd" Type="datetime" Nullable="false" />
           <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="SeoId" Type="int" />
         </EntityType>
         <EntityType Name="Faq">
           <Key>
@@ -94,6 +95,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="SeoId" Type="int" />
         </EntityType>
         <EntityType Name="FeedBackEmails">
           <Key>
@@ -190,6 +192,7 @@
           <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Adress" Type="nvarchar" MaxLength="1000" />
           <Property Name="TypeProgressOrder" Type="int" Nullable="false" />
+          <Property Name="DateTimeOrder" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="Pages">
           <Key>
@@ -309,6 +312,7 @@
           <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Content" Type="nvarchar(max)" />
           <Property Name="ShortContent" Type="nvarchar" MaxLength="500" />
+          <Property Name="SeoId" Type="int" />
         </EntityType>
         <EntityType Name="Reviews">
           <Key>
@@ -403,6 +407,30 @@
             </Principal>
             <Dependent Role="EventProducts">
               <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Events__SeoId__37703C52">
+          <End Role="Seo" Type="Self.Seo" Multiplicity="0..1" />
+          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="SeoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Faq__SeoId__367C1819">
+          <End Role="Seo" Type="Self.Seo" Multiplicity="0..1" />
+          <End Role="Faq" Type="Self.Faq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Faq">
+              <PropertyRef Name="SeoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -549,6 +577,18 @@
             </Principal>
             <Dependent Role="QuestionAnswer">
               <PropertyRef Name="FaqId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Recommend__SeoId__3B40CD36">
+          <End Role="Seo" Type="Self.Seo" Multiplicity="0..1" />
+          <End Role="Recommendations" Type="Self.Recommendations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recommendations">
+              <PropertyRef Name="SeoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -982,6 +1022,14 @@
             <End Role="Products" EntitySet="Products" />
             <End Role="EventProducts" EntitySet="EventProducts" />
           </AssociationSet>
+          <AssociationSet Name="FK__Events__SeoId__37703C52" Association="Self.FK__Events__SeoId__37703C52">
+            <End Role="Seo" EntitySet="Seo" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Faq__SeoId__367C1819" Association="Self.FK__Faq__SeoId__367C1819">
+            <End Role="Seo" EntitySet="Seo" />
+            <End Role="Faq" EntitySet="Faq" />
+          </AssociationSet>
           <AssociationSet Name="FK__HomeEntit__HomeE__66603565" Association="Self.FK__HomeEntit__HomeE__66603565">
             <End Role="HomeEntity" EntitySet="HomeEntity" />
             <End Role="HomeEntityWithProducts" EntitySet="HomeEntityWithProducts" />
@@ -1025,6 +1073,10 @@
           <AssociationSet Name="FK__QuestionA__FaqId__72C60C4A" Association="Self.FK__QuestionA__FaqId__72C60C4A">
             <End Role="Faq" EntitySet="Faq" />
             <End Role="QuestionAnswer" EntitySet="QuestionAnswer" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Recommend__SeoId__3B40CD36" Association="Self.FK__Recommend__SeoId__3B40CD36">
+            <End Role="Seo" EntitySet="Seo" />
+            <End Role="Recommendations" EntitySet="Recommendations" />
           </AssociationSet>
           <AssociationSet Name="FK__Reviews__Product__03F0984C" Association="Self.FK__Reviews__Product__03F0984C">
             <End Role="Products" EntitySet="Products" />
@@ -1295,6 +1347,18 @@
             <End Role="Products" EntitySet="Products" />
           </AssociationSet>
           <EntitySet Name="RouteItems" EntityType="PyramidModel.RouteItem" />
+          <AssociationSet Name="FK__Events__SeoId__37703C52" Association="PyramidModel.FK__Events__SeoId__37703C52">
+            <End Role="Seo" EntitySet="Seo" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Faq__SeoId__367C1819" Association="PyramidModel.FK__Faq__SeoId__367C1819">
+            <End Role="Seo" EntitySet="Seo" />
+            <End Role="Faq" EntitySet="Faq" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Recommend__SeoId__3B40CD36" Association="PyramidModel.FK__Recommend__SeoId__3B40CD36">
+            <End Role="Seo" EntitySet="Seo" />
+            <End Role="Recommendations" EntitySet="Recommendations" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="BannerWithPoints">
           <Key>
@@ -1340,6 +1404,8 @@
           <Property Name="isActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="EventImages" Relationship="PyramidModel.FK_EventImages_" FromRole="Events" ToRole="EventImages" />
           <NavigationProperty Name="Products" Relationship="PyramidModel.EventProducts" FromRole="Events" ToRole="Products" />
+          <Property Name="SeoId" Type="Int32" />
+          <NavigationProperty Name="Seo" Relationship="PyramidModel.FK__Events__SeoId__37703C52" FromRole="Events" ToRole="Seo" />
         </EntityType>
         <EntityType Name="Faq">
           <Key>
@@ -1349,6 +1415,8 @@
           <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="QuestionAnswer" Relationship="PyramidModel.FK__QuestionA__FaqId__44FF419A" FromRole="Faq" ToRole="QuestionAnswer" />
           <NavigationProperty Name="HomeEntity" Relationship="PyramidModel.HomeEntityFaq" FromRole="Faq" ToRole="HomeEntity" />
+          <Property Name="SeoId" Type="Int32" />
+          <NavigationProperty Name="Seo" Relationship="PyramidModel.FK__Faq__SeoId__367C1819" FromRole="Faq" ToRole="Seo" />
         </EntityType>
         <EntityType Name="FeedBackEmails">
           <Key>
@@ -1412,6 +1480,7 @@
           <Property Name="Adress" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="TypeProgressOrder" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ProductOrders" Relationship="PyramidModel.FK__ProductOr__Order__60A75C0F" FromRole="Orders" ToRole="ProductOrders" />
+          <Property Name="DateTimeOrder" Type="DateTime" Nullable="false" Precision="7" />
         </EntityType>
         <EntityType Name="Pages">
           <Key>
@@ -1490,6 +1559,9 @@
           <NavigationProperty Name="Categories" Relationship="PyramidModel.FK__Categorie__SeoId__09746778" FromRole="Seo" ToRole="Categories" />
           <NavigationProperty Name="Pages" Relationship="PyramidModel.FK__Pages__SeoId__2A164134" FromRole="Seo" ToRole="Pages" />
           <NavigationProperty Name="Products" Relationship="PyramidModel.FK__Products__SeoId__29221CFB" FromRole="Seo" ToRole="Products" />
+          <NavigationProperty Name="Events" Relationship="PyramidModel.FK__Events__SeoId__37703C52" FromRole="Seo" ToRole="Events" />
+          <NavigationProperty Name="Faq" Relationship="PyramidModel.FK__Faq__SeoId__367C1819" FromRole="Seo" ToRole="Faq" />
+          <NavigationProperty Name="Recommendations" Relationship="PyramidModel.FK__Recommend__SeoId__3B40CD36" FromRole="Seo" ToRole="Recommendations" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -1747,6 +1819,8 @@
           <NavigationProperty Name="Categories" Relationship="PyramidModel.RecommendationCategories" FromRole="Recommendations" ToRole="Categories" />
           <NavigationProperty Name="Images" Relationship="PyramidModel.RecommendationImages" FromRole="Recommendations" ToRole="Images" />
           <Property Name="ShortContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SeoId" Type="Int32" />
+          <NavigationProperty Name="Seo" Relationship="PyramidModel.FK__Recommend__SeoId__3B40CD36" FromRole="Recommendations" ToRole="Seo" />
         </EntityType>
         <Association Name="RecommendationCategories">
           <End Type="PyramidModel.Categories" Role="Categories" Multiplicity="*" />
@@ -1958,6 +2032,42 @@
           <Property Name="ContentId" Type="Int32" />
           <Property Name="TypeEntity" Type="Int32" Nullable="false" />
         </EntityType>
+        <Association Name="FK__Events__SeoId__37703C52">
+          <End Type="PyramidModel.Seo" Role="Seo" Multiplicity="0..1" />
+          <End Type="PyramidModel.Events" Role="Events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="SeoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Faq__SeoId__367C1819">
+          <End Type="PyramidModel.Seo" Role="Seo" Multiplicity="0..1" />
+          <End Type="PyramidModel.Faq" Role="Faq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Faq">
+              <PropertyRef Name="SeoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Recommend__SeoId__3B40CD36">
+          <End Type="PyramidModel.Seo" Role="Seo" Multiplicity="0..1" />
+          <End Type="PyramidModel.Recommendations" Role="Recommendations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recommendations">
+              <PropertyRef Name="SeoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1993,6 +2103,7 @@
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="PyramidModel.Events">
               <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="SeoId" ColumnName="SeoId" />
                 <ScalarProperty Name="isActive" ColumnName="isActive" />
                 <ScalarProperty Name="DateEventEnd" ColumnName="DateEventEnd" />
                 <ScalarProperty Name="DateEventStart" ColumnName="DateEventStart" />
@@ -2006,6 +2117,7 @@
           <EntitySetMapping Name="Faq">
             <EntityTypeMapping TypeName="PyramidModel.Faq">
               <MappingFragment StoreEntitySet="Faq">
+                <ScalarProperty Name="SeoId" ColumnName="SeoId" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -2054,6 +2166,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="PyramidModel.Orders">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="DateTimeOrder" ColumnName="DateTimeOrder" />
                 <ScalarProperty Name="TypeProgressOrder" ColumnName="TypeProgressOrder" />
                 <ScalarProperty Name="Adress" ColumnName="Adress" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -2214,6 +2327,7 @@
           <EntitySetMapping Name="Recommendations">
             <EntityTypeMapping TypeName="PyramidModel.Recommendations">
               <MappingFragment StoreEntitySet="Recommendations">
+                <ScalarProperty Name="SeoId" ColumnName="SeoId" />
                 <ScalarProperty Name="ShortContent" ColumnName="ShortContent" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Title" ColumnName="Title" />

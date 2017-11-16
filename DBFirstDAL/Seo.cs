@@ -20,6 +20,9 @@ namespace DBFirstDAL
             this.Categories = new HashSet<Categories>();
             this.Pages = new HashSet<Pages>();
             this.Products = new HashSet<Products>();
+            this.Events = new HashSet<Events>();
+            this.Faq = new HashSet<Faq>();
+            this.Recommendations = new HashSet<Recommendations>();
         }
     
         public int Id { get; set; }
@@ -34,5 +37,11 @@ namespace DBFirstDAL
         public virtual ICollection<Pages> Pages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Products> Products { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Events> Events { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Faq> Faq { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Recommendations> Recommendations { get; set; }
     }
 }

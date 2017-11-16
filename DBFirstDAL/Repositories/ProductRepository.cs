@@ -639,6 +639,10 @@ namespace DBFirstDAL.Repositories
             {
                 dbObjects= dbObjects.Where(i => i.Categories.Any(a => a.Id == searchParams.CategoryId.Value));
             }
+            if (searchParams.EventId != null)
+            {
+                dbObjects = dbObjects.Where(i => i.Events.Any(a => a.Id == searchParams.EventId.Value));
+            }
             if (searchParams.SearchString!=null)
             {
                 dbObjects = dbObjects.Where(i=>i.Title.Contains(searchParams.SearchString));

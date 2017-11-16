@@ -1,6 +1,7 @@
 ﻿using Common.Models;
 using Common.SearchClasses;
 using DBFirstDAL.Repositories;
+using Entity;
 using Pyramid.Entity;
 using Pyramid.Models.CommonViewModels;
 using System;
@@ -16,11 +17,15 @@ namespace Pyramid.Controllers
     {
         RecommendationRepository _recommendationRepository;
         EventBannerRepository _eventBannerRepository;
+        RouteItemRepository _routeItemRepository;
+
         public RecommendationController() {
             _recommendationRepository = new RecommendationRepository();
             _eventBannerRepository = new EventBannerRepository();
+            _routeItemRepository = new RouteItemRepository();
         }
         // GET: Recommendation
+        [AllowAnonymous]
         public ActionResult Index(int? page) {
             var pageNumber = page ?? 1;
             var objectsPerPage = 20;
@@ -42,7 +47,7 @@ namespace Pyramid.Controllers
             return View(viewModel);
         
         }
-
+        [AllowAnonymous]
         public ActionResult Get(int id)
         {
             var model = _recommendationRepository.Get(id);
@@ -90,6 +95,8 @@ namespace Pyramid.Controllers
             {
                 model = new Entity.Recommendation();
             }
+            var friendlyUrl = _routeItemRepository.GetFriendlyUrl(model.Id, Common.TypeEntityFromRouteEnum.RecommendationType);
+            ViewBag.CurrentFriendlyUrl = friendlyUrl;
             return View(model);
         }
         [HttpPost]
@@ -97,6 +104,12 @@ namespace Pyramid.Controllers
         public ActionResult AddOrUpdate(Entity.Recommendation model)
         {
             _recommendationRepository.AddOrUpdate(model);
+            var routeItem = new RouteItem(0, null, (string)ControllerContext.RequestContext.RouteData.Values["controller"],
+             "Get",
+             model.Id)
+            { Type = Common.TypeEntityFromRouteEnum.RecommendationType };
+
+            _routeItemRepository.AddOrUpdate(routeItem);
             return RedirectToAction("AdminIndex");
 
         }

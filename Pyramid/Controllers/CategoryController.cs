@@ -254,11 +254,10 @@ namespace Pyramid.Controllers
             {
                 Text = item.Title,
                 Value = item.Id.ToString()
-            }); ;
-
+            });
             var routeItem = _routeItemRepository.Get((string)ControllerContext.RequestContext.RouteData.Values["controller"],
                "Index",
-               (int)ControllerContext.RequestContext.RouteData.Values["id"]);
+               category.Id);
             ViewBag.CurrentFriendlyUrl = routeItem != null ? routeItem.FriendlyUrl : null;
 
             return View(category);

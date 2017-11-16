@@ -189,6 +189,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\EnumValueController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\EventBannerController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\FAQController.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Models\CommonViewModels\SearchResultViewModel.cs" />
     <Compile Include="Models\EnterModel.cs" />
     <Compile Include="Models\Faq\FaqViewModel.cs" />
+    <Compile Include="Models\FriendlyUrlBaseModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\JsonModels\TemplatePointJsonModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -808,6 +810,7 @@
     <Content Include="Views\BannersOnHomePage\Index.cshtml" />
     <Content Include="Views\BannersOnHomePage\AddOrUpdate.cshtml" />
     <Content Include="Views\Admin\UsersGuide.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -839,6 +842,10 @@
     <ProjectReference Include="..\Pyramid.BLL\Pyramid.BLL.csproj">
       <Project>{14326c1f-4c18-47ce-a076-3b831a48fe6c}</Project>
       <Name>Pyramid.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools\Tools.csproj">
+      <Project>{5C447C45-6634-49F2-9F4B-5B205158C332}</Project>
+      <Name>Tools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

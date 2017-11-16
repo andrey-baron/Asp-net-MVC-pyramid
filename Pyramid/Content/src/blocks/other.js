@@ -117,20 +117,20 @@ var jivo_onClose = function () {
         }
 
     });
-    $(".checkout-form").on("submit", function (e) {
-        e.preventDefault();
-        $(this).validate();
-        var formRes = $(this).serialize();
-        var amountError = $("input.error", $(this));
-        if (amountError.length == 0) {
-            $.post("/Cart/Checkout", formRes, function (data) {
-                //$(".js-result-insert").html(data);
-                Notify.generate('', 'Заявка отправленна', 1);
-            });
-            $("input", $(this)).val("");
-        }
+    //$(".checkout-form").on("submit", function (e) {
+    //    e.preventDefault();
+    //    $(this).validate();
+    //    var formRes = $(this).serialize();
+    //    var amountError = $("input.error", $(this));
+    //    if (amountError.length == 0) {
+    //        $.post("/Cart/Checkout", formRes, function (data) {
+    //            //$(".js-result-insert").html(data);
+    //            Notify.generate('', 'Заявка отправленна', 1);
+    //        });
+    //        $("input", $(this)).val("");
+    //    }
 
-    })
+    //})
     $(".checkout-form-one-click").on("submit", function (e) {
         e.preventDefault();
         $(this).validate();

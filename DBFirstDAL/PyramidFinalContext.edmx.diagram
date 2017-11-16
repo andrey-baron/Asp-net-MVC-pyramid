@@ -64,6 +64,9 @@
         <AssociationConnector Association="PyramidModel.FK__Pages__SeoId__2A164134" />
         <AssociationConnector Association="PyramidModel.FK__Products__SeoId__29221CFB" />
         <EntityTypeShape EntityType="PyramidModel.RouteItem" Width="1.5" PointX="8.375" PointY="0.75" />
+        <AssociationConnector Association="PyramidModel.FK__Events__SeoId__37703C52" />
+        <AssociationConnector Association="PyramidModel.FK__Faq__SeoId__367C1819" />
+        <AssociationConnector Association="PyramidModel.FK__Recommend__SeoId__3B40CD36" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

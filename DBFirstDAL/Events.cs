@@ -27,9 +27,11 @@ namespace DBFirstDAL
         public System.DateTime DateEventStart { get; set; }
         public System.DateTime DateEventEnd { get; set; }
         public bool isActive { get; set; }
+        public Nullable<int> SeoId { get; set; }
     
         public virtual EventImages EventImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Products> Products { get; set; }
+        public virtual Seo Seo { get; set; }
     }
 }

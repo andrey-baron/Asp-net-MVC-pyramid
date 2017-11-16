@@ -12,66 +12,10 @@ namespace DBFirstDAL.Repositories
 {
    public class EventRepository: GenericRepository<Events,PyramidFinalContext,Pyramid.Entity.Event, SearchParamsBase,int>
     {
-        /*public override e<Events> GetAll()
-        {
-            // говорим, что не надо создавать динамически генерируемые прокси-классы
-            // (которые System.Data.Entity.DynamicProxies...)
-            Context.Configuration.ProxyCreationEnabled = false;
-            // отключаем ленивую загрузку
-            Context.Configuration.LazyLoadingEnabled = false;
-            var query = Context.Set<Events>().Include(i=>i.EventImages.Images).AsNoTracking();
+        public EventRepository(PyramidFinalContext context):base(context) { }
 
-
-            return query;
-        }*/
-        //public override void AddOrUpdate(Events entity)
-        //{
-        //    var efEvent = FindBy(f => f.Id == entity.Id).SingleOrDefault();
-        //    if (efEvent==null)
-        //    {
-        //        var listProductIds = new List<int>(entity.Products.Select(i=>i.Id));
-        //        entity.Products.Clear();
-        //        foreach (var item in listProductIds)
-        //        {
-        //            var efProd = Context.Products.Find(item);
-        //            entity.Products.Add(efProd);
-        //        }
-        //        Context.Events.Add(entity);
-        //        Context.SaveChanges();
-
-
-        //        entity.EventImages = new EventImages() {
-        //            ImageId = entity.EventImages.ImageId,
-        //            EventId=entity.Id
-        //        };
-               
-        //        Context.SaveChanges();               
-        //    }
-        //    else
-        //    {
-        //        var test = Context.Entry(efEvent);
-        //        Context.Entry(efEvent).CurrentValues.SetValues(entity);
-        //        var listProductIds = new List<int>(entity.Products.Select(i => i.Id));
-
-        //        efEvent.Products.Clear();
-        //        foreach (var item in listProductIds)
-        //        {
-        //            var efProd = Context.Products.Find(item);
-        //            efEvent.Products.Add(efProd);
-        //        }
-               
-        //        Context.SaveChanges();
-
-
-        //        entity.EventImages = new EventImages()
-        //        {
-        //            ImageId = efEvent.EventImages.ImageId,
-        //            EventId = efEvent.Id
-        //        };
-
-        //        Context.SaveChanges();
-        //    }
-        //}
+        public EventRepository() { }
+      
 
         public bool DeleteReletedProduct(int id,int productId)
         {
@@ -110,7 +54,8 @@ namespace DBFirstDAL.Repositories
 
         public override Event ConvertDbObjectToEntity(PyramidFinalContext context, Events dbObject)
         {
-           
+            var seo = new SeoRepository(context).Get(dbObject.SeoId.HasValue ? dbObject.SeoId.Value : 0);
+            var products = new ProductRepository(context).Get(new SearchParamsProduct() { EventId=dbObject.Id});
             var entity = new Event() {
                 Content= dbObject.Content,
                 Id=dbObject.Id,
@@ -118,9 +63,12 @@ namespace DBFirstDAL.Repositories
                 DateEventStart=dbObject.DateEventStart,
                 //Image=dbObject.EventImages.
                 isActive=dbObject.isActive,
-                Products=dbObject.Products.Select(s=>new ProductRepository().ConvertDbObjectToEntity(context,s)).ToList(),
+                Products=products.Objects,
                 ShortContent=dbObject.ShortContent,
-                Title= dbObject.Title
+                Title= dbObject.Title,
+                Seo=seo,
+                SeoId=dbObject.SeoId,
+                FriendlyUrl= new RouteItemRepository(context).GetFriendlyUrl(dbObject.Id,Common.TypeEntityFromRouteEnum.Event)
             };
             if (dbObject.EventImages!=null && dbObject.EventImages.ImageId.HasValue && dbObject.EventImages.Images != null)
             {
@@ -138,7 +86,7 @@ namespace DBFirstDAL.Repositories
 
         protected override IQueryable<Events> BuildDbObjectsList(PyramidFinalContext context, IQueryable<Events> dbObjects, SearchParamsBase searchParams)
         {
-            throw new NotImplementedException();
+            return dbObjects;
         }
 
         public override void UpdateBeforeSaving(PyramidFinalContext dbContext, Events dbEntity, Event entity, bool exists)
@@ -173,8 +121,64 @@ namespace DBFirstDAL.Repositories
                     EventId = dbEntity.Id
                 };
             }
-           
+
+            if (entity.Seo != null)
+            {
+                if (dbEntity.Seo == null)
+                {
+                    dbEntity.Seo = new Seo();
+                }
+                dbEntity.Seo.Alias = entity.Seo.Alias;
+                dbEntity.Seo.MetaTitle = entity.Seo.MetaTitle;
+                dbEntity.Seo.MetaKeywords = entity.Seo.MetaKeywords;
+                dbEntity.Seo.MetaDescription = entity.Seo.MetaDescription;
+
+            }
+        }
+        public void InitSeo(int eventId)
+        {
+            using (PyramidFinalContext context = new PyramidFinalContext())
+            {
+                var eventDb = context.Events.Find(eventId);
+                if (eventDb != null)
+                {
+                    if (eventDb.Seo == null)
+                    {
+                        eventDb.Seo = new Seo();
+
+                    }
+                    eventDb.Seo.Alias = Tools.Transliteration.Translit(eventDb.Title);
+                    eventDb.Seo.MetaTitle = eventDb.Title;
+                    context.SaveChanges();
+
+                }
+            }
 
         }
+        public override bool Delete(int id)
+        {
+            var data = _entities ?? new PyramidFinalContext();
+            try
+            {
+                var objects = data.Set<Events>();
+                var dbObject = GetDbObjectById(objects, id);
+                if (dbObject == null)
+                    return false;
+                var seo = data.Seo.Find(dbObject.SeoId);
+                if (seo != null)
+                {
+                    data.Seo.Remove(seo);
+                }
+                objects.Remove(dbObject);
+                data.SaveChanges();
+                return true;
+            }
+            finally
+            {
+                if (_entities == null)
+                    data.Dispose();
+            }
+        }
+
     }
 }

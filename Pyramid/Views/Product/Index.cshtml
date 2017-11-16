@@ -137,22 +137,6 @@
                     
                 </ul>
                 
-
-
-                @*<ul class="single__bottom-menu">
-                        <li class="single__bottom-menu-item">
-                            <a href="#" class="single__bottom-menu-link">Советы</a>
-                        </li>
-                        <li class="single__bottom-menu-item">
-                            <a href="#" class="single__bottom-menu-link">Советы</a>
-                        </li>
-                        <li class="single__bottom-menu-item">
-                            <a href="#" class="single__bottom-menu-link">Советы</a>
-                        </li>
-                        <li class="single__bottom-menu-item">
-                            <a href="#" class="single__bottom-menu-link">Отзывы</a>
-                        </li>
-                    </ul>*@
             </div>
         </div>
     </div>
@@ -180,17 +164,17 @@
                     {
                         <div class="row single__recommend-row">
                             <div class="col-f-lg-3 col-md-4 col-xs-4">
-                                <a href="@Url.Action("Get","Recommendation",new { id=item.Id})">
+                                <a href="@(!string.IsNullOrEmpty(item.FriendlyUrl)?item.FriendlyUrl: Url.Action("Get","Recommendation",new { id=item.Id}))">
                                     <div class="single__recommend-pic" style="background: url(@item.Image.ServerPathImg)"></div>
                                 </a>
                                 
                             </div>
                             <div class="col-f-lg-8 col-md-8  col-xs-8">
-                                <a href="@Url.Action("Get","Recommendation",new { id=item.Id})">
+                                <a href="@(!string.IsNullOrEmpty(item.FriendlyUrl)?item.FriendlyUrl: Url.Action("Get","Recommendation",new { id=item.Id}))">
                                     <p class="single__recommend-title">@item.Title</p>
                                 </a>
                                 <div class="single__recommend-content">@MvcHtmlString.Create(item.ShortContent)</div>
-                                <a href="@Url.Action("Get","Recommendation",new { id=item.Id})" class="page__link-event page__link-event_for-list page__link-event_for-single-product">Подробней</a>
+                                <a href="@(!string.IsNullOrEmpty(item.FriendlyUrl)?item.FriendlyUrl: Url.Action("Get","Recommendation",new { id=item.Id}))" class="page__link-event page__link-event_for-list page__link-event_for-single-product">Подробней</a>
                             </div>
                         </div>
                     }
@@ -280,7 +264,7 @@
             {
                 <div class="single__bxslider-item">
                     <div class="product__item">
-                        <a href="@Url.Action("Index","Product",new { id=item.Id})">
+                        <a href="@(!string.IsNullOrEmpty(item.FriendlyUrl)? item.FriendlyUrl: Url.Action("Index","Product",new { id=item.Id}))">
                             <div class="product__link-block">
                                 <img src="@(item.ThumbnailImg.ServerPathImg!=null?item.ThumbnailImg.ServerPathImg:Pyramid.Global.Config.PathNotFilledImage)" alt="" class="product__item-img">
 
