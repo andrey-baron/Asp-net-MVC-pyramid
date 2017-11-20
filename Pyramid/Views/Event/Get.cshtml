@@ -8,6 +8,9 @@
     <div class="page__title">@Model.Title</div>
     <div class="row no-gutter">
         <div class="col-f-lg-3 col-md-3 col-xs-3">
+            <div style="text-align:center;">
+                <button type="button" data-toggle="modal" data-target="#feedback-modal" class="btn btn-primary btn-green" style="margin-bottom:10px;">Обратная связь</button>
+            </div>
             @Html.Partial("_PartialSliderOnPages")
         </div>
 
@@ -78,3 +81,50 @@
 
 </div>
 </div>
+
+<div class="modal fade" id="feedback-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Обратная связь</h4>
+            </div>
+            @{var feedback = new Common.FeedBack(); }
+            <div class="modal-body">
+                <form action="#" class="feedback-form-modal">
+
+                    <div class="form-group call-to-action__form-group">
+                        @Html.TextBoxFor(m => feedback.Name, new { @class = "form-control call-to-action__form-control", placeholder = Html.DisplayNameFor(d => feedback.Name) })
+                        @Html.ValidationMessageFor(m => feedback.Name)
+
+                    </div>
+                    <div class="form-group call-to-action__form-group">
+                        @Html.TextBoxFor(m => feedback.Email, new { @class = "form-control call-to-action__form-control", placeholder = Html.DisplayNameFor(d => feedback.Email) })
+                        @Html.ValidationMessageFor(m => feedback.Email)
+                        @*<input type="text" class="form-control call-to-action__form-control" placeholder="E-mail">*@
+                    </div>
+                    <div class="form-group call-to-action__form-group">
+                        @Html.TextBoxFor(m => feedback.Phone, new { @class = "form-control call-to-action__form-control", placeholder = Html.DisplayNameFor(d => feedback.Phone) })
+                        @Html.ValidationMessageFor(m => feedback.Phone)
+                        @*<input type="text" class="form-control call-to-action__form-control" placeholder="Телефон">*@
+                    </div>
+                    <div class="form-group call-to-action__form-group">
+                        <input class="" id="Confirm_terms" name="Confirm_terms" placeholder="Имя" type="checkbox">
+                        <span class="personal-data-comment">Отправляя данную форму, я даю <a href="~/Content/Policy/pd_agreement_pyramid.pdf" target="_blank">согласие</a> на обработку моих персональных данных в соответствии с <a href="~/Content/Policy/pd_politics_pyramid.pdf" target="_blank">политикой обработки ПД</a>.</span>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="error-scope" style="color:red;"></div>
+                    </div>
+                    <button class="call-to-action__btn">Отправить запрос</button>
+                </form>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+            </div>
+        </div>
+    </div>
+</div>
+

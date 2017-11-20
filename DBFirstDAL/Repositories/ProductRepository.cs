@@ -528,7 +528,7 @@ namespace DBFirstDAL.Repositories
 
         public override Product ConvertDbObjectToEntity(PyramidFinalContext context, Products dbObject)
         {
-            var seo = new SeoRepository(context).Get(dbObject.SeoId.Value);
+            var seo = new SeoRepository(context).Get(dbObject.SeoId.HasValue? dbObject.SeoId.Value:0);
             var categories = new CategoryRepository(context).Get(new SearchParamsCategory() {ProductId=dbObject.Id });
             var enumValues = new EnumValueRepository(context).Get(new SearchParamsEnumValue() { ProductId = dbObject.Id });
             var images = new ImageRepository(context).Get(new SearchParamsImage() { ProductId = dbObject.Id,TypeImage=(int)Common.TypeImage.GalleryItem });

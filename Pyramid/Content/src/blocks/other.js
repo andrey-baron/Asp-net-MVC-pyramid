@@ -51,7 +51,7 @@ var jivo_onClose = function () {
 };
 ; (function () {
 
-    $(".feedback-form").validate({
+    $(".feedback-form, .feedback-form-modal").validate({
         rules: {
             "feedback.Name": {
                 required: true
@@ -61,7 +61,10 @@ var jivo_onClose = function () {
             },
             Confirm_terms: {
                 required: true,
-            }
+            },
+            "feedback.Email": {
+                email: true
+            },
         },
         messages: {
             "feedback.Name": {
@@ -72,7 +75,10 @@ var jivo_onClose = function () {
             },
             Confirm_terms: {
                     required: "Необходимо согласие"
-                }
+            },
+            "feedback.Email": {
+                email: "Введите корректный email"
+            },
         }
     
 
@@ -107,13 +113,38 @@ var jivo_onClose = function () {
     $(".feedback-form").on("submit", function (e) {
         e.preventDefault();
         $(this).validate();
+        var form = $(this);
         var formRes = $(this).serialize();
         var amountError = $("input.error", $(this));
         if (amountError.length == 0) {
             $.post("/FeedBack/Send", formRes, function (data) {
-                Notify.generate('', 'Заявка отправленна', 1);
+                if (data.isSend==true) {
+                    Notify.generate('', 'Заявка отправленна', 1);
+                    $("input", form).val("");
+                } else { 
+                    Notify.generate('', 'Не корректные данные, заявка не отправленна', 1);
+                }
             });
-            $("input", $(this)).val("");
+        }
+
+    });
+    $(".modal").on("submit",".feedback-form-modal", function (e) {
+        e.preventDefault();
+        var modal = $(e.delegateTarget);
+        $(this).validate();
+        var formRes = $(this).serialize();
+        var amountError = $("input.error", $(this));
+        if (amountError.length == 0) {
+            $.post("/FeedBack/Send", formRes, function (data) {
+                if (data.isSend == true) {
+                    Notify.generate('', 'Заявка отправленна', 1);
+                    $("input", modal).val("");
+                    $(modal).modal("hide");
+                } else {
+                    Notify.generate('', 'Не корректные данные, заявка не отправленна', 1);
+                    $(".error-scope",modal).html(data.message)
+                }
+            });
         }
 
     });

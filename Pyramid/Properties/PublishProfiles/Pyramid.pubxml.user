@@ -19,7 +19,7 @@
       <publishTime>11/16/2017 13:59:36</publishTime>
     </File>
     <File Include="bin/DBFirstDAL.dll">
-      <publishTime>11/16/2017 13:59:36</publishTime>
+      <publishTime>11/20/2017 16:33:25</publishTime>
     </File>
     <File Include="bin/Entity.dll">
       <publishTime>11/16/2017 13:59:36</publishTime>
@@ -88,13 +88,13 @@
       <publishTime>09/30/2013 18:15:20</publishTime>
     </File>
     <File Include="bin/Pyramid.BLL.dll">
-      <publishTime>11/16/2017 13:59:37</publishTime>
+      <publishTime>11/20/2017 16:33:26</publishTime>
     </File>
     <File Include="bin/Pyramid.CodeFirstDAL.dll">
       <publishTime>05/17/2017 09:52:21</publishTime>
     </File>
     <File Include="bin/Pyramid.dll">
-      <publishTime>11/16/2017 14:35:13</publishTime>
+      <publishTime>11/20/2017 16:33:36</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/18/2015 20:19:46</publishTime>
@@ -244,7 +244,7 @@
       <publishTime>05/12/2017 11:31:03</publishTime>
     </File>
     <File Include="Content/css/main.css">
-      <publishTime>11/16/2017 11:15:05</publishTime>
+      <publishTime>11/17/2017 17:10:10</publishTime>
     </File>
     <File Include="Content/css/reset.css">
       <publishTime>05/09/2017 22:34:46</publishTime>
@@ -607,10 +607,10 @@
       <publishTime>11/16/2017 11:15:04</publishTime>
     </File>
     <File Include="Content/src/blocks/other.js">
-      <publishTime>11/15/2017 21:34:33</publishTime>
+      <publishTime>11/17/2017 17:21:43</publishTime>
     </File>
     <File Include="Content/src/blocks/other.less">
-      <publishTime>07/11/2017 14:31:31</publishTime>
+      <publishTime>11/17/2017 17:10:09</publishTime>
     </File>
     <File Include="Content/src/blocks/page/page.less">
       <publishTime>07/19/2017 15:02:24</publishTime>
@@ -1003,7 +1003,7 @@
       <publishTime>04/24/2017 12:25:52</publishTime>
     </File>
     <File Include="Scripts/main/main.js">
-      <publishTime>11/16/2017 11:14:48</publishTime>
+      <publishTime>11/17/2017 17:21:43</publishTime>
     </File>
     <File Include="Scripts/main/Mymfp-script.js">
       <publishTime>06/30/2017 13:14:35</publishTime>
@@ -1585,10 +1585,10 @@
       <publishTime>11/14/2017 10:20:23</publishTime>
     </File>
     <File Include="Views/Event/Get.cshtml">
-      <publishTime>11/15/2017 16:16:24</publishTime>
+      <publishTime>11/17/2017 17:13:39</publishTime>
     </File>
     <File Include="Views/Event/Index.cshtml">
-      <publishTime>11/15/2017 16:13:06</publishTime>
+      <publishTime>11/20/2017 16:32:19</publishTime>
     </File>
     <File Include="Views/Event/ManageIndex.cshtml">
       <publishTime>11/14/2017 15:59:59</publishTime>
@@ -1864,7 +1864,7 @@
       <publishTime>04/24/2017 12:25:34</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/16/2017 13:59:41</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
   </ItemGroup>
 </Project>

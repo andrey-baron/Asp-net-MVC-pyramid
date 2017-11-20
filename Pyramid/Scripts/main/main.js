@@ -51,7 +51,7 @@ var jivo_onClose = function () {
 };
 ; (function () {
 
-    $(".feedback-form").validate({
+    $(".feedback-form, .feedback-form-modal").validate({
         rules: {
             "feedback.Name": {
                 required: true
@@ -61,7 +61,10 @@ var jivo_onClose = function () {
             },
             Confirm_terms: {
                 required: true,
-            }
+            },
+            "feedback.Email": {
+                email: true
+            },
         },
         messages: {
             "feedback.Name": {
@@ -72,7 +75,10 @@ var jivo_onClose = function () {
             },
             Confirm_terms: {
                     required: "Необходимо согласие"
-                }
+            },
+            "feedback.Email": {
+                email: "Введите корректный email"
+            },
         }
     
 
@@ -107,13 +113,38 @@ var jivo_onClose = function () {
     $(".feedback-form").on("submit", function (e) {
         e.preventDefault();
         $(this).validate();
+        var form = $(this);
         var formRes = $(this).serialize();
         var amountError = $("input.error", $(this));
         if (amountError.length == 0) {
             $.post("/FeedBack/Send", formRes, function (data) {
-                Notify.generate('', 'Заявка отправленна', 1);
+                if (data.isSend==true) {
+                    Notify.generate('', 'Заявка отправленна', 1);
+                    $("input", form).val("");
+                } else { 
+                    Notify.generate('', 'Не корректные данные, заявка не отправленна', 1);
+                }
             });
-            $("input", $(this)).val("");
+        }
+
+    });
+    $(".modal").on("submit",".feedback-form-modal", function (e) {
+        e.preventDefault();
+        var modal = $(e.delegateTarget);
+        $(this).validate();
+        var formRes = $(this).serialize();
+        var amountError = $("input.error", $(this));
+        if (amountError.length == 0) {
+            $.post("/FeedBack/Send", formRes, function (data) {
+                if (data.isSend == true) {
+                    Notify.generate('', 'Заявка отправленна', 1);
+                    $("input", modal).val("");
+                    $(modal).modal("hide");
+                } else {
+                    Notify.generate('', 'Не корректные данные, заявка не отправленна', 1);
+                    $(".error-scope",modal).html(data.message)
+                }
+            });
         }
 
     });
@@ -147,97 +178,6 @@ var jivo_onClose = function () {
     })
 })();
 
-
-;
-var isPartial = $(".cart__container").hasClass("cart__container_small") ? true : false;
-var isFullPage = $(".cart__container").hasClass("cart__container_full") ? true : false;
-
-var reloadUrl =  "/Cart/PartialGetCard" ;
-var reloadUrlPartial =  "/Cart/PartialShortCart";
-(function () {
-    
-    $(".cart__container").on("click", ".cart__remove-item", function () {
-        var productId = $(this).data("ajaxid");
-        $.post("/Cart/RemoveItem/" + productId, function (removeData) {
-            UpdateCartPoint(removeData);
-            if (isPartial) {
-                $.post(reloadUrlPartial, function (data) {
-                    UpdateShortCart(data);
-                })
-            }
-            if (isFullPage) {
-                $.post(reloadUrl, function (data) {
-                    UpdateCart(data);
-                })
-            }
-            
-        })
-    });
-  
-
-    $(".cart__container").on("spinstop",".js-cart-spinner", function (event, ui) {
-        var ajaxid = $(this).data("ajaxid");
-        quantity = $(this).spinner( "value" );
-        $.post("/Cart/SetQuantityToCart?productId=" + ajaxid + "&quantity=" + quantity, function (data) {
-            SoccessAdd(data);
-        })
-    });
-  
-    $(".js-add-to-cart").on("click", function (e) {
-        var ajaxid = $(this).data("ajaxid");
-        var ajaxtitle = $(this).data("ajaxtitle");
-        var singleQuantity = $(".js-single-spinner");
-        var quantity = 1;
-        if (singleQuantity.length!=0) {
-            quantity = $(singleQuantity[0]).val();
-        }
-        $.post("/Cart/AddToCart?productId="+ajaxid+"&quantity="+quantity, function (data) {
-            SoccessAdd(data); 
-        })
-        Notify.generate('', 'Товар успешно добавлен в корзину', 1);
-    });
-
-})();
-
-function UpdateCartPoint(responseObj) {
-    $(".header__count-items").html(responseObj["AllAmount"]);
-}
-function UpdateShortCart(data) {
-    $(".cart__container_small").html(data);
-    $(".js-cart-spinner").spinner({
-        min: 1,
-    });
-}
-function UpdateCart(data) {
-    $(".cart__container_full").html(data);
-    $(".js-cart-spinner").spinner({
-        min: 1,
-    });
-}
-function SoccessAdd(response) {
-    if (isPartial) {
-        $.post(reloadUrlPartial, function (data) {
-            UpdateShortCart(data);
-        })
-    }
-    if (isFullPage) {
-        $.post(reloadUrl, function (data) {
-            UpdateCart(data);
-        })
-    }
-    UpdateCartPoint(response);
-  
-}
-
-
-(function () {
-
-    $(".call-to-action__form-wrap").hide();
-    $(".call-to-action").on("click",function () {
-        $(this).next(".call-to-action__form-wrap").toggle( 400 );
-
-    });
-})();
 ;(function () {
     var maxVal=$("#MaxPrice").val();
     var minVal = $("#MinPrice").val();
@@ -327,6 +267,99 @@ function SoccessAdd(response) {
     });
 }($));
 
+
+;
+var isPartial = $(".cart__container").hasClass("cart__container_small") ? true : false;
+var isFullPage = $(".cart__container").hasClass("cart__container_full") ? true : false;
+
+var reloadUrl =  "/Cart/PartialGetCard" ;
+var reloadUrlPartial =  "/Cart/PartialShortCart";
+(function () {
+    
+    $(".cart__container").on("click", ".cart__remove-item", function () {
+        var productId = $(this).data("ajaxid");
+        $.post("/Cart/RemoveItem/" + productId, function (removeData) {
+            UpdateCartPoint(removeData);
+            if (isPartial) {
+                $.post(reloadUrlPartial, function (data) {
+                    UpdateShortCart(data);
+                })
+            }
+            if (isFullPage) {
+                $.post(reloadUrl, function (data) {
+                    UpdateCart(data);
+                })
+            }
+            
+        })
+    });
+  
+
+    $(".cart__container").on("spinstop",".js-cart-spinner", function (event, ui) {
+        var ajaxid = $(this).data("ajaxid");
+        quantity = $(this).spinner( "value" );
+        $.post("/Cart/SetQuantityToCart?productId=" + ajaxid + "&quantity=" + quantity, function (data) {
+            SoccessAdd(data);
+        })
+    });
+  
+    $(".js-add-to-cart").on("click", function (e) {
+        var ajaxid = $(this).data("ajaxid");
+        var ajaxtitle = $(this).data("ajaxtitle");
+        var singleQuantity = $(".js-single-spinner");
+        var quantity = 1;
+        if (singleQuantity.length!=0) {
+            quantity = $(singleQuantity[0]).val();
+        }
+        $.post("/Cart/AddToCart?productId="+ajaxid+"&quantity="+quantity, function (data) {
+            SoccessAdd(data); 
+        })
+        Notify.generate('', 'Товар успешно добавлен в корзину', 1);
+    });
+
+})();
+
+function UpdateCartPoint(responseObj) {
+    $(".header__count-items").html(responseObj["AllAmount"]);
+}
+function UpdateShortCart(data) {
+    $(".cart__container_small").html(data);
+    $(".js-cart-spinner").spinner({
+        min: 1,
+    });
+}
+function UpdateCart(data) {
+    $(".cart__container_full").html(data);
+    $(".js-cart-spinner").spinner({
+        min: 1,
+    });
+}
+function SoccessAdd(response) {
+    if (isPartial) {
+        $.post(reloadUrlPartial, function (data) {
+            UpdateShortCart(data);
+        })
+    }
+    if (isFullPage) {
+        $.post(reloadUrl, function (data) {
+            UpdateCart(data);
+        })
+    }
+    UpdateCartPoint(response);
+  
+}
+;(function () {
+$(".js-toggle-content").on("click", function (e) {
+    var parent = $(this).parent();
+    var isOpenClass = "seo__content-wrap_is-open";
+    if (parent.hasClass(isOpenClass)) {
+        parent.removeClass(isOpenClass);
+    } else {
+        parent.addClass(isOpenClass);
+    }
+})
+
+})();
 (function ($) {
    /* $(".product__item").mouseover(function (e) {
 
@@ -409,15 +442,13 @@ function showSubmitResult(form, wasError, message) {
         }, 5000);
     }
 }
-;(function () {
-$(".js-toggle-content").on("click", function (e) {
-    var parent = $(this).parent();
-    var isOpenClass = "seo__content-wrap_is-open";
-    if (parent.hasClass(isOpenClass)) {
-        parent.removeClass(isOpenClass);
-    } else {
-        parent.addClass(isOpenClass);
-    }
-})
 
+
+(function () {
+
+    $(".call-to-action__form-wrap").hide();
+    $(".call-to-action").on("click",function () {
+        $(this).next(".call-to-action__form-wrap").toggle( 400 );
+
+    });
 })();

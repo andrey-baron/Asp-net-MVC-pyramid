@@ -737,7 +737,7 @@ namespace DBFirstDAL.Repositories
 
         public override Category ConvertDbObjectToEntity(PyramidFinalContext context, Categories dbObject)
         {
-            var seo = new SeoRepository(context).Get(dbObject.SeoId.Value);
+            var seo = new SeoRepository(context).Get(dbObject.SeoId.HasValue ? dbObject.SeoId.Value : 0);
             var products = new ProductRepository(context).Get(new SearchParamsProduct() { CategoryId = dbObject.Id, IsSearchOnlyPublicProduct = true });
             var friendlyUrl = new RouteItemRepository(context).GetFriendlyUrl(dbObject.Id, Common.TypeEntityFromRouteEnum.CategoryType);
             var cat = new Category();

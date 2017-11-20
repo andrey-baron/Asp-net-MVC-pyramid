@@ -22,7 +22,22 @@ namespace Pyramid.Controllers
         [AllowAnonymous]
         public ActionResult Send(Common.FeedBack feedback)
         {
-            ValidateModel(feedback);
+            if (!ModelState.IsValid)
+            {
+                var err = ModelState.Values.Select(s => s.Errors);
+                var errStr = new List<string>();
+
+                foreach (var item in err)
+                {
+                    errStr.AddRange(item.Select(i => i.ErrorMessage));
+                }
+                var msg=string.Join(" ", errStr);
+                return Json(new { isSend = false,message= msg }, JsonRequestBehavior.AllowGet);
+
+            }
+
+            //ValidateModel(feedback);
+
             var message = RenderViewToString(this.ControllerContext, "/Views/FeedBack/_PartialEmailMessage.cshtml", feedback,true);
 
             MailerMessage mailerMessage = new MailerMessage();
@@ -30,7 +45,7 @@ namespace Pyramid.Controllers
             mailerMessage.Subject = "Заявка с сайта Пирамида строй";
             mailerMessage.To = feedBackEmailRepository.GetAll().Select(i => i.Email).ToList();
             mailerMessage.SenderName = "Pyramid";
-            if (mailerMessage.To.Count>0)
+            if (mailerMessage.To.Count > 0)
             {
                 Mailer.Send(mailerMessage);
             }
