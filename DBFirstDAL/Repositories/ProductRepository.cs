@@ -423,7 +423,7 @@ namespace DBFirstDAL.Repositories
             dbObjext.IsNotUnloading1C = model.IsNotUnloading1C;
             if (!exist)
             {
-                dbObjext.IsFilled = model.IsFilled;
+                //dbObjext.IsFilled = model.IsFilled;
                 dbContext.Products.Add(dbObjext);
             }
            

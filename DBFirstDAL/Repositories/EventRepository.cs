@@ -115,6 +115,10 @@ namespace DBFirstDAL.Repositories
 
             if (dbEntity.Id!=0&& entity.Image.Id!=0)
             {
+                if (dbEntity.EventImages!=null)
+                {
+                    dbContext.EventImages.Remove(dbEntity.EventImages);
+                }
                 dbEntity.EventImages = new EventImages()
                 {
                     ImageId = entity.Image.Id,

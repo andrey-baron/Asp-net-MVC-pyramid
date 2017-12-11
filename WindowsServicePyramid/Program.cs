@@ -14,26 +14,26 @@ namespace WindowsServicePyramid
         /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
-            {
-                new ServicePyramid()
-            };
-            ServiceBase.Run(ServicesToRun);
+            //ServiceBase[] ServicesToRun;
+            //ServicesToRun = new ServiceBase[]
+            //{
+            //    new ServicePyramid()
+            //};
+            //ServiceBase.Run(ServicesToRun);
 
-            //if (Environment.UserInteractive)
-            //{
-            //    var service = new ServicePyramid();
-            //    service.RunAsConsole();
-            //}
-            //else
-            //{
-            //    var servicesToRun = new ServiceBase[]
-            //    {
-            //        new ServicePyramid()
-            //    };
-            //    ServiceBase.Run(servicesToRun);
-            //}
+            if (Environment.UserInteractive)
+            {
+                var service = new ServicePyramid();
+                service.RunAsConsole();
+            }
+            else
+            {
+                var servicesToRun = new ServiceBase[]
+                {
+                    new ServicePyramid()
+                };
+                ServiceBase.Run(servicesToRun);
+            }
         }
     }
 }
