@@ -1183,7 +1183,8 @@ label.error {
   background-size: contain;
 }
 .header__logo_small {
-  height: 144px;
+  /*height: @heightOneLine * 2;*/
+  height: 115px;
   width: 145px;
   max-width: 90%;
   background-size: contain;
@@ -1223,6 +1224,9 @@ label.error {
   font-size: 24px;
   text-align: center;
   display: block;
+}
+.header__text-phone_small {
+  font-size: 18px;
 }
 .header__cat-item {
   height: 150px;
@@ -1491,8 +1495,14 @@ label.error {
   .header__advertising_first {
     margin-right: 20px;
   }
+  .header__logo_small {
+    height: 100px;
+  }
 }
 @media (min-width: 300px) and (max-width: 991px) {
+  .header__logo_small {
+    height: 100px;
+  }
   .header__consultant-text {
     width: 50%;
     margin-left: 25px;

@@ -217,7 +217,8 @@
     background-size: contain;
   }
   &__logo_small{
-    height: @heightOneLine * 2;
+    /*height: @heightOneLine * 2;*/
+    height: 115px;
     width: 145px;
     max-width: 90%;
     background-size: contain;
@@ -258,6 +259,9 @@
     text-align: center;
     display:block;
   }
+   &__text-phone_small{
+       font-size: 18px;
+   }
   &__cat-item{
     height: @header-cat-item-height;
     border: 1px solid @lightGray;
@@ -543,9 +547,15 @@
    .header__advertising_first{
         margin-right:20px;
     }
+   .header__logo_small{
+    height: 100px;
+  }
 }
 
 @media (min-width: 300px) and (max-width:991px){
+     .header__logo_small{
+    height: 100px;
+  }
     .header__consultant-text{
         width:50%;
     margin-left: 25px;

@@ -178,6 +178,97 @@ var jivo_onClose = function () {
     })
 })();
 
+
+
+(function () {
+
+    $(".call-to-action__form-wrap").hide();
+    $(".call-to-action").on("click",function () {
+        $(this).next(".call-to-action__form-wrap").toggle( 400 );
+
+    });
+})();
+
+;
+var isPartial = $(".cart__container").hasClass("cart__container_small") ? true : false;
+var isFullPage = $(".cart__container").hasClass("cart__container_full") ? true : false;
+
+var reloadUrl =  "/Cart/PartialGetCard" ;
+var reloadUrlPartial =  "/Cart/PartialShortCart";
+(function () {
+    
+    $(".cart__container").on("click", ".cart__remove-item", function () {
+        var productId = $(this).data("ajaxid");
+        $.post("/Cart/RemoveItem/" + productId, function (removeData) {
+            UpdateCartPoint(removeData);
+            if (isPartial) {
+                $.post(reloadUrlPartial, function (data) {
+                    UpdateShortCart(data);
+                })
+            }
+            if (isFullPage) {
+                $.post(reloadUrl, function (data) {
+                    UpdateCart(data);
+                })
+            }
+            
+        })
+    });
+  
+
+    $(".cart__container").on("spinstop",".js-cart-spinner", function (event, ui) {
+        var ajaxid = $(this).data("ajaxid");
+        quantity = $(this).spinner( "value" );
+        $.post("/Cart/SetQuantityToCart?productId=" + ajaxid + "&quantity=" + quantity, function (data) {
+            SoccessAdd(data);
+        })
+    });
+  
+    $(".js-add-to-cart").on("click", function (e) {
+        var ajaxid = $(this).data("ajaxid");
+        var ajaxtitle = $(this).data("ajaxtitle");
+        var singleQuantity = $(".js-single-spinner");
+        var quantity = 1;
+        if (singleQuantity.length!=0) {
+            quantity = $(singleQuantity[0]).val();
+        }
+        $.post("/Cart/AddToCart?productId="+ajaxid+"&quantity="+quantity, function (data) {
+            SoccessAdd(data); 
+        })
+        Notify.generate('', 'Товар успешно добавлен в корзину', 1);
+    });
+
+})();
+
+function UpdateCartPoint(responseObj) {
+    $(".header__count-items").html(responseObj["AllAmount"]);
+}
+function UpdateShortCart(data) {
+    $(".cart__container_small").html(data);
+    $(".js-cart-spinner").spinner({
+        min: 1,
+    });
+}
+function UpdateCart(data) {
+    $(".cart__container_full").html(data);
+    $(".js-cart-spinner").spinner({
+        min: 1,
+    });
+}
+function SoccessAdd(response) {
+    if (isPartial) {
+        $.post(reloadUrlPartial, function (data) {
+            UpdateShortCart(data);
+        })
+    }
+    if (isFullPage) {
+        $.post(reloadUrl, function (data) {
+            UpdateCart(data);
+        })
+    }
+    UpdateCartPoint(response);
+  
+}
 ;(function () {
     var maxVal=$("#MaxPrice").val();
     var minVal = $("#MinPrice").val();
@@ -267,99 +358,6 @@ var jivo_onClose = function () {
     });
 }($));
 
-
-;
-var isPartial = $(".cart__container").hasClass("cart__container_small") ? true : false;
-var isFullPage = $(".cart__container").hasClass("cart__container_full") ? true : false;
-
-var reloadUrl =  "/Cart/PartialGetCard" ;
-var reloadUrlPartial =  "/Cart/PartialShortCart";
-(function () {
-    
-    $(".cart__container").on("click", ".cart__remove-item", function () {
-        var productId = $(this).data("ajaxid");
-        $.post("/Cart/RemoveItem/" + productId, function (removeData) {
-            UpdateCartPoint(removeData);
-            if (isPartial) {
-                $.post(reloadUrlPartial, function (data) {
-                    UpdateShortCart(data);
-                })
-            }
-            if (isFullPage) {
-                $.post(reloadUrl, function (data) {
-                    UpdateCart(data);
-                })
-            }
-            
-        })
-    });
-  
-
-    $(".cart__container").on("spinstop",".js-cart-spinner", function (event, ui) {
-        var ajaxid = $(this).data("ajaxid");
-        quantity = $(this).spinner( "value" );
-        $.post("/Cart/SetQuantityToCart?productId=" + ajaxid + "&quantity=" + quantity, function (data) {
-            SoccessAdd(data);
-        })
-    });
-  
-    $(".js-add-to-cart").on("click", function (e) {
-        var ajaxid = $(this).data("ajaxid");
-        var ajaxtitle = $(this).data("ajaxtitle");
-        var singleQuantity = $(".js-single-spinner");
-        var quantity = 1;
-        if (singleQuantity.length!=0) {
-            quantity = $(singleQuantity[0]).val();
-        }
-        $.post("/Cart/AddToCart?productId="+ajaxid+"&quantity="+quantity, function (data) {
-            SoccessAdd(data); 
-        })
-        Notify.generate('', 'Товар успешно добавлен в корзину', 1);
-    });
-
-})();
-
-function UpdateCartPoint(responseObj) {
-    $(".header__count-items").html(responseObj["AllAmount"]);
-}
-function UpdateShortCart(data) {
-    $(".cart__container_small").html(data);
-    $(".js-cart-spinner").spinner({
-        min: 1,
-    });
-}
-function UpdateCart(data) {
-    $(".cart__container_full").html(data);
-    $(".js-cart-spinner").spinner({
-        min: 1,
-    });
-}
-function SoccessAdd(response) {
-    if (isPartial) {
-        $.post(reloadUrlPartial, function (data) {
-            UpdateShortCart(data);
-        })
-    }
-    if (isFullPage) {
-        $.post(reloadUrl, function (data) {
-            UpdateCart(data);
-        })
-    }
-    UpdateCartPoint(response);
-  
-}
-;(function () {
-$(".js-toggle-content").on("click", function (e) {
-    var parent = $(this).parent();
-    var isOpenClass = "seo__content-wrap_is-open";
-    if (parent.hasClass(isOpenClass)) {
-        parent.removeClass(isOpenClass);
-    } else {
-        parent.addClass(isOpenClass);
-    }
-})
-
-})();
 (function ($) {
    /* $(".product__item").mouseover(function (e) {
 
@@ -442,13 +440,15 @@ function showSubmitResult(form, wasError, message) {
         }, 5000);
     }
 }
+;(function () {
+$(".js-toggle-content").on("click", function (e) {
+    var parent = $(this).parent();
+    var isOpenClass = "seo__content-wrap_is-open";
+    if (parent.hasClass(isOpenClass)) {
+        parent.removeClass(isOpenClass);
+    } else {
+        parent.addClass(isOpenClass);
+    }
+})
 
-
-(function () {
-
-    $(".call-to-action__form-wrap").hide();
-    $(".call-to-action").on("click",function () {
-        $(this).next(".call-to-action__form-wrap").toggle( 400 );
-
-    });
 })();
