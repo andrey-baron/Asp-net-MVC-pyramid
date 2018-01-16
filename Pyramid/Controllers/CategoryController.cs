@@ -144,8 +144,24 @@ namespace Pyramid.Controllers
                         break;
                 }
             }
-            
-            ViewBag.BredCrumbs = _categoryRepository.GetBreadCrumbs(id);
+
+            var tmpBreadCrumbs = _categoryRepository.GetBreadCrumbs(id);
+
+            if (tmpBreadCrumbs.Count() == 2)
+            {
+                foreach (var item in tmpBreadCrumbs)
+                {
+                    var tmpIndx = item.FriendlyUrl.LastIndexOf('/');
+                    if (tmpIndx != 0)
+                    {
+                        item.FriendlyUrl = item.FriendlyUrl.Substring(0, tmpIndx);
+                    }
+                    break;
+                }
+            }
+
+            ViewBag.BredCrumbs = tmpBreadCrumbs;
+
             viewModel.NestedCategories = _categoryRepository.GetNestedCategories(id).Select(s=> CategoryShortViewModel.ToModel(s)).ToList();
             viewModel.MaxPrice = _categoryRepository.GetMaxPriceFromCategory(id);
             viewModel.MinPrice = _categoryRepository.GetMinPriceFromCategory(id);

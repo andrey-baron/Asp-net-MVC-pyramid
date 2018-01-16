@@ -53,21 +53,41 @@
                     </div>
                     <div class="header__catalog-dropdown">
                         <ul class="header__catalog-list">
-                        @{ IEnumerable<Pyramid.Models.AllCategoriesViewModel> dropdownCategories = (IEnumerable<Pyramid.Models.AllCategoriesViewModel>)ViewBag.FooterCategories;}
+                        @{ 
+                            IEnumerable<Pyramid.Models.AllCategoriesViewModel> dropdownCategories = (IEnumerable<Pyramid.Models.AllCategoriesViewModel>)ViewBag.FooterCategories;
+                            var currentUrlPage = Request.Url.AbsolutePath;
+                         }
                         @if (dropdownCategories != null)
                         {
                             foreach (var item in dropdownCategories)
                             {
                                 <li class="header__catalog-list-item">
-                                    <a class="header__catalog-item-link" href="@(!string.IsNullOrEmpty(item.Category.FriendlyUrl)?item.Category.FriendlyUrl: Url.Action("Index","Category",new { id = item.Category.Id }))">@item.Category.Title</a>
+                                    @if (currentUrlPage == item.Category.FriendlyUrl)
+                                    {
+                                        <a class="header__catalog-item-link">@item.Category.Title</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="header__catalog-item-link" href="@(!string.IsNullOrEmpty(item.Category.FriendlyUrl)?item.Category.FriendlyUrl: Url.Action("Index","Category",new { id = item.Category.Id }))">@item.Category.Title</a>
+                                    }
+
                                     @if (item.SubCategories != null && item.SubCategories.Count() > 0)
                                     {
                                         <ul class="header__catalog-list-inner-level">
                                             @foreach (var subs in item.SubCategories)
                                             {
+                                                if (currentUrlPage == subs.FriendlyUrl)
+                                                {
+                                                    <li class="header__catalog-list-item">
+                                                        <a class="header__catalog-item-link">@subs.Title</a>
+                                                    </li>
+                                                }
+                                                else
+                                                {
                                                 <li class="header__catalog-list-item">
-                                                    <a class="header__catalog-item-link" href="@(!string.IsNullOrEmpty(subs.FriendlyUrl)?subs.FriendlyUrl:Url.Action("Index","Category",new { id = subs.Id }))">@subs.Title</a>
+                                                    <a class="header__catalog-item-link" href="@(!string.IsNullOrEmpty(subs.FriendlyUrl) ? subs.FriendlyUrl : Url.Action("Index", "Category", new { id = subs.Id }))">@subs.Title</a>
                                                 </li>
+                                                }
                                             }
                                         </ul>
                                     }
@@ -94,7 +114,7 @@
 
     </div>
 </div>
-<div class="breadcrumbs">
+<div class="breadcrumbs" itemscope="" itemtype="http://schema.org/BreadcrumbList">
     <ul class="breadcrumbs__list">
         <li class="breadcrumbs__list-item"><a href="/"><div class="breadcrumbs__home-icon"></div></a></li>
         @{
@@ -102,11 +122,46 @@
         }
         @if (breadcrumbs != null)
         {
-            int breadIndx = 0;
-            foreach (var item in breadcrumbs)
+            if (breadcrumbs.Count() > 2)
             {
-                <li class="breadcrumbs__list-item"><a @(!string.IsNullOrEmpty(item.FriendlyUrl)?  MvcHtmlString.Create("href=" + item.FriendlyUrl).ToHtmlString(): (breadcrumbs.Count - 1 != breadIndx) ? MvcHtmlString.Create("href=" + item.Link).ToHtmlString() : "")>@item.Title</a></li>
-                breadIndx++;
+                int breadIndx = 0;
+                foreach (var item in breadcrumbs)
+                {
+                    <li class="breadcrumbs__list-item">
+                        <span itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                            <a itemprop="item" title="@item.Title" @(!string.IsNullOrEmpty(item.FriendlyUrl) ? MvcHtmlString.Create("href=" + item.FriendlyUrl).ToHtmlString() : (breadcrumbs.Count - 1 != breadIndx) ? MvcHtmlString.Create("href=" + item.Link).ToHtmlString() : "")>
+                                <span itemprop="name">@item.Title</span>
+                                <meta itemprop="position" content="@(breadIndx + 1)">
+                            </a>
+                        </span>
+                    </li>
+                    breadIndx++;
+                }
+            }
+            else if (breadcrumbs.Count() == 2)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    <li class="breadcrumbs__list-item">
+                        <span itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                            <a itemprop="item" title="@breadcrumbs[i].Title" @(!string.IsNullOrEmpty(breadcrumbs[i].FriendlyUrl) && i != 1 ? MvcHtmlString.Create("href=" + breadcrumbs[i].FriendlyUrl).ToHtmlString() : (i != 1) ? MvcHtmlString.Create("href=" + breadcrumbs[i].Link).ToHtmlString() : "")>
+                                <span itemprop="name">@breadcrumbs[i].Title</span>
+                                <meta itemprop="position" content="@i">
+                            </a>
+                        </span>
+                    </li>
+                }
+            }
+            else if (breadcrumbs.Count() == 1)
+            {
+                <li class="breadcrumbs__list-item">
+                    <span itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">
+                        <a itemprop="item" title="@breadcrumbs[0].Title">
+                            <span itemprop="name">@breadcrumbs[0].Title</span>
+                            <meta itemprop="position" content="1">
+                        </a>
+                    </span>
+                </li>
             }
         }
 
