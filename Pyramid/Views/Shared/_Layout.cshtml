@@ -88,83 +88,128 @@
         </div>
     </div>
     <div class="footer">
-        <noindex>
+        
             <div class="container-fluid container_no-pad">
-                <div class="call-to-action call-to-action_footer">
-                    <p class="call-to-action__head-title">Каталог товаров</p>
-                    <p class="footer__switch">Свернуть</p>
-                </div>
-                <div class="footer__catalog-products">
-                    <div class="row no-gutter  ft-grid">
-                        @{ 
-                            IEnumerable<Pyramid.Models.AllCategoriesViewModel> footerCategories = (IEnumerable<Pyramid.Models.AllCategoriesViewModel>)ViewBag.FooterCategories;
-                            var currentUrlPage = Request.Url.AbsolutePath;
-                         }
-                        @if (footerCategories != null)
-                        {
+                <noindex>
+                    <div class="call-to-action call-to-action_footer">
+                        <p class="call-to-action__head-title">Каталог товаров</p>
+                        <p class="footer__switch">Свернуть</p>
+                    </div>
 
-
-                            foreach (var item in footerCategories)
+                    <div class="footer__catalog-products">
+                        <div class="row no-gutter  ft-grid">
+                            @{
+                                IEnumerable<Pyramid.Models.AllCategoriesViewModel> footerCategories = (IEnumerable<Pyramid.Models.AllCategoriesViewModel>)ViewBag.FooterCategories;
+                                var currentUrlPage = Request.Url.AbsolutePath;
+                            }
+                            @if (footerCategories != null)
                             {
-                                <div class="col-md-3 col-xs-6 grid-sizer ft-item">
-                                    <div class="footer__catalog-item">
-                                        @if (currentUrlPage == item.Category.FriendlyUrl)
+
+
+                                foreach (var item in footerCategories)
+                                {
+                                    <div class="col-md-3 col-xs-6 grid-sizer ft-item">
+                                        <div class="footer__catalog-item">
+                                            @if (currentUrlPage == item.Category.FriendlyUrl)
+                                            {
+                                                <a><p class="footer__catalog-item-title">@item.Category.Title</p></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@(!string.IsNullOrEmpty(item.Category.FriendlyUrl)?item.Category.FriendlyUrl:Url.Action("Index","Category",new { id=item.Category.Id}))"><p class="footer__catalog-item-title">@item.Category.Title</p></a>
+                                            }
+
+                                            <ul class="footer__catalog-list">
+                                                @foreach (var subs in item.SubCategories)
+                                                {
+                                                    if (currentUrlPage == subs.FriendlyUrl)
+                                                    {
+                                                        <li class="footer__catalog-list-item">
+                                                            <a>@subs.Title</a>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="footer__catalog-list-item"><a href="@(!string.IsNullOrEmpty(subs.FriendlyUrl)?subs.FriendlyUrl:Url.Action("Index","Category",new { id=subs.Id}))">@subs.Title</a></li>
+                                                    }
+                                                }
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </noindex>
+                    <div class="footer_bottom">
+                        <div class="row no-gutter">
+                            <div class="col-md-3 col-xs-3">
+                                <div class="footer__copyright">
+                                    <p class="footer__copyright-text">2016-2018 © Пирамида.<span class="footer__copyright-text_yellow">Строй</span></p>
+                                    <a href="tel:+78452468168" class="header__text-phone" style="text-align:left" onclick="yaCounter22689784.reachGoal('phone'); return true;">8(8452) 468-168</a>
+                                </div>
+                            </div>
+                            <div class="col-md-9 col-xs-9">
+                                <div class="footer__menu-wrap">
+                                    @{var modelFriendlyUrlBase = (FriendlyUrlBaseModel)ViewBag.FriendlyUrlBase;}
+                                    <ul class="footer__menu">
+                                        @if (Request.Url.AbsolutePath == "/nasha-kompaniya")
                                         {
-                                            <a><p class="footer__catalog-item-title">@item.Category.Title</p></a>
+                                            <li class="footer__menu-item"><a class="footer__menu-item-link">Наша компания</a></li>
                                         }
                                         else
                                         {
-                                            <a href="@(!string.IsNullOrEmpty(item.Category.FriendlyUrl)?item.Category.FriendlyUrl:Url.Action("Index","Category",new { id=item.Category.Id}))"><p class="footer__catalog-item-title">@item.Category.Title</p></a>
+                                            <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.CompanyFriendlyUrl)?modelFriendlyUrlBase.CompanyFriendlyUrl:Url.Action("Index","Page",new { id = 4 }))">Наша компания</a></li>
                                         }
-
-                                        <ul class="footer__catalog-list">
-                                            @foreach (var subs in item.SubCategories)
-                                            {
-                                                if (currentUrlPage == subs.FriendlyUrl)
-                                                {
-                                                    <li class="footer__catalog-list-item">
-                                                        <a>@subs.Title</a>
-                                                    </li>
-                                                }
-                                                else
-                                                {
-                                                    <li class="footer__catalog-list-item"><a href="@(!string.IsNullOrEmpty(subs.FriendlyUrl)?subs.FriendlyUrl:Url.Action("Index","Category",new { id=subs.Id}))">@subs.Title</a></li>
-                                                }
-                                            }
-
-                                        </ul>
-                                    </div>
+                                        @if (Request.Url.AbsolutePath == "/nashi-marki")
+                                        {
+                                            <li class="footer__menu-item"><a class="footer__menu-item-link">Наши марки</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.MarksFriendlyUrl)?modelFriendlyUrlBase.MarksFriendlyUrl:Url.Action("Index","Page",new { id = 5 }))">Наши марки</a></li>
+                                        }
+                                        @if (Request.Url.AbsolutePath == "/sotrudnichestvo")
+                                        {
+                                            <li class="footer__menu-item"><a class="footer__menu-item-link">Сотрудничество</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.CooperationFriendlyUrl)?modelFriendlyUrlBase.CooperationFriendlyUrl:Url.Action("Index","Page",new { id = 6 }))">Сотрудничество</a></li>
+                                        }
+                                        @if (Request.Url.AbsolutePath == "/nashi-vakansii")
+                                        {
+                                            <li class="footer__menu-item"><a class="footer__menu-item-link">Наши вакансии</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.JobsFriendlyUrl)?modelFriendlyUrlBase.JobsFriendlyUrl:Url.Action("Index","Page",new { id = 7 }))">Наши вакансии</a></li>
+                                        }
+                                        @if (Request.Url.AbsolutePath == "/kontakty")
+                                        {
+                                            <li class="footer__menu-item"><a class="footer__menu-item-link">Контакты</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.ContactsFriendlyUrl)?modelFriendlyUrlBase.ContactsFriendlyUrl:Url.Action("Index","Page",new { id = 8 }))">Контакты</a></li>
+                                        }
+                                        @if (Request.Url.AbsolutePath == "/akcii")
+                                        {
+                                            <li class="footer__menu-item"><a class="footer__menu-item-link">Акции</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.EventBaseFriendlyUrl)?modelFriendlyUrlBase.EventBaseFriendlyUrl:Url.Action("Index","Event"))">Акции</a></li>
+                                        }
+                                    </ul>
                                 </div>
-                            }
-                        }
-
-                    </div>
-                </div>
-                <div class="footer_bottom">
-                    <div class="row no-gutter">
-                        <div class="col-md-3 col-xs-3">
-                            <div class="footer__copyright">
-                                <p class="footer__copyright-text">2016 © Пирамида.<span class="footer__copyright-text_yellow">Строй</span></p>
-                                <a href="tel:+78452468168" class="header__text-phone" style="text-align:left" onclick="yaCounter22689784.reachGoal('phone'); return true;">8(8452) 468-168</a>
-                            </div>
-                        </div>
-                        <div class="col-md-9 col-xs-9">
-                            <div class="footer__menu-wrap">
-                                @{var modelFriendlyUrlBase = (FriendlyUrlBaseModel)ViewBag.FriendlyUrlBase;}
-                                <ul class="footer__menu">
-                                    <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.CompanyFriendlyUrl)?modelFriendlyUrlBase.CompanyFriendlyUrl:Url.Action("Index","Page",new { id = 4 }))">Наша компания</a></li>
-                                    <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.MarksFriendlyUrl)?modelFriendlyUrlBase.MarksFriendlyUrl:Url.Action("Index","Page",new { id = 5 }))">Наши марки</a></li>
-                                    <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.CooperationFriendlyUrl)?modelFriendlyUrlBase.CooperationFriendlyUrl:Url.Action("Index","Page",new { id = 6 }))">Сотрудничество</a></li>
-                                    <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.JobsFriendlyUrl)?modelFriendlyUrlBase.JobsFriendlyUrl:Url.Action("Index","Page",new { id = 7 }))">Наши вакансии</a></li>
-                                    <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.ContactsFriendlyUrl)?modelFriendlyUrlBase.ContactsFriendlyUrl:Url.Action("Index","Page",new { id = 8 }))">Контакты</a></li>
-                                    <li class="footer__menu-item"><a class="footer__menu-item-link" href="@(!string.IsNullOrEmpty(modelFriendlyUrlBase.EventBaseFriendlyUrl)?modelFriendlyUrlBase.EventBaseFriendlyUrl:Url.Action("Index","Event"))">Акции</a></li>
-                                </ul>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </noindex>
+</div>
+        
     </div>
     @*<!-- BEGIN JIVOSITE CODE {literal} -->
             <script type='text/javascript'>

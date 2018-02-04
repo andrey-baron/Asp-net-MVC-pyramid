@@ -14,7 +14,14 @@
                     @foreach (var item in Model.AllFaq)
                     {
                         <li class="faq__sidebar-menu-item">
-                            <a href="@(!string.IsNullOrEmpty(item.FriendlyUrl)?item.FriendlyUrl: Url.Action("Get",new {id=item.Id }))" class="faq__sidebar-menu-link">@item.Title</a>
+                            @if (Request.Url.AbsolutePath == item.FriendlyUrl)
+                            {
+                                <a class="faq__sidebar-menu-link">@item.Title</a>
+                            }
+                            else
+                            {
+                                <a href="@(!string.IsNullOrEmpty(item.FriendlyUrl)?item.FriendlyUrl: Url.Action("Get",new {id=item.Id }))" class="faq__sidebar-menu-link">@item.Title</a>
+                            }
                         </li>
                     }
 

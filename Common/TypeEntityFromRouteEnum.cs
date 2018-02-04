@@ -13,6 +13,7 @@ namespace Common
         PageType = 3,
         Faq=4,
         Event=5,
-        RecommendationType=6
+        RecommendationType=6,
+        CategoryPageType = 7
     }
 }
