@@ -209,12 +209,13 @@ namespace DBFirstDAL.Repositories
         }
 
         public Entity.RouteItem Get(string controllerName, string actionName,int? contentId) {
-            using (PyramidFinalContext data= new PyramidFinalContext())
+            var data = _entities ?? new PyramidFinalContext();
+            try
             {
                 RouteItem item=null;
                 if (contentId.HasValue&& contentId.Value!=0)
                 {
-                    item = data.RouteItems.FirstOrDefault(f => f.ControllerName.ToLower() == controllerName.ToLower() &&
+                    item = data.RouteItems .FirstOrDefault(f => f.ControllerName.ToLower() == controllerName.ToLower() &&
                  f.ActionName.ToLower() == actionName.ToLower() &&
                  f.ContentId == contentId.Value);
                 }
@@ -225,6 +226,11 @@ namespace DBFirstDAL.Repositories
                 f.ContentId == null);
                 }
                 return item != null ? ConvertDbObjectToEntity(data, item) : null;
+            }
+            finally
+            {
+                if (_entities == null)
+                    data.Dispose();
             }
         }
 
@@ -311,5 +317,7 @@ namespace DBFirstDAL.Repositories
                 }
             }
         }
+
+       // public bool Exist()
     }
 }

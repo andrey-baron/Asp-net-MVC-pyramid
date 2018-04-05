@@ -533,7 +533,7 @@ namespace DBFirstDAL.Repositories
             var enumValues = new EnumValueRepository(context).Get(new SearchParamsEnumValue() { ProductId = dbObject.Id });
             var images = new ImageRepository(context).Get(new SearchParamsImage() { ProductId = dbObject.Id,TypeImage=(int)Common.TypeImage.GalleryItem });
             var thumbnailImg = new ImageRepository(context).Get(dbObject.Id, (int)Common.TypeImage.Thumbnail);
-            var friedlyUrl = new RouteItemRepository(context).GetFriendlyUrl(dbObject.Id, Common.TypeEntityFromRouteEnum.ProductType);
+            //var friedlyUrl = new RouteItemRepository(context).GetFriendlyUrl(dbObject.Id, Common.TypeEntityFromRouteEnum.ProductType);
             var product = new Product()
             {
                 Seo = seo,

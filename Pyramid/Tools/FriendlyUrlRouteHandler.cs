@@ -25,25 +25,27 @@ namespace Pyramid.Tools
 
             // Path для www.site.com/helloworld?id=1 будет равняться /helloworld
             // поэтому мы убираем начальный слэш
+           
             var url = requestContext.HttpContext.Request.Path;
-            if (!string.IsNullOrEmpty(url)&&TypicalLink.IsMatch(url))
-            {
-                var controller = (string)requestContext.RouteData.Values["controller"];
-                var action = (string)requestContext.RouteData.Values["action"];
-                var strId = (string)requestContext.RouteData.Values["id"];
-                int id = -1;
-                int.TryParse(strId, out id);
-                if (id!=-1)
-                {
-                    RouteItem page = _routeItemRepository.Get(controller,action,id);
-                    if (page != null&&!string.IsNullOrEmpty(page.FriendlyUrl))
-                    {
-                        requestContext.HttpContext.Response.RedirectPermanent(page.FriendlyUrl);
+            /*
+           if (!string.IsNullOrEmpty(url)&&TypicalLink.IsMatch(url))
+           {
+               var controller = (string)requestContext.RouteData.Values["controller"];
+               var action = (string)requestContext.RouteData.Values["action"];
+               var strId = (string)requestContext.RouteData.Values["id"];
+               int id = -1;
+               int.TryParse(strId, out id);
+               if (id!=-1)
+               {
+                   RouteItem page = _routeItemRepository.Get(controller,action,id);
+                   if (page != null&&!string.IsNullOrEmpty(page.FriendlyUrl))
+                   {
+                       requestContext.HttpContext.Response.RedirectPermanent(page.FriendlyUrl);
 
-                    }
-                }
-               
-            }
+                   }
+               }
+
+           }*/
             if (!string.IsNullOrEmpty(url)&& !AdminTypicalLink.IsMatch(url))
             {
                 RouteItem page = _routeItemRepository.Get(url);

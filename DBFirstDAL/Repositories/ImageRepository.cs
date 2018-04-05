@@ -51,12 +51,12 @@ namespace DBFirstDAL.Repositories
             return i => i.Id;
         }
 
-        public  Image Get(int ProductId,int TypeImage)
+        public  Image Get(int productId,int typeImage)
         {
             var data = _entities ?? new PyramidFinalContext();
             try
             {
-                var dbObject = data.ProductImages.FirstOrDefault(i => i.TypeImage == TypeImage && i.ProductId == ProductId);
+                var dbObject = data.ProductImages.FirstOrDefault(i => i.TypeImage == typeImage && i.ProductId == productId);
 
                 return dbObject != null ? ConvertDbObjectToEntity(data, dbObject.Images) : new Image();
             }
@@ -67,5 +67,20 @@ namespace DBFirstDAL.Repositories
             }
         }
 
+        public Image GetFromCategory(int categoryId, int typeImage)
+        {
+            var data = _entities ?? new PyramidFinalContext();
+            try
+            {
+                var dbObject = data.CategoryImages.FirstOrDefault(i => i.TypeImage == typeImage && i.CategoryId == categoryId);
+
+                return dbObject != null ? ConvertDbObjectToEntity(data, dbObject.Images) : new Image();
+            }
+            finally
+            {
+                if (_entities == null)
+                    data.Dispose();
+            }
+        }
     }
 }

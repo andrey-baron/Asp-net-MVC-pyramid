@@ -758,8 +758,9 @@ namespace DBFirstDAL.Repositories
 
             cat.Id = dbObject.Id;
             cat.Title = dbObject.Title;
-            cat.Thumbnail = dbObject.CategoryImages.FirstOrDefault(f => f.CategoryId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
-                ConvertImageToEntity.Convert(dbObject.CategoryImages.FirstOrDefault(f => f.CategoryId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : new Pyramid.Entity.Image();
+           
+
+            cat.Thumbnail = new ImageRepository(context).GetFromCategory(dbObject.Id, (int)Common.TypeImage.Thumbnail);
 
             cat.OneCId = dbObject.OneCId;
             cat.ParentId = dbObject.ParentId;
@@ -796,8 +797,7 @@ namespace DBFirstDAL.Repositories
             cat.Id = dbObject.Id;
             cat.Title = dbObject.Title;
             cat.ShowCategoryOnSite = dbObject.ShowCategoryOnSite;
-            cat.Thumbnail = dbObject.CategoryImages.FirstOrDefault(f => f.CategoryId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail) != null ?
-                ConvertImageToEntity.Convert(dbObject.CategoryImages.FirstOrDefault(f => f.CategoryId == dbObject.Id && f.TypeImage == (int)Common.TypeImage.Thumbnail).Images) : new Pyramid.Entity.Image();
+            cat.Thumbnail = new ImageRepository(context).GetFromCategory(dbObject.Id, (int)Common.TypeImage.Thumbnail);
             var friendlyUrl = new RouteItemRepository(context).GetFriendlyUrl(dbObject.Id, Common.TypeEntityFromRouteEnum.CategoryType);
             cat.FriendlyUrl = friendlyUrl;
 
